@@ -3,3 +3,5 @@
 README.md
 src/mixpeek/client.py
 src/mixpeek/parse_client.py
+
+tests/custom/test_client.py
