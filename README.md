@@ -21,6 +21,8 @@ pip install --upgrade mixpeek
 from mixpeek.client import Mixpeek
 
 client = Mixpeek(
+    authorization="YOUR_AUTHORIZATION",
+    index_id="YOUR_INDEX_ID",
     api_key="YOUR_API_KEY",
     base_url="https://yourhost.com/path/to/api",
 )
@@ -34,6 +36,8 @@ client = Mixpeek(
 from mixpeek.client import AsyncMixpeek
 
 client = AsyncMixpeek(
+    authorization="YOUR_AUTHORIZATION",
+    index_id="YOUR_INDEX_ID",
     api_key="YOUR_API_KEY",
     base_url="https://yourhost.com/path/to/api",
 )

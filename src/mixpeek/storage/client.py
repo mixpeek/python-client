@@ -28,24 +28,16 @@ class StorageClient:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    def test_connection(
-        self,
-        *,
-        authorization: typing.Optional[str] = None,
-        index_id: typing.Optional[str] = None,
-        request_options: typing.Optional[RequestOptions] = None,
-    ) -> typing.Any:
+    def test_connection(self, *, request_options: typing.Optional[RequestOptions] = None) -> typing.Any:
         """
         Parameters:
-            - authorization: typing.Optional[str].
-
-            - index_id: typing.Optional[str]. filter by organization
-
             - request_options: typing.Optional[RequestOptions]. Request-specific configuration.
         ---
         from mixpeek.client import Mixpeek
 
         client = Mixpeek(
+            authorization="YOUR_AUTHORIZATION",
+            index_id="YOUR_INDEX_ID",
             api_key="YOUR_API_KEY",
             base_url="https://yourhost.com/path/to/api",
         )
@@ -61,8 +53,6 @@ class StorageClient:
                 remove_none_from_dict(
                     {
                         **self._client_wrapper.get_headers(),
-                        "Authorization": str(authorization),
-                        "index-id": str(index_id),
                         **(request_options.get("additional_headers", {}) if request_options is not None else {}),
                     }
                 )
@@ -93,24 +83,16 @@ class StorageClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def sample_database(
-        self,
-        *,
-        authorization: typing.Optional[str] = None,
-        index_id: typing.Optional[str] = None,
-        request_options: typing.Optional[RequestOptions] = None,
-    ) -> typing.Any:
+    def sample_database(self, *, request_options: typing.Optional[RequestOptions] = None) -> typing.Any:
         """
         Parameters:
-            - authorization: typing.Optional[str].
-
-            - index_id: typing.Optional[str]. filter by organization
-
             - request_options: typing.Optional[RequestOptions]. Request-specific configuration.
         ---
         from mixpeek.client import Mixpeek
 
         client = Mixpeek(
+            authorization="YOUR_AUTHORIZATION",
+            index_id="YOUR_INDEX_ID",
             api_key="YOUR_API_KEY",
             base_url="https://yourhost.com/path/to/api",
         )
@@ -126,8 +108,6 @@ class StorageClient:
                 remove_none_from_dict(
                     {
                         **self._client_wrapper.get_headers(),
-                        "Authorization": str(authorization),
-                        "index-id": str(index_id),
                         **(request_options.get("additional_headers", {}) if request_options is not None else {}),
                     }
                 )
@@ -163,24 +143,16 @@ class AsyncStorageClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    async def test_connection(
-        self,
-        *,
-        authorization: typing.Optional[str] = None,
-        index_id: typing.Optional[str] = None,
-        request_options: typing.Optional[RequestOptions] = None,
-    ) -> typing.Any:
+    async def test_connection(self, *, request_options: typing.Optional[RequestOptions] = None) -> typing.Any:
         """
         Parameters:
-            - authorization: typing.Optional[str].
-
-            - index_id: typing.Optional[str]. filter by organization
-
             - request_options: typing.Optional[RequestOptions]. Request-specific configuration.
         ---
         from mixpeek.client import AsyncMixpeek
 
         client = AsyncMixpeek(
+            authorization="YOUR_AUTHORIZATION",
+            index_id="YOUR_INDEX_ID",
             api_key="YOUR_API_KEY",
             base_url="https://yourhost.com/path/to/api",
         )
@@ -196,8 +168,6 @@ class AsyncStorageClient:
                 remove_none_from_dict(
                     {
                         **self._client_wrapper.get_headers(),
-                        "Authorization": str(authorization),
-                        "index-id": str(index_id),
                         **(request_options.get("additional_headers", {}) if request_options is not None else {}),
                     }
                 )
@@ -228,24 +198,16 @@ class AsyncStorageClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def sample_database(
-        self,
-        *,
-        authorization: typing.Optional[str] = None,
-        index_id: typing.Optional[str] = None,
-        request_options: typing.Optional[RequestOptions] = None,
-    ) -> typing.Any:
+    async def sample_database(self, *, request_options: typing.Optional[RequestOptions] = None) -> typing.Any:
         """
         Parameters:
-            - authorization: typing.Optional[str].
-
-            - index_id: typing.Optional[str]. filter by organization
-
             - request_options: typing.Optional[RequestOptions]. Request-specific configuration.
         ---
         from mixpeek.client import AsyncMixpeek
 
         client = AsyncMixpeek(
+            authorization="YOUR_AUTHORIZATION",
+            index_id="YOUR_INDEX_ID",
             api_key="YOUR_API_KEY",
             base_url="https://yourhost.com/path/to/api",
         )
@@ -261,8 +223,6 @@ class AsyncStorageClient:
                 remove_none_from_dict(
                     {
                         **self._client_wrapper.get_headers(),
-                        "Authorization": str(authorization),
-                        "index-id": str(index_id),
                         **(request_options.get("additional_headers", {}) if request_options is not None else {}),
                     }
                 )

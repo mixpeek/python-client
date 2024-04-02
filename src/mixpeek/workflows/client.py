@@ -34,7 +34,7 @@ class WorkflowsClient:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    def create_workflow_workflows_post(
+    def create(
         self,
         *,
         workflow_id: typing.Optional[str] = OMIT,
@@ -44,8 +44,6 @@ class WorkflowsClient:
         workflow_name: typing.Optional[str] = OMIT,
         last_run: typing.Optional[dt.datetime] = OMIT,
         created_at: typing.Optional[dt.datetime] = OMIT,
-        authorization: typing.Optional[str] = None,
-        index_id: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> WorkflowResponse:
         """
@@ -64,20 +62,18 @@ class WorkflowsClient:
 
             - created_at: typing.Optional[dt.datetime].
 
-            - authorization: typing.Optional[str].
-
-            - index_id: typing.Optional[str]. filter by organization
-
             - request_options: typing.Optional[RequestOptions]. Request-specific configuration.
         ---
         from mixpeek import WorkflowSettings
         from mixpeek.client import Mixpeek
 
         client = Mixpeek(
+            authorization="YOUR_AUTHORIZATION",
+            index_id="YOUR_INDEX_ID",
             api_key="YOUR_API_KEY",
             base_url="https://yourhost.com/path/to/api",
         )
-        client.workflows.create_workflow_workflows_post(
+        client.workflows.create(
             code_as_string="code_as_string",
             settings=WorkflowSettings(),
         )
@@ -109,8 +105,6 @@ class WorkflowsClient:
                 remove_none_from_dict(
                     {
                         **self._client_wrapper.get_headers(),
-                        "Authorization": str(authorization),
-                        "index-id": str(index_id),
                         **(request_options.get("additional_headers", {}) if request_options is not None else {}),
                     }
                 )
@@ -147,8 +141,6 @@ class WorkflowsClient:
         *,
         websocket_id: typing.Optional[str] = None,
         request: typing.Dict[str, typing.Any],
-        authorization: typing.Optional[str] = None,
-        index_id: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Any:
         """
@@ -159,15 +151,13 @@ class WorkflowsClient:
 
             - request: typing.Dict[str, typing.Any].
 
-            - authorization: typing.Optional[str].
-
-            - index_id: typing.Optional[str]. filter by organization
-
             - request_options: typing.Optional[RequestOptions]. Request-specific configuration.
         ---
         from mixpeek.client import Mixpeek
 
         client = Mixpeek(
+            authorization="YOUR_AUTHORIZATION",
+            index_id="YOUR_INDEX_ID",
             api_key="YOUR_API_KEY",
             base_url="https://yourhost.com/path/to/api",
         )
@@ -203,8 +193,6 @@ class WorkflowsClient:
                 remove_none_from_dict(
                     {
                         **self._client_wrapper.get_headers(),
-                        "Authorization": str(authorization),
-                        "index-id": str(index_id),
                         **(request_options.get("additional_headers", {}) if request_options is not None else {}),
                     }
                 )
@@ -235,56 +223,12 @@ class WorkflowsClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def create(self, *, request_options: typing.Optional[RequestOptions] = None) -> None:
-        """
-        Parameters:
-            - request_options: typing.Optional[RequestOptions]. Request-specific configuration.
-        ---
-        from mixpeek.client import Mixpeek
-
-        client = Mixpeek(
-            api_key="YOUR_API_KEY",
-            base_url="https://yourhost.com/path/to/api",
-        )
-        client.workflows.create()
-        """
-        _response = self._client_wrapper.httpx_client.request(
-            "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "workflows"),
-            params=jsonable_encoder(
-                request_options.get("additional_query_parameters") if request_options is not None else None
-            ),
-            json=jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))
-            if request_options is not None
-            else None,
-            headers=jsonable_encoder(
-                remove_none_from_dict(
-                    {
-                        **self._client_wrapper.get_headers(),
-                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
-                    }
-                )
-            ),
-            timeout=request_options.get("timeout_in_seconds")
-            if request_options is not None and request_options.get("timeout_in_seconds") is not None
-            else self._client_wrapper.get_timeout(),
-            retries=0,
-            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
-        )
-        if 200 <= _response.status_code < 300:
-            return
-        try:
-            _response_json = _response.json()
-        except JSONDecodeError:
-            raise ApiError(status_code=_response.status_code, body=_response.text)
-        raise ApiError(status_code=_response.status_code, body=_response_json)
-
 
 class AsyncWorkflowsClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    async def create_workflow_workflows_post(
+    async def create(
         self,
         *,
         workflow_id: typing.Optional[str] = OMIT,
@@ -294,8 +238,6 @@ class AsyncWorkflowsClient:
         workflow_name: typing.Optional[str] = OMIT,
         last_run: typing.Optional[dt.datetime] = OMIT,
         created_at: typing.Optional[dt.datetime] = OMIT,
-        authorization: typing.Optional[str] = None,
-        index_id: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> WorkflowResponse:
         """
@@ -314,20 +256,18 @@ class AsyncWorkflowsClient:
 
             - created_at: typing.Optional[dt.datetime].
 
-            - authorization: typing.Optional[str].
-
-            - index_id: typing.Optional[str]. filter by organization
-
             - request_options: typing.Optional[RequestOptions]. Request-specific configuration.
         ---
         from mixpeek import WorkflowSettings
         from mixpeek.client import AsyncMixpeek
 
         client = AsyncMixpeek(
+            authorization="YOUR_AUTHORIZATION",
+            index_id="YOUR_INDEX_ID",
             api_key="YOUR_API_KEY",
             base_url="https://yourhost.com/path/to/api",
         )
-        await client.workflows.create_workflow_workflows_post(
+        await client.workflows.create(
             code_as_string="code_as_string",
             settings=WorkflowSettings(),
         )
@@ -359,8 +299,6 @@ class AsyncWorkflowsClient:
                 remove_none_from_dict(
                     {
                         **self._client_wrapper.get_headers(),
-                        "Authorization": str(authorization),
-                        "index-id": str(index_id),
                         **(request_options.get("additional_headers", {}) if request_options is not None else {}),
                     }
                 )
@@ -397,8 +335,6 @@ class AsyncWorkflowsClient:
         *,
         websocket_id: typing.Optional[str] = None,
         request: typing.Dict[str, typing.Any],
-        authorization: typing.Optional[str] = None,
-        index_id: typing.Optional[str] = None,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> typing.Any:
         """
@@ -409,15 +345,13 @@ class AsyncWorkflowsClient:
 
             - request: typing.Dict[str, typing.Any].
 
-            - authorization: typing.Optional[str].
-
-            - index_id: typing.Optional[str]. filter by organization
-
             - request_options: typing.Optional[RequestOptions]. Request-specific configuration.
         ---
         from mixpeek.client import AsyncMixpeek
 
         client = AsyncMixpeek(
+            authorization="YOUR_AUTHORIZATION",
+            index_id="YOUR_INDEX_ID",
             api_key="YOUR_API_KEY",
             base_url="https://yourhost.com/path/to/api",
         )
@@ -453,8 +387,6 @@ class AsyncWorkflowsClient:
                 remove_none_from_dict(
                     {
                         **self._client_wrapper.get_headers(),
-                        "Authorization": str(authorization),
-                        "index-id": str(index_id),
                         **(request_options.get("additional_headers", {}) if request_options is not None else {}),
                     }
                 )
@@ -479,50 +411,6 @@ class AsyncWorkflowsClient:
             raise UnprocessableEntityError(pydantic.parse_obj_as(HttpValidationError, _response.json()))  # type: ignore
         if _response.status_code == 500:
             raise InternalServerError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
-        try:
-            _response_json = _response.json()
-        except JSONDecodeError:
-            raise ApiError(status_code=_response.status_code, body=_response.text)
-        raise ApiError(status_code=_response.status_code, body=_response_json)
-
-    async def create(self, *, request_options: typing.Optional[RequestOptions] = None) -> None:
-        """
-        Parameters:
-            - request_options: typing.Optional[RequestOptions]. Request-specific configuration.
-        ---
-        from mixpeek.client import AsyncMixpeek
-
-        client = AsyncMixpeek(
-            api_key="YOUR_API_KEY",
-            base_url="https://yourhost.com/path/to/api",
-        )
-        await client.workflows.create()
-        """
-        _response = await self._client_wrapper.httpx_client.request(
-            "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "workflows"),
-            params=jsonable_encoder(
-                request_options.get("additional_query_parameters") if request_options is not None else None
-            ),
-            json=jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))
-            if request_options is not None
-            else None,
-            headers=jsonable_encoder(
-                remove_none_from_dict(
-                    {
-                        **self._client_wrapper.get_headers(),
-                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
-                    }
-                )
-            ),
-            timeout=request_options.get("timeout_in_seconds")
-            if request_options is not None and request_options.get("timeout_in_seconds") is not None
-            else self._client_wrapper.get_timeout(),
-            retries=0,
-            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
-        )
-        if 200 <= _response.status_code < 300:
-            return
         try:
             _response_json = _response.json()
         except JSONDecodeError:

@@ -7,10 +7,8 @@ import httpx
 
 from .core.api_error import ApiError
 from .core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
-from .generaters.client import AsyncGeneratersClient, GeneratersClient
 from .generators.client import AsyncGeneratorsClient, GeneratorsClient
 from .parse.client import AsyncParseClient, ParseClient
-from .parsers.client import AsyncParsersClient, ParsersClient
 from .pipelines.client import AsyncPipelinesClient, PipelinesClient
 from .storage.client import AsyncStorageClient, StorageClient
 from .workflows.client import AsyncWorkflowsClient, WorkflowsClient
@@ -23,6 +21,10 @@ class BaseMixpeek:
     Parameters:
         - base_url: str. The base url to use for requests from the client.
 
+        - authorization: typing.Optional[str].
+
+        - index_id: typing.Optional[str].
+
         - api_key: typing.Optional[typing.Union[str, typing.Callable[[], str]]].
 
         - timeout: typing.Optional[float]. The timeout to be used, in seconds, for requests by default the timeout is 60 seconds, unless a custom httpx client is used, in which case a default is not set.
@@ -32,6 +34,8 @@ class BaseMixpeek:
     from mixpeek.client import Mixpeek
 
     client = Mixpeek(
+        authorization="YOUR_AUTHORIZATION",
+        index_id="YOUR_INDEX_ID",
         api_key="YOUR_API_KEY",
         base_url="https://yourhost.com/path/to/api",
     )
@@ -41,6 +45,8 @@ class BaseMixpeek:
         self,
         *,
         base_url: str,
+        authorization: typing.Optional[str] = None,
+        index_id: typing.Optional[str] = None,
         api_key: typing.Optional[typing.Union[str, typing.Callable[[], str]]] = os.getenv("MIXPEEK_API_KEY"),
         timeout: typing.Optional[float] = None,
         httpx_client: typing.Optional[httpx.Client] = None
@@ -52,17 +58,17 @@ class BaseMixpeek:
             )
         self._client_wrapper = SyncClientWrapper(
             base_url=base_url,
+            authorization=authorization,
+            index_id=index_id,
             api_key=api_key,
             httpx_client=httpx.Client(timeout=_defaulted_timeout) if httpx_client is None else httpx_client,
             timeout=_defaulted_timeout,
         )
         self.pipelines = PipelinesClient(client_wrapper=self._client_wrapper)
-        self.parsers = ParsersClient(client_wrapper=self._client_wrapper)
-        self.workflows = WorkflowsClient(client_wrapper=self._client_wrapper)
-        self.generaters = GeneratersClient(client_wrapper=self._client_wrapper)
-        self.storage = StorageClient(client_wrapper=self._client_wrapper)
         self.parse = ParseClient(client_wrapper=self._client_wrapper)
+        self.workflows = WorkflowsClient(client_wrapper=self._client_wrapper)
         self.generators = GeneratorsClient(client_wrapper=self._client_wrapper)
+        self.storage = StorageClient(client_wrapper=self._client_wrapper)
 
 
 class AsyncBaseMixpeek:
@@ -71,6 +77,10 @@ class AsyncBaseMixpeek:
 
     Parameters:
         - base_url: str. The base url to use for requests from the client.
+
+        - authorization: typing.Optional[str].
+
+        - index_id: typing.Optional[str].
 
         - api_key: typing.Optional[typing.Union[str, typing.Callable[[], str]]].
 
@@ -81,6 +91,8 @@ class AsyncBaseMixpeek:
     from mixpeek.client import AsyncMixpeek
 
     client = AsyncMixpeek(
+        authorization="YOUR_AUTHORIZATION",
+        index_id="YOUR_INDEX_ID",
         api_key="YOUR_API_KEY",
         base_url="https://yourhost.com/path/to/api",
     )
@@ -90,6 +102,8 @@ class AsyncBaseMixpeek:
         self,
         *,
         base_url: str,
+        authorization: typing.Optional[str] = None,
+        index_id: typing.Optional[str] = None,
         api_key: typing.Optional[typing.Union[str, typing.Callable[[], str]]] = os.getenv("MIXPEEK_API_KEY"),
         timeout: typing.Optional[float] = None,
         httpx_client: typing.Optional[httpx.AsyncClient] = None
@@ -101,14 +115,14 @@ class AsyncBaseMixpeek:
             )
         self._client_wrapper = AsyncClientWrapper(
             base_url=base_url,
+            authorization=authorization,
+            index_id=index_id,
             api_key=api_key,
             httpx_client=httpx.AsyncClient(timeout=_defaulted_timeout) if httpx_client is None else httpx_client,
             timeout=_defaulted_timeout,
         )
         self.pipelines = AsyncPipelinesClient(client_wrapper=self._client_wrapper)
-        self.parsers = AsyncParsersClient(client_wrapper=self._client_wrapper)
-        self.workflows = AsyncWorkflowsClient(client_wrapper=self._client_wrapper)
-        self.generaters = AsyncGeneratersClient(client_wrapper=self._client_wrapper)
-        self.storage = AsyncStorageClient(client_wrapper=self._client_wrapper)
         self.parse = AsyncParseClient(client_wrapper=self._client_wrapper)
+        self.workflows = AsyncWorkflowsClient(client_wrapper=self._client_wrapper)
         self.generators = AsyncGeneratorsClient(client_wrapper=self._client_wrapper)
+        self.storage = AsyncStorageClient(client_wrapper=self._client_wrapper)
