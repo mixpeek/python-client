@@ -31,11 +31,11 @@ except ImportError:
 OMIT = typing.cast(typing.Any, ...)
 
 
-class GeneratorsClient:
+class GenerateClient:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    def generate(
+    def text(
         self,
         *,
         model: Model,
@@ -47,13 +47,13 @@ class GeneratorsClient:
     ) -> GenerationResponse:
         """
         Parameters:
-            - model: Model.
+            - model: Model. The model to be used.
 
             - response_format: typing.Optional[typing.Dict[str, typing.Any]].
 
             - context: typing.Optional[str].
 
-            - messages: typing.Sequence[Message].
+            - messages: typing.Sequence[Message]. The messages for the generation.
 
             - settings: typing.Optional[Settings].
 
@@ -67,7 +67,7 @@ class GeneratorsClient:
             index_id="YOUR_INDEX_ID",
             api_key="YOUR_API_KEY",
         )
-        client.generators.generate(
+        client.generate.text(
             model=Model(
                 provider="provider",
                 model="gpt-3.5-turbo",
@@ -89,7 +89,7 @@ class GeneratorsClient:
             _request["settings"] = settings
         _response = self._client_wrapper.httpx_client.request(
             "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "generate"),
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "generate/text"),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -134,11 +134,11 @@ class GeneratorsClient:
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
 
-class AsyncGeneratorsClient:
+class AsyncGenerateClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    async def generate(
+    async def text(
         self,
         *,
         model: Model,
@@ -150,13 +150,13 @@ class AsyncGeneratorsClient:
     ) -> GenerationResponse:
         """
         Parameters:
-            - model: Model.
+            - model: Model. The model to be used.
 
             - response_format: typing.Optional[typing.Dict[str, typing.Any]].
 
             - context: typing.Optional[str].
 
-            - messages: typing.Sequence[Message].
+            - messages: typing.Sequence[Message]. The messages for the generation.
 
             - settings: typing.Optional[Settings].
 
@@ -170,7 +170,7 @@ class AsyncGeneratorsClient:
             index_id="YOUR_INDEX_ID",
             api_key="YOUR_API_KEY",
         )
-        await client.generators.generate(
+        await client.generate.text(
             model=Model(
                 provider="provider",
                 model="gpt-3.5-turbo",
@@ -192,7 +192,7 @@ class AsyncGeneratorsClient:
             _request["settings"] = settings
         _response = await self._client_wrapper.httpx_client.request(
             "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "generate"),
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "generate/text"),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),

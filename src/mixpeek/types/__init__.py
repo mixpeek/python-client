@@ -10,6 +10,7 @@ from .destination import Destination
 from .embedding_response import EmbeddingResponse
 from .error_message import ErrorMessage
 from .error_response import ErrorResponse
+from .extract_response import ExtractResponse
 from .field_type import FieldType
 from .generation_response import GenerationResponse
 from .html_params import HtmlParams
@@ -21,6 +22,7 @@ from .modality import Modality
 from .model import Model
 from .models import Models
 from .pdf_params import PdfParams
+from .pipeline_task_response import PipelineTaskResponse
 from .ppt_params import PptParams
 from .pptx_params import PptxParams
 from .settings import Settings
@@ -46,6 +48,7 @@ __all__ = [
     "EmbeddingResponse",
     "ErrorMessage",
     "ErrorResponse",
+    "ExtractResponse",
     "FieldType",
     "GenerationResponse",
     "HtmlParams",
@@ -57,6 +60,7 @@ __all__ = [
     "Model",
     "Models",
     "PdfParams",
+    "PipelineTaskResponse",
     "PptParams",
     "PptxParams",
     "Settings",

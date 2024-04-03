@@ -13,8 +13,15 @@ except ImportError:
 
 
 class Model(pydantic.BaseModel):
-    provider: str
-    model: Models
+    provider: str = pydantic.Field()
+    """
+    The provider of the model.
+    """
+
+    model: Models = pydantic.Field()
+    """
+    The model to be used.
+    """
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

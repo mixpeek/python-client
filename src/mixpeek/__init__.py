@@ -11,6 +11,7 @@ from .types import (
     EmbeddingResponse,
     ErrorMessage,
     ErrorResponse,
+    ExtractResponse,
     FieldType,
     GenerationResponse,
     HtmlParams,
@@ -22,6 +23,7 @@ from .types import (
     Model,
     Models,
     PdfParams,
+    PipelineTaskResponse,
     PptParams,
     PptxParams,
     Settings,
@@ -44,7 +46,7 @@ from .errors import (
     UnauthorizedError,
     UnprocessableEntityError,
 )
-from . import embed, extract, generators, pipelines, storage, users, workflows
+from . import embed, generate, pipeline, storage, user, workflow
 from .environment import MixpeekEnvironment
 from .version import __version__
 
@@ -60,6 +62,7 @@ __all__ = [
     "EmbeddingResponse",
     "ErrorMessage",
     "ErrorResponse",
+    "ExtractResponse",
     "FieldType",
     "ForbiddenError",
     "GenerationResponse",
@@ -75,6 +78,7 @@ __all__ = [
     "Models",
     "NotFoundError",
     "PdfParams",
+    "PipelineTaskResponse",
     "PptParams",
     "PptxParams",
     "Settings",
@@ -92,10 +96,9 @@ __all__ = [
     "XlsxParams",
     "__version__",
     "embed",
-    "extract",
-    "generators",
-    "pipelines",
+    "generate",
+    "pipeline",
     "storage",
-    "users",
-    "workflows",
+    "user",
+    "workflow",
 ]

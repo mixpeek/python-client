@@ -15,11 +15,10 @@ from ..errors.internal_server_error import InternalServerError
 from ..errors.not_found_error import NotFoundError
 from ..errors.unauthorized_error import UnauthorizedError
 from ..errors.unprocessable_entity_error import UnprocessableEntityError
-from ..types.api_key import ApiKey
-from ..types.connection import Connection
 from ..types.error_response import ErrorResponse
 from ..types.http_validation_error import HttpValidationError
-from ..types.user import User
+from ..types.pipeline_task_response import PipelineTaskResponse
+from ..types.source_destination_mapping import SourceDestinationMapping
 
 try:
     import pydantic.v1 as pydantic  # type: ignore
@@ -30,13 +29,17 @@ except ImportError:
 OMIT = typing.cast(typing.Any, ...)
 
 
-class UsersClient:
+class PipelineClient:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    def get_user_users_get(self, *, request_options: typing.Optional[RequestOptions] = None) -> User:
+    def invoke(
+        self, pipeline_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> PipelineTaskResponse:
         """
         Parameters:
+            - pipeline_id: str.
+
             - request_options: typing.Optional[RequestOptions]. Request-specific configuration.
         ---
         from mixpeek.client import Mixpeek
@@ -46,14 +49,21 @@ class UsersClient:
             index_id="YOUR_INDEX_ID",
             api_key="YOUR_API_KEY",
         )
-        client.users.get_user_users_get()
+        client.pipeline.invoke(
+            pipeline_id="pipeline_id",
+        )
         """
         _response = self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "users"),
+            "POST",
+            urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"pipelines/{jsonable_encoder(pipeline_id)}"
+            ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
+            json=jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))
+            if request_options is not None
+            else None,
             headers=jsonable_encoder(
                 remove_none_from_dict(
                     {
@@ -69,7 +79,7 @@ class UsersClient:
             max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(User, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(PipelineTaskResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 401:
@@ -88,24 +98,22 @@ class UsersClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def update_user_users_put(
+    def create(
         self,
         *,
-        api_keys: typing.Optional[typing.Sequence[ApiKey]] = OMIT,
+        source_destination_mappings: typing.Sequence[SourceDestinationMapping],
         metadata: typing.Optional[typing.Dict[str, typing.Any]] = OMIT,
-        connections: typing.Optional[typing.Sequence[Connection]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> User:
+    ) -> typing.Any:
         """
         Parameters:
-            - api_keys: typing.Optional[typing.Sequence[ApiKey]].
+            - source_destination_mappings: typing.Sequence[SourceDestinationMapping].
 
             - metadata: typing.Optional[typing.Dict[str, typing.Any]].
 
-            - connections: typing.Optional[typing.Sequence[Connection]].
-
             - request_options: typing.Optional[RequestOptions]. Request-specific configuration.
         ---
+        from mixpeek import Destination, Source, SourceDestinationMapping
         from mixpeek.client import Mixpeek
 
         client = Mixpeek(
@@ -113,18 +121,30 @@ class UsersClient:
             index_id="YOUR_INDEX_ID",
             api_key="YOUR_API_KEY",
         )
-        client.users.update_user_users_put()
+        client.pipeline.create(
+            source_destination_mappings=[
+                SourceDestinationMapping(
+                    embedding_model="embedding_model",
+                    source=Source(
+                        field="field",
+                        type="file_url",
+                        settings={},
+                    ),
+                    destination=Destination(
+                        collection="collection",
+                        field="field",
+                        embedding="embedding",
+                    ),
+                )
+            ],
+        )
         """
-        _request: typing.Dict[str, typing.Any] = {}
-        if api_keys is not OMIT:
-            _request["api_keys"] = api_keys
+        _request: typing.Dict[str, typing.Any] = {"source_destination_mappings": source_destination_mappings}
         if metadata is not OMIT:
             _request["metadata"] = metadata
-        if connections is not OMIT:
-            _request["connections"] = connections
         _response = self._client_wrapper.httpx_client.request(
-            "PUT",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "users"),
+            "POST",
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "pipelines"),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -149,7 +169,69 @@ class UsersClient:
             max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(User, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(typing.Any, _response.json())  # type: ignore
+        if _response.status_code == 400:
+            raise BadRequestError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+        if _response.status_code == 401:
+            raise UnauthorizedError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+        if _response.status_code == 403:
+            raise ForbiddenError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+        if _response.status_code == 404:
+            raise NotFoundError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+        if _response.status_code == 422:
+            raise UnprocessableEntityError(pydantic.parse_obj_as(HttpValidationError, _response.json()))  # type: ignore
+        if _response.status_code == 500:
+            raise InternalServerError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    def status(self, task_id: str, *, request_options: typing.Optional[RequestOptions] = None) -> typing.Any:
+        """
+        Query tasks status.
+
+        Parameters:
+            - task_id: str.
+
+            - request_options: typing.Optional[RequestOptions]. Request-specific configuration.
+        ---
+        from mixpeek.client import Mixpeek
+
+        client = Mixpeek(
+            authorization="YOUR_AUTHORIZATION",
+            index_id="YOUR_INDEX_ID",
+            api_key="YOUR_API_KEY",
+        )
+        client.pipeline.status(
+            task_id="task_id",
+        )
+        """
+        _response = self._client_wrapper.httpx_client.request(
+            "GET",
+            urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"pipelines/status/{jsonable_encoder(task_id)}"
+            ),
+            params=jsonable_encoder(
+                request_options.get("additional_query_parameters") if request_options is not None else None
+            ),
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
+        )
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(typing.Any, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 401:
@@ -169,13 +251,17 @@ class UsersClient:
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
 
-class AsyncUsersClient:
+class AsyncPipelineClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    async def get_user_users_get(self, *, request_options: typing.Optional[RequestOptions] = None) -> User:
+    async def invoke(
+        self, pipeline_id: str, *, request_options: typing.Optional[RequestOptions] = None
+    ) -> PipelineTaskResponse:
         """
         Parameters:
+            - pipeline_id: str.
+
             - request_options: typing.Optional[RequestOptions]. Request-specific configuration.
         ---
         from mixpeek.client import AsyncMixpeek
@@ -185,14 +271,21 @@ class AsyncUsersClient:
             index_id="YOUR_INDEX_ID",
             api_key="YOUR_API_KEY",
         )
-        await client.users.get_user_users_get()
+        await client.pipeline.invoke(
+            pipeline_id="pipeline_id",
+        )
         """
         _response = await self._client_wrapper.httpx_client.request(
-            "GET",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "users"),
+            "POST",
+            urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"pipelines/{jsonable_encoder(pipeline_id)}"
+            ),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
+            json=jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))
+            if request_options is not None
+            else None,
             headers=jsonable_encoder(
                 remove_none_from_dict(
                     {
@@ -208,7 +301,7 @@ class AsyncUsersClient:
             max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(User, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(PipelineTaskResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 401:
@@ -227,24 +320,22 @@ class AsyncUsersClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def update_user_users_put(
+    async def create(
         self,
         *,
-        api_keys: typing.Optional[typing.Sequence[ApiKey]] = OMIT,
+        source_destination_mappings: typing.Sequence[SourceDestinationMapping],
         metadata: typing.Optional[typing.Dict[str, typing.Any]] = OMIT,
-        connections: typing.Optional[typing.Sequence[Connection]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> User:
+    ) -> typing.Any:
         """
         Parameters:
-            - api_keys: typing.Optional[typing.Sequence[ApiKey]].
+            - source_destination_mappings: typing.Sequence[SourceDestinationMapping].
 
             - metadata: typing.Optional[typing.Dict[str, typing.Any]].
 
-            - connections: typing.Optional[typing.Sequence[Connection]].
-
             - request_options: typing.Optional[RequestOptions]. Request-specific configuration.
         ---
+        from mixpeek import Destination, Source, SourceDestinationMapping
         from mixpeek.client import AsyncMixpeek
 
         client = AsyncMixpeek(
@@ -252,18 +343,30 @@ class AsyncUsersClient:
             index_id="YOUR_INDEX_ID",
             api_key="YOUR_API_KEY",
         )
-        await client.users.update_user_users_put()
+        await client.pipeline.create(
+            source_destination_mappings=[
+                SourceDestinationMapping(
+                    embedding_model="embedding_model",
+                    source=Source(
+                        field="field",
+                        type="file_url",
+                        settings={},
+                    ),
+                    destination=Destination(
+                        collection="collection",
+                        field="field",
+                        embedding="embedding",
+                    ),
+                )
+            ],
+        )
         """
-        _request: typing.Dict[str, typing.Any] = {}
-        if api_keys is not OMIT:
-            _request["api_keys"] = api_keys
+        _request: typing.Dict[str, typing.Any] = {"source_destination_mappings": source_destination_mappings}
         if metadata is not OMIT:
             _request["metadata"] = metadata
-        if connections is not OMIT:
-            _request["connections"] = connections
         _response = await self._client_wrapper.httpx_client.request(
-            "PUT",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "users"),
+            "POST",
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "pipelines"),
             params=jsonable_encoder(
                 request_options.get("additional_query_parameters") if request_options is not None else None
             ),
@@ -288,7 +391,69 @@ class AsyncUsersClient:
             max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(User, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(typing.Any, _response.json())  # type: ignore
+        if _response.status_code == 400:
+            raise BadRequestError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+        if _response.status_code == 401:
+            raise UnauthorizedError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+        if _response.status_code == 403:
+            raise ForbiddenError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+        if _response.status_code == 404:
+            raise NotFoundError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+        if _response.status_code == 422:
+            raise UnprocessableEntityError(pydantic.parse_obj_as(HttpValidationError, _response.json()))  # type: ignore
+        if _response.status_code == 500:
+            raise InternalServerError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def status(self, task_id: str, *, request_options: typing.Optional[RequestOptions] = None) -> typing.Any:
+        """
+        Query tasks status.
+
+        Parameters:
+            - task_id: str.
+
+            - request_options: typing.Optional[RequestOptions]. Request-specific configuration.
+        ---
+        from mixpeek.client import AsyncMixpeek
+
+        client = AsyncMixpeek(
+            authorization="YOUR_AUTHORIZATION",
+            index_id="YOUR_INDEX_ID",
+            api_key="YOUR_API_KEY",
+        )
+        await client.pipeline.status(
+            task_id="task_id",
+        )
+        """
+        _response = await self._client_wrapper.httpx_client.request(
+            "GET",
+            urllib.parse.urljoin(
+                f"{self._client_wrapper.get_base_url()}/", f"pipelines/status/{jsonable_encoder(task_id)}"
+            ),
+            params=jsonable_encoder(
+                request_options.get("additional_query_parameters") if request_options is not None else None
+            ),
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
+        )
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(typing.Any, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 401:

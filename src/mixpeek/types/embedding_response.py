@@ -12,8 +12,15 @@ except ImportError:
 
 
 class EmbeddingResponse(pydantic.BaseModel):
-    embedding: typing.List[float]
-    elapsed_time: float
+    embedding: typing.List[float] = pydantic.Field()
+    """
+    The embedding of the processed data.
+    """
+
+    elapsed_time: float = pydantic.Field()
+    """
+    The time taken to process the data.
+    """
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

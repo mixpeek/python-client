@@ -30,7 +30,7 @@ except ImportError:
 OMIT = typing.cast(typing.Any, ...)
 
 
-class WorkflowsClient:
+class WorkflowClient:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
 
@@ -72,7 +72,7 @@ class WorkflowsClient:
             index_id="YOUR_INDEX_ID",
             api_key="YOUR_API_KEY",
         )
-        client.workflows.create(
+        client.workflow.create(
             code_as_string="code_as_string",
             settings=WorkflowSettings(),
         )
@@ -159,7 +159,7 @@ class WorkflowsClient:
             index_id="YOUR_INDEX_ID",
             api_key="YOUR_API_KEY",
         )
-        client.workflows.invoke(
+        client.workflow.invoke(
             workflow_id="workflow_id",
             request={},
         )
@@ -221,9 +221,7 @@ class WorkflowsClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    def convert_code_to_string(
-        self, *, request: str, request_options: typing.Optional[RequestOptions] = None
-    ) -> WorkflowResponse:
+    def code(self, *, request: str, request_options: typing.Optional[RequestOptions] = None) -> WorkflowResponse:
         """
         Parameters:
             - request: str.
@@ -237,7 +235,7 @@ class WorkflowsClient:
             index_id="YOUR_INDEX_ID",
             api_key="YOUR_API_KEY",
         )
-        client.workflows.convert_code_to_string(
+        client.workflow.code(
             request="string",
         )
         """
@@ -283,7 +281,7 @@ class WorkflowsClient:
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
 
-class AsyncWorkflowsClient:
+class AsyncWorkflowClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._client_wrapper = client_wrapper
 
@@ -325,7 +323,7 @@ class AsyncWorkflowsClient:
             index_id="YOUR_INDEX_ID",
             api_key="YOUR_API_KEY",
         )
-        await client.workflows.create(
+        await client.workflow.create(
             code_as_string="code_as_string",
             settings=WorkflowSettings(),
         )
@@ -412,7 +410,7 @@ class AsyncWorkflowsClient:
             index_id="YOUR_INDEX_ID",
             api_key="YOUR_API_KEY",
         )
-        await client.workflows.invoke(
+        await client.workflow.invoke(
             workflow_id="workflow_id",
             request={},
         )
@@ -474,9 +472,7 @@ class AsyncWorkflowsClient:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
-    async def convert_code_to_string(
-        self, *, request: str, request_options: typing.Optional[RequestOptions] = None
-    ) -> WorkflowResponse:
+    async def code(self, *, request: str, request_options: typing.Optional[RequestOptions] = None) -> WorkflowResponse:
         """
         Parameters:
             - request: str.
@@ -490,7 +486,7 @@ class AsyncWorkflowsClient:
             index_id="YOUR_INDEX_ID",
             api_key="YOUR_API_KEY",
         )
-        await client.workflows.convert_code_to_string(
+        await client.workflow.code(
             request="string",
         )
         """

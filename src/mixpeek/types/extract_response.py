@@ -11,15 +11,15 @@ except ImportError:
     import pydantic  # type: ignore
 
 
-class Message(pydantic.BaseModel):
-    role: str = pydantic.Field()
+class ExtractResponse(pydantic.BaseModel):
+    output: typing.List[typing.Any] = pydantic.Field()
     """
-    The role of the message sender.
+    The output of the extraction process.
     """
 
-    content: str = pydantic.Field()
+    metadata: typing.Dict[str, typing.Any] = pydantic.Field()
     """
-    The content of the message.
+    Metadata related to the extraction process.
     """
 
     def json(self, **kwargs: typing.Any) -> str:

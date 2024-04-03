@@ -16,7 +16,6 @@ from ..errors.not_found_error import NotFoundError
 from ..errors.unauthorized_error import UnauthorizedError
 from ..errors.unprocessable_entity_error import UnprocessableEntityError
 from ..types.configs_response import ConfigsResponse
-from ..types.embedding_response import EmbeddingResponse
 from ..types.error_response import ErrorResponse
 from ..types.http_validation_error import HttpValidationError
 from ..types.modality import Modality
@@ -35,7 +34,7 @@ class EmbedClient:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    def get_dimensions(
+    def config(
         self,
         *,
         modality: typing.Optional[Modality] = OMIT,
@@ -57,7 +56,7 @@ class EmbedClient:
             index_id="YOUR_INDEX_ID",
             api_key="YOUR_API_KEY",
         )
-        client.embed.get_dimensions()
+        client.embed.config()
         """
         _request: typing.Dict[str, typing.Any] = {}
         if modality is not OMIT:
@@ -92,86 +91,6 @@ class EmbedClient:
         )
         if 200 <= _response.status_code < 300:
             return pydantic.parse_obj_as(ConfigsResponse, _response.json())  # type: ignore
-        if _response.status_code == 400:
-            raise BadRequestError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
-        if _response.status_code == 401:
-            raise UnauthorizedError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
-        if _response.status_code == 403:
-            raise ForbiddenError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
-        if _response.status_code == 404:
-            raise NotFoundError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
-        if _response.status_code == 422:
-            raise UnprocessableEntityError(pydantic.parse_obj_as(HttpValidationError, _response.json()))  # type: ignore
-        if _response.status_code == 500:
-            raise InternalServerError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
-        try:
-            _response_json = _response.json()
-        except JSONDecodeError:
-            raise ApiError(status_code=_response.status_code, body=_response.text)
-        raise ApiError(status_code=_response.status_code, body=_response_json)
-
-    def input_embed_post(
-        self,
-        *,
-        input: str,
-        modality: typing.Optional[Modality] = OMIT,
-        model: typing.Optional[str] = OMIT,
-        request_options: typing.Optional[RequestOptions] = None,
-    ) -> EmbeddingResponse:
-        """
-        Parameters:
-            - input: str.
-
-            - modality: typing.Optional[Modality].
-
-            - model: typing.Optional[str].
-
-            - request_options: typing.Optional[RequestOptions]. Request-specific configuration.
-        ---
-        from mixpeek.client import Mixpeek
-
-        client = Mixpeek(
-            authorization="YOUR_AUTHORIZATION",
-            index_id="YOUR_INDEX_ID",
-            api_key="YOUR_API_KEY",
-        )
-        client.embed.input_embed_post(
-            input="input",
-        )
-        """
-        _request: typing.Dict[str, typing.Any] = {"input": input}
-        if modality is not OMIT:
-            _request["modality"] = modality
-        if model is not OMIT:
-            _request["model"] = model
-        _response = self._client_wrapper.httpx_client.request(
-            "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "embed"),
-            params=jsonable_encoder(
-                request_options.get("additional_query_parameters") if request_options is not None else None
-            ),
-            json=jsonable_encoder(_request)
-            if request_options is None or request_options.get("additional_body_parameters") is None
-            else {
-                **jsonable_encoder(_request),
-                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
-            },
-            headers=jsonable_encoder(
-                remove_none_from_dict(
-                    {
-                        **self._client_wrapper.get_headers(),
-                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
-                    }
-                )
-            ),
-            timeout=request_options.get("timeout_in_seconds")
-            if request_options is not None and request_options.get("timeout_in_seconds") is not None
-            else self._client_wrapper.get_timeout(),
-            retries=0,
-            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
-        )
-        if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(EmbeddingResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 401:
@@ -195,7 +114,7 @@ class AsyncEmbedClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    async def get_dimensions(
+    async def config(
         self,
         *,
         modality: typing.Optional[Modality] = OMIT,
@@ -217,7 +136,7 @@ class AsyncEmbedClient:
             index_id="YOUR_INDEX_ID",
             api_key="YOUR_API_KEY",
         )
-        await client.embed.get_dimensions()
+        await client.embed.config()
         """
         _request: typing.Dict[str, typing.Any] = {}
         if modality is not OMIT:
@@ -252,86 +171,6 @@ class AsyncEmbedClient:
         )
         if 200 <= _response.status_code < 300:
             return pydantic.parse_obj_as(ConfigsResponse, _response.json())  # type: ignore
-        if _response.status_code == 400:
-            raise BadRequestError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
-        if _response.status_code == 401:
-            raise UnauthorizedError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
-        if _response.status_code == 403:
-            raise ForbiddenError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
-        if _response.status_code == 404:
-            raise NotFoundError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
-        if _response.status_code == 422:
-            raise UnprocessableEntityError(pydantic.parse_obj_as(HttpValidationError, _response.json()))  # type: ignore
-        if _response.status_code == 500:
-            raise InternalServerError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
-        try:
-            _response_json = _response.json()
-        except JSONDecodeError:
-            raise ApiError(status_code=_response.status_code, body=_response.text)
-        raise ApiError(status_code=_response.status_code, body=_response_json)
-
-    async def input_embed_post(
-        self,
-        *,
-        input: str,
-        modality: typing.Optional[Modality] = OMIT,
-        model: typing.Optional[str] = OMIT,
-        request_options: typing.Optional[RequestOptions] = None,
-    ) -> EmbeddingResponse:
-        """
-        Parameters:
-            - input: str.
-
-            - modality: typing.Optional[Modality].
-
-            - model: typing.Optional[str].
-
-            - request_options: typing.Optional[RequestOptions]. Request-specific configuration.
-        ---
-        from mixpeek.client import AsyncMixpeek
-
-        client = AsyncMixpeek(
-            authorization="YOUR_AUTHORIZATION",
-            index_id="YOUR_INDEX_ID",
-            api_key="YOUR_API_KEY",
-        )
-        await client.embed.input_embed_post(
-            input="input",
-        )
-        """
-        _request: typing.Dict[str, typing.Any] = {"input": input}
-        if modality is not OMIT:
-            _request["modality"] = modality
-        if model is not OMIT:
-            _request["model"] = model
-        _response = await self._client_wrapper.httpx_client.request(
-            "POST",
-            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "embed"),
-            params=jsonable_encoder(
-                request_options.get("additional_query_parameters") if request_options is not None else None
-            ),
-            json=jsonable_encoder(_request)
-            if request_options is None or request_options.get("additional_body_parameters") is None
-            else {
-                **jsonable_encoder(_request),
-                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
-            },
-            headers=jsonable_encoder(
-                remove_none_from_dict(
-                    {
-                        **self._client_wrapper.get_headers(),
-                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
-                    }
-                )
-            ),
-            timeout=request_options.get("timeout_in_seconds")
-            if request_options is not None and request_options.get("timeout_in_seconds") is not None
-            else self._client_wrapper.get_timeout(),
-            retries=0,
-            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
-        )
-        if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(EmbeddingResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 401:

@@ -13,10 +13,22 @@ except ImportError:
 
 
 class GenerationResponse(pydantic.BaseModel):
-    success: bool
-    status: int
+    success: bool = pydantic.Field()
+    """
+    Whether the generation was successful.
+    """
+
+    status: int = pydantic.Field()
+    """
+    The status code of the generation.
+    """
+
     error: typing.Optional[typing.Dict[str, typing.Any]] = None
-    response: typing.Dict[str, typing.Any]
+    response: typing.Dict[str, typing.Any] = pydantic.Field()
+    """
+    The response from the generation.
+    """
+
     metadata: typing.Optional[Metadata] = None
 
     def json(self, **kwargs: typing.Any) -> str:

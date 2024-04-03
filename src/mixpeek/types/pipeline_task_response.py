@@ -11,16 +11,8 @@ except ImportError:
     import pydantic  # type: ignore
 
 
-class Message(pydantic.BaseModel):
-    role: str = pydantic.Field()
-    """
-    The role of the message sender.
-    """
-
-    content: str = pydantic.Field()
-    """
-    The content of the message.
-    """
+class PipelineTaskResponse(pydantic.BaseModel):
+    task_id: str
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

@@ -12,9 +12,20 @@ except ImportError:
 
 
 class ConfigsResponse(pydantic.BaseModel):
-    dimensions: int
-    elapsed_time: float
-    token_size: int
+    dimensions: int = pydantic.Field()
+    """
+    The dimensions of the processed data.
+    """
+
+    elapsed_time: float = pydantic.Field()
+    """
+    The time taken to process the data.
+    """
+
+    token_size: int = pydantic.Field()
+    """
+    The size of the tokens in the processed data.
+    """
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}
