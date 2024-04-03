@@ -11,7 +11,6 @@ from .embed.client import AsyncEmbedClient, EmbedClient
 from .environment import MixpeekEnvironment
 from .extract.client import AsyncExtractClient, ExtractClient
 from .generators.client import AsyncGeneratorsClient, GeneratorsClient
-from .parse.client import AsyncParseClient, ParseClient
 from .pipelines.client import AsyncPipelinesClient, PipelinesClient
 from .storage.client import AsyncStorageClient, StorageClient
 from .users.client import AsyncUsersClient, UsersClient
@@ -79,7 +78,6 @@ class BaseMixpeek:
         self.pipelines = PipelinesClient(client_wrapper=self._client_wrapper)
         self.workflows = WorkflowsClient(client_wrapper=self._client_wrapper)
         self.storage = StorageClient(client_wrapper=self._client_wrapper)
-        self.parse = ParseClient(client_wrapper=self._client_wrapper)
 
 
 class AsyncBaseMixpeek:
@@ -143,7 +141,6 @@ class AsyncBaseMixpeek:
         self.pipelines = AsyncPipelinesClient(client_wrapper=self._client_wrapper)
         self.workflows = AsyncWorkflowsClient(client_wrapper=self._client_wrapper)
         self.storage = AsyncStorageClient(client_wrapper=self._client_wrapper)
-        self.parse = AsyncParseClient(client_wrapper=self._client_wrapper)
 
 
 def _get_base_url(*, base_url: typing.Optional[str] = None, environment: MixpeekEnvironment) -> str:
