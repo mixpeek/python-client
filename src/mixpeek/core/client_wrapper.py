@@ -27,7 +27,7 @@ class BaseClientWrapper:
         headers: typing.Dict[str, str] = {
             "X-Fern-Language": "Python",
             "X-Fern-SDK-Name": "mixpeek",
-            "X-Fern-SDK-Version": "0.6.3",
+            "X-Fern-SDK-Version": "0.6.4",
         }
         if self._authorization is not None:
             headers["Authorization"] = self._authorization
