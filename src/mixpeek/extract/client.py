@@ -41,7 +41,7 @@ class ExtractClient:
     def __init__(self, *, client_wrapper: SyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    def file_extract_post(
+    def text(
         self,
         *,
         file_url: typing.Optional[str] = OMIT,
@@ -108,7 +108,7 @@ class ExtractClient:
             index_id="YOUR_INDEX_ID",
             api_key="YOUR_API_KEY",
         )
-        client.extract.file_extract_post()
+        client.extract.text()
         """
         _request: typing.Dict[str, typing.Any] = {}
         if file_url is not OMIT:
@@ -196,7 +196,7 @@ class AsyncExtractClient:
     def __init__(self, *, client_wrapper: AsyncClientWrapper):
         self._client_wrapper = client_wrapper
 
-    async def file_extract_post(
+    async def text(
         self,
         *,
         file_url: typing.Optional[str] = OMIT,
@@ -263,7 +263,7 @@ class AsyncExtractClient:
             index_id="YOUR_INDEX_ID",
             api_key="YOUR_API_KEY",
         )
-        await client.extract.file_extract_post()
+        await client.extract.text()
         """
         _request: typing.Dict[str, typing.Any] = {}
         if file_url is not OMIT:

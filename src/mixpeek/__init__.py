@@ -44,7 +44,7 @@ from .errors import (
     UnauthorizedError,
     UnprocessableEntityError,
 )
-from . import embed, extract, generators, parse, pipelines, storage, users, workflows
+from . import embed, extract, generators, pipelines, storage, users, workflows
 from .environment import MixpeekEnvironment
 from .version import __version__
 
@@ -94,7 +94,6 @@ __all__ = [
     "embed",
     "extract",
     "generators",
-    "parse",
     "pipelines",
     "storage",
     "users",
