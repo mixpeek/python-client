@@ -39,7 +39,6 @@ class StorageClient:
             authorization="YOUR_AUTHORIZATION",
             index_id="YOUR_INDEX_ID",
             api_key="YOUR_API_KEY",
-            base_url="https://yourhost.com/path/to/api",
         )
         client.storage.test_connection()
         """
@@ -94,7 +93,6 @@ class StorageClient:
             authorization="YOUR_AUTHORIZATION",
             index_id="YOUR_INDEX_ID",
             api_key="YOUR_API_KEY",
-            base_url="https://yourhost.com/path/to/api",
         )
         client.storage.sample_database()
         """
@@ -154,7 +152,6 @@ class AsyncStorageClient:
             authorization="YOUR_AUTHORIZATION",
             index_id="YOUR_INDEX_ID",
             api_key="YOUR_API_KEY",
-            base_url="https://yourhost.com/path/to/api",
         )
         await client.storage.test_connection()
         """
@@ -209,7 +206,6 @@ class AsyncStorageClient:
             authorization="YOUR_AUTHORIZATION",
             index_id="YOUR_INDEX_ID",
             api_key="YOUR_API_KEY",
-            base_url="https://yourhost.com/path/to/api",
         )
         await client.storage.sample_database()
         """

@@ -66,12 +66,11 @@ class GeneratorsClient:
             authorization="YOUR_AUTHORIZATION",
             index_id="YOUR_INDEX_ID",
             api_key="YOUR_API_KEY",
-            base_url="https://yourhost.com/path/to/api",
         )
         client.generators.generate(
             model=Model(
                 provider="provider",
-                model="model",
+                model="gpt-3.5-turbo",
             ),
             messages=[
                 Message(
@@ -170,12 +169,11 @@ class AsyncGeneratorsClient:
             authorization="YOUR_AUTHORIZATION",
             index_id="YOUR_INDEX_ID",
             api_key="YOUR_API_KEY",
-            base_url="https://yourhost.com/path/to/api",
         )
         await client.generators.generate(
             model=Model(
                 provider="provider",
-                model="model",
+                model="gpt-3.5-turbo",
             ),
             messages=[
                 Message(

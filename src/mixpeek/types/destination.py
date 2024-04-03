@@ -11,10 +11,10 @@ except ImportError:
     import pydantic  # type: ignore
 
 
-class DestinationSchema(pydantic.BaseModel):
+class Destination(pydantic.BaseModel):
     collection: str
-    new_field_name: str
-    new_embeddings: str
+    field: str
+    embedding: str
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

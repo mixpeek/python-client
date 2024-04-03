@@ -4,7 +4,8 @@ import datetime as dt
 import typing
 
 from ..core.datetime_utils import serialize_datetime
-from .modality import Modality
+from .api_key import ApiKey
+from .connection import Connection
 
 try:
     import pydantic.v1 as pydantic  # type: ignore
@@ -12,9 +13,13 @@ except ImportError:
     import pydantic  # type: ignore
 
 
-class ConfigsRequest(pydantic.BaseModel):
-    modality: typing.Optional[Modality] = None
-    model: typing.Optional[str] = None
+class User(pydantic.BaseModel):
+    user_id: typing.Optional[str] = None
+    email: str
+    api_keys: typing.Optional[typing.List[ApiKey]] = None
+    index_ids: typing.Optional[typing.List[str]] = None
+    metadata: typing.Optional[typing.Dict[str, typing.Any]] = None
+    connections: typing.Optional[typing.List[Connection]] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

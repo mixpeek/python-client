@@ -7,10 +7,14 @@ import httpx
 
 from .core.api_error import ApiError
 from .core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
+from .embed.client import AsyncEmbedClient, EmbedClient
+from .environment import MixpeekEnvironment
+from .extract.client import AsyncExtractClient, ExtractClient
 from .generators.client import AsyncGeneratorsClient, GeneratorsClient
 from .parse.client import AsyncParseClient, ParseClient
 from .pipelines.client import AsyncPipelinesClient, PipelinesClient
 from .storage.client import AsyncStorageClient, StorageClient
+from .users.client import AsyncUsersClient, UsersClient
 from .workflows.client import AsyncWorkflowsClient, WorkflowsClient
 
 
@@ -19,7 +23,11 @@ class BaseMixpeek:
     Use this class to access the different functions within the SDK. You can instantiate any number of clients with different configuration that will propogate to these functions.
 
     Parameters:
-        - base_url: str. The base url to use for requests from the client.
+        - base_url: typing.Optional[str]. The base url to use for requests from the client.
+
+        - environment: MixpeekEnvironment. The environment to use for requests from the client. from .environment import MixpeekEnvironment
+
+                                           Defaults to MixpeekEnvironment.DEFAULT
 
         - authorization: typing.Optional[str].
 
@@ -37,14 +45,14 @@ class BaseMixpeek:
         authorization="YOUR_AUTHORIZATION",
         index_id="YOUR_INDEX_ID",
         api_key="YOUR_API_KEY",
-        base_url="https://yourhost.com/path/to/api",
     )
     """
 
     def __init__(
         self,
         *,
-        base_url: str,
+        base_url: typing.Optional[str] = None,
+        environment: MixpeekEnvironment = MixpeekEnvironment.DEFAULT,
         authorization: typing.Optional[str] = None,
         index_id: typing.Optional[str] = None,
         api_key: typing.Optional[typing.Union[str, typing.Callable[[], str]]] = os.getenv("MIXPEEK_API_KEY"),
@@ -57,18 +65,21 @@ class BaseMixpeek:
                 body="The client must be instantiated be either passing in api_key or setting MIXPEEK_API_KEY"
             )
         self._client_wrapper = SyncClientWrapper(
-            base_url=base_url,
+            base_url=_get_base_url(base_url=base_url, environment=environment),
             authorization=authorization,
             index_id=index_id,
             api_key=api_key,
             httpx_client=httpx.Client(timeout=_defaulted_timeout) if httpx_client is None else httpx_client,
             timeout=_defaulted_timeout,
         )
-        self.pipelines = PipelinesClient(client_wrapper=self._client_wrapper)
-        self.parse = ParseClient(client_wrapper=self._client_wrapper)
-        self.workflows = WorkflowsClient(client_wrapper=self._client_wrapper)
+        self.users = UsersClient(client_wrapper=self._client_wrapper)
+        self.extract = ExtractClient(client_wrapper=self._client_wrapper)
         self.generators = GeneratorsClient(client_wrapper=self._client_wrapper)
+        self.embed = EmbedClient(client_wrapper=self._client_wrapper)
+        self.pipelines = PipelinesClient(client_wrapper=self._client_wrapper)
+        self.workflows = WorkflowsClient(client_wrapper=self._client_wrapper)
         self.storage = StorageClient(client_wrapper=self._client_wrapper)
+        self.parse = ParseClient(client_wrapper=self._client_wrapper)
 
 
 class AsyncBaseMixpeek:
@@ -76,7 +87,11 @@ class AsyncBaseMixpeek:
     Use this class to access the different functions within the SDK. You can instantiate any number of clients with different configuration that will propogate to these functions.
 
     Parameters:
-        - base_url: str. The base url to use for requests from the client.
+        - base_url: typing.Optional[str]. The base url to use for requests from the client.
+
+        - environment: MixpeekEnvironment. The environment to use for requests from the client. from .environment import MixpeekEnvironment
+
+                                           Defaults to MixpeekEnvironment.DEFAULT
 
         - authorization: typing.Optional[str].
 
@@ -94,14 +109,14 @@ class AsyncBaseMixpeek:
         authorization="YOUR_AUTHORIZATION",
         index_id="YOUR_INDEX_ID",
         api_key="YOUR_API_KEY",
-        base_url="https://yourhost.com/path/to/api",
     )
     """
 
     def __init__(
         self,
         *,
-        base_url: str,
+        base_url: typing.Optional[str] = None,
+        environment: MixpeekEnvironment = MixpeekEnvironment.DEFAULT,
         authorization: typing.Optional[str] = None,
         index_id: typing.Optional[str] = None,
         api_key: typing.Optional[typing.Union[str, typing.Callable[[], str]]] = os.getenv("MIXPEEK_API_KEY"),
@@ -114,15 +129,27 @@ class AsyncBaseMixpeek:
                 body="The client must be instantiated be either passing in api_key or setting MIXPEEK_API_KEY"
             )
         self._client_wrapper = AsyncClientWrapper(
-            base_url=base_url,
+            base_url=_get_base_url(base_url=base_url, environment=environment),
             authorization=authorization,
             index_id=index_id,
             api_key=api_key,
             httpx_client=httpx.AsyncClient(timeout=_defaulted_timeout) if httpx_client is None else httpx_client,
             timeout=_defaulted_timeout,
         )
-        self.pipelines = AsyncPipelinesClient(client_wrapper=self._client_wrapper)
-        self.parse = AsyncParseClient(client_wrapper=self._client_wrapper)
-        self.workflows = AsyncWorkflowsClient(client_wrapper=self._client_wrapper)
+        self.users = AsyncUsersClient(client_wrapper=self._client_wrapper)
+        self.extract = AsyncExtractClient(client_wrapper=self._client_wrapper)
         self.generators = AsyncGeneratorsClient(client_wrapper=self._client_wrapper)
+        self.embed = AsyncEmbedClient(client_wrapper=self._client_wrapper)
+        self.pipelines = AsyncPipelinesClient(client_wrapper=self._client_wrapper)
+        self.workflows = AsyncWorkflowsClient(client_wrapper=self._client_wrapper)
         self.storage = AsyncStorageClient(client_wrapper=self._client_wrapper)
+        self.parse = AsyncParseClient(client_wrapper=self._client_wrapper)
+
+
+def _get_base_url(*, base_url: typing.Optional[str] = None, environment: MixpeekEnvironment) -> str:
+    if base_url is not None:
+        return base_url
+    elif environment is not None:
+        return environment.value
+    else:
+        raise Exception("Please pass in either base_url or environment to construct the client")

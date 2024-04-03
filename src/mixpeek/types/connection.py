@@ -18,7 +18,7 @@ class Connection(pydantic.BaseModel):
     port: typing.Optional[int] = None
     database: str
     username: str
-    password: typing.Optional[str] = None
+    password: str
     extra_params: typing.Optional[typing.Dict[str, typing.Any]] = None
 
     def json(self, **kwargs: typing.Any) -> str:

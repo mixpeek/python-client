@@ -2,4 +2,4 @@
 
 import typing
 
-FieldType = typing.Union[typing.AnyStr, typing.Literal["url", "inline"]]
+FieldType = typing.Union[typing.AnyStr, typing.Literal["file_url", "contents"]]
