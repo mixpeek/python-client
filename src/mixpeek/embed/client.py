@@ -20,6 +20,7 @@ from ..types.embedding_response import EmbeddingResponse
 from ..types.error_response import ErrorResponse
 from ..types.http_validation_error import HttpValidationError
 from ..types.modality import Modality
+from ..types.models import Models
 
 try:
     import pydantic.v1 as pydantic  # type: ignore
@@ -38,14 +39,14 @@ class EmbedClient:
         self,
         *,
         modality: typing.Optional[Modality] = OMIT,
-        model: typing.Optional[str] = OMIT,
+        model: typing.Optional[Models] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ConfigsResponse:
         """
         Parameters:
             - modality: typing.Optional[Modality].
 
-            - model: typing.Optional[str].
+            - model: typing.Optional[Models].
 
             - request_options: typing.Optional[RequestOptions]. Request-specific configuration.
         ---
@@ -198,14 +199,14 @@ class AsyncEmbedClient:
         self,
         *,
         modality: typing.Optional[Modality] = OMIT,
-        model: typing.Optional[str] = OMIT,
+        model: typing.Optional[Models] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
     ) -> ConfigsResponse:
         """
         Parameters:
             - modality: typing.Optional[Modality].
 
-            - model: typing.Optional[str].
+            - model: typing.Optional[Models].
 
             - request_options: typing.Optional[RequestOptions]. Request-specific configuration.
         ---
