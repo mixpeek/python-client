@@ -46,7 +46,7 @@ from .errors import (
     UnauthorizedError,
     UnprocessableEntityError,
 )
-from . import embed, generate, pipeline, storage, user, workflow
+from . import embed, pipeline, storage, user, workflow
 from .environment import MixpeekEnvironment
 from .version import __version__
 
@@ -96,7 +96,6 @@ __all__ = [
     "XlsxParams",
     "__version__",
     "embed",
-    "generate",
     "pipeline",
     "storage",
     "user",
