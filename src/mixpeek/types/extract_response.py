@@ -12,11 +12,7 @@ except ImportError:
 
 
 class ExtractResponse(pydantic.BaseModel):
-    output: typing.List[typing.Any] = pydantic.Field()
-    """
-    The output of the extraction process.
-    """
-
+    output: typing.Any
     metadata: typing.Dict[str, typing.Any] = pydantic.Field()
     """
     Metadata related to the extraction process.
