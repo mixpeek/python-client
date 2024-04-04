@@ -16,8 +16,7 @@ class PaperDetails(BaseModel):
 # Get started with writing tests with pytest at https://docs.pytest.org
 @pytest.mark.skip(reason="This is an example test")
 def test_client() -> None:
-    client = Mixpeek(base_url="https://api.mixpeek.com", 
-                     api_key="<<YOUR_API_KEY>>")
+    client = Mixpeek(api_key="<<YOUR API KEY>>")
 
     file_output = client.extract(
         file_url="https://mixpeek-public-demo.s3.us-east-2.amazonaws.com/parse/copy-protected.pdf"
@@ -33,11 +32,11 @@ def test_client() -> None:
     print(str_output)
 
     response = client.generate(
-        model={"provider": "GPT", "model": "gpt-3.5-turbo"},
+        model=mixpeek.Model(provider="GPT", model="gpt-3.5-turbo"),
         response_format=PaperDetails,
         context=f"format this document and make sure to respond and adhere to the provided JSON format: {corpus}",
         messages=[],
-        settings={"temperature": 0.5},
+        settings=mixpeek.Settings(temperature=0.5),
     )
 
     print(response)
