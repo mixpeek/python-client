@@ -1,9 +1,7 @@
-
 import typing
 import httpx
 
-from .base_client import BaseMixpeek, \
-    AsyncBaseMixpeek
+from .base_client import BaseMixpeek, AsyncBaseMixpeek
 from .types.message import Message
 from .types.model import Model
 from .types.settings import Settings
@@ -15,7 +13,7 @@ from .core.request_options import RequestOptions
 OMIT = typing.cast(typing.Any, ...)
 
 
-class Mixpeek(BaseMixpeek): 
+class Mixpeek(BaseMixpeek):
 
     def generate(
         self,
@@ -30,7 +28,8 @@ class Mixpeek(BaseMixpeek):
     ) -> GenerationResponse:
         if response_format is not None:
             response_format = response_format.model_json_schema()
-        return self.generators.generate(
+
+        return self.base_generate(
             model=model,
             response_format=response_format,
             context=context,
@@ -55,7 +54,8 @@ class AsyncMixpeek(AsyncBaseMixpeek):
     ) -> GenerationResponse:
         if response_format is not None:
             response_format = response_format.model_json_schema()
-        return await self.generators.generate(
+
+        return await self.base_generate(
             model=model,
             response_format=response_format,
             context=context,
