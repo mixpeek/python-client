@@ -4,30 +4,26 @@ import datetime as dt
 import typing
 
 from ..core.datetime_utils import serialize_datetime
+from ..core.pydantic_utilities import pydantic_v1
 from .connection import Connection
 from .source_destination_mapping import SourceDestinationMapping
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
 
-
-class PipelineResponse(pydantic.BaseModel):
-    pipeline_id: typing.Optional[str] = pydantic.Field(default=None)
+class PipelineResponse(pydantic_v1.BaseModel):
+    pipeline_id: typing.Optional[str] = pydantic_v1.Field(default=None)
     """
     The ID of the pipeline
     """
 
     enabled: typing.Optional[bool] = None
     connection: typing.Optional[Connection] = None
-    source_destination_mappings: typing.List[SourceDestinationMapping] = pydantic.Field()
+    source_destination_mappings: typing.List[SourceDestinationMapping] = pydantic_v1.Field()
     """
     The source-destination mappings
     """
 
     metadata: typing.Optional[typing.Dict[str, typing.Any]] = None
-    created_at: typing.Optional[dt.datetime] = pydantic.Field(default=None)
+    created_at: typing.Optional[dt.datetime] = pydantic_v1.Field(default=None)
     """
     The creation time
     """
@@ -45,5 +41,5 @@ class PipelineResponse(pydantic.BaseModel):
     class Config:
         frozen = True
         smart_union = True
-        extra = pydantic.Extra.allow
+        extra = pydantic_v1.Extra.allow
         json_encoders = {dt.datetime: serialize_datetime}

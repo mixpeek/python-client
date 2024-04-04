@@ -4,20 +4,16 @@ import datetime as dt
 import typing
 
 from ..core.datetime_utils import serialize_datetime
-
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
+from ..core.pydantic_utilities import pydantic_v1
 
 
-class Message(pydantic.BaseModel):
-    role: str = pydantic.Field()
+class Message(pydantic_v1.BaseModel):
+    role: str = pydantic_v1.Field()
     """
     The role of the message sender.
     """
 
-    content: str = pydantic.Field()
+    content: str = pydantic_v1.Field()
     """
     The content of the message.
     """
@@ -33,5 +29,5 @@ class Message(pydantic.BaseModel):
     class Config:
         frozen = True
         smart_union = True
-        extra = pydantic.Extra.allow
+        extra = pydantic_v1.Extra.allow
         json_encoders = {dt.datetime: serialize_datetime}

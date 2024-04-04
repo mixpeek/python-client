@@ -4,21 +4,17 @@ import datetime as dt
 import typing
 
 from ..core.datetime_utils import serialize_datetime
+from ..core.pydantic_utilities import pydantic_v1
 from .models import Models
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
 
-
-class Model(pydantic.BaseModel):
-    provider: str = pydantic.Field()
+class Model(pydantic_v1.BaseModel):
+    provider: str = pydantic_v1.Field()
     """
     The provider of the model.
     """
 
-    model: Models = pydantic.Field()
+    model: Models = pydantic_v1.Field()
     """
     The model to be used.
     """
@@ -34,5 +30,5 @@ class Model(pydantic.BaseModel):
     class Config:
         frozen = True
         smart_union = True
-        extra = pydantic.Extra.allow
+        extra = pydantic_v1.Extra.allow
         json_encoders = {dt.datetime: serialize_datetime}

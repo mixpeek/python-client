@@ -4,27 +4,23 @@ import datetime as dt
 import typing
 
 from ..core.datetime_utils import serialize_datetime
+from ..core.pydantic_utilities import pydantic_v1
 from .destination import Destination
 from .source import Source
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
 
-
-class SourceDestinationMapping(pydantic.BaseModel):
-    embedding_model: str = pydantic.Field()
+class SourceDestinationMapping(pydantic_v1.BaseModel):
+    embedding_model: str = pydantic_v1.Field()
     """
     The embedding model
     """
 
-    source: Source = pydantic.Field()
+    source: Source = pydantic_v1.Field()
     """
     The source
     """
 
-    destination: Destination = pydantic.Field()
+    destination: Destination = pydantic_v1.Field()
     """
     The destination
     """
@@ -40,5 +36,5 @@ class SourceDestinationMapping(pydantic.BaseModel):
     class Config:
         frozen = True
         smart_union = True
-        extra = pydantic.Extra.allow
+        extra = pydantic_v1.Extra.allow
         json_encoders = {dt.datetime: serialize_datetime}

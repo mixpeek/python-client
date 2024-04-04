@@ -8,6 +8,7 @@ from json.decoder import JSONDecodeError
 from ..core.api_error import ApiError
 from ..core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from ..core.jsonable_encoder import jsonable_encoder
+from ..core.pydantic_utilities import pydantic_v1
 from ..core.remove_none_from_dict import remove_none_from_dict
 from ..core.request_options import RequestOptions
 from ..errors.bad_request_error import BadRequestError
@@ -21,11 +22,6 @@ from ..types.http_validation_error import HttpValidationError
 from ..types.workflow_code_response import WorkflowCodeResponse
 from ..types.workflow_response import WorkflowResponse
 from ..types.workflow_settings import WorkflowSettings
-
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
 
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
@@ -116,19 +112,21 @@ class WorkflowClient:
             max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(WorkflowResponse, _response.json())  # type: ignore
+            return pydantic_v1.parse_obj_as(WorkflowResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
-            raise BadRequestError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise BadRequestError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 401:
-            raise UnauthorizedError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise UnauthorizedError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 403:
-            raise ForbiddenError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise ForbiddenError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 404:
-            raise NotFoundError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise NotFoundError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 422:
-            raise UnprocessableEntityError(pydantic.parse_obj_as(HttpValidationError, _response.json()))  # type: ignore
+            raise UnprocessableEntityError(
+                pydantic_v1.parse_obj_as(HttpValidationError, _response.json())  # type: ignore
+            )
         if _response.status_code == 500:
-            raise InternalServerError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise InternalServerError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         try:
             _response_json = _response.json()
         except JSONDecodeError:
@@ -203,19 +201,21 @@ class WorkflowClient:
             max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(typing.Any, _response.json())  # type: ignore
+            return pydantic_v1.parse_obj_as(typing.Any, _response.json())  # type: ignore
         if _response.status_code == 400:
-            raise BadRequestError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise BadRequestError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 401:
-            raise UnauthorizedError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise UnauthorizedError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 403:
-            raise ForbiddenError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise ForbiddenError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 404:
-            raise NotFoundError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise NotFoundError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 422:
-            raise UnprocessableEntityError(pydantic.parse_obj_as(HttpValidationError, _response.json()))  # type: ignore
+            raise UnprocessableEntityError(
+                pydantic_v1.parse_obj_as(HttpValidationError, _response.json())  # type: ignore
+            )
         if _response.status_code == 500:
-            raise InternalServerError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise InternalServerError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         try:
             _response_json = _response.json()
         except JSONDecodeError:
@@ -262,19 +262,21 @@ class WorkflowClient:
             max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(WorkflowCodeResponse, _response.json())  # type: ignore
+            return pydantic_v1.parse_obj_as(WorkflowCodeResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
-            raise BadRequestError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise BadRequestError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 401:
-            raise UnauthorizedError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise UnauthorizedError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 403:
-            raise ForbiddenError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise ForbiddenError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 404:
-            raise NotFoundError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise NotFoundError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 422:
-            raise UnprocessableEntityError(pydantic.parse_obj_as(HttpValidationError, _response.json()))  # type: ignore
+            raise UnprocessableEntityError(
+                pydantic_v1.parse_obj_as(HttpValidationError, _response.json())  # type: ignore
+            )
         if _response.status_code == 500:
-            raise InternalServerError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise InternalServerError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         try:
             _response_json = _response.json()
         except JSONDecodeError:
@@ -367,19 +369,21 @@ class AsyncWorkflowClient:
             max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(WorkflowResponse, _response.json())  # type: ignore
+            return pydantic_v1.parse_obj_as(WorkflowResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
-            raise BadRequestError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise BadRequestError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 401:
-            raise UnauthorizedError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise UnauthorizedError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 403:
-            raise ForbiddenError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise ForbiddenError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 404:
-            raise NotFoundError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise NotFoundError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 422:
-            raise UnprocessableEntityError(pydantic.parse_obj_as(HttpValidationError, _response.json()))  # type: ignore
+            raise UnprocessableEntityError(
+                pydantic_v1.parse_obj_as(HttpValidationError, _response.json())  # type: ignore
+            )
         if _response.status_code == 500:
-            raise InternalServerError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise InternalServerError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         try:
             _response_json = _response.json()
         except JSONDecodeError:
@@ -454,19 +458,21 @@ class AsyncWorkflowClient:
             max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(typing.Any, _response.json())  # type: ignore
+            return pydantic_v1.parse_obj_as(typing.Any, _response.json())  # type: ignore
         if _response.status_code == 400:
-            raise BadRequestError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise BadRequestError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 401:
-            raise UnauthorizedError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise UnauthorizedError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 403:
-            raise ForbiddenError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise ForbiddenError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 404:
-            raise NotFoundError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise NotFoundError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 422:
-            raise UnprocessableEntityError(pydantic.parse_obj_as(HttpValidationError, _response.json()))  # type: ignore
+            raise UnprocessableEntityError(
+                pydantic_v1.parse_obj_as(HttpValidationError, _response.json())  # type: ignore
+            )
         if _response.status_code == 500:
-            raise InternalServerError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise InternalServerError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         try:
             _response_json = _response.json()
         except JSONDecodeError:
@@ -515,19 +521,21 @@ class AsyncWorkflowClient:
             max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(WorkflowCodeResponse, _response.json())  # type: ignore
+            return pydantic_v1.parse_obj_as(WorkflowCodeResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
-            raise BadRequestError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise BadRequestError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 401:
-            raise UnauthorizedError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise UnauthorizedError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 403:
-            raise ForbiddenError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise ForbiddenError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 404:
-            raise NotFoundError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise NotFoundError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 422:
-            raise UnprocessableEntityError(pydantic.parse_obj_as(HttpValidationError, _response.json()))  # type: ignore
+            raise UnprocessableEntityError(
+                pydantic_v1.parse_obj_as(HttpValidationError, _response.json())  # type: ignore
+            )
         if _response.status_code == 500:
-            raise InternalServerError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise InternalServerError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         try:
             _response_json = _response.json()
         except JSONDecodeError:

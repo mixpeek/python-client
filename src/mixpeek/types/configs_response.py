@@ -4,25 +4,21 @@ import datetime as dt
 import typing
 
 from ..core.datetime_utils import serialize_datetime
-
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
+from ..core.pydantic_utilities import pydantic_v1
 
 
-class ConfigsResponse(pydantic.BaseModel):
-    dimensions: int = pydantic.Field()
+class ConfigsResponse(pydantic_v1.BaseModel):
+    dimensions: int = pydantic_v1.Field()
     """
     The dimensions of the processed data.
     """
 
-    elapsed_time: float = pydantic.Field()
+    elapsed_time: float = pydantic_v1.Field()
     """
     The time taken to process the data.
     """
 
-    token_size: int = pydantic.Field()
+    token_size: int = pydantic_v1.Field()
     """
     The size of the tokens in the processed data.
     """
@@ -38,5 +34,5 @@ class ConfigsResponse(pydantic.BaseModel):
     class Config:
         frozen = True
         smart_union = True
-        extra = pydantic.Extra.allow
+        extra = pydantic_v1.Extra.allow
         json_encoders = {dt.datetime: serialize_datetime}

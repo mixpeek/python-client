@@ -10,6 +10,7 @@ import httpx
 from .core.api_error import ApiError
 from .core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .core.jsonable_encoder import jsonable_encoder
+from .core.pydantic_utilities import pydantic_v1
 from .core.remove_none_from_dict import remove_none_from_dict
 from .core.request_options import RequestOptions
 from .environment import MixpeekEnvironment
@@ -45,11 +46,6 @@ from .types.xlsx_params import XlsxParams
 from .user.client import AsyncUserClient, UserClient
 from .workflow.client import AsyncWorkflowClient, WorkflowClient
 
-try:
-    import pydantic.v1 as pydantic  # type: ignore
-except ImportError:
-    import pydantic  # type: ignore
-
 # this is used as the default value for optional parameters
 OMIT = typing.cast(typing.Any, ...)
 
@@ -73,6 +69,8 @@ class BaseMixpeek:
 
         - timeout: typing.Optional[float]. The timeout to be used, in seconds, for requests by default the timeout is 60 seconds, unless a custom httpx client is used, in which case a default is not set.
 
+        - follow_redirects: typing.Optional[bool]. Whether the default httpx client follows redirects or not, this is irrelevant if a custom httpx client is passed in.
+
         - httpx_client: typing.Optional[httpx.Client]. The httpx client to use for making requests, a preconfigured client is used by default, however this is useful should you want to pass in any custom httpx configuration.
     ---
     from mixpeek.client import Mixpeek
@@ -93,6 +91,7 @@ class BaseMixpeek:
         index_id: typing.Optional[str] = None,
         api_key: typing.Optional[typing.Union[str, typing.Callable[[], str]]] = os.getenv("MIXPEEK_API_KEY"),
         timeout: typing.Optional[float] = None,
+        follow_redirects: typing.Optional[bool] = True,
         httpx_client: typing.Optional[httpx.Client] = None,
     ):
         _defaulted_timeout = timeout if timeout is not None else 60 if httpx_client is None else None
@@ -105,7 +104,11 @@ class BaseMixpeek:
             authorization=authorization,
             index_id=index_id,
             api_key=api_key,
-            httpx_client=httpx.Client(timeout=_defaulted_timeout) if httpx_client is None else httpx_client,
+            httpx_client=httpx_client
+            if httpx_client is not None
+            else httpx.Client(timeout=_defaulted_timeout, follow_redirects=follow_redirects)
+            if follow_redirects is not None
+            else httpx.Client(timeout=_defaulted_timeout),
             timeout=_defaulted_timeout,
         )
         self.user = UserClient(client_wrapper=self._client_wrapper)
@@ -244,19 +247,21 @@ class BaseMixpeek:
             max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ExtractResponse, _response.json())  # type: ignore
+            return pydantic_v1.parse_obj_as(ExtractResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
-            raise BadRequestError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise BadRequestError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 401:
-            raise UnauthorizedError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise UnauthorizedError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 403:
-            raise ForbiddenError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise ForbiddenError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 404:
-            raise NotFoundError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise NotFoundError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 422:
-            raise UnprocessableEntityError(pydantic.parse_obj_as(HttpValidationError, _response.json()))  # type: ignore
+            raise UnprocessableEntityError(
+                pydantic_v1.parse_obj_as(HttpValidationError, _response.json())  # type: ignore
+            )
         if _response.status_code == 500:
-            raise InternalServerError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise InternalServerError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         try:
             _response_json = _response.json()
         except JSONDecodeError:
@@ -342,19 +347,21 @@ class BaseMixpeek:
             max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(GenerationResponse, _response.json())  # type: ignore
+            return pydantic_v1.parse_obj_as(GenerationResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
-            raise BadRequestError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise BadRequestError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 401:
-            raise UnauthorizedError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise UnauthorizedError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 403:
-            raise ForbiddenError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise ForbiddenError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 404:
-            raise NotFoundError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise NotFoundError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 422:
-            raise UnprocessableEntityError(pydantic.parse_obj_as(HttpValidationError, _response.json()))  # type: ignore
+            raise UnprocessableEntityError(
+                pydantic_v1.parse_obj_as(HttpValidationError, _response.json())  # type: ignore
+            )
         if _response.status_code == 500:
-            raise InternalServerError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise InternalServerError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         try:
             _response_json = _response.json()
         except JSONDecodeError:
@@ -417,19 +424,21 @@ class BaseMixpeek:
             max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ConfigsResponse, _response.json())  # type: ignore
+            return pydantic_v1.parse_obj_as(ConfigsResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
-            raise BadRequestError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise BadRequestError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 401:
-            raise UnauthorizedError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise UnauthorizedError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 403:
-            raise ForbiddenError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise ForbiddenError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 404:
-            raise NotFoundError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise NotFoundError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 422:
-            raise UnprocessableEntityError(pydantic.parse_obj_as(HttpValidationError, _response.json()))  # type: ignore
+            raise UnprocessableEntityError(
+                pydantic_v1.parse_obj_as(HttpValidationError, _response.json())  # type: ignore
+            )
         if _response.status_code == 500:
-            raise InternalServerError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise InternalServerError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         try:
             _response_json = _response.json()
         except JSONDecodeError:
@@ -497,19 +506,21 @@ class BaseMixpeek:
             max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(EmbeddingResponse, _response.json())  # type: ignore
+            return pydantic_v1.parse_obj_as(EmbeddingResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
-            raise BadRequestError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise BadRequestError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 401:
-            raise UnauthorizedError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise UnauthorizedError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 403:
-            raise ForbiddenError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise ForbiddenError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 404:
-            raise NotFoundError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise NotFoundError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 422:
-            raise UnprocessableEntityError(pydantic.parse_obj_as(HttpValidationError, _response.json()))  # type: ignore
+            raise UnprocessableEntityError(
+                pydantic_v1.parse_obj_as(HttpValidationError, _response.json())  # type: ignore
+            )
         if _response.status_code == 500:
-            raise InternalServerError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise InternalServerError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         try:
             _response_json = _response.json()
         except JSONDecodeError:
@@ -536,6 +547,8 @@ class AsyncBaseMixpeek:
 
         - timeout: typing.Optional[float]. The timeout to be used, in seconds, for requests by default the timeout is 60 seconds, unless a custom httpx client is used, in which case a default is not set.
 
+        - follow_redirects: typing.Optional[bool]. Whether the default httpx client follows redirects or not, this is irrelevant if a custom httpx client is passed in.
+
         - httpx_client: typing.Optional[httpx.AsyncClient]. The httpx client to use for making requests, a preconfigured client is used by default, however this is useful should you want to pass in any custom httpx configuration.
     ---
     from mixpeek.client import AsyncMixpeek
@@ -556,6 +569,7 @@ class AsyncBaseMixpeek:
         index_id: typing.Optional[str] = None,
         api_key: typing.Optional[typing.Union[str, typing.Callable[[], str]]] = os.getenv("MIXPEEK_API_KEY"),
         timeout: typing.Optional[float] = None,
+        follow_redirects: typing.Optional[bool] = True,
         httpx_client: typing.Optional[httpx.AsyncClient] = None,
     ):
         _defaulted_timeout = timeout if timeout is not None else 60 if httpx_client is None else None
@@ -568,7 +582,11 @@ class AsyncBaseMixpeek:
             authorization=authorization,
             index_id=index_id,
             api_key=api_key,
-            httpx_client=httpx.AsyncClient(timeout=_defaulted_timeout) if httpx_client is None else httpx_client,
+            httpx_client=httpx_client
+            if httpx_client is not None
+            else httpx.AsyncClient(timeout=_defaulted_timeout, follow_redirects=follow_redirects)
+            if follow_redirects is not None
+            else httpx.AsyncClient(timeout=_defaulted_timeout),
             timeout=_defaulted_timeout,
         )
         self.user = AsyncUserClient(client_wrapper=self._client_wrapper)
@@ -707,19 +725,21 @@ class AsyncBaseMixpeek:
             max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ExtractResponse, _response.json())  # type: ignore
+            return pydantic_v1.parse_obj_as(ExtractResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
-            raise BadRequestError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise BadRequestError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 401:
-            raise UnauthorizedError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise UnauthorizedError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 403:
-            raise ForbiddenError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise ForbiddenError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 404:
-            raise NotFoundError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise NotFoundError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 422:
-            raise UnprocessableEntityError(pydantic.parse_obj_as(HttpValidationError, _response.json()))  # type: ignore
+            raise UnprocessableEntityError(
+                pydantic_v1.parse_obj_as(HttpValidationError, _response.json())  # type: ignore
+            )
         if _response.status_code == 500:
-            raise InternalServerError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise InternalServerError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         try:
             _response_json = _response.json()
         except JSONDecodeError:
@@ -805,19 +825,21 @@ class AsyncBaseMixpeek:
             max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(GenerationResponse, _response.json())  # type: ignore
+            return pydantic_v1.parse_obj_as(GenerationResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
-            raise BadRequestError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise BadRequestError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 401:
-            raise UnauthorizedError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise UnauthorizedError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 403:
-            raise ForbiddenError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise ForbiddenError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 404:
-            raise NotFoundError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise NotFoundError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 422:
-            raise UnprocessableEntityError(pydantic.parse_obj_as(HttpValidationError, _response.json()))  # type: ignore
+            raise UnprocessableEntityError(
+                pydantic_v1.parse_obj_as(HttpValidationError, _response.json())  # type: ignore
+            )
         if _response.status_code == 500:
-            raise InternalServerError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise InternalServerError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         try:
             _response_json = _response.json()
         except JSONDecodeError:
@@ -880,19 +902,21 @@ class AsyncBaseMixpeek:
             max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(ConfigsResponse, _response.json())  # type: ignore
+            return pydantic_v1.parse_obj_as(ConfigsResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
-            raise BadRequestError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise BadRequestError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 401:
-            raise UnauthorizedError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise UnauthorizedError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 403:
-            raise ForbiddenError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise ForbiddenError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 404:
-            raise NotFoundError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise NotFoundError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 422:
-            raise UnprocessableEntityError(pydantic.parse_obj_as(HttpValidationError, _response.json()))  # type: ignore
+            raise UnprocessableEntityError(
+                pydantic_v1.parse_obj_as(HttpValidationError, _response.json())  # type: ignore
+            )
         if _response.status_code == 500:
-            raise InternalServerError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise InternalServerError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         try:
             _response_json = _response.json()
         except JSONDecodeError:
@@ -960,19 +984,21 @@ class AsyncBaseMixpeek:
             max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(EmbeddingResponse, _response.json())  # type: ignore
+            return pydantic_v1.parse_obj_as(EmbeddingResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
-            raise BadRequestError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise BadRequestError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 401:
-            raise UnauthorizedError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise UnauthorizedError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 403:
-            raise ForbiddenError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise ForbiddenError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 404:
-            raise NotFoundError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise NotFoundError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 422:
-            raise UnprocessableEntityError(pydantic.parse_obj_as(HttpValidationError, _response.json()))  # type: ignore
+            raise UnprocessableEntityError(
+                pydantic_v1.parse_obj_as(HttpValidationError, _response.json())  # type: ignore
+            )
         if _response.status_code == 500:
-            raise InternalServerError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+            raise InternalServerError(pydantic_v1.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         try:
             _response_json = _response.json()
         except JSONDecodeError:
