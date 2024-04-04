@@ -17,10 +17,7 @@ class EmbeddingResponse(pydantic.BaseModel):
     The embedding of the processed data.
     """
 
-    elapsed_time: float = pydantic.Field()
-    """
-    The time taken to process the data.
-    """
+    elapsed_time: typing.Optional[float] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

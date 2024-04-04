@@ -13,11 +13,9 @@ except ImportError:
 
 
 class Metadata(pydantic.BaseModel):
-    elapsed_time: typing.Optional[float] = None
     total_tokens: typing.Optional[int] = None
     generation_id: typing.Optional[str] = None
     model: typing.Optional[Model] = None
-    created_at: typing.Optional[dt.datetime] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

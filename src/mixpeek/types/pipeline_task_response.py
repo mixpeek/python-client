@@ -12,7 +12,10 @@ except ImportError:
 
 
 class PipelineTaskResponse(pydantic.BaseModel):
-    task_id: str
+    task_id: str = pydantic.Field()
+    """
+    The ID of the task
+    """
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

@@ -13,9 +13,20 @@ except ImportError:
 
 
 class Source(pydantic.BaseModel):
-    field: str
-    type: FieldType
-    settings: typing.Dict[str, typing.Any]
+    field: str = pydantic.Field()
+    """
+    The field name
+    """
+
+    type: FieldType = pydantic.Field()
+    """
+    The type of the field
+    """
+
+    settings: typing.Dict[str, typing.Any] = pydantic.Field()
+    """
+    The settings for the field
+    """
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

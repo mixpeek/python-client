@@ -4,8 +4,8 @@ import datetime as dt
 import typing
 
 from ..core.datetime_utils import serialize_datetime
-from .destination import Destination
-from .source import Source
+from .connection import Connection
+from .source_destination_mapping import SourceDestinationMapping
 
 try:
     import pydantic.v1 as pydantic  # type: ignore
@@ -13,21 +13,26 @@ except ImportError:
     import pydantic  # type: ignore
 
 
-class SourceDestinationMapping(pydantic.BaseModel):
-    embedding_model: str = pydantic.Field()
+class PipelineResponse(pydantic.BaseModel):
+    pipeline_id: typing.Optional[str] = pydantic.Field(default=None)
     """
-    The embedding model
-    """
-
-    source: Source = pydantic.Field()
-    """
-    The source
+    The ID of the pipeline
     """
 
-    destination: Destination = pydantic.Field()
+    enabled: typing.Optional[bool] = None
+    connection: typing.Optional[Connection] = None
+    source_destination_mappings: typing.List[SourceDestinationMapping] = pydantic.Field()
     """
-    The destination
+    The source-destination mappings
     """
+
+    metadata: typing.Optional[typing.Dict[str, typing.Any]] = None
+    created_at: typing.Optional[dt.datetime] = pydantic.Field(default=None)
+    """
+    The creation time
+    """
+
+    last_run: typing.Optional[dt.datetime] = None
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

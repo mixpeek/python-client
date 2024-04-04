@@ -12,7 +12,6 @@ from .core.client_wrapper import AsyncClientWrapper, SyncClientWrapper
 from .core.jsonable_encoder import jsonable_encoder
 from .core.remove_none_from_dict import remove_none_from_dict
 from .core.request_options import RequestOptions
-from .embed.client import AsyncEmbedClient, EmbedClient
 from .environment import MixpeekEnvironment
 from .errors.bad_request_error import BadRequestError
 from .errors.forbidden_error import ForbiddenError
@@ -23,6 +22,7 @@ from .errors.unprocessable_entity_error import UnprocessableEntityError
 from .pipeline.client import AsyncPipelineClient, PipelineClient
 from .storage.client import AsyncStorageClient, StorageClient
 from .types.audio_params import AudioParams
+from .types.configs_response import ConfigsResponse
 from .types.csv_params import CsvParams
 from .types.embedding_response import EmbeddingResponse
 from .types.error_response import ErrorResponse
@@ -34,6 +34,7 @@ from .types.image_params import ImageParams
 from .types.message import Message
 from .types.modality import Modality
 from .types.model import Model
+from .types.models import Models
 from .types.pdf_params import PdfParams
 from .types.ppt_params import PptParams
 from .types.pptx_params import PptxParams
@@ -108,7 +109,6 @@ class BaseMixpeek:
             timeout=_defaulted_timeout,
         )
         self.user = UserClient(client_wrapper=self._client_wrapper)
-        self.embed = EmbedClient(client_wrapper=self._client_wrapper)
         self.pipeline = PipelineClient(client_wrapper=self._client_wrapper)
         self.workflow = WorkflowClient(client_wrapper=self._client_wrapper)
         self.storage = StorageClient(client_wrapper=self._client_wrapper)
@@ -361,6 +361,81 @@ class BaseMixpeek:
             raise ApiError(status_code=_response.status_code, body=_response.text)
         raise ApiError(status_code=_response.status_code, body=_response_json)
 
+    def get_model_config(
+        self,
+        *,
+        modality: typing.Optional[Modality] = OMIT,
+        model: typing.Optional[Models] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> ConfigsResponse:
+        """
+        Parameters:
+            - modality: typing.Optional[Modality].
+
+            - model: typing.Optional[Models].
+
+            - request_options: typing.Optional[RequestOptions]. Request-specific configuration.
+        ---
+        from mixpeek.client import Mixpeek
+
+        client = Mixpeek(
+            authorization="YOUR_AUTHORIZATION",
+            index_id="YOUR_INDEX_ID",
+            api_key="YOUR_API_KEY",
+        )
+        client.get_model_config()
+        """
+        _request: typing.Dict[str, typing.Any] = {}
+        if modality is not OMIT:
+            _request["modality"] = modality
+        if model is not OMIT:
+            _request["model"] = model
+        _response = self._client_wrapper.httpx_client.request(
+            "POST",
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "embed/config"),
+            params=jsonable_encoder(
+                request_options.get("additional_query_parameters") if request_options is not None else None
+            ),
+            json=jsonable_encoder(_request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(_request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
+        )
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(ConfigsResponse, _response.json())  # type: ignore
+        if _response.status_code == 400:
+            raise BadRequestError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+        if _response.status_code == 401:
+            raise UnauthorizedError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+        if _response.status_code == 403:
+            raise ForbiddenError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+        if _response.status_code == 404:
+            raise NotFoundError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+        if _response.status_code == 422:
+            raise UnprocessableEntityError(pydantic.parse_obj_as(HttpValidationError, _response.json()))  # type: ignore
+        if _response.status_code == 500:
+            raise InternalServerError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
     def embed(
         self,
         *,
@@ -497,7 +572,6 @@ class AsyncBaseMixpeek:
             timeout=_defaulted_timeout,
         )
         self.user = AsyncUserClient(client_wrapper=self._client_wrapper)
-        self.embed = AsyncEmbedClient(client_wrapper=self._client_wrapper)
         self.pipeline = AsyncPipelineClient(client_wrapper=self._client_wrapper)
         self.workflow = AsyncWorkflowClient(client_wrapper=self._client_wrapper)
         self.storage = AsyncStorageClient(client_wrapper=self._client_wrapper)
@@ -732,6 +806,81 @@ class AsyncBaseMixpeek:
         )
         if 200 <= _response.status_code < 300:
             return pydantic.parse_obj_as(GenerationResponse, _response.json())  # type: ignore
+        if _response.status_code == 400:
+            raise BadRequestError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+        if _response.status_code == 401:
+            raise UnauthorizedError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+        if _response.status_code == 403:
+            raise ForbiddenError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+        if _response.status_code == 404:
+            raise NotFoundError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+        if _response.status_code == 422:
+            raise UnprocessableEntityError(pydantic.parse_obj_as(HttpValidationError, _response.json()))  # type: ignore
+        if _response.status_code == 500:
+            raise InternalServerError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
+        try:
+            _response_json = _response.json()
+        except JSONDecodeError:
+            raise ApiError(status_code=_response.status_code, body=_response.text)
+        raise ApiError(status_code=_response.status_code, body=_response_json)
+
+    async def get_model_config(
+        self,
+        *,
+        modality: typing.Optional[Modality] = OMIT,
+        model: typing.Optional[Models] = OMIT,
+        request_options: typing.Optional[RequestOptions] = None,
+    ) -> ConfigsResponse:
+        """
+        Parameters:
+            - modality: typing.Optional[Modality].
+
+            - model: typing.Optional[Models].
+
+            - request_options: typing.Optional[RequestOptions]. Request-specific configuration.
+        ---
+        from mixpeek.client import AsyncMixpeek
+
+        client = AsyncMixpeek(
+            authorization="YOUR_AUTHORIZATION",
+            index_id="YOUR_INDEX_ID",
+            api_key="YOUR_API_KEY",
+        )
+        await client.get_model_config()
+        """
+        _request: typing.Dict[str, typing.Any] = {}
+        if modality is not OMIT:
+            _request["modality"] = modality
+        if model is not OMIT:
+            _request["model"] = model
+        _response = await self._client_wrapper.httpx_client.request(
+            "POST",
+            urllib.parse.urljoin(f"{self._client_wrapper.get_base_url()}/", "embed/config"),
+            params=jsonable_encoder(
+                request_options.get("additional_query_parameters") if request_options is not None else None
+            ),
+            json=jsonable_encoder(_request)
+            if request_options is None or request_options.get("additional_body_parameters") is None
+            else {
+                **jsonable_encoder(_request),
+                **(jsonable_encoder(remove_none_from_dict(request_options.get("additional_body_parameters", {})))),
+            },
+            headers=jsonable_encoder(
+                remove_none_from_dict(
+                    {
+                        **self._client_wrapper.get_headers(),
+                        **(request_options.get("additional_headers", {}) if request_options is not None else {}),
+                    }
+                )
+            ),
+            timeout=request_options.get("timeout_in_seconds")
+            if request_options is not None and request_options.get("timeout_in_seconds") is not None
+            else self._client_wrapper.get_timeout(),
+            retries=0,
+            max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
+        )
+        if 200 <= _response.status_code < 300:
+            return pydantic.parse_obj_as(ConfigsResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 401:

@@ -23,6 +23,7 @@ from .types import (
     Model,
     Models,
     PdfParams,
+    PipelineResponse,
     PipelineTaskResponse,
     PptParams,
     PptxParams,
@@ -34,6 +35,7 @@ from .types import (
     ValidationError,
     ValidationErrorLocItem,
     VideoParams,
+    WorkflowCodeResponse,
     WorkflowResponse,
     WorkflowSettings,
     XlsxParams,
@@ -46,7 +48,7 @@ from .errors import (
     UnauthorizedError,
     UnprocessableEntityError,
 )
-from . import embed, pipeline, storage, user, workflow
+from . import pipeline, storage, user, workflow
 from .environment import MixpeekEnvironment
 from .version import __version__
 
@@ -78,6 +80,7 @@ __all__ = [
     "Models",
     "NotFoundError",
     "PdfParams",
+    "PipelineResponse",
     "PipelineTaskResponse",
     "PptParams",
     "PptxParams",
@@ -91,11 +94,11 @@ __all__ = [
     "ValidationError",
     "ValidationErrorLocItem",
     "VideoParams",
+    "WorkflowCodeResponse",
     "WorkflowResponse",
     "WorkflowSettings",
     "XlsxParams",
     "__version__",
-    "embed",
     "pipeline",
     "storage",
     "user",

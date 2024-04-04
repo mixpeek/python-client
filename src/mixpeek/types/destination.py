@@ -12,9 +12,20 @@ except ImportError:
 
 
 class Destination(pydantic.BaseModel):
-    collection: str
-    field: str
-    embedding: str
+    collection: str = pydantic.Field()
+    """
+    The collection name
+    """
+
+    field: str = pydantic.Field()
+    """
+    The field name
+    """
+
+    embedding: str = pydantic.Field()
+    """
+    The embedding
+    """
 
     def json(self, **kwargs: typing.Any) -> str:
         kwargs_with_defaults: typing.Any = {"by_alias": True, "exclude_unset": True, **kwargs}

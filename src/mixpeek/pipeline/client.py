@@ -17,6 +17,7 @@ from ..errors.unauthorized_error import UnauthorizedError
 from ..errors.unprocessable_entity_error import UnprocessableEntityError
 from ..types.error_response import ErrorResponse
 from ..types.http_validation_error import HttpValidationError
+from ..types.pipeline_response import PipelineResponse
 from ..types.pipeline_task_response import PipelineTaskResponse
 from ..types.source_destination_mapping import SourceDestinationMapping
 
@@ -104,10 +105,10 @@ class PipelineClient:
         source_destination_mappings: typing.Sequence[SourceDestinationMapping],
         metadata: typing.Optional[typing.Dict[str, typing.Any]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> typing.Any:
+    ) -> PipelineResponse:
         """
         Parameters:
-            - source_destination_mappings: typing.Sequence[SourceDestinationMapping].
+            - source_destination_mappings: typing.Sequence[SourceDestinationMapping]. The source-destination mappings
 
             - metadata: typing.Optional[typing.Dict[str, typing.Any]].
 
@@ -169,7 +170,7 @@ class PipelineClient:
             max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(typing.Any, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(PipelineResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 401:
@@ -326,10 +327,10 @@ class AsyncPipelineClient:
         source_destination_mappings: typing.Sequence[SourceDestinationMapping],
         metadata: typing.Optional[typing.Dict[str, typing.Any]] = OMIT,
         request_options: typing.Optional[RequestOptions] = None,
-    ) -> typing.Any:
+    ) -> PipelineResponse:
         """
         Parameters:
-            - source_destination_mappings: typing.Sequence[SourceDestinationMapping].
+            - source_destination_mappings: typing.Sequence[SourceDestinationMapping]. The source-destination mappings
 
             - metadata: typing.Optional[typing.Dict[str, typing.Any]].
 
@@ -391,7 +392,7 @@ class AsyncPipelineClient:
             max_retries=request_options.get("max_retries") if request_options is not None else 0,  # type: ignore
         )
         if 200 <= _response.status_code < 300:
-            return pydantic.parse_obj_as(typing.Any, _response.json())  # type: ignore
+            return pydantic.parse_obj_as(PipelineResponse, _response.json())  # type: ignore
         if _response.status_code == 400:
             raise BadRequestError(pydantic.parse_obj_as(ErrorResponse, _response.json()))  # type: ignore
         if _response.status_code == 401:

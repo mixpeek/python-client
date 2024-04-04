@@ -22,6 +22,7 @@ from .modality import Modality
 from .model import Model
 from .models import Models
 from .pdf_params import PdfParams
+from .pipeline_response import PipelineResponse
 from .pipeline_task_response import PipelineTaskResponse
 from .ppt_params import PptParams
 from .pptx_params import PptxParams
@@ -33,6 +34,7 @@ from .user import User
 from .validation_error import ValidationError
 from .validation_error_loc_item import ValidationErrorLocItem
 from .video_params import VideoParams
+from .workflow_code_response import WorkflowCodeResponse
 from .workflow_response import WorkflowResponse
 from .workflow_settings import WorkflowSettings
 from .xlsx_params import XlsxParams
@@ -60,6 +62,7 @@ __all__ = [
     "Model",
     "Models",
     "PdfParams",
+    "PipelineResponse",
     "PipelineTaskResponse",
     "PptParams",
     "PptxParams",
@@ -71,6 +74,7 @@ __all__ = [
     "ValidationError",
     "ValidationErrorLocItem",
     "VideoParams",
+    "WorkflowCodeResponse",
     "WorkflowResponse",
     "WorkflowSettings",
     "XlsxParams",
