@@ -1,129 +1,100 @@
-# Mixpeek Python Library
+# Mixpeek Python SDK
 
-[![fern shield](https://img.shields.io/badge/%F0%9F%8C%BF-SDK%20generated%20by%20Fern-brightgreen)](https://github.com/fern-api/fern)
+The Mixpeek Python SDK provides an interface for developers to work with multimodal data, enabling extraction, generation, and embedding of data from various sources, including text, images, video, and audio. This document will guide you through the setup and basic usage of the SDK to get you started with integrating Mixpeek capabilities into your applications.
 
-The Mixpeek Python Library provides convenient access to the Mixpeek API from applications written in Python.
+## Resources
+
+- **Python SDK**: [GitHub Repository](https://github.com/mixpeek/mixpeek-python)
+- **API Documentation**: [Mixpeek Docs](https://docs.mixpeek.com/)
+- **Support**: [Contact Mixpeek](https://mixpeek.com/contact)
+- **Community**: [Join the Community](https://mixpeek.com/community)
 
 ## Installation
-Add this dependency to your project's build file:
+
+To get started with the Mixpeek Python SDK, you need to install the package using pip:
 
 ```bash
-pip install mixpeek
-# or
-poetry add mixpeek
+pip install pydantic mixpeek
 ```
 
-## Usage
-Simply import `Mixpeek` and start making calls to our API. 
+## Getting Started
+
+Before you can use the SDK, you'll need to sign up for Mixpeek and obtain your API key. Once you have your key, you can initialize the client as shown below.
 
 ```python
 from mixpeek.client import Mixpeek
 
-client = Mixpeek(
-    api_key="..."
-)
+mixpeek = Mixpeek(api_key="your_api_key_here")
 ```
 
-## Async Client
+### Extract Text from a URL
 
-The SDK also exports an async client so that you can make non-blocking
-calls to our API. 
+You can extract text from a file located at a URL using the `extract` method. This is useful for processing documents and obtaining their text content for further analysis or processing.
 
 ```python
-from mixpeek.client import AsymcMixpeek
+file_output = mixpeek.extract(
+    file_url="https://example.com/path/to/your/document.pdf"
+).output
 
-client = AsyncMixpeek(
-    api_key="..."
-)
+print(file_output)
 ```
 
-## Exception Handling
-All errors thrown by the SDK will be subclasses of [`ApiError`](./src/mixpeek/core/api_error.py).
+### Handling Large Documents
+
+For large documents, you might prefer to avoid chunking to send the entire corpus into a language model for processing.
 
 ```python
-import mixpeek
+full_file_output = mixpeek.extract(
+    file_url="https://example.com/path/to/your/large/document.pdf",
+    should_chunk=False
+).output
 
-try:
-  client.search(...)
-except mixpeek.core.ApiError as e: # Handle all errors
-  print(e.status_code)
-  print(e.body)
+print(full_file_output)
 ```
 
-## Advanced
+### Extract Text from a String
 
-### Retries
-The Mixpeek SDK is instrumented with automatic retries with exponential backoff. A request will be
-retried as long as the request is deemed retriable and the number of retry attempts has not grown larger
-than the configured retry limit.
-
-A request is deemed retriable when any of the following HTTP status codes is returned:
-
-- [408](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/408) (Timeout)
-- [409](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/409) (Conflict)
-- [429](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429) (Too Many Requests)
-- [5XX](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/500) (Internal Server Errors)
-  
-Use the `max_retries` request option to configure this behavior. 
+Besides files, you can also directly extract text from strings.
 
 ```python
-from mixpeek.client import Mixpeek
+str_output = mixpeek.extract(
+    contents="Hello world"
+).output
 
-client = Mixpeek(...)
-
-# Override retries for a specific method
-client.search(..., {
-    max_retries=5
-})
+print(str_output)
 ```
 
-### Timeouts
-By default, requests time out after 60 seconds. You can configure this with a 
-timeout option at the client or request level.
+### Generate Structured Output
+
+The SDK allows you to generate structured output based on a model. This example shows how to define a model and request a structured response.
 
 ```python
-from mixpeek.client import Mixpeek
+from pydantic import BaseModel
 
-client = Mixpeek(
-    # All timeouts are 20 seconds
-    timeout=20.0,
-)
+class Authors(BaseModel):
+    author_email: str
 
-# Override timeout for a specific method
-client.search(..., {
-    timeout_in_seconds=20.0
-})
+class PaperDetails(BaseModel):
+    paper_title: str
+    author: Authors
+
+corpus = "Your document text here"
+
+response = mixpeek.generate(
+    model={"provider": "GPT", "model": "gpt-3.5-turbo"},
+    response_format=PaperDetails,
+    context=f"Format this document and adhere to the provided JSON format: {corpus}",
+).response
+
+print(response)
 ```
 
-### Custom HTTP client
-You can override the httpx client to customize it for your use-case. Some common use-cases 
-include support for proxies and transports.
+### Create an Embedding
+
+You can also create embeddings for text, which is useful for similarity comparisons, clustering, and more.
 
 ```python
-import httpx
+embedding = mixpeek.embed(input="hello world").embedding
 
-from mixpeek.client import Mixpeek
-
-client = Mixpeek(
-    http_client=httpx.Client(
-        proxies="http://my.test.proxy.example.com",
-        transport=httpx.HTTPTransport(local_address="0.0.0.0"),
-    ),
-)
+print(embedding[:10])  # Print the first 10 elements of the embedding
 ```
-
-## Beta Status
-
-This SDK is in beta, and there may be breaking changes between versions without a major 
-version update. Therefore, we recommend pinning the package version to a specific version. 
-This way, you can install the same version each time without breaking changes.
-
-## Contributing
-
-While we value open-source contributions to this SDK, this library is generated programmatically. 
-Additions made directly to this library would have to be moved over to our generation code, 
-otherwise they would be overwritten upon the next generated release. Feel free to open a PR as
-a proof of concept, but know that we will not be able to merge it as-is. We suggest opening 
-an issue first to discuss with us!
-
-On the other hand, contributions to the README are always very welcome!
