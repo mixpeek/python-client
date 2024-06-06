@@ -1,8 +1,12 @@
 from setuptools import setup, find_packages
 
+# Read the contents of your requirements.txt file
+with open('requirements.txt') as f:
+    required = f.read().splitlines()
+
 setup(
     name='mixpeek',
-    version='0.6.11',
+    version='0.6.21',
     author='Ethan Steininger',
     author_email='ethan@mixpeek.com',
     description='Mixpeek Python SDK',
@@ -10,6 +14,7 @@ setup(
     long_description_content_type='text/markdown',
     url='https://github.com/mixpeek/mixpeek-python',
     packages=find_packages(),
+    install_requires=required,
     classifiers=[
         'Programming Language :: Python :: 3',
         'License :: OSI Approved :: MIT License',

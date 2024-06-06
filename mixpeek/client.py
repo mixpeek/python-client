@@ -5,6 +5,8 @@ from .endpoints.embed import Embed
 from .endpoints.generate import Generate
 from .endpoints.connections import Connections
 from .endpoints.tools import Tools
+from .endpoints.pipelines import Pipelines
+
 
 class Mixpeek:
     def __init__(self, api_key: str):
@@ -19,3 +21,4 @@ class Mixpeek:
         self.generate = Generate(self.base_url, self.headers)
         self.connections = Connections(self.base_url, self.headers)
         self.tools = Tools(self.base_url, self.headers)
+        self.pipelines = Pipelines(self.base_url, self.headers)

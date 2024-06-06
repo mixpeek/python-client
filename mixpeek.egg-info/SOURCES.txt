@@ -1,5 +1,6 @@
+MANIFEST.in
 README.md
-pyproject.toml
+requirements.txt
 setup.py
 mixpeek/__init__.py
 mixpeek/client.py
@@ -7,6 +8,7 @@ mixpeek/exceptions.py
 mixpeek.egg-info/PKG-INFO
 mixpeek.egg-info/SOURCES.txt
 mixpeek.egg-info/dependency_links.txt
+mixpeek.egg-info/requires.txt
 mixpeek.egg-info/top_level.txt
 mixpeek/endpoints/__init__.py
 mixpeek/endpoints/connections.py

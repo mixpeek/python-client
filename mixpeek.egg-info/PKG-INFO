@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: mixpeek
-Version: 0.6.10
+Version: 0.6.20
 Summary: Mixpeek Python SDK
 Home-page: https://github.com/mixpeek/mixpeek-python
 Author: Ethan Steininger
@@ -10,6 +10,8 @@ Classifier: License :: OSI Approved :: MIT License
 Classifier: Operating System :: OS Independent
 Requires-Python: >=3.6
 Description-Content-Type: text/markdown
+Requires-Dist: requests==2.32.3
+Requires-Dist: pydantic==2.7.3
 
 # Mixpeek SDK
 
@@ -48,7 +50,7 @@ generated_content = mixpeek.generate.text(
     context="Please tell me the weather and make sure to respond in the provided JSON schema"
 )
 
-mixpeek.create_connection(
+mixpeek.connections.create(
     alias="my-mongo-test",
     engine="mongodb",
     details={

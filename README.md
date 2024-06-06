@@ -35,7 +35,7 @@ generated_content = mixpeek.generate.text(
     context="Please tell me the weather and make sure to respond in the provided JSON schema"
 )
 
-mixpeek.create_connection(
+mixpeek.connections.create(
     alias="my-mongo-test",
     engine="mongodb",
     details={
