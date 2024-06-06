@@ -1,6 +1,6 @@
 from mixpeek import Mixpeek
 
-mixpeek = Mixpeek("sk-p21nNRv3P4Sbdzt1SCrgJMXWHiGPNpsd46VyojNEz5cznR1c3rP2L8KxSXbB2bsuzE8")
+mixpeek = Mixpeek("API_KEY")
 
 # response = mixpeek.embed.video(
 #     model="mixpeek/vuse-generic-v1",
