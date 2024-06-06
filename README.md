@@ -8,24 +8,38 @@ A Python SDK for the Mixpeek API.
 pip install mixpeek
 ```
 
+## Usage
+
 ```python
 from mixpeek import Mixpeek
 from pydantic import BaseModel
 
 mixpeek = Mixpeek("YOUR_API_KEY")
 
-# Example usage
+```
+
+### Extract
+
+```python
 extraction = mixpeek.extract.text(
     input="s3://document.pdf",
     input_type="url"
 )
+```
 
+### Embed
+
+```python
 embedding = mixpeek.embed.video(
     model="mixpeek/vuse-generic-v1",
     input="s3://waving_boy.mp4",
     input_type="url"
 )
+```
 
+### Generate
+
+```python
 class ResponseFormat(BaseModel):
     city: int
     weather: float
@@ -34,7 +48,13 @@ generated_content = mixpeek.generate.text(
     response_format=ResponseFormat,
     context="Please tell me the weather and make sure to respond in the provided JSON schema"
 )
+```
 
+### Connections
+
+Create connection
+
+```python
 mixpeek.connections.create(
     alias="my-mongo-test",
     engine="mongodb",
@@ -45,7 +65,29 @@ mixpeek.connections.create(
         "password": "your_password"
     }
 )
+```
 
+Insert data
+
+```python
+mixpeek.connections.data.insert(
+    connection_id="conn_123",
+    payload={}
+)
+```
+
+Insert data
+
+```python
+mixpeek.connections.data.delete(
+    connection_id="conn_321"
+    filters={}
+)
+```
+
+### Tools
+
+```python
 response = mixpeek.tools.video.process(
     url="https://s3/video.mp4",
     frame_interval=5,
