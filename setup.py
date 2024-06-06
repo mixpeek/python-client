@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='mixpeek',
-    version='0.6.9',
+    version='0.6.11',
     author='Ethan Steininger',
     author_email='ethan@mixpeek.com',
     description='Mixpeek Python SDK',
