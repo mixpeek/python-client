@@ -1,7 +1,0 @@
-# Specify files that shouldn't be modified by Fern
-
-README.md
-src/mixpeek/client.py
-src/mixpeek/parse_client.py
-
-tests/custom/test_client.py
