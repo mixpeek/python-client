@@ -1,31 +1,17 @@
 [tool.poetry]
-name = "mixpeek"
-version = "0.6.8"
+name = "mixpeek-python"
+version = "0.1.0"
 description = ""
+authors = ["Ethan Steininger <esteininger21@gmail.com>"]
 readme = "README.md"
-authors = []
 packages = [
-    { include = "mixpeek", from = "src"}
+    { include = "mixpeek"}
 ]
 
 [tool.poetry.dependencies]
-python = "^3.8"
-httpx = ">=0.21.2"
-pydantic = ">= 1.9.2"
-typing_extensions = ">= 4.0.0"
-
-[tool.poetry.dev-dependencies]
-mypy = "^1.8.0"
-pytest = "^7.4.0"
-pytest-asyncio = "^0.23.5"
-python-dateutil = "^2.9.0"
-
-[tool.pytest.ini_options]
-testpaths = [ "tests" ]
-asyncio_mode = "auto"
-
-[tool.mypy]
-plugins = ["pydantic.mypy"]
+python = "^3.11"
+requests = "^2.32.3"
+pydantic = "^2.7.3"
 
 
 [build-system]

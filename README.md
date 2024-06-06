@@ -1,100 +1,55 @@
-# Mixpeek Python SDK
+# Mixpeek SDK
 
-The Mixpeek Python SDK provides an interface for developers to work with multimodal data, enabling extraction, generation, and embedding of data from various sources, including text, images, video, and audio. This document will guide you through the setup and basic usage of the SDK to get you started with integrating Mixpeek capabilities into your applications.
-
-## Resources
-
-- **Python SDK**: [GitHub Repository](https://github.com/mixpeek/mixpeek-python)
-- **API Documentation**: [Mixpeek Docs](https://docs.mixpeek.com/)
-- **Support**: [Contact Mixpeek](https://mixpeek.com/contact)
-- **Community**: [Join the Community](https://mixpeek.com/community)
+A Python SDK for the Mixpeek API.
 
 ## Installation
 
-To get started with the Mixpeek Python SDK, you need to install the package using pip:
-
 ```bash
-pip install pydantic mixpeek
+pip install mixpeek
 ```
 
-## Getting Started
-
-Before you can use the SDK, you'll need to sign up for Mixpeek and obtain your API key. Once you have your key, you can initialize the client as shown below.
-
 ```python
-from mixpeek.client import Mixpeek
-
-mixpeek = Mixpeek(api_key="your_api_key_here")
-```
-
-### Extract Text from a URL
-
-You can extract text from a file located at a URL using the `extract` method. This is useful for processing documents and obtaining their text content for further analysis or processing.
-
-```python
-file_output = mixpeek.extract(
-    file_url="https://example.com/path/to/your/document.pdf"
-).output
-
-print(file_output)
-```
-
-### Handling Large Documents
-
-For large documents, you might prefer to avoid chunking to send the entire corpus into a language model for processing.
-
-```python
-full_file_output = mixpeek.extract(
-    file_url="https://example.com/path/to/your/large/document.pdf",
-    should_chunk=False
-).output
-
-print(full_file_output)
-```
-
-### Extract Text from a String
-
-Besides files, you can also directly extract text from strings.
-
-```python
-str_output = mixpeek.extract(
-    contents="Hello world"
-).output
-
-print(str_output)
-```
-
-### Generate Structured Output
-
-The SDK allows you to generate structured output based on a model. This example shows how to define a model and request a structured response.
-
-```python
+from mixpeek import Mixpeek
 from pydantic import BaseModel
 
-class Authors(BaseModel):
-    author_email: str
+mixpeek = Mixpeek("YOUR_API_KEY")
 
-class PaperDetails(BaseModel):
-    paper_title: str
-    author: Authors
+# Example usage
+extraction = mixpeek.extract.text(
+    input="s3://document.pdf",
+    input_type="url"
+)
 
-corpus = "Your document text here"
+embedding = mixpeek.embed.video(
+    model="mixpeek/vuse-generic-v1",
+    input="s3://waving_boy.mp4",
+    input_type="url"
+)
 
-response = mixpeek.generate(
-    model={"provider": "GPT", "model": "gpt-3.5-turbo"},
-    response_format=PaperDetails,
-    context=f"Format this document and adhere to the provided JSON format: {corpus}",
-).response
+class ResponseFormat(BaseModel):
+    city: int
+    weather: float
 
-print(response)
-```
+generated_content = mixpeek.generate.text(
+    response_format=ResponseFormat,
+    context="Please tell me the weather and make sure to respond in the provided JSON schema"
+)
 
-### Create an Embedding
+mixpeek.create_connection(
+    alias="my-mongo-test",
+    engine="mongodb",
+    details={
+        "host": "your_host_address",
+        "database": "your_database_name",
+        "username": "your_username",
+        "password": "your_password"
+    }
+)
 
-You can also create embeddings for text, which is useful for similarity comparisons, clustering, and more.
-
-```python
-embedding = mixpeek.embed(input="hello world").embedding
-
-print(embedding[:10])  # Print the first 10 elements of the embedding
+response = mixpeek.tools.video.process(
+    url="https://s3/video.mp4",
+    frame_interval=5,
+    resolution=[720, 1280],
+    return_base64=True
+)
 ```
