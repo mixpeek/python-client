@@ -11,7 +11,7 @@ from .endpoints.pipelines import Pipelines
 class Mixpeek:
     def __init__(self, api_key: str):
         self.api_key = api_key
-        self.base_url = "https://api.mixpeek.com/"
+        self.base_url = "http://localhost:8000/"
         self.headers = {
             "Authorization": f"Bearer {self.api_key}",
             "Content-Type": "application/json"

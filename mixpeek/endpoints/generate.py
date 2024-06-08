@@ -6,12 +6,12 @@ class Generate:
         self.base_url = base_url
         self.headers = headers
 
-    def generate(self, response_format: BaseModel, context: str):
+    def text(self, model_id: str, response_format: BaseModel, context: str):
         url = f"{self.base_url}generate/text"
         data = {
-            "response_format": response_format.model_json_schema(),
+            "model_id": model_id,
+            "response_format": response_format.schema_json(),  # Ensure correct method to get JSON schema
             "context": context
         }
         response = requests.post(url, json=data, headers=self.headers)
         return response.json()
-

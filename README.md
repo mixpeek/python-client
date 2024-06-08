@@ -31,7 +31,7 @@ extraction = mixpeek.extract.text(
 
 ```python
 embedding = mixpeek.embed.video(
-    model="mixpeek/vuse-generic-v1",
+    model_id="mixpeek/vuse-generic-v1",
     input="s3://waving_boy.mp4",
     input_type="url"
 )
@@ -45,6 +45,7 @@ class ResponseFormat(BaseModel):
     weather: float
 
 generated_content = mixpeek.generate.text(
+    model_id="openai/gpt-4-turbo",
     response_format=ResponseFormat,
     context="Please tell me the weather and make sure to respond in the provided JSON schema"
 )
