@@ -17,7 +17,7 @@ class Tools:
                 "url": url,
                 "frame_interval": frame_interval,
                 "resolution": resolution,
-                "use_base64": return_base64
+                "return_base64": return_base64
             }
             response = requests.post(endpoint, json=data, headers=self.headers)
             return response.json()
