@@ -5,7 +5,7 @@ class Extract:
         self.base_url = base_url
         self.headers = headers
 
-    def extract(self, modality: str, input: str, input_type: str):
+    def extract(self, input: str, input_type: str, modality: str = None):
         url = f"{self.base_url}extract/"
         data = {
             "modality": modality,
