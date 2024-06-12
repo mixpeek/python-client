@@ -16,16 +16,21 @@ class Connections:
         response = requests.post(url, json=data, headers=self.headers)
         return response.json()
 
-    # mixpeek.connections.data.insert(connection_id="123", payload={"key": "value"})
     class Data:
         def __init__(self, parent):
             self.base_url = parent.base_url
             self.headers = parent.headers
         
+        # mixpeek.connections.data.insert(connection_id="123", payload={"key": "value"})
         def insert(self, connection_id: str, payload: list):
             pass
 
+        # mixpeek.connections.data.delete(connection_id="123", filters={"key": "value"})
         def delete(self, connection_id: str, filters: dict):
+            pass
+
+        # mixpeek.connections.data.upsert(connection_id="123", payload={"key": "value"}, filters={"key": "value"})
+        def upsert(self, connection_id: str, payload: dict, filters: dict):
             pass
             
         
