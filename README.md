@@ -86,6 +86,15 @@ mixpeek.connections.data.delete(
 )
 ```
 
+Upload file
+
+```python
+mixpeek.connections.storage.upload(
+    connection_id="conn_321",
+    file_path="/my/local/file.mp4"
+)
+```
+
 ### Tools
 
 ```python

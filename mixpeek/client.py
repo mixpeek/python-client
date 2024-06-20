@@ -19,6 +19,8 @@ class Mixpeek:
         self.extract = Extract(self.base_url, self.headers)
         self.embed = Embed(self.base_url, self.headers)
         self.generate = Generate(self.base_url, self.headers)
-        self.connections = Connections(self.base_url, self.headers)
+
+        # we include api_key as well because the header is different for upload
+        self.connections = Connections(self.base_url, self.headers, self.api_key)
         self.tools = Tools(self.base_url, self.headers)
         self.pipelines = Pipelines(self.base_url, self.headers)
