@@ -43,8 +43,10 @@ class Connections:
             self.headers = parent.headers
             self.api_key = parent.api_key
 
-        def upload(self, connection_id: str, file_path: str):
+        def upload(self, connection_id: str, file_path: str, prefix: str = None):
             url = f"{self.base_url}connections/storage?connection_id={connection_id}"
+            if prefix:
+                url += f"&prefix={prefix}"
 
             files=[
                 ('file',(os.path.basename(file_path),open(file_path,'rb'),'application/octet-stream'))
