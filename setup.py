@@ -6,7 +6,7 @@ with open('requirements.txt') as f:
 
 setup(
     name='mixpeek',
-    version='0.7.2',
+    version='0.7.3',
     author='Ethan Steininger',
     author_email='ethan@mixpeek.com',
     description='Mixpeek Python SDK',

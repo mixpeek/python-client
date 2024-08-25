@@ -5,10 +5,41 @@ import base64
 from urllib.parse import urlparse
 from urllib.request import urlretrieve
 from tqdm import tqdm
+from PIL import Image
+import io
 
 class Tools:
     def __init__(self):
         self.video = self.Video(self)
+        self.image = self.Image(self)
+
+    class Image:
+        def __init__(self, parent):
+            pass
+
+        def process(self, image_source: str):
+            # Download image if it's a URL
+            if urlparse(image_source).scheme in ('http', 'https'):
+                with tempfile.NamedTemporaryFile(delete=False) as temp_file:
+                    urlretrieve(image_source, temp_file.name)
+                    image_source = temp_file.name
+
+            # Open and process the image
+            with Image.open(image_source) as img:
+                # Convert image to RGB mode if it's not already
+                if img.mode != 'RGB':
+                    img = img.convert('RGB')
+
+                # Convert image to base64
+                buffered = io.BytesIO()
+                img.save(buffered, format="JPEG")
+                base64_string = base64.b64encode(buffered.getvalue()).decode('utf-8')
+
+            # Remove temporary file if it was created
+            if urlparse(image_source).scheme in ('http', 'https'):
+                os.unlink(image_source)
+
+            return base64_string
 
     class Video:
         def __init__(self, parent):
@@ -24,6 +55,7 @@ class Tools:
                     "end_time": chunk["end_time"]
                 }
                 yield data
+
 
 class VideoChunker:
     def __init__(self, video_source, chunk_interval, target_resolution):
