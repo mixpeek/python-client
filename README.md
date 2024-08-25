@@ -216,8 +216,6 @@ response = client.collections.delete_collection(collection_id="collection_id")
 
 - `collection_id` (str): The ID of the collection to delete.
 
-Certainly! I'll update the README to include information about the `tools` service, specifically the video processing functionality. Here's the addition to the README:
-
 ### Tools
 
 The `tools` module provides utility functions for processing various types of data before embedding or indexing.
