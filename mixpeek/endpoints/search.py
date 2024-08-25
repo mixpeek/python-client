@@ -1,4 +1,6 @@
 import requests
+import os
+import json
 
 class Search:
     def __init__(self, base_url, headers):
@@ -25,27 +27,32 @@ class Search:
         except requests.RequestException as e:
             return {"error": str(e)}
 
-    def upload(self, file, filters=None, page=1, page_size=10):
-        try:
-            url = f"{self.base_url}search/upload"
-            files = {"file": file}
-            data = {
-                "filters": filters or "{}",
-                "page": page,
-                "page_size": page_size
-            }
-            response = requests.post(url, files=files, data=data, headers=self.headers)
-            response.raise_for_status()
-            return response.json()
-        except requests.RequestException as e:
-            return {"error": str(e)}
+    # def upload(self, file_path, filters=None, page=1, page_size=10):
+    #     try:
+    #         url = f"{self.base_url}search/upload"
+            
+    #         filename = os.path.basename(file_path)
+    #         files = {
+    #             'file': (filename, open(file_path, 'rb'), 'application/octet-stream')
+    #         }
+            
+    #         payload = {
+    #             'filters': json.dumps(filters or {}),
+    #             'page': str(page),
+    #             'page_size': str(page_size)
+    #         }
+            
+    #         response = requests.post(url, headers=self.headers, data=payload, files=files)
+    #         response.raise_for_status()
+    #         return response.json()
+    #     except requests.RequestException as e:
+    #         return {"error": str(e)}
 
-    def url(self, url, input_type="file", filters=None, modality="text", page=1, page_size=10):
+    def url(self, target_url, filters=None, modality="text", page=1, page_size=10):
         try:
             url = f"{self.base_url}search/url"
             data = {
-                "url": url,
-                "input_type": input_type,
+                "url": target_url,
                 "filters": filters or {},
                 "modality": modality,
                 "pagination": {
