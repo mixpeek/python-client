@@ -58,6 +58,15 @@ class Collections:
         except requests.RequestException as e:
             return {"error": str(e)}
 
+    def get_full_file(self, file_id):
+        try:
+            url = f"{self.base_url}collections/file/{file_id}/full"
+            response = requests.get(url, headers=self.headers)
+            response.raise_for_status()
+            return response.json()
+        except requests.RequestException as e:
+            return {"error": str(e)}
+
     def delete_file_by_id(self, file_id):
         try:
             url = f"{self.base_url}collections/file/{file_id}"
