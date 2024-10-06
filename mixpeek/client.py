@@ -5,6 +5,7 @@ from .endpoints.collections import Collections
 from .endpoints.index import Index
 from .endpoints.search import Search
 from .endpoints.tools import Tools
+from .endpoints.register import Register
 
 
 class Mixpeek:
@@ -20,6 +21,7 @@ class Mixpeek:
         self.collections = Collections(self.base_url, self.headers)
         self.index = Index(self.base_url, self.headers)
         self.search = Search(self.base_url, self.headers)
+        self.register = Register(self.base_url, self.headers)
 
         # tools is all local
         self.tools = Tools()
