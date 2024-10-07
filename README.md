@@ -16,7 +16,7 @@ The REST API documentation can be found on [docs.mixpeek-sdk.com](https://docs.m
 
 ```sh
 # install from PyPI
-pip install --pre mixpeek
+pip install mixpeek
 ```
 
 ## Usage
