@@ -275,6 +275,58 @@ The `process` method returns a list of dictionaries, each containing:
 
 This tool is particularly useful when you need to embed long videos, as it allows you to process the video in smaller chunks and embed each chunk separately.
 
+### Register
+
+The `register` module provides methods for registering various types of data, such as faces for facial recognition.
+
+#### Face Registration
+
+```python
+from mixpeek import Mixpeek
+
+# Initialize the Mixpeek client
+mixpeek = Mixpeek(api_key="your_api_key_here")
+
+# Path to the local image file containing faces
+face_image_path = "/path/to/your/face_image.jpg"
+
+# Start the face registration task
+task = mixpeek.register.faces(
+    file_path=face_image_path,
+    collection_id="face-recognition-collection",
+    metadata={"name": "John Doe", "age": 30},
+    settings={"detection_threshold": 0.8}
+)
+
+# Define a callback function (optional)
+def on_task_update(status):
+    print(f"Current task status: {status}")
+
+# Wait for the task to complete
+status = task.wait_for_done(
+    sleep_interval=1,
+    callback=on_task_update
+)
+
+print(f"Face registration completed with status: {status}")
+
+# If you want to do something with the final result
+if status.get("status") == "DONE":
+    result = status.get("result")
+    print("Face registration result:", result)
+else:
+    print("Face registration failed or was interrupted")
+```
+
+Parameters for `mixpeek.register.faces`:
+
+- `file_path` (str): Path to the local image file containing faces to register.
+- `collection_id` (str): The ID of the collection to add the registered faces to.
+- `metadata` (dict, optional): Additional metadata for the registered faces.
+- `settings` (dict, optional): Processing settings for face registration.
+
+The `faces` method returns a `Task` object that allows you to monitor the progress of the face registration process.
+
 ## Response Format
 
 All methods return a JSON response. In case of an error, the response will contain an "error" key with a description of the error.
