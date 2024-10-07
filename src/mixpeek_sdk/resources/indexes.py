@@ -25,28 +25,28 @@ from .._response import (
 )
 from .._base_client import make_request_options
 
-__all__ = ["IndexResource", "AsyncIndexResource"]
+__all__ = ["IndexesResource", "AsyncIndexesResource"]
 
 
-class IndexResource(SyncAPIResource):
+class IndexesResource(SyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> IndexResourceWithRawResponse:
+    def with_raw_response(self) -> IndexesResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return the
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/mixpeek/python-client#accessing-raw-response-data-eg-headers
         """
-        return IndexResourceWithRawResponse(self)
+        return IndexesResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> IndexResourceWithStreamingResponse:
+    def with_streaming_response(self) -> IndexesResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/mixpeek/python-client#with_streaming_response
         """
-        return IndexResourceWithStreamingResponse(self)
+        return IndexesResourceWithStreamingResponse(self)
 
     def face(
         self,
@@ -237,25 +237,25 @@ class IndexResource(SyncAPIResource):
         )
 
 
-class AsyncIndexResource(AsyncAPIResource):
+class AsyncIndexesResource(AsyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> AsyncIndexResourceWithRawResponse:
+    def with_raw_response(self) -> AsyncIndexesResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return the
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/mixpeek/python-client#accessing-raw-response-data-eg-headers
         """
-        return AsyncIndexResourceWithRawResponse(self)
+        return AsyncIndexesResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> AsyncIndexResourceWithStreamingResponse:
+    def with_streaming_response(self) -> AsyncIndexesResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/mixpeek/python-client#with_streaming_response
         """
-        return AsyncIndexResourceWithStreamingResponse(self)
+        return AsyncIndexesResourceWithStreamingResponse(self)
 
     async def face(
         self,
@@ -446,61 +446,61 @@ class AsyncIndexResource(AsyncAPIResource):
         )
 
 
-class IndexResourceWithRawResponse:
-    def __init__(self, index: IndexResource) -> None:
-        self._index = index
+class IndexesResourceWithRawResponse:
+    def __init__(self, indexes: IndexesResource) -> None:
+        self._indexes = indexes
 
         self.face = to_raw_response_wrapper(
-            index.face,
+            indexes.face,
         )
         self.upload = to_raw_response_wrapper(
-            index.upload,
+            indexes.upload,
         )
         self.url = to_raw_response_wrapper(
-            index.url,
+            indexes.url,
         )
 
 
-class AsyncIndexResourceWithRawResponse:
-    def __init__(self, index: AsyncIndexResource) -> None:
-        self._index = index
+class AsyncIndexesResourceWithRawResponse:
+    def __init__(self, indexes: AsyncIndexesResource) -> None:
+        self._indexes = indexes
 
         self.face = async_to_raw_response_wrapper(
-            index.face,
+            indexes.face,
         )
         self.upload = async_to_raw_response_wrapper(
-            index.upload,
+            indexes.upload,
         )
         self.url = async_to_raw_response_wrapper(
-            index.url,
+            indexes.url,
         )
 
 
-class IndexResourceWithStreamingResponse:
-    def __init__(self, index: IndexResource) -> None:
-        self._index = index
+class IndexesResourceWithStreamingResponse:
+    def __init__(self, indexes: IndexesResource) -> None:
+        self._indexes = indexes
 
         self.face = to_streamed_response_wrapper(
-            index.face,
+            indexes.face,
         )
         self.upload = to_streamed_response_wrapper(
-            index.upload,
+            indexes.upload,
         )
         self.url = to_streamed_response_wrapper(
-            index.url,
+            indexes.url,
         )
 
 
-class AsyncIndexResourceWithStreamingResponse:
-    def __init__(self, index: AsyncIndexResource) -> None:
-        self._index = index
+class AsyncIndexesResourceWithStreamingResponse:
+    def __init__(self, indexes: AsyncIndexesResource) -> None:
+        self._indexes = indexes
 
         self.face = async_to_streamed_response_wrapper(
-            index.face,
+            indexes.face,
         )
         self.upload = async_to_streamed_response_wrapper(
-            index.upload,
+            indexes.upload,
         )
         self.url = async_to_streamed_response_wrapper(
-            index.url,
+            indexes.url,
         )

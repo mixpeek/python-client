@@ -24,14 +24,6 @@ from .embed import (
     EmbedResourceWithStreamingResponse,
     AsyncEmbedResourceWithStreamingResponse,
 )
-from .index import (
-    IndexResource,
-    AsyncIndexResource,
-    IndexResourceWithRawResponse,
-    AsyncIndexResourceWithRawResponse,
-    IndexResourceWithStreamingResponse,
-    AsyncIndexResourceWithStreamingResponse,
-)
 from .tasks import (
     TasksResource,
     AsyncTasksResource,
@@ -47,6 +39,14 @@ from .search import (
     AsyncSearchResourceWithRawResponse,
     SearchResourceWithStreamingResponse,
     AsyncSearchResourceWithStreamingResponse,
+)
+from .indexes import (
+    IndexesResource,
+    AsyncIndexesResource,
+    IndexesResourceWithRawResponse,
+    AsyncIndexesResourceWithRawResponse,
+    IndexesResourceWithStreamingResponse,
+    AsyncIndexesResourceWithStreamingResponse,
 )
 from .accounts import (
     AccountsResource,
@@ -132,12 +132,12 @@ __all__ = [
     "AsyncAgentResourceWithRawResponse",
     "AgentResourceWithStreamingResponse",
     "AsyncAgentResourceWithStreamingResponse",
-    "IndexResource",
-    "AsyncIndexResource",
-    "IndexResourceWithRawResponse",
-    "AsyncIndexResourceWithRawResponse",
-    "IndexResourceWithStreamingResponse",
-    "AsyncIndexResourceWithStreamingResponse",
+    "IndexesResource",
+    "AsyncIndexesResource",
+    "IndexesResourceWithRawResponse",
+    "AsyncIndexesResourceWithRawResponse",
+    "IndexesResourceWithStreamingResponse",
+    "AsyncIndexesResourceWithStreamingResponse",
     "SearchResource",
     "AsyncSearchResource",
     "SearchResourceWithRawResponse",

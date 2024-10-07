@@ -13,12 +13,12 @@ from tests.utils import assert_matches_type
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
-class TestIndex:
+class TestIndexes:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     def test_method_face(self, client: MixpeekSDK) -> None:
-        index = client.index.face(
+        index = client.indexes.face(
             collection_id="collection_id",
             file=b"raw file contents",
         )
@@ -26,7 +26,7 @@ class TestIndex:
 
     @parametrize
     def test_method_face_with_all_params(self, client: MixpeekSDK) -> None:
-        index = client.index.face(
+        index = client.indexes.face(
             collection_id="collection_id",
             file=b"raw file contents",
             metadata="metadata",
@@ -37,7 +37,7 @@ class TestIndex:
 
     @parametrize
     def test_raw_response_face(self, client: MixpeekSDK) -> None:
-        response = client.index.with_raw_response.face(
+        response = client.indexes.with_raw_response.face(
             collection_id="collection_id",
             file=b"raw file contents",
         )
@@ -49,7 +49,7 @@ class TestIndex:
 
     @parametrize
     def test_streaming_response_face(self, client: MixpeekSDK) -> None:
-        with client.index.with_streaming_response.face(
+        with client.indexes.with_streaming_response.face(
             collection_id="collection_id",
             file=b"raw file contents",
         ) as response:
@@ -63,7 +63,7 @@ class TestIndex:
 
     @parametrize
     def test_method_upload(self, client: MixpeekSDK) -> None:
-        index = client.index.upload(
+        index = client.indexes.upload(
             collection_id="collection_id",
             file=b"raw file contents",
         )
@@ -71,7 +71,7 @@ class TestIndex:
 
     @parametrize
     def test_method_upload_with_all_params(self, client: MixpeekSDK) -> None:
-        index = client.index.upload(
+        index = client.indexes.upload(
             collection_id="collection_id",
             file=b"raw file contents",
             image_settings="image_settings",
@@ -84,7 +84,7 @@ class TestIndex:
 
     @parametrize
     def test_raw_response_upload(self, client: MixpeekSDK) -> None:
-        response = client.index.with_raw_response.upload(
+        response = client.indexes.with_raw_response.upload(
             collection_id="collection_id",
             file=b"raw file contents",
         )
@@ -96,7 +96,7 @@ class TestIndex:
 
     @parametrize
     def test_streaming_response_upload(self, client: MixpeekSDK) -> None:
-        with client.index.with_streaming_response.upload(
+        with client.indexes.with_streaming_response.upload(
             collection_id="collection_id",
             file=b"raw file contents",
         ) as response:
@@ -110,7 +110,7 @@ class TestIndex:
 
     @parametrize
     def test_method_url(self, client: MixpeekSDK) -> None:
-        index = client.index.url(
+        index = client.indexes.url(
             collection_id="collection_id",
             url="url",
         )
@@ -118,7 +118,7 @@ class TestIndex:
 
     @parametrize
     def test_method_url_with_all_params(self, client: MixpeekSDK) -> None:
-        index = client.index.url(
+        index = client.indexes.url(
             collection_id="collection_id",
             url="url",
             image_settings={
@@ -172,7 +172,7 @@ class TestIndex:
 
     @parametrize
     def test_raw_response_url(self, client: MixpeekSDK) -> None:
-        response = client.index.with_raw_response.url(
+        response = client.indexes.with_raw_response.url(
             collection_id="collection_id",
             url="url",
         )
@@ -184,7 +184,7 @@ class TestIndex:
 
     @parametrize
     def test_streaming_response_url(self, client: MixpeekSDK) -> None:
-        with client.index.with_streaming_response.url(
+        with client.indexes.with_streaming_response.url(
             collection_id="collection_id",
             url="url",
         ) as response:
@@ -197,12 +197,12 @@ class TestIndex:
         assert cast(Any, response.is_closed) is True
 
 
-class TestAsyncIndex:
+class TestAsyncIndexes:
     parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
     async def test_method_face(self, async_client: AsyncMixpeekSDK) -> None:
-        index = await async_client.index.face(
+        index = await async_client.indexes.face(
             collection_id="collection_id",
             file=b"raw file contents",
         )
@@ -210,7 +210,7 @@ class TestAsyncIndex:
 
     @parametrize
     async def test_method_face_with_all_params(self, async_client: AsyncMixpeekSDK) -> None:
-        index = await async_client.index.face(
+        index = await async_client.indexes.face(
             collection_id="collection_id",
             file=b"raw file contents",
             metadata="metadata",
@@ -221,7 +221,7 @@ class TestAsyncIndex:
 
     @parametrize
     async def test_raw_response_face(self, async_client: AsyncMixpeekSDK) -> None:
-        response = await async_client.index.with_raw_response.face(
+        response = await async_client.indexes.with_raw_response.face(
             collection_id="collection_id",
             file=b"raw file contents",
         )
@@ -233,7 +233,7 @@ class TestAsyncIndex:
 
     @parametrize
     async def test_streaming_response_face(self, async_client: AsyncMixpeekSDK) -> None:
-        async with async_client.index.with_streaming_response.face(
+        async with async_client.indexes.with_streaming_response.face(
             collection_id="collection_id",
             file=b"raw file contents",
         ) as response:
@@ -247,7 +247,7 @@ class TestAsyncIndex:
 
     @parametrize
     async def test_method_upload(self, async_client: AsyncMixpeekSDK) -> None:
-        index = await async_client.index.upload(
+        index = await async_client.indexes.upload(
             collection_id="collection_id",
             file=b"raw file contents",
         )
@@ -255,7 +255,7 @@ class TestAsyncIndex:
 
     @parametrize
     async def test_method_upload_with_all_params(self, async_client: AsyncMixpeekSDK) -> None:
-        index = await async_client.index.upload(
+        index = await async_client.indexes.upload(
             collection_id="collection_id",
             file=b"raw file contents",
             image_settings="image_settings",
@@ -268,7 +268,7 @@ class TestAsyncIndex:
 
     @parametrize
     async def test_raw_response_upload(self, async_client: AsyncMixpeekSDK) -> None:
-        response = await async_client.index.with_raw_response.upload(
+        response = await async_client.indexes.with_raw_response.upload(
             collection_id="collection_id",
             file=b"raw file contents",
         )
@@ -280,7 +280,7 @@ class TestAsyncIndex:
 
     @parametrize
     async def test_streaming_response_upload(self, async_client: AsyncMixpeekSDK) -> None:
-        async with async_client.index.with_streaming_response.upload(
+        async with async_client.indexes.with_streaming_response.upload(
             collection_id="collection_id",
             file=b"raw file contents",
         ) as response:
@@ -294,7 +294,7 @@ class TestAsyncIndex:
 
     @parametrize
     async def test_method_url(self, async_client: AsyncMixpeekSDK) -> None:
-        index = await async_client.index.url(
+        index = await async_client.indexes.url(
             collection_id="collection_id",
             url="url",
         )
@@ -302,7 +302,7 @@ class TestAsyncIndex:
 
     @parametrize
     async def test_method_url_with_all_params(self, async_client: AsyncMixpeekSDK) -> None:
-        index = await async_client.index.url(
+        index = await async_client.indexes.url(
             collection_id="collection_id",
             url="url",
             image_settings={
@@ -356,7 +356,7 @@ class TestAsyncIndex:
 
     @parametrize
     async def test_raw_response_url(self, async_client: AsyncMixpeekSDK) -> None:
-        response = await async_client.index.with_raw_response.url(
+        response = await async_client.indexes.with_raw_response.url(
             collection_id="collection_id",
             url="url",
         )
@@ -368,7 +368,7 @@ class TestAsyncIndex:
 
     @parametrize
     async def test_streaming_response_url(self, async_client: AsyncMixpeekSDK) -> None:
-        async with async_client.index.with_streaming_response.url(
+        async with async_client.indexes.with_streaming_response.url(
             collection_id="collection_id",
             url="url",
         ) as response:

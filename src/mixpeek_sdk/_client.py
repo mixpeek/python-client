@@ -53,7 +53,7 @@ class MixpeekSDK(SyncAPIClient):
     read: resources.ReadResource
     recognize: resources.RecognizeResource
     agent: resources.AgentResource
-    index: resources.IndexResource
+    indexes: resources.IndexesResource
     search: resources.SearchResource
     collections: resources.CollectionsResource
     tasks: resources.TasksResource
@@ -108,7 +108,7 @@ class MixpeekSDK(SyncAPIClient):
         self.read = resources.ReadResource(self)
         self.recognize = resources.RecognizeResource(self)
         self.agent = resources.AgentResource(self)
-        self.index = resources.IndexResource(self)
+        self.indexes = resources.IndexesResource(self)
         self.search = resources.SearchResource(self)
         self.collections = resources.CollectionsResource(self)
         self.tasks = resources.TasksResource(self)
@@ -220,7 +220,7 @@ class AsyncMixpeekSDK(AsyncAPIClient):
     read: resources.AsyncReadResource
     recognize: resources.AsyncRecognizeResource
     agent: resources.AsyncAgentResource
-    index: resources.AsyncIndexResource
+    indexes: resources.AsyncIndexesResource
     search: resources.AsyncSearchResource
     collections: resources.AsyncCollectionsResource
     tasks: resources.AsyncTasksResource
@@ -275,7 +275,7 @@ class AsyncMixpeekSDK(AsyncAPIClient):
         self.read = resources.AsyncReadResource(self)
         self.recognize = resources.AsyncRecognizeResource(self)
         self.agent = resources.AsyncAgentResource(self)
-        self.index = resources.AsyncIndexResource(self)
+        self.indexes = resources.AsyncIndexesResource(self)
         self.search = resources.AsyncSearchResource(self)
         self.collections = resources.AsyncCollectionsResource(self)
         self.tasks = resources.AsyncTasksResource(self)
@@ -388,7 +388,7 @@ class MixpeekSDKWithRawResponse:
         self.read = resources.ReadResourceWithRawResponse(client.read)
         self.recognize = resources.RecognizeResourceWithRawResponse(client.recognize)
         self.agent = resources.AgentResourceWithRawResponse(client.agent)
-        self.index = resources.IndexResourceWithRawResponse(client.index)
+        self.indexes = resources.IndexesResourceWithRawResponse(client.indexes)
         self.search = resources.SearchResourceWithRawResponse(client.search)
         self.collections = resources.CollectionsResourceWithRawResponse(client.collections)
         self.tasks = resources.TasksResourceWithRawResponse(client.tasks)
@@ -403,7 +403,7 @@ class AsyncMixpeekSDKWithRawResponse:
         self.read = resources.AsyncReadResourceWithRawResponse(client.read)
         self.recognize = resources.AsyncRecognizeResourceWithRawResponse(client.recognize)
         self.agent = resources.AsyncAgentResourceWithRawResponse(client.agent)
-        self.index = resources.AsyncIndexResourceWithRawResponse(client.index)
+        self.indexes = resources.AsyncIndexesResourceWithRawResponse(client.indexes)
         self.search = resources.AsyncSearchResourceWithRawResponse(client.search)
         self.collections = resources.AsyncCollectionsResourceWithRawResponse(client.collections)
         self.tasks = resources.AsyncTasksResourceWithRawResponse(client.tasks)
@@ -418,7 +418,7 @@ class MixpeekSDKWithStreamedResponse:
         self.read = resources.ReadResourceWithStreamingResponse(client.read)
         self.recognize = resources.RecognizeResourceWithStreamingResponse(client.recognize)
         self.agent = resources.AgentResourceWithStreamingResponse(client.agent)
-        self.index = resources.IndexResourceWithStreamingResponse(client.index)
+        self.indexes = resources.IndexesResourceWithStreamingResponse(client.indexes)
         self.search = resources.SearchResourceWithStreamingResponse(client.search)
         self.collections = resources.CollectionsResourceWithStreamingResponse(client.collections)
         self.tasks = resources.TasksResourceWithStreamingResponse(client.tasks)
@@ -433,7 +433,7 @@ class AsyncMixpeekSDKWithStreamedResponse:
         self.read = resources.AsyncReadResourceWithStreamingResponse(client.read)
         self.recognize = resources.AsyncRecognizeResourceWithStreamingResponse(client.recognize)
         self.agent = resources.AsyncAgentResourceWithStreamingResponse(client.agent)
-        self.index = resources.AsyncIndexResourceWithStreamingResponse(client.index)
+        self.indexes = resources.AsyncIndexesResourceWithStreamingResponse(client.indexes)
         self.search = resources.AsyncSearchResourceWithStreamingResponse(client.search)
         self.collections = resources.AsyncCollectionsResourceWithStreamingResponse(client.collections)
         self.tasks = resources.AsyncTasksResourceWithStreamingResponse(client.tasks)
