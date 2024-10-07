@@ -1,5 +1,5 @@
 [project]
-name = "mixpeek_sdk"
+name = "mixpeek"
 version = "0.0.1-alpha.0"
 description = "The official Python library for the mixpeek-sdk API"
 dynamic = ["readme"]
