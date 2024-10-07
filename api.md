@@ -98,7 +98,7 @@ Methods:
 
 - <code title="get /agent/{task_id}">client.agent.task.<a href="./src/mixpeek_sdk/resources/agent/task.py">retrieve</a>(task_id) -> <a href="./src/mixpeek_sdk/types/agent/task_retrieve_response.py">object</a></code>
 
-# Index
+# Indexes
 
 Types:
 
@@ -108,9 +108,9 @@ from mixpeek_sdk.types import IndexFaceResponse, IndexUploadResponse, IndexURLRe
 
 Methods:
 
-- <code title="post /index/face">client.index.<a href="./src/mixpeek_sdk/resources/index.py">face</a>(\*\*<a href="src/mixpeek_sdk/types/index_face_params.py">params</a>) -> <a href="./src/mixpeek_sdk/types/index_face_response.py">object</a></code>
-- <code title="post /index/upload">client.index.<a href="./src/mixpeek_sdk/resources/index.py">upload</a>(\*\*<a href="src/mixpeek_sdk/types/index_upload_params.py">params</a>) -> <a href="./src/mixpeek_sdk/types/index_upload_response.py">object</a></code>
-- <code title="post /index/url">client.index.<a href="./src/mixpeek_sdk/resources/index.py">url</a>(\*\*<a href="src/mixpeek_sdk/types/index_url_params.py">params</a>) -> <a href="./src/mixpeek_sdk/types/index_url_response.py">object</a></code>
+- <code title="post /index/face">client.indexes.<a href="./src/mixpeek_sdk/resources/indexes.py">face</a>(\*\*<a href="src/mixpeek_sdk/types/index_face_params.py">params</a>) -> <a href="./src/mixpeek_sdk/types/index_face_response.py">object</a></code>
+- <code title="post /index/upload">client.indexes.<a href="./src/mixpeek_sdk/resources/indexes.py">upload</a>(\*\*<a href="src/mixpeek_sdk/types/index_upload_params.py">params</a>) -> <a href="./src/mixpeek_sdk/types/index_upload_response.py">object</a></code>
+- <code title="post /index/url">client.indexes.<a href="./src/mixpeek_sdk/resources/indexes.py">url</a>(\*\*<a href="src/mixpeek_sdk/types/index_url_params.py">params</a>) -> <a href="./src/mixpeek_sdk/types/index_url_response.py">object</a></code>
 
 # Search
 
