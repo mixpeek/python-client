@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.9.0 (2024-10-07)
+
+Full Changelog: [v0.8.3...v0.9.0](https://github.com/mixpeek/python-client/compare/v0.8.3...v0.9.0)
+
+### Features
+
+* **api:** update via SDK Studio ([#10](https://github.com/mixpeek/python-client/issues/10)) ([268489b](https://github.com/mixpeek/python-client/commit/268489b0f36b472d695bc368bf37225726b31c4d))
+
 ## 0.8.3 (2024-10-07)
 
 Full Changelog: [v0.0.1-alpha.0...v0.8.3](https://github.com/mixpeek/python-client/compare/v0.0.1-alpha.0...v0.8.3)
