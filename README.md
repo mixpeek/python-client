@@ -1,6 +1,6 @@
 # Mixpeek SDK Python API library
 
-[![PyPI version](https://img.shields.io/pypi/v/mixpeek_sdk.svg)](https://pypi.org/project/mixpeek_sdk/)
+[![PyPI version](https://img.shields.io/pypi/v/mixpeek.svg)](https://pypi.org/project/mixpeek/)
 
 The Mixpeek SDK Python library provides convenient access to the Mixpeek SDK REST API from any Python 3.7+
 application. The library includes type definitions for all request params and response fields,
@@ -20,7 +20,7 @@ pip install git+ssh://git@github.com/stainless-sdks/mixpeek-sdk-python.git
 ```
 
 > [!NOTE]
-> Once this package is [published to PyPI](https://app.stainlessapi.com/docs/guides/publish), this will become: `pip install --pre mixpeek_sdk`
+> Once this package is [published to PyPI](https://app.stainlessapi.com/docs/guides/publish), this will become: `pip install --pre mixpeek`
 
 ## Usage
 
