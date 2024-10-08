@@ -7,9 +7,9 @@ import pytest
 import pydantic
 from pydantic import Field
 
-from mixpeek_sdk._utils import PropertyInfo
-from mixpeek_sdk._compat import PYDANTIC_V2, parse_obj, model_dump, model_json
-from mixpeek_sdk._models import BaseModel, construct_type
+from mixpeek._utils import PropertyInfo
+from mixpeek._compat import PYDANTIC_V2, parse_obj, model_dump, model_json
+from mixpeek._models import BaseModel, construct_type
 
 
 class BasicModel(BaseModel):

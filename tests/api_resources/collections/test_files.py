@@ -7,9 +7,9 @@ from typing import Any, cast
 
 import pytest
 
-from mixpeek_sdk import MixpeekSDK, AsyncMixpeekSDK
+from mixpeek import MixpeekSDK, AsyncMixpeekSDK
 from tests.utils import assert_matches_type
-from mixpeek_sdk.types.collections import (
+from mixpeek.types.collections import (
     Fileresponse,
     Groupedfiledata,
 )

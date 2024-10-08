@@ -61,6 +61,6 @@
   ],
   "release-type": "python",
   "extra-files": [
-    "src/mixpeek_sdk/_version.py"
+    "src/mixpeek/_version.py"
   ]
 }

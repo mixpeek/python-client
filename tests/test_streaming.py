@@ -5,8 +5,8 @@ from typing import Iterator, AsyncIterator
 import httpx
 import pytest
 
-from mixpeek_sdk import MixpeekSDK, AsyncMixpeekSDK
-from mixpeek_sdk._streaming import Stream, AsyncStream, ServerSentEvent
+from mixpeek import MixpeekSDK, AsyncMixpeekSDK
+from mixpeek._streaming import Stream, AsyncStream, ServerSentEvent
 
 
 @pytest.mark.asyncio

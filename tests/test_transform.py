@@ -8,15 +8,15 @@ from typing_extensions import Required, Annotated, TypedDict
 
 import pytest
 
-from mixpeek_sdk._types import Base64FileInput
-from mixpeek_sdk._utils import (
+from mixpeek._types import Base64FileInput
+from mixpeek._utils import (
     PropertyInfo,
     transform as _transform,
     parse_datetime,
     async_transform as _async_transform,
 )
-from mixpeek_sdk._compat import PYDANTIC_V2
-from mixpeek_sdk._models import BaseModel
+from mixpeek._compat import PYDANTIC_V2
+from mixpeek._models import BaseModel
 
 _T = TypeVar("_T")
 
