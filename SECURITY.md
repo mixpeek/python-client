@@ -20,7 +20,7 @@ or products provided by Mixpeek SDK please follow the respective company's secur
 
 ### Mixpeek SDK Terms and Policies
 
-Please contact dev-feedback@mixpeek-sdk.com for any questions or concerns regarding security of our services.
+Please contact dev-feedback-test@mixpeek-sdk.com for any questions or concerns regarding security of our services.
 
 ---
 

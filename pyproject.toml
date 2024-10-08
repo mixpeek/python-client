@@ -5,7 +5,7 @@ description = "The official Python library for the mixpeek-sdk API"
 dynamic = ["readme"]
 license = "Apache-2.0"
 authors = [
-{ name = "Mixpeek SDK", email = "dev-feedback@mixpeek-sdk.com" },
+{ name = "Mixpeek SDK", email = "dev-feedback-test@mixpeek-sdk.com" },
 ]
 dependencies = [
     "httpx>=0.23.0, <1",
