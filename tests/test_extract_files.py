@@ -4,8 +4,8 @@ from typing import Sequence
 
 import pytest
 
-from mixpeek_sdk._types import FileTypes
-from mixpeek_sdk._utils import extract_files
+from mixpeek._types import FileTypes
+from mixpeek._utils import extract_files
 
 
 def test_removes_files_from_input() -> None:
