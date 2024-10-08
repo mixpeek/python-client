@@ -7,10 +7,10 @@ from typing import Any, cast
 
 import pytest
 
-from mixpeek_sdk import MixpeekSDK, AsyncMixpeekSDK
+from mixpeek import MixpeekSDK, AsyncMixpeekSDK
 from tests.utils import assert_matches_type
-from mixpeek_sdk._utils import parse_datetime
-from mixpeek_sdk.types.accounts import User
+from mixpeek._utils import parse_datetime
+from mixpeek.types.accounts import User
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 

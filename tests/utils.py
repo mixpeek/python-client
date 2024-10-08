@@ -8,8 +8,8 @@ from typing import Any, TypeVar, Iterator, cast
 from datetime import date, datetime
 from typing_extensions import Literal, get_args, get_origin, assert_type
 
-from mixpeek_sdk._types import Omit, NoneType
-from mixpeek_sdk._utils import (
+from mixpeek._types import Omit, NoneType
+from mixpeek._utils import (
     is_dict,
     is_list,
     is_list_type,
@@ -17,8 +17,8 @@ from mixpeek_sdk._utils import (
     extract_type_arg,
     is_annotated_type,
 )
-from mixpeek_sdk._compat import PYDANTIC_V2, field_outer_type, get_model_fields
-from mixpeek_sdk._models import BaseModel
+from mixpeek._compat import PYDANTIC_V2, field_outer_type, get_model_fields
+from mixpeek._models import BaseModel
 
 BaseModelT = TypeVar("BaseModelT", bound=BaseModel)
 
