@@ -16,12 +16,12 @@ import pytest
 from respx import MockRouter
 from pydantic import ValidationError
 
-from mixpeek_sdk import MixpeekSDK, AsyncMixpeekSDK, APIResponseValidationError
-from mixpeek_sdk._types import Omit
-from mixpeek_sdk._models import BaseModel, FinalRequestOptions
-from mixpeek_sdk._constants import RAW_RESPONSE_HEADER
-from mixpeek_sdk._exceptions import APIStatusError, APITimeoutError, APIResponseValidationError
-from mixpeek_sdk._base_client import (
+from mixpeek import MixpeekSDK, AsyncMixpeekSDK, APIResponseValidationError
+from mixpeek._types import Omit
+from mixpeek._models import BaseModel, FinalRequestOptions
+from mixpeek._constants import RAW_RESPONSE_HEADER
+from mixpeek._exceptions import APIStatusError, APITimeoutError, APIResponseValidationError
+from mixpeek._base_client import (
     DEFAULT_TIMEOUT,
     HTTPX_DEFAULT_TIMEOUT,
     BaseClient,
@@ -216,10 +216,10 @@ class TestMixpeekSDK:
                         # to_raw_response_wrapper leaks through the @functools.wraps() decorator.
                         #
                         # removing the decorator fixes the leak for reasons we don't understand.
-                        "mixpeek_sdk/_legacy_response.py",
-                        "mixpeek_sdk/_response.py",
+                        "mixpeek/_legacy_response.py",
+                        "mixpeek/_response.py",
                         # pydantic.BaseModel.model_dump || pydantic.BaseModel.dict leak memory for some reason.
-                        "mixpeek_sdk/_compat.py",
+                        "mixpeek/_compat.py",
                         # Standard library leaks we don't care about.
                         "/logging/__init__.py",
                     ]
@@ -664,7 +664,7 @@ class TestMixpeekSDK:
         calculated = client._calculate_retry_timeout(remaining_retries, options, headers)
         assert calculated == pytest.approx(timeout, 0.5 * 0.875)  # pyright: ignore[reportUnknownMemberType]
 
-    @mock.patch("mixpeek_sdk._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("mixpeek._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
         respx_mock.post("/agent/").mock(side_effect=httpx.TimeoutException("Test timeout error"))
@@ -679,7 +679,7 @@ class TestMixpeekSDK:
 
         assert _get_open_connections(self.client) == 0
 
-    @mock.patch("mixpeek_sdk._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("mixpeek._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
         respx_mock.post("/agent/").mock(return_value=httpx.Response(500))
@@ -695,7 +695,7 @@ class TestMixpeekSDK:
         assert _get_open_connections(self.client) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("mixpeek_sdk._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("mixpeek._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retries_taken(self, client: MixpeekSDK, failures_before_success: int, respx_mock: MockRouter) -> None:
         client = client.with_options(max_retries=4)
@@ -717,7 +717,7 @@ class TestMixpeekSDK:
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("mixpeek_sdk._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("mixpeek._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_omit_retry_count_header(
         self, client: MixpeekSDK, failures_before_success: int, respx_mock: MockRouter
@@ -742,7 +742,7 @@ class TestMixpeekSDK:
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("mixpeek_sdk._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("mixpeek._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_overwrite_retry_count_header(
         self, client: MixpeekSDK, failures_before_success: int, respx_mock: MockRouter
@@ -934,10 +934,10 @@ class TestAsyncMixpeekSDK:
                         # to_raw_response_wrapper leaks through the @functools.wraps() decorator.
                         #
                         # removing the decorator fixes the leak for reasons we don't understand.
-                        "mixpeek_sdk/_legacy_response.py",
-                        "mixpeek_sdk/_response.py",
+                        "mixpeek/_legacy_response.py",
+                        "mixpeek/_response.py",
                         # pydantic.BaseModel.model_dump || pydantic.BaseModel.dict leak memory for some reason.
-                        "mixpeek_sdk/_compat.py",
+                        "mixpeek/_compat.py",
                         # Standard library leaks we don't care about.
                         "/logging/__init__.py",
                     ]
@@ -1388,7 +1388,7 @@ class TestAsyncMixpeekSDK:
         calculated = client._calculate_retry_timeout(remaining_retries, options, headers)
         assert calculated == pytest.approx(timeout, 0.5 * 0.875)  # pyright: ignore[reportUnknownMemberType]
 
-    @mock.patch("mixpeek_sdk._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("mixpeek._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
         respx_mock.post("/agent/").mock(side_effect=httpx.TimeoutException("Test timeout error"))
@@ -1403,7 +1403,7 @@ class TestAsyncMixpeekSDK:
 
         assert _get_open_connections(self.client) == 0
 
-    @mock.patch("mixpeek_sdk._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("mixpeek._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
         respx_mock.post("/agent/").mock(return_value=httpx.Response(500))
@@ -1419,7 +1419,7 @@ class TestAsyncMixpeekSDK:
         assert _get_open_connections(self.client) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("mixpeek_sdk._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("mixpeek._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
     async def test_retries_taken(
@@ -1444,7 +1444,7 @@ class TestAsyncMixpeekSDK:
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("mixpeek_sdk._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("mixpeek._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
     async def test_omit_retry_count_header(
@@ -1470,7 +1470,7 @@ class TestAsyncMixpeekSDK:
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
 
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
-    @mock.patch("mixpeek_sdk._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
+    @mock.patch("mixpeek._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
     async def test_overwrite_retry_count_header(
