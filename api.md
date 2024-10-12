@@ -1,18 +1,3 @@
-# Accounts
-
-## Private
-
-Types:
-
-```python
-from mixpeek.types.accounts import User
-```
-
-Methods:
-
-- <code title="put /accounts/private/">client.accounts.private.<a href="./src/mixpeek/resources/accounts/private.py">update</a>(\*\*<a href="src/mixpeek/types/accounts/private_update_params.py">params</a>) -> <a href="./src/mixpeek/types/accounts/user.py">User</a></code>
-- <code title="get /accounts/private/">client.accounts.private.<a href="./src/mixpeek/resources/accounts/private.py">list</a>() -> <a href="./src/mixpeek/types/accounts/user.py">User</a></code>
-
 # Describe
 
 Types:
@@ -25,18 +10,6 @@ Methods:
 
 - <code title="post /describe/upload">client.describe.<a href="./src/mixpeek/resources/describe.py">upload</a>(\*\*<a href="src/mixpeek/types/describe_upload_params.py">params</a>) -> <a href="./src/mixpeek/types/describe_upload_response.py">object</a></code>
 - <code title="post /describe/url">client.describe.<a href="./src/mixpeek/resources/describe.py">url</a>(\*\*<a href="src/mixpeek/types/describe_url_params.py">params</a>) -> <a href="./src/mixpeek/types/describe_url_response.py">object</a></code>
-
-# Embed
-
-Types:
-
-```python
-from mixpeek.types import Embeddingresponse
-```
-
-Methods:
-
-- <code title="post /embed/">client.embed.<a href="./src/mixpeek/resources/embed.py">create</a>(\*\*<a href="src/mixpeek/types/embed_create_params.py">params</a>) -> <a href="./src/mixpeek/types/embeddingresponse.py">Embeddingresponse</a></code>
 
 # Transcribe
 

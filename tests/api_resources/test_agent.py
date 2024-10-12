@@ -7,7 +7,7 @@ from typing import Any, cast
 
 import pytest
 
-from mixpeek import MixpeekSDK, AsyncMixpeekSDK
+from mixpeek import Mixpeek, AsyncMixpeek
 from tests.utils import assert_matches_type
 from mixpeek.types import Agentresponse
 
@@ -18,14 +18,14 @@ class TestAgent:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
-    def test_method_create(self, client: MixpeekSDK) -> None:
+    def test_method_create(self, client: Mixpeek) -> None:
         agent = client.agent.create(
             prompt="prompt",
         )
         assert_matches_type(Agentresponse, agent, path=["response"])
 
     @parametrize
-    def test_method_create_with_all_params(self, client: MixpeekSDK) -> None:
+    def test_method_create_with_all_params(self, client: Mixpeek) -> None:
         agent = client.agent.create(
             prompt="prompt",
             authorization="Authorization",
@@ -34,7 +34,7 @@ class TestAgent:
         assert_matches_type(Agentresponse, agent, path=["response"])
 
     @parametrize
-    def test_raw_response_create(self, client: MixpeekSDK) -> None:
+    def test_raw_response_create(self, client: Mixpeek) -> None:
         response = client.agent.with_raw_response.create(
             prompt="prompt",
         )
@@ -45,7 +45,7 @@ class TestAgent:
         assert_matches_type(Agentresponse, agent, path=["response"])
 
     @parametrize
-    def test_streaming_response_create(self, client: MixpeekSDK) -> None:
+    def test_streaming_response_create(self, client: Mixpeek) -> None:
         with client.agent.with_streaming_response.create(
             prompt="prompt",
         ) as response:
@@ -62,14 +62,14 @@ class TestAsyncAgent:
     parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
-    async def test_method_create(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_method_create(self, async_client: AsyncMixpeek) -> None:
         agent = await async_client.agent.create(
             prompt="prompt",
         )
         assert_matches_type(Agentresponse, agent, path=["response"])
 
     @parametrize
-    async def test_method_create_with_all_params(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_method_create_with_all_params(self, async_client: AsyncMixpeek) -> None:
         agent = await async_client.agent.create(
             prompt="prompt",
             authorization="Authorization",
@@ -78,7 +78,7 @@ class TestAsyncAgent:
         assert_matches_type(Agentresponse, agent, path=["response"])
 
     @parametrize
-    async def test_raw_response_create(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_raw_response_create(self, async_client: AsyncMixpeek) -> None:
         response = await async_client.agent.with_raw_response.create(
             prompt="prompt",
         )
@@ -89,7 +89,7 @@ class TestAsyncAgent:
         assert_matches_type(Agentresponse, agent, path=["response"])
 
     @parametrize
-    async def test_streaming_response_create(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_streaming_response_create(self, async_client: AsyncMixpeek) -> None:
         async with async_client.agent.with_streaming_response.create(
             prompt="prompt",
         ) as response:

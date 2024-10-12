@@ -7,7 +7,7 @@ from typing import Any, cast
 
 import pytest
 
-from mixpeek import MixpeekSDK, AsyncMixpeekSDK
+from mixpeek import Mixpeek, AsyncMixpeek
 from tests.utils import assert_matches_type
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -17,14 +17,14 @@ class TestSearch:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
-    def test_method_text(self, client: MixpeekSDK) -> None:
+    def test_method_text(self, client: Mixpeek) -> None:
         search = client.search.text(
             input="input",
         )
         assert_matches_type(object, search, path=["response"])
 
     @parametrize
-    def test_method_text_with_all_params(self, client: MixpeekSDK) -> None:
+    def test_method_text_with_all_params(self, client: Mixpeek) -> None:
         search = client.search.text(
             input="input",
             filters={},
@@ -43,7 +43,7 @@ class TestSearch:
         assert_matches_type(object, search, path=["response"])
 
     @parametrize
-    def test_raw_response_text(self, client: MixpeekSDK) -> None:
+    def test_raw_response_text(self, client: Mixpeek) -> None:
         response = client.search.with_raw_response.text(
             input="input",
         )
@@ -54,7 +54,7 @@ class TestSearch:
         assert_matches_type(object, search, path=["response"])
 
     @parametrize
-    def test_streaming_response_text(self, client: MixpeekSDK) -> None:
+    def test_streaming_response_text(self, client: Mixpeek) -> None:
         with client.search.with_streaming_response.text(
             input="input",
         ) as response:
@@ -67,14 +67,14 @@ class TestSearch:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    def test_method_upload(self, client: MixpeekSDK) -> None:
+    def test_method_upload(self, client: Mixpeek) -> None:
         search = client.search.upload(
             file=b"raw file contents",
         )
         assert_matches_type(object, search, path=["response"])
 
     @parametrize
-    def test_method_upload_with_all_params(self, client: MixpeekSDK) -> None:
+    def test_method_upload_with_all_params(self, client: Mixpeek) -> None:
         search = client.search.upload(
             file=b"raw file contents",
             filters="filters",
@@ -86,7 +86,7 @@ class TestSearch:
         assert_matches_type(object, search, path=["response"])
 
     @parametrize
-    def test_raw_response_upload(self, client: MixpeekSDK) -> None:
+    def test_raw_response_upload(self, client: Mixpeek) -> None:
         response = client.search.with_raw_response.upload(
             file=b"raw file contents",
         )
@@ -97,7 +97,7 @@ class TestSearch:
         assert_matches_type(object, search, path=["response"])
 
     @parametrize
-    def test_streaming_response_upload(self, client: MixpeekSDK) -> None:
+    def test_streaming_response_upload(self, client: Mixpeek) -> None:
         with client.search.with_streaming_response.upload(
             file=b"raw file contents",
         ) as response:
@@ -110,14 +110,14 @@ class TestSearch:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    def test_method_url(self, client: MixpeekSDK) -> None:
+    def test_method_url(self, client: Mixpeek) -> None:
         search = client.search.url(
             input="input",
         )
         assert_matches_type(object, search, path=["response"])
 
     @parametrize
-    def test_method_url_with_all_params(self, client: MixpeekSDK) -> None:
+    def test_method_url_with_all_params(self, client: Mixpeek) -> None:
         search = client.search.url(
             input="input",
             filters={},
@@ -136,7 +136,7 @@ class TestSearch:
         assert_matches_type(object, search, path=["response"])
 
     @parametrize
-    def test_raw_response_url(self, client: MixpeekSDK) -> None:
+    def test_raw_response_url(self, client: Mixpeek) -> None:
         response = client.search.with_raw_response.url(
             input="input",
         )
@@ -147,7 +147,7 @@ class TestSearch:
         assert_matches_type(object, search, path=["response"])
 
     @parametrize
-    def test_streaming_response_url(self, client: MixpeekSDK) -> None:
+    def test_streaming_response_url(self, client: Mixpeek) -> None:
         with client.search.with_streaming_response.url(
             input="input",
         ) as response:
@@ -164,14 +164,14 @@ class TestAsyncSearch:
     parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
-    async def test_method_text(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_method_text(self, async_client: AsyncMixpeek) -> None:
         search = await async_client.search.text(
             input="input",
         )
         assert_matches_type(object, search, path=["response"])
 
     @parametrize
-    async def test_method_text_with_all_params(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_method_text_with_all_params(self, async_client: AsyncMixpeek) -> None:
         search = await async_client.search.text(
             input="input",
             filters={},
@@ -190,7 +190,7 @@ class TestAsyncSearch:
         assert_matches_type(object, search, path=["response"])
 
     @parametrize
-    async def test_raw_response_text(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_raw_response_text(self, async_client: AsyncMixpeek) -> None:
         response = await async_client.search.with_raw_response.text(
             input="input",
         )
@@ -201,7 +201,7 @@ class TestAsyncSearch:
         assert_matches_type(object, search, path=["response"])
 
     @parametrize
-    async def test_streaming_response_text(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_streaming_response_text(self, async_client: AsyncMixpeek) -> None:
         async with async_client.search.with_streaming_response.text(
             input="input",
         ) as response:
@@ -214,14 +214,14 @@ class TestAsyncSearch:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_method_upload(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_method_upload(self, async_client: AsyncMixpeek) -> None:
         search = await async_client.search.upload(
             file=b"raw file contents",
         )
         assert_matches_type(object, search, path=["response"])
 
     @parametrize
-    async def test_method_upload_with_all_params(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_method_upload_with_all_params(self, async_client: AsyncMixpeek) -> None:
         search = await async_client.search.upload(
             file=b"raw file contents",
             filters="filters",
@@ -233,7 +233,7 @@ class TestAsyncSearch:
         assert_matches_type(object, search, path=["response"])
 
     @parametrize
-    async def test_raw_response_upload(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_raw_response_upload(self, async_client: AsyncMixpeek) -> None:
         response = await async_client.search.with_raw_response.upload(
             file=b"raw file contents",
         )
@@ -244,7 +244,7 @@ class TestAsyncSearch:
         assert_matches_type(object, search, path=["response"])
 
     @parametrize
-    async def test_streaming_response_upload(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_streaming_response_upload(self, async_client: AsyncMixpeek) -> None:
         async with async_client.search.with_streaming_response.upload(
             file=b"raw file contents",
         ) as response:
@@ -257,14 +257,14 @@ class TestAsyncSearch:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_method_url(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_method_url(self, async_client: AsyncMixpeek) -> None:
         search = await async_client.search.url(
             input="input",
         )
         assert_matches_type(object, search, path=["response"])
 
     @parametrize
-    async def test_method_url_with_all_params(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_method_url_with_all_params(self, async_client: AsyncMixpeek) -> None:
         search = await async_client.search.url(
             input="input",
             filters={},
@@ -283,7 +283,7 @@ class TestAsyncSearch:
         assert_matches_type(object, search, path=["response"])
 
     @parametrize
-    async def test_raw_response_url(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_raw_response_url(self, async_client: AsyncMixpeek) -> None:
         response = await async_client.search.with_raw_response.url(
             input="input",
         )
@@ -294,7 +294,7 @@ class TestAsyncSearch:
         assert_matches_type(object, search, path=["response"])
 
     @parametrize
-    async def test_streaming_response_url(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_streaming_response_url(self, async_client: AsyncMixpeek) -> None:
         async with async_client.search.with_streaming_response.url(
             input="input",
         ) as response:
