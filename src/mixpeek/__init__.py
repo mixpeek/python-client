@@ -3,20 +3,30 @@
 from . import types
 from ._types import NOT_GIVEN, NoneType, NotGiven, Transport, ProxiesTypes
 from ._utils import file_from_path
-from ._client import Client, Stream, Mixpeek, Timeout, Transport, AsyncClient, AsyncStream, AsyncMixpeek, RequestOptions
+from ._client import (
+    Client,
+    Stream,
+    Timeout,
+    Transport,
+    MixpeekSDK,
+    AsyncClient,
+    AsyncStream,
+    RequestOptions,
+    AsyncMixpeekSDK,
+)
 from ._models import BaseModel
 from ._version import __title__, __version__
 from ._response import APIResponse as APIResponse, AsyncAPIResponse as AsyncAPIResponse
 from ._constants import DEFAULT_TIMEOUT, DEFAULT_MAX_RETRIES, DEFAULT_CONNECTION_LIMITS
 from ._exceptions import (
     APIError,
-    MixpeekError,
     ConflictError,
     NotFoundError,
     APIStatusError,
     RateLimitError,
     APITimeoutError,
     BadRequestError,
+    MixpeekSDKError,
     APIConnectionError,
     AuthenticationError,
     InternalServerError,
@@ -36,7 +46,7 @@ __all__ = [
     "ProxiesTypes",
     "NotGiven",
     "NOT_GIVEN",
-    "MixpeekError",
+    "MixpeekSDKError",
     "APIError",
     "APIStatusError",
     "APITimeoutError",
@@ -56,8 +66,8 @@ __all__ = [
     "AsyncClient",
     "Stream",
     "AsyncStream",
-    "Mixpeek",
-    "AsyncMixpeek",
+    "MixpeekSDK",
+    "AsyncMixpeekSDK",
     "file_from_path",
     "BaseModel",
     "DEFAULT_TIMEOUT",
