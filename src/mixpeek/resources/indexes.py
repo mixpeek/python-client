@@ -2,11 +2,11 @@
 
 from __future__ import annotations
 
-from typing import Mapping, Optional, cast
+from typing import Any, Mapping, Iterable, Optional, cast
 
 import httpx
 
-from ..types import index_url_params, index_face_params, index_upload_params
+from ..types import index_url_params, index_upload_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven, FileTypes
 from .._utils import (
     extract_files,
@@ -24,6 +24,8 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
+from ..types.index_url_response import IndexURLResponse
+from ..types.index_upload_response import IndexUploadResponse
 
 __all__ = ["IndexesResource", "AsyncIndexesResource"]
 
@@ -48,66 +50,6 @@ class IndexesResource(SyncAPIResource):
         """
         return IndexesResourceWithStreamingResponse(self)
 
-    def face(
-        self,
-        *,
-        collection_id: str,
-        file: FileTypes,
-        metadata: str | NotGiven = NOT_GIVEN,
-        authorization: str | NotGiven = NOT_GIVEN,
-        index_id: str | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
-        """
-        Index Face
-
-        Args:
-          index_id: filter by organization
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        extra_headers = {
-            **strip_not_given(
-                {
-                    "Authorization": authorization,
-                    "index-id": index_id,
-                }
-            ),
-            **(extra_headers or {}),
-        }
-        body = deepcopy_minimal(
-            {
-                "collection_id": collection_id,
-                "file": file,
-                "metadata": metadata,
-            }
-        )
-        files = extract_files(cast(Mapping[str, object], body), paths=[["file"]])
-        # It should be noted that the actual Content-Type header that will be
-        # sent to the server will contain a `boundary` parameter, e.g.
-        # multipart/form-data; boundary=---abc--
-        extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
-        return self._post(
-            "/index/face",
-            body=maybe_transform(body, index_face_params.IndexFaceParams),
-            files=files,
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=object,
-        )
-
     def upload(
         self,
         *,
@@ -124,7 +66,7 @@ class IndexesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> IndexUploadResponse:
         """
         Index Upload
 
@@ -169,7 +111,7 @@ class IndexesResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=IndexUploadResponse,
         )
 
     def url(
@@ -179,8 +121,9 @@ class IndexesResource(SyncAPIResource):
         url: str,
         image_settings: Optional[index_url_params.ImageSettings] | NotGiven = NOT_GIVEN,
         metadata: object | NotGiven = NOT_GIVEN,
+        prevent_duplicate: Optional[bool] | NotGiven = NOT_GIVEN,
         should_save: Optional[bool] | NotGiven = NOT_GIVEN,
-        video_settings: Optional[index_url_params.VideoSettings] | NotGiven = NOT_GIVEN,
+        video_settings: Optional[Iterable[index_url_params.VideoSetting]] | NotGiven = NOT_GIVEN,
         authorization: str | NotGiven = NOT_GIVEN,
         index_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -189,14 +132,27 @@ class IndexesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> IndexURLResponse:
         """
         Index Url
 
         Args:
-          metadata: Additional metadata associated with the file
+          collection_id: Unique identifier for the collection where the processed file will be stored.
 
-          should_save: Whether to upload the processed file to S3
+          url: The URL of the file to be processed. Must be a valid HTTP or HTTPS URL.
+
+          image_settings: Settings for image processing. Only applicable if the URL points to an image
+              file.
+
+          metadata: Additional metadata associated with the file. Can include any key-value pairs
+              relevant to the file.
+
+          prevent_duplicate: Indicates whether to prevent duplicate processing of the same URL.
+
+          should_save: Indicates whether the processed file should be uploaded to S3 storage.
+
+          video_settings: Settings for video processing. Only applicable if the URL points to a video
+              file.
 
           index_id: filter by organization
 
@@ -217,23 +173,27 @@ class IndexesResource(SyncAPIResource):
             ),
             **(extra_headers or {}),
         }
-        return self._post(
-            "/index/url",
-            body=maybe_transform(
-                {
-                    "collection_id": collection_id,
-                    "url": url,
-                    "image_settings": image_settings,
-                    "metadata": metadata,
-                    "should_save": should_save,
-                    "video_settings": video_settings,
-                },
-                index_url_params.IndexURLParams,
+        return cast(
+            IndexURLResponse,
+            self._post(
+                "/index/url",
+                body=maybe_transform(
+                    {
+                        "collection_id": collection_id,
+                        "url": url,
+                        "image_settings": image_settings,
+                        "metadata": metadata,
+                        "prevent_duplicate": prevent_duplicate,
+                        "should_save": should_save,
+                        "video_settings": video_settings,
+                    },
+                    index_url_params.IndexURLParams,
+                ),
+                options=make_request_options(
+                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                ),
+                cast_to=cast(Any, IndexURLResponse),  # Union types cannot be passed in as arguments in the type system
             ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=object,
         )
 
 
@@ -257,66 +217,6 @@ class AsyncIndexesResource(AsyncAPIResource):
         """
         return AsyncIndexesResourceWithStreamingResponse(self)
 
-    async def face(
-        self,
-        *,
-        collection_id: str,
-        file: FileTypes,
-        metadata: str | NotGiven = NOT_GIVEN,
-        authorization: str | NotGiven = NOT_GIVEN,
-        index_id: str | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
-        """
-        Index Face
-
-        Args:
-          index_id: filter by organization
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        extra_headers = {
-            **strip_not_given(
-                {
-                    "Authorization": authorization,
-                    "index-id": index_id,
-                }
-            ),
-            **(extra_headers or {}),
-        }
-        body = deepcopy_minimal(
-            {
-                "collection_id": collection_id,
-                "file": file,
-                "metadata": metadata,
-            }
-        )
-        files = extract_files(cast(Mapping[str, object], body), paths=[["file"]])
-        # It should be noted that the actual Content-Type header that will be
-        # sent to the server will contain a `boundary` parameter, e.g.
-        # multipart/form-data; boundary=---abc--
-        extra_headers = {"Content-Type": "multipart/form-data", **(extra_headers or {})}
-        return await self._post(
-            "/index/face",
-            body=await async_maybe_transform(body, index_face_params.IndexFaceParams),
-            files=files,
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=object,
-        )
-
     async def upload(
         self,
         *,
@@ -333,7 +233,7 @@ class AsyncIndexesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> IndexUploadResponse:
         """
         Index Upload
 
@@ -378,7 +278,7 @@ class AsyncIndexesResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=object,
+            cast_to=IndexUploadResponse,
         )
 
     async def url(
@@ -388,8 +288,9 @@ class AsyncIndexesResource(AsyncAPIResource):
         url: str,
         image_settings: Optional[index_url_params.ImageSettings] | NotGiven = NOT_GIVEN,
         metadata: object | NotGiven = NOT_GIVEN,
+        prevent_duplicate: Optional[bool] | NotGiven = NOT_GIVEN,
         should_save: Optional[bool] | NotGiven = NOT_GIVEN,
-        video_settings: Optional[index_url_params.VideoSettings] | NotGiven = NOT_GIVEN,
+        video_settings: Optional[Iterable[index_url_params.VideoSetting]] | NotGiven = NOT_GIVEN,
         authorization: str | NotGiven = NOT_GIVEN,
         index_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -398,14 +299,27 @@ class AsyncIndexesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> IndexURLResponse:
         """
         Index Url
 
         Args:
-          metadata: Additional metadata associated with the file
+          collection_id: Unique identifier for the collection where the processed file will be stored.
 
-          should_save: Whether to upload the processed file to S3
+          url: The URL of the file to be processed. Must be a valid HTTP or HTTPS URL.
+
+          image_settings: Settings for image processing. Only applicable if the URL points to an image
+              file.
+
+          metadata: Additional metadata associated with the file. Can include any key-value pairs
+              relevant to the file.
+
+          prevent_duplicate: Indicates whether to prevent duplicate processing of the same URL.
+
+          should_save: Indicates whether the processed file should be uploaded to S3 storage.
+
+          video_settings: Settings for video processing. Only applicable if the URL points to a video
+              file.
 
           index_id: filter by organization
 
@@ -426,23 +340,27 @@ class AsyncIndexesResource(AsyncAPIResource):
             ),
             **(extra_headers or {}),
         }
-        return await self._post(
-            "/index/url",
-            body=await async_maybe_transform(
-                {
-                    "collection_id": collection_id,
-                    "url": url,
-                    "image_settings": image_settings,
-                    "metadata": metadata,
-                    "should_save": should_save,
-                    "video_settings": video_settings,
-                },
-                index_url_params.IndexURLParams,
+        return cast(
+            IndexURLResponse,
+            await self._post(
+                "/index/url",
+                body=await async_maybe_transform(
+                    {
+                        "collection_id": collection_id,
+                        "url": url,
+                        "image_settings": image_settings,
+                        "metadata": metadata,
+                        "prevent_duplicate": prevent_duplicate,
+                        "should_save": should_save,
+                        "video_settings": video_settings,
+                    },
+                    index_url_params.IndexURLParams,
+                ),
+                options=make_request_options(
+                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                ),
+                cast_to=cast(Any, IndexURLResponse),  # Union types cannot be passed in as arguments in the type system
             ),
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=object,
         )
 
 
@@ -450,9 +368,6 @@ class IndexesResourceWithRawResponse:
     def __init__(self, indexes: IndexesResource) -> None:
         self._indexes = indexes
 
-        self.face = to_raw_response_wrapper(
-            indexes.face,
-        )
         self.upload = to_raw_response_wrapper(
             indexes.upload,
         )
@@ -465,9 +380,6 @@ class AsyncIndexesResourceWithRawResponse:
     def __init__(self, indexes: AsyncIndexesResource) -> None:
         self._indexes = indexes
 
-        self.face = async_to_raw_response_wrapper(
-            indexes.face,
-        )
         self.upload = async_to_raw_response_wrapper(
             indexes.upload,
         )
@@ -480,9 +392,6 @@ class IndexesResourceWithStreamingResponse:
     def __init__(self, indexes: IndexesResource) -> None:
         self._indexes = indexes
 
-        self.face = to_streamed_response_wrapper(
-            indexes.face,
-        )
         self.upload = to_streamed_response_wrapper(
             indexes.upload,
         )
@@ -495,9 +404,6 @@ class AsyncIndexesResourceWithStreamingResponse:
     def __init__(self, indexes: AsyncIndexesResource) -> None:
         self._indexes = indexes
 
-        self.face = async_to_streamed_response_wrapper(
-            indexes.face,
-        )
         self.upload = async_to_streamed_response_wrapper(
             indexes.upload,
         )

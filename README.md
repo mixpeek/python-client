@@ -28,10 +28,10 @@ from mixpeek import Mixpeek
 
 client = Mixpeek()
 
-agentresponse = client.agent.create(
+response = client.describe.upload(
+    file=b"raw file contents",
     prompt="prompt",
 )
-print(agentresponse.task_id)
 ```
 
 ## Async usage
@@ -46,10 +46,10 @@ client = AsyncMixpeek()
 
 
 async def main() -> None:
-    agentresponse = await client.agent.create(
+    response = await client.describe.upload(
+        file=b"raw file contents",
         prompt="prompt",
     )
-    print(agentresponse.task_id)
 
 
 asyncio.run(main())
@@ -82,7 +82,8 @@ from mixpeek import Mixpeek
 client = Mixpeek()
 
 try:
-    client.agent.create(
+    client.describe.upload(
+        file=b"raw file contents",
         prompt="prompt",
     )
 except mixpeek.APIConnectionError as e:
@@ -127,7 +128,8 @@ client = Mixpeek(
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).agent.create(
+client.with_options(max_retries=5).describe.upload(
+    file=b"raw file contents",
     prompt="prompt",
 )
 ```
@@ -152,7 +154,8 @@ client = Mixpeek(
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).agent.create(
+client.with_options(timeout=5.0).describe.upload(
+    file=b"raw file contents",
     prompt="prompt",
 )
 ```
@@ -193,13 +196,14 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 from mixpeek import Mixpeek
 
 client = Mixpeek()
-response = client.agent.with_raw_response.create(
+response = client.describe.with_raw_response.upload(
+    file=b'raw file contents',
     prompt="prompt",
 )
 print(response.headers.get('X-My-Header'))
 
-agent = response.parse()  # get the object that `agent.create()` would have returned
-print(agent.task_id)
+describe = response.parse()  # get the object that `describe.upload()` would have returned
+print(describe)
 ```
 
 These methods return an [`APIResponse`](https://github.com/mixpeek/python-client/tree/main/src/mixpeek/_response.py) object.
@@ -213,7 +217,8 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.agent.with_streaming_response.create(
+with client.describe.with_streaming_response.upload(
+    file=b"raw file contents",
     prompt="prompt",
 ) as response:
     print(response.headers.get("X-My-Header"))

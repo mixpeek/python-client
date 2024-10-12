@@ -1,21 +1,5 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from .read import (
-    ReadResource,
-    AsyncReadResource,
-    ReadResourceWithRawResponse,
-    AsyncReadResourceWithRawResponse,
-    ReadResourceWithStreamingResponse,
-    AsyncReadResourceWithStreamingResponse,
-)
-from .agent import (
-    AgentResource,
-    AsyncAgentResource,
-    AgentResourceWithRawResponse,
-    AsyncAgentResourceWithRawResponse,
-    AgentResourceWithStreamingResponse,
-    AsyncAgentResourceWithStreamingResponse,
-)
 from .tasks import (
     TasksResource,
     AsyncTasksResource,
@@ -48,22 +32,6 @@ from .describe import (
     DescribeResourceWithStreamingResponse,
     AsyncDescribeResourceWithStreamingResponse,
 )
-from .recognize import (
-    RecognizeResource,
-    AsyncRecognizeResource,
-    RecognizeResourceWithRawResponse,
-    AsyncRecognizeResourceWithRawResponse,
-    RecognizeResourceWithStreamingResponse,
-    AsyncRecognizeResourceWithStreamingResponse,
-)
-from .transcribe import (
-    TranscribeResource,
-    AsyncTranscribeResource,
-    TranscribeResourceWithRawResponse,
-    AsyncTranscribeResourceWithRawResponse,
-    TranscribeResourceWithStreamingResponse,
-    AsyncTranscribeResourceWithStreamingResponse,
-)
 from .collections import (
     CollectionsResource,
     AsyncCollectionsResource,
@@ -80,30 +48,6 @@ __all__ = [
     "AsyncDescribeResourceWithRawResponse",
     "DescribeResourceWithStreamingResponse",
     "AsyncDescribeResourceWithStreamingResponse",
-    "TranscribeResource",
-    "AsyncTranscribeResource",
-    "TranscribeResourceWithRawResponse",
-    "AsyncTranscribeResourceWithRawResponse",
-    "TranscribeResourceWithStreamingResponse",
-    "AsyncTranscribeResourceWithStreamingResponse",
-    "ReadResource",
-    "AsyncReadResource",
-    "ReadResourceWithRawResponse",
-    "AsyncReadResourceWithRawResponse",
-    "ReadResourceWithStreamingResponse",
-    "AsyncReadResourceWithStreamingResponse",
-    "RecognizeResource",
-    "AsyncRecognizeResource",
-    "RecognizeResourceWithRawResponse",
-    "AsyncRecognizeResourceWithRawResponse",
-    "RecognizeResourceWithStreamingResponse",
-    "AsyncRecognizeResourceWithStreamingResponse",
-    "AgentResource",
-    "AsyncAgentResource",
-    "AgentResourceWithRawResponse",
-    "AsyncAgentResourceWithRawResponse",
-    "AgentResourceWithStreamingResponse",
-    "AsyncAgentResourceWithStreamingResponse",
     "IndexesResource",
     "AsyncIndexesResource",
     "IndexesResourceWithRawResponse",

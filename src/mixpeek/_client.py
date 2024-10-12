@@ -47,10 +47,6 @@ __all__ = [
 
 class Mixpeek(SyncAPIClient):
     describe: resources.DescribeResource
-    transcribe: resources.TranscribeResource
-    read: resources.ReadResource
-    recognize: resources.RecognizeResource
-    agent: resources.AgentResource
     indexes: resources.IndexesResource
     search: resources.SearchResource
     collections: resources.CollectionsResource
@@ -100,10 +96,6 @@ class Mixpeek(SyncAPIClient):
         )
 
         self.describe = resources.DescribeResource(self)
-        self.transcribe = resources.TranscribeResource(self)
-        self.read = resources.ReadResource(self)
-        self.recognize = resources.RecognizeResource(self)
-        self.agent = resources.AgentResource(self)
         self.indexes = resources.IndexesResource(self)
         self.search = resources.SearchResource(self)
         self.collections = resources.CollectionsResource(self)
@@ -210,10 +202,6 @@ class Mixpeek(SyncAPIClient):
 
 class AsyncMixpeek(AsyncAPIClient):
     describe: resources.AsyncDescribeResource
-    transcribe: resources.AsyncTranscribeResource
-    read: resources.AsyncReadResource
-    recognize: resources.AsyncRecognizeResource
-    agent: resources.AsyncAgentResource
     indexes: resources.AsyncIndexesResource
     search: resources.AsyncSearchResource
     collections: resources.AsyncCollectionsResource
@@ -263,10 +251,6 @@ class AsyncMixpeek(AsyncAPIClient):
         )
 
         self.describe = resources.AsyncDescribeResource(self)
-        self.transcribe = resources.AsyncTranscribeResource(self)
-        self.read = resources.AsyncReadResource(self)
-        self.recognize = resources.AsyncRecognizeResource(self)
-        self.agent = resources.AsyncAgentResource(self)
         self.indexes = resources.AsyncIndexesResource(self)
         self.search = resources.AsyncSearchResource(self)
         self.collections = resources.AsyncCollectionsResource(self)
@@ -374,10 +358,6 @@ class AsyncMixpeek(AsyncAPIClient):
 class MixpeekWithRawResponse:
     def __init__(self, client: Mixpeek) -> None:
         self.describe = resources.DescribeResourceWithRawResponse(client.describe)
-        self.transcribe = resources.TranscribeResourceWithRawResponse(client.transcribe)
-        self.read = resources.ReadResourceWithRawResponse(client.read)
-        self.recognize = resources.RecognizeResourceWithRawResponse(client.recognize)
-        self.agent = resources.AgentResourceWithRawResponse(client.agent)
         self.indexes = resources.IndexesResourceWithRawResponse(client.indexes)
         self.search = resources.SearchResourceWithRawResponse(client.search)
         self.collections = resources.CollectionsResourceWithRawResponse(client.collections)
@@ -387,10 +367,6 @@ class MixpeekWithRawResponse:
 class AsyncMixpeekWithRawResponse:
     def __init__(self, client: AsyncMixpeek) -> None:
         self.describe = resources.AsyncDescribeResourceWithRawResponse(client.describe)
-        self.transcribe = resources.AsyncTranscribeResourceWithRawResponse(client.transcribe)
-        self.read = resources.AsyncReadResourceWithRawResponse(client.read)
-        self.recognize = resources.AsyncRecognizeResourceWithRawResponse(client.recognize)
-        self.agent = resources.AsyncAgentResourceWithRawResponse(client.agent)
         self.indexes = resources.AsyncIndexesResourceWithRawResponse(client.indexes)
         self.search = resources.AsyncSearchResourceWithRawResponse(client.search)
         self.collections = resources.AsyncCollectionsResourceWithRawResponse(client.collections)
@@ -400,10 +376,6 @@ class AsyncMixpeekWithRawResponse:
 class MixpeekWithStreamedResponse:
     def __init__(self, client: Mixpeek) -> None:
         self.describe = resources.DescribeResourceWithStreamingResponse(client.describe)
-        self.transcribe = resources.TranscribeResourceWithStreamingResponse(client.transcribe)
-        self.read = resources.ReadResourceWithStreamingResponse(client.read)
-        self.recognize = resources.RecognizeResourceWithStreamingResponse(client.recognize)
-        self.agent = resources.AgentResourceWithStreamingResponse(client.agent)
         self.indexes = resources.IndexesResourceWithStreamingResponse(client.indexes)
         self.search = resources.SearchResourceWithStreamingResponse(client.search)
         self.collections = resources.CollectionsResourceWithStreamingResponse(client.collections)
@@ -413,10 +385,6 @@ class MixpeekWithStreamedResponse:
 class AsyncMixpeekWithStreamedResponse:
     def __init__(self, client: AsyncMixpeek) -> None:
         self.describe = resources.AsyncDescribeResourceWithStreamingResponse(client.describe)
-        self.transcribe = resources.AsyncTranscribeResourceWithStreamingResponse(client.transcribe)
-        self.read = resources.AsyncReadResourceWithStreamingResponse(client.read)
-        self.recognize = resources.AsyncRecognizeResourceWithStreamingResponse(client.recognize)
-        self.agent = resources.AsyncAgentResourceWithStreamingResponse(client.agent)
         self.indexes = resources.AsyncIndexesResourceWithStreamingResponse(client.indexes)
         self.search = resources.AsyncSearchResourceWithStreamingResponse(client.search)
         self.collections = resources.AsyncCollectionsResourceWithStreamingResponse(client.collections)
