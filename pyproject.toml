@@ -1,11 +1,11 @@
 [project]
 name = "mixpeek"
 version = "0.11.0"
-description = "The official Python library for the mixpeek-sdk API"
+description = "The official Python library for the mixpeek API"
 dynamic = ["readme"]
 license = "Apache-2.0"
 authors = [
-{ name = "Mixpeek SDK", email = "dev-feedback@mixpeek-sdk.com" },
+{ name = "Mixpeek", email = "dev-feedback@mixpeek-sdk.com" },
 ]
 dependencies = [
     "httpx>=0.23.0, <1",

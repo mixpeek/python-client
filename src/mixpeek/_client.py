@@ -38,21 +38,21 @@ __all__ = [
     "ProxiesTypes",
     "RequestOptions",
     "resources",
-    "MixpeekSDK",
-    "AsyncMixpeekSDK",
+    "Mixpeek",
+    "AsyncMixpeek",
     "Client",
     "AsyncClient",
 ]
 
 
-class MixpeekSDK(SyncAPIClient):
+class Mixpeek(SyncAPIClient):
     describe: resources.DescribeResource
     indexes: resources.IndexesResource
     search: resources.SearchResource
     collections: resources.CollectionsResource
     tasks: resources.TasksResource
-    with_raw_response: MixpeekSDKWithRawResponse
-    with_streaming_response: MixpeekSDKWithStreamedResponse
+    with_raw_response: MixpeekWithRawResponse
+    with_streaming_response: MixpeekWithStreamedResponse
 
     # client options
 
@@ -78,9 +78,9 @@ class MixpeekSDK(SyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new synchronous mixpeek-sdk client instance."""
+        """Construct a new synchronous mixpeek client instance."""
         if base_url is None:
-            base_url = os.environ.get("MIXPEEK_SDK_BASE_URL")
+            base_url = os.environ.get("MIXPEEK_BASE_URL")
         if base_url is None:
             base_url = f"https://api.mixpeek.com/"
 
@@ -100,8 +100,8 @@ class MixpeekSDK(SyncAPIClient):
         self.search = resources.SearchResource(self)
         self.collections = resources.CollectionsResource(self)
         self.tasks = resources.TasksResource(self)
-        self.with_raw_response = MixpeekSDKWithRawResponse(self)
-        self.with_streaming_response = MixpeekSDKWithStreamedResponse(self)
+        self.with_raw_response = MixpeekWithRawResponse(self)
+        self.with_streaming_response = MixpeekWithStreamedResponse(self)
 
     @property
     @override
@@ -200,14 +200,14 @@ class MixpeekSDK(SyncAPIClient):
         return APIStatusError(err_msg, response=response, body=body)
 
 
-class AsyncMixpeekSDK(AsyncAPIClient):
+class AsyncMixpeek(AsyncAPIClient):
     describe: resources.AsyncDescribeResource
     indexes: resources.AsyncIndexesResource
     search: resources.AsyncSearchResource
     collections: resources.AsyncCollectionsResource
     tasks: resources.AsyncTasksResource
-    with_raw_response: AsyncMixpeekSDKWithRawResponse
-    with_streaming_response: AsyncMixpeekSDKWithStreamedResponse
+    with_raw_response: AsyncMixpeekWithRawResponse
+    with_streaming_response: AsyncMixpeekWithStreamedResponse
 
     # client options
 
@@ -233,9 +233,9 @@ class AsyncMixpeekSDK(AsyncAPIClient):
         # part of our public interface in the future.
         _strict_response_validation: bool = False,
     ) -> None:
-        """Construct a new async mixpeek-sdk client instance."""
+        """Construct a new async mixpeek client instance."""
         if base_url is None:
-            base_url = os.environ.get("MIXPEEK_SDK_BASE_URL")
+            base_url = os.environ.get("MIXPEEK_BASE_URL")
         if base_url is None:
             base_url = f"https://api.mixpeek.com/"
 
@@ -255,8 +255,8 @@ class AsyncMixpeekSDK(AsyncAPIClient):
         self.search = resources.AsyncSearchResource(self)
         self.collections = resources.AsyncCollectionsResource(self)
         self.tasks = resources.AsyncTasksResource(self)
-        self.with_raw_response = AsyncMixpeekSDKWithRawResponse(self)
-        self.with_streaming_response = AsyncMixpeekSDKWithStreamedResponse(self)
+        self.with_raw_response = AsyncMixpeekWithRawResponse(self)
+        self.with_streaming_response = AsyncMixpeekWithStreamedResponse(self)
 
     @property
     @override
@@ -355,8 +355,8 @@ class AsyncMixpeekSDK(AsyncAPIClient):
         return APIStatusError(err_msg, response=response, body=body)
 
 
-class MixpeekSDKWithRawResponse:
-    def __init__(self, client: MixpeekSDK) -> None:
+class MixpeekWithRawResponse:
+    def __init__(self, client: Mixpeek) -> None:
         self.describe = resources.DescribeResourceWithRawResponse(client.describe)
         self.indexes = resources.IndexesResourceWithRawResponse(client.indexes)
         self.search = resources.SearchResourceWithRawResponse(client.search)
@@ -364,8 +364,8 @@ class MixpeekSDKWithRawResponse:
         self.tasks = resources.TasksResourceWithRawResponse(client.tasks)
 
 
-class AsyncMixpeekSDKWithRawResponse:
-    def __init__(self, client: AsyncMixpeekSDK) -> None:
+class AsyncMixpeekWithRawResponse:
+    def __init__(self, client: AsyncMixpeek) -> None:
         self.describe = resources.AsyncDescribeResourceWithRawResponse(client.describe)
         self.indexes = resources.AsyncIndexesResourceWithRawResponse(client.indexes)
         self.search = resources.AsyncSearchResourceWithRawResponse(client.search)
@@ -373,8 +373,8 @@ class AsyncMixpeekSDKWithRawResponse:
         self.tasks = resources.AsyncTasksResourceWithRawResponse(client.tasks)
 
 
-class MixpeekSDKWithStreamedResponse:
-    def __init__(self, client: MixpeekSDK) -> None:
+class MixpeekWithStreamedResponse:
+    def __init__(self, client: Mixpeek) -> None:
         self.describe = resources.DescribeResourceWithStreamingResponse(client.describe)
         self.indexes = resources.IndexesResourceWithStreamingResponse(client.indexes)
         self.search = resources.SearchResourceWithStreamingResponse(client.search)
@@ -382,8 +382,8 @@ class MixpeekSDKWithStreamedResponse:
         self.tasks = resources.TasksResourceWithStreamingResponse(client.tasks)
 
 
-class AsyncMixpeekSDKWithStreamedResponse:
-    def __init__(self, client: AsyncMixpeekSDK) -> None:
+class AsyncMixpeekWithStreamedResponse:
+    def __init__(self, client: AsyncMixpeek) -> None:
         self.describe = resources.AsyncDescribeResourceWithStreamingResponse(client.describe)
         self.indexes = resources.AsyncIndexesResourceWithStreamingResponse(client.indexes)
         self.search = resources.AsyncSearchResourceWithStreamingResponse(client.search)
@@ -391,6 +391,6 @@ class AsyncMixpeekSDKWithStreamedResponse:
         self.tasks = resources.AsyncTasksResourceWithStreamingResponse(client.tasks)
 
 
-Client = MixpeekSDK
+Client = Mixpeek
 
-AsyncClient = AsyncMixpeekSDK
+AsyncClient = AsyncMixpeek
