@@ -667,12 +667,12 @@ class TestMixpeek:
     @mock.patch("mixpeek._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/agent/").mock(side_effect=httpx.TimeoutException("Test timeout error"))
+        respx_mock.post("/describe/upload").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
             self.client.post(
-                "/agent/",
-                body=cast(object, dict(prompt="prompt")),
+                "/describe/upload",
+                body=cast(object, dict(file=b"raw file contents", prompt="prompt")),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -682,12 +682,12 @@ class TestMixpeek:
     @mock.patch("mixpeek._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/agent/").mock(return_value=httpx.Response(500))
+        respx_mock.post("/describe/upload").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
             self.client.post(
-                "/agent/",
-                body=cast(object, dict(prompt="prompt")),
+                "/describe/upload",
+                body=cast(object, dict(file=b"raw file contents", prompt="prompt")),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -709,9 +709,9 @@ class TestMixpeek:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/agent/").mock(side_effect=retry_handler)
+        respx_mock.post("/describe/upload").mock(side_effect=retry_handler)
 
-        response = client.agent.with_raw_response.create(prompt="prompt")
+        response = client.describe.with_raw_response.upload(file=b"raw file contents", prompt="prompt")
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
@@ -733,10 +733,10 @@ class TestMixpeek:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/agent/").mock(side_effect=retry_handler)
+        respx_mock.post("/describe/upload").mock(side_effect=retry_handler)
 
-        response = client.agent.with_raw_response.create(
-            prompt="prompt", extra_headers={"x-stainless-retry-count": Omit()}
+        response = client.describe.with_raw_response.upload(
+            file=b"raw file contents", prompt="prompt", extra_headers={"x-stainless-retry-count": Omit()}
         )
 
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
@@ -758,10 +758,10 @@ class TestMixpeek:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/agent/").mock(side_effect=retry_handler)
+        respx_mock.post("/describe/upload").mock(side_effect=retry_handler)
 
-        response = client.agent.with_raw_response.create(
-            prompt="prompt", extra_headers={"x-stainless-retry-count": "42"}
+        response = client.describe.with_raw_response.upload(
+            file=b"raw file contents", prompt="prompt", extra_headers={"x-stainless-retry-count": "42"}
         )
 
         assert response.http_request.headers.get("x-stainless-retry-count") == "42"
@@ -1389,12 +1389,12 @@ class TestAsyncMixpeek:
     @mock.patch("mixpeek._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/agent/").mock(side_effect=httpx.TimeoutException("Test timeout error"))
+        respx_mock.post("/describe/upload").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
             await self.client.post(
-                "/agent/",
-                body=cast(object, dict(prompt="prompt")),
+                "/describe/upload",
+                body=cast(object, dict(file=b"raw file contents", prompt="prompt")),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -1404,12 +1404,12 @@ class TestAsyncMixpeek:
     @mock.patch("mixpeek._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/agent/").mock(return_value=httpx.Response(500))
+        respx_mock.post("/describe/upload").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
             await self.client.post(
-                "/agent/",
-                body=cast(object, dict(prompt="prompt")),
+                "/describe/upload",
+                body=cast(object, dict(file=b"raw file contents", prompt="prompt")),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -1434,9 +1434,9 @@ class TestAsyncMixpeek:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/agent/").mock(side_effect=retry_handler)
+        respx_mock.post("/describe/upload").mock(side_effect=retry_handler)
 
-        response = await client.agent.with_raw_response.create(prompt="prompt")
+        response = await client.describe.with_raw_response.upload(file=b"raw file contents", prompt="prompt")
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
@@ -1459,10 +1459,10 @@ class TestAsyncMixpeek:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/agent/").mock(side_effect=retry_handler)
+        respx_mock.post("/describe/upload").mock(side_effect=retry_handler)
 
-        response = await client.agent.with_raw_response.create(
-            prompt="prompt", extra_headers={"x-stainless-retry-count": Omit()}
+        response = await client.describe.with_raw_response.upload(
+            file=b"raw file contents", prompt="prompt", extra_headers={"x-stainless-retry-count": Omit()}
         )
 
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
@@ -1485,10 +1485,10 @@ class TestAsyncMixpeek:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/agent/").mock(side_effect=retry_handler)
+        respx_mock.post("/describe/upload").mock(side_effect=retry_handler)
 
-        response = await client.agent.with_raw_response.create(
-            prompt="prompt", extra_headers={"x-stainless-retry-count": "42"}
+        response = await client.describe.with_raw_response.upload(
+            file=b"raw file contents", prompt="prompt", extra_headers={"x-stainless-retry-count": "42"}
         )
 
         assert response.http_request.headers.get("x-stainless-retry-count") == "42"
