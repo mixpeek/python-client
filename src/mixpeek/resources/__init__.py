@@ -16,14 +16,6 @@ from .agent import (
     AgentResourceWithStreamingResponse,
     AsyncAgentResourceWithStreamingResponse,
 )
-from .embed import (
-    EmbedResource,
-    AsyncEmbedResource,
-    EmbedResourceWithRawResponse,
-    AsyncEmbedResourceWithRawResponse,
-    EmbedResourceWithStreamingResponse,
-    AsyncEmbedResourceWithStreamingResponse,
-)
 from .tasks import (
     TasksResource,
     AsyncTasksResource,
@@ -47,14 +39,6 @@ from .indexes import (
     AsyncIndexesResourceWithRawResponse,
     IndexesResourceWithStreamingResponse,
     AsyncIndexesResourceWithStreamingResponse,
-)
-from .accounts import (
-    AccountsResource,
-    AsyncAccountsResource,
-    AccountsResourceWithRawResponse,
-    AsyncAccountsResourceWithRawResponse,
-    AccountsResourceWithStreamingResponse,
-    AsyncAccountsResourceWithStreamingResponse,
 )
 from .describe import (
     DescribeResource,
@@ -90,24 +74,12 @@ from .collections import (
 )
 
 __all__ = [
-    "AccountsResource",
-    "AsyncAccountsResource",
-    "AccountsResourceWithRawResponse",
-    "AsyncAccountsResourceWithRawResponse",
-    "AccountsResourceWithStreamingResponse",
-    "AsyncAccountsResourceWithStreamingResponse",
     "DescribeResource",
     "AsyncDescribeResource",
     "DescribeResourceWithRawResponse",
     "AsyncDescribeResourceWithRawResponse",
     "DescribeResourceWithStreamingResponse",
     "AsyncDescribeResourceWithStreamingResponse",
-    "EmbedResource",
-    "AsyncEmbedResource",
-    "EmbedResourceWithRawResponse",
-    "AsyncEmbedResourceWithRawResponse",
-    "EmbedResourceWithStreamingResponse",
-    "AsyncEmbedResourceWithStreamingResponse",
     "TranscribeResource",
     "AsyncTranscribeResource",
     "TranscribeResourceWithRawResponse",
