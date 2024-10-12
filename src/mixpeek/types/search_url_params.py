@@ -2,34 +2,30 @@
 
 from __future__ import annotations
 
-from typing import Optional
-from typing_extensions import Required, Annotated, TypedDict
+from typing import List, Iterable, Optional
+from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
 
-__all__ = ["SearchURLParams", "Pagination"]
+__all__ = ["SearchURLParams", "Filters"]
 
 
 class SearchURLParams(TypedDict, total=False):
-    input: Required[str]
-    """url, text, or base64 input"""
+    collection_ids: Required[List[str]]
+    """List of Collection IDs to search within, required"""
 
-    filters: object
-    """Additional filters for the search"""
+    url: Required[str]
+
+    filters: Optional[Filters]
+    """Complex nested query filters"""
 
     group_by_file: bool
     """Whether to group search results by file"""
 
-    input_type: Optional[str]
+    input_type: Optional[Literal["text", "url", "base64"]]
 
-    modality: Optional[str]
-
-    model_id: Optional[str]
-
-    pagination: Pagination
-    """Pagination parameters"""
-
-    source: Optional[str]
+    model_id: Optional[Literal["vuse-generic-v1", "multimodal-v1", "image-embed-v1"]]
+    """Embedding model to use"""
 
     authorization: Annotated[str, PropertyInfo(alias="Authorization")]
 
@@ -37,9 +33,12 @@ class SearchURLParams(TypedDict, total=False):
     """filter by organization"""
 
 
-class Pagination(TypedDict, total=False):
-    page: int
-    """Page number"""
+class Filters(TypedDict, total=False):
+    and_: Annotated[Optional[Iterable[object]], PropertyInfo(alias="AND")]
+    """List of conditions that must all be true"""
 
-    page_size: int
-    """Number of items per page"""
+    nor: Annotated[Optional[Iterable[object]], PropertyInfo(alias="NOR")]
+    """List of conditions that must all be false"""
+
+    or_: Annotated[Optional[Iterable[object]], PropertyInfo(alias="OR")]
+    """List of conditions where at least one must be true"""
