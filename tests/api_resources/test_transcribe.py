@@ -7,7 +7,7 @@ from typing import Any, cast
 
 import pytest
 
-from mixpeek import MixpeekSDK, AsyncMixpeekSDK
+from mixpeek import Mixpeek, AsyncMixpeek
 from tests.utils import assert_matches_type
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -17,14 +17,14 @@ class TestTranscribe:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
-    def test_method_url(self, client: MixpeekSDK) -> None:
+    def test_method_url(self, client: Mixpeek) -> None:
         transcribe = client.transcribe.url(
             url="https://example.com",
         )
         assert_matches_type(object, transcribe, path=["response"])
 
     @parametrize
-    def test_method_url_with_all_params(self, client: MixpeekSDK) -> None:
+    def test_method_url_with_all_params(self, client: Mixpeek) -> None:
         transcribe = client.transcribe.url(
             url="https://example.com",
             authorization="Authorization",
@@ -33,7 +33,7 @@ class TestTranscribe:
         assert_matches_type(object, transcribe, path=["response"])
 
     @parametrize
-    def test_raw_response_url(self, client: MixpeekSDK) -> None:
+    def test_raw_response_url(self, client: Mixpeek) -> None:
         response = client.transcribe.with_raw_response.url(
             url="https://example.com",
         )
@@ -44,7 +44,7 @@ class TestTranscribe:
         assert_matches_type(object, transcribe, path=["response"])
 
     @parametrize
-    def test_streaming_response_url(self, client: MixpeekSDK) -> None:
+    def test_streaming_response_url(self, client: Mixpeek) -> None:
         with client.transcribe.with_streaming_response.url(
             url="https://example.com",
         ) as response:
@@ -61,14 +61,14 @@ class TestAsyncTranscribe:
     parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
-    async def test_method_url(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_method_url(self, async_client: AsyncMixpeek) -> None:
         transcribe = await async_client.transcribe.url(
             url="https://example.com",
         )
         assert_matches_type(object, transcribe, path=["response"])
 
     @parametrize
-    async def test_method_url_with_all_params(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_method_url_with_all_params(self, async_client: AsyncMixpeek) -> None:
         transcribe = await async_client.transcribe.url(
             url="https://example.com",
             authorization="Authorization",
@@ -77,7 +77,7 @@ class TestAsyncTranscribe:
         assert_matches_type(object, transcribe, path=["response"])
 
     @parametrize
-    async def test_raw_response_url(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_raw_response_url(self, async_client: AsyncMixpeek) -> None:
         response = await async_client.transcribe.with_raw_response.url(
             url="https://example.com",
         )
@@ -88,7 +88,7 @@ class TestAsyncTranscribe:
         assert_matches_type(object, transcribe, path=["response"])
 
     @parametrize
-    async def test_streaming_response_url(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_streaming_response_url(self, async_client: AsyncMixpeek) -> None:
         async with async_client.transcribe.with_streaming_response.url(
             url="https://example.com",
         ) as response:
