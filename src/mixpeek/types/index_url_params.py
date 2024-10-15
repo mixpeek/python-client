@@ -13,6 +13,7 @@ __all__ = [
     "ImageSettingsDescribe",
     "ImageSettingsDetect",
     "ImageSettingsDetectFaces",
+    "ImageSettingsDetectLogos",
     "ImageSettingsEmbed",
     "ImageSettingsJsonOutput",
     "ImageSettingsRead",
@@ -20,6 +21,7 @@ __all__ = [
     "VideoSettingDescribe",
     "VideoSettingDetect",
     "VideoSettingDetectFaces",
+    "VideoSettingDetectLogos",
     "VideoSettingEmbed",
     "VideoSettingJsonOutput",
     "VideoSettingRead",
@@ -33,6 +35,14 @@ class IndexURLParams(TypedDict, total=False):
 
     url: Required[str]
     """The URL of the file to be processed. Must be a valid HTTP or HTTPS URL."""
+
+    file_id: Optional[str]
+    """Unique identifier for the file to be processed.
+
+    If provided, feature extraction will be performed and the results will be
+    upserted with the existing file_id. If not provided, a random UUID will be
+    generated.
+    """
 
     image_settings: Optional[ImageSettings]
     """Settings for image processing.
@@ -85,9 +95,20 @@ class ImageSettingsDetectFaces(TypedDict, total=False):
     """Model ID for face detection"""
 
 
+class ImageSettingsDetectLogos(TypedDict, total=False):
+    confidence_threshold: Optional[float]
+    """Minimum confidence threshold for detected logos"""
+
+    model_id: Optional[Literal["logo-detector-v1"]]
+    """Model ID for logo detection"""
+
+
 class ImageSettingsDetect(TypedDict, total=False):
     faces: Optional[ImageSettingsDetectFaces]
     """Settings for face detection"""
+
+    logos: Optional[ImageSettingsDetectLogos]
+    """Settings for logo detection"""
 
 
 class ImageSettingsEmbed(TypedDict, total=False):
@@ -148,14 +169,23 @@ class VideoSettingDetectFaces(TypedDict, total=False):
     """Model ID for face detection"""
 
 
+class VideoSettingDetectLogos(TypedDict, total=False):
+    confidence_threshold: Optional[float]
+    """Minimum confidence threshold for detected logos"""
+
+    model_id: Optional[Literal["logo-detector-v1"]]
+    """Model ID for logo detection"""
+
+
 class VideoSettingDetect(TypedDict, total=False):
     faces: Optional[VideoSettingDetectFaces]
     """Settings for face detection"""
 
+    logos: Optional[VideoSettingDetectLogos]
+    """Settings for logo detection"""
+
 
 class VideoSettingEmbed(TypedDict, total=False):
-    contextual_text: Optional[str]
-
     model_id: Optional[Literal["vuse-generic-v1", "multimodal-v1"]]
 
 
