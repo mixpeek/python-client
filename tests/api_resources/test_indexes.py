@@ -77,6 +77,7 @@ class TestIndexes:
         index = client.indexes.url(
             collection_id="my_document_collection",
             url="https://example.com/sample-file.mp4",
+            file_id="my_file_id",
             image_settings={
                 "describe": {
                     "json_output": {},
@@ -88,7 +89,11 @@ class TestIndexes:
                     "faces": {
                         "confidence_threshold": 0.8,
                         "model_id": "face-detector-v1",
-                    }
+                    },
+                    "logos": {
+                        "confidence_threshold": 0,
+                        "model_id": "logo-detector-v1",
+                    },
                 },
                 "embed": {"model_id": "image-embed-v1"},
                 "json_output": {
@@ -123,12 +128,13 @@ class TestIndexes:
                         "faces": {
                             "confidence_threshold": 0.8,
                             "model_id": "face-detector-v1",
-                        }
+                        },
+                        "logos": {
+                            "confidence_threshold": 0,
+                            "model_id": "logo-detector-v1",
+                        },
                     },
-                    "embed": {
-                        "contextual_text": "contextual_text",
-                        "model_id": "vuse-generic-v1",
-                    },
+                    "embed": {"model_id": "vuse-generic-v1"},
                     "interval_sec": 15,
                     "json_output": {
                         "prompt": "prompt",
@@ -159,12 +165,13 @@ class TestIndexes:
                         "faces": {
                             "confidence_threshold": 0.8,
                             "model_id": "face-detector-v1",
-                        }
+                        },
+                        "logos": {
+                            "confidence_threshold": 0,
+                            "model_id": "logo-detector-v1",
+                        },
                     },
-                    "embed": {
-                        "contextual_text": "contextual_text",
-                        "model_id": "vuse-generic-v1",
-                    },
+                    "embed": {"model_id": "vuse-generic-v1"},
                     "interval_sec": 15,
                     "json_output": {
                         "prompt": "prompt",
@@ -195,12 +202,13 @@ class TestIndexes:
                         "faces": {
                             "confidence_threshold": 0.8,
                             "model_id": "face-detector-v1",
-                        }
+                        },
+                        "logos": {
+                            "confidence_threshold": 0,
+                            "model_id": "logo-detector-v1",
+                        },
                     },
-                    "embed": {
-                        "contextual_text": "contextual_text",
-                        "model_id": "vuse-generic-v1",
-                    },
+                    "embed": {"model_id": "vuse-generic-v1"},
                     "interval_sec": 15,
                     "json_output": {
                         "prompt": "prompt",
@@ -316,6 +324,7 @@ class TestAsyncIndexes:
         index = await async_client.indexes.url(
             collection_id="my_document_collection",
             url="https://example.com/sample-file.mp4",
+            file_id="my_file_id",
             image_settings={
                 "describe": {
                     "json_output": {},
@@ -327,7 +336,11 @@ class TestAsyncIndexes:
                     "faces": {
                         "confidence_threshold": 0.8,
                         "model_id": "face-detector-v1",
-                    }
+                    },
+                    "logos": {
+                        "confidence_threshold": 0,
+                        "model_id": "logo-detector-v1",
+                    },
                 },
                 "embed": {"model_id": "image-embed-v1"},
                 "json_output": {
@@ -362,12 +375,13 @@ class TestAsyncIndexes:
                         "faces": {
                             "confidence_threshold": 0.8,
                             "model_id": "face-detector-v1",
-                        }
+                        },
+                        "logos": {
+                            "confidence_threshold": 0,
+                            "model_id": "logo-detector-v1",
+                        },
                     },
-                    "embed": {
-                        "contextual_text": "contextual_text",
-                        "model_id": "vuse-generic-v1",
-                    },
+                    "embed": {"model_id": "vuse-generic-v1"},
                     "interval_sec": 15,
                     "json_output": {
                         "prompt": "prompt",
@@ -398,12 +412,13 @@ class TestAsyncIndexes:
                         "faces": {
                             "confidence_threshold": 0.8,
                             "model_id": "face-detector-v1",
-                        }
+                        },
+                        "logos": {
+                            "confidence_threshold": 0,
+                            "model_id": "logo-detector-v1",
+                        },
                     },
-                    "embed": {
-                        "contextual_text": "contextual_text",
-                        "model_id": "vuse-generic-v1",
-                    },
+                    "embed": {"model_id": "vuse-generic-v1"},
                     "interval_sec": 15,
                     "json_output": {
                         "prompt": "prompt",
@@ -434,12 +449,13 @@ class TestAsyncIndexes:
                         "faces": {
                             "confidence_threshold": 0.8,
                             "model_id": "face-detector-v1",
-                        }
+                        },
+                        "logos": {
+                            "confidence_threshold": 0,
+                            "model_id": "logo-detector-v1",
+                        },
                     },
-                    "embed": {
-                        "contextual_text": "contextual_text",
-                        "model_id": "vuse-generic-v1",
-                    },
+                    "embed": {"model_id": "vuse-generic-v1"},
                     "interval_sec": 15,
                     "json_output": {
                         "prompt": "prompt",
