@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, List, Union, Iterable, Optional
+from typing import List, Union, Iterable, Optional
 from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
 
 from .._utils import PropertyInfo
@@ -122,6 +122,8 @@ __all__ = [
     "FiltersOrLogicalOperatorOrFilterCondition",
     "FiltersOrFilterCondition",
     "GroupBy",
+    "GroupBySearchWithinGroup",
+    "Sort",
 ]
 
 
@@ -140,7 +142,13 @@ class SearchTextParams(TypedDict, total=False):
     model_id: Optional[Literal["vuse-generic-v1", "multimodal-v1", "image-embed-v1"]]
     """Embedding model to use"""
 
-    sort: Optional[Iterable[Dict[str, str]]]
+    select: Optional[List[str]]
+    """List of fields to return in results, supports dot notation.
+
+    If None, all fields are returned.
+    """
+
+    sort: Optional[Iterable[Sort]]
     """List of fields to sort by, with direction (asc or desc)"""
 
     authorization: Annotated[str, PropertyInfo(alias="Authorization")]
@@ -156,7 +164,7 @@ class FiltersAndLogicalOperatorAndFilterCondition(TypedDict, total=False):
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -170,7 +178,7 @@ class FiltersAndLogicalOperatorNorLogicalOperatorAndFilterCondition(TypedDict, t
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -186,7 +194,7 @@ class FiltersAndLogicalOperatorNorLogicalOperatorNorFilterCondition(TypedDict, t
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -202,7 +210,7 @@ class FiltersAndLogicalOperatorNorLogicalOperatorOrLogicalOperatorAndFilterCondi
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -218,7 +226,7 @@ class FiltersAndLogicalOperatorNorLogicalOperatorOrLogicalOperatorNorFilterCondi
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -234,7 +242,7 @@ class FiltersAndLogicalOperatorNorLogicalOperatorOrLogicalOperatorOrFilterCondit
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -267,7 +275,7 @@ class FiltersAndLogicalOperatorNorLogicalOperatorOrFilterCondition(TypedDict, to
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -295,7 +303,7 @@ class FiltersAndLogicalOperatorNorFilterCondition(TypedDict, total=False):
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -311,7 +319,7 @@ class FiltersAndLogicalOperatorOrLogicalOperatorAndFilterCondition(TypedDict, to
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -327,7 +335,7 @@ class FiltersAndLogicalOperatorOrLogicalOperatorNorLogicalOperatorAndFilterCondi
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -343,7 +351,7 @@ class FiltersAndLogicalOperatorOrLogicalOperatorNorLogicalOperatorNorFilterCondi
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -359,7 +367,7 @@ class FiltersAndLogicalOperatorOrLogicalOperatorNorLogicalOperatorOrFilterCondit
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -392,7 +400,7 @@ class FiltersAndLogicalOperatorOrLogicalOperatorNorFilterCondition(TypedDict, to
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -409,7 +417,7 @@ class FiltersAndLogicalOperatorOrLogicalOperatorOrFilterCondition(TypedDict, tot
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -436,7 +444,7 @@ class FiltersAndLogicalOperatorOrFilterCondition(TypedDict, total=False):
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -463,7 +471,7 @@ class FiltersAndFilterCondition(TypedDict, total=False):
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -477,7 +485,7 @@ class FiltersNorLogicalOperatorAndLogicalOperatorAndFilterCondition(TypedDict, t
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -493,7 +501,7 @@ class FiltersNorLogicalOperatorAndLogicalOperatorNorFilterCondition(TypedDict, t
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -509,7 +517,7 @@ class FiltersNorLogicalOperatorAndLogicalOperatorOrLogicalOperatorAndFilterCondi
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -525,7 +533,7 @@ class FiltersNorLogicalOperatorAndLogicalOperatorOrLogicalOperatorNorFilterCondi
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -541,7 +549,7 @@ class FiltersNorLogicalOperatorAndLogicalOperatorOrLogicalOperatorOrFilterCondit
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -574,7 +582,7 @@ class FiltersNorLogicalOperatorAndLogicalOperatorOrFilterCondition(TypedDict, to
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -602,7 +610,7 @@ class FiltersNorLogicalOperatorAndFilterCondition(TypedDict, total=False):
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -618,7 +626,7 @@ class FiltersNorLogicalOperatorNorFilterCondition(TypedDict, total=False):
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -632,7 +640,7 @@ class FiltersNorLogicalOperatorOrLogicalOperatorAndLogicalOperatorAndFilterCondi
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -648,7 +656,7 @@ class FiltersNorLogicalOperatorOrLogicalOperatorAndLogicalOperatorNorFilterCondi
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -664,7 +672,7 @@ class FiltersNorLogicalOperatorOrLogicalOperatorAndLogicalOperatorOrFilterCondit
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -697,7 +705,7 @@ class FiltersNorLogicalOperatorOrLogicalOperatorAndFilterCondition(TypedDict, to
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -714,7 +722,7 @@ class FiltersNorLogicalOperatorOrLogicalOperatorNorFilterCondition(TypedDict, to
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -730,7 +738,7 @@ class FiltersNorLogicalOperatorOrLogicalOperatorOrFilterCondition(TypedDict, tot
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -757,7 +765,7 @@ class FiltersNorLogicalOperatorOrFilterCondition(TypedDict, total=False):
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -784,7 +792,7 @@ class FiltersNorFilterCondition(TypedDict, total=False):
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -798,7 +806,7 @@ class FiltersOrLogicalOperatorAndLogicalOperatorAndFilterCondition(TypedDict, to
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -814,7 +822,7 @@ class FiltersOrLogicalOperatorAndLogicalOperatorNorLogicalOperatorAndFilterCondi
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -830,7 +838,7 @@ class FiltersOrLogicalOperatorAndLogicalOperatorNorLogicalOperatorNorFilterCondi
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -846,7 +854,7 @@ class FiltersOrLogicalOperatorAndLogicalOperatorNorLogicalOperatorOrFilterCondit
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -879,7 +887,7 @@ class FiltersOrLogicalOperatorAndLogicalOperatorNorFilterCondition(TypedDict, to
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -896,7 +904,7 @@ class FiltersOrLogicalOperatorAndLogicalOperatorOrFilterCondition(TypedDict, tot
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -923,7 +931,7 @@ class FiltersOrLogicalOperatorAndFilterCondition(TypedDict, total=False):
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -939,7 +947,7 @@ class FiltersOrLogicalOperatorNorLogicalOperatorAndLogicalOperatorAndFilterCondi
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -955,7 +963,7 @@ class FiltersOrLogicalOperatorNorLogicalOperatorAndLogicalOperatorNorFilterCondi
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -971,7 +979,7 @@ class FiltersOrLogicalOperatorNorLogicalOperatorAndLogicalOperatorOrFilterCondit
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -1004,7 +1012,7 @@ class FiltersOrLogicalOperatorNorLogicalOperatorAndFilterCondition(TypedDict, to
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -1021,7 +1029,7 @@ class FiltersOrLogicalOperatorNorLogicalOperatorNorFilterCondition(TypedDict, to
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -1037,7 +1045,7 @@ class FiltersOrLogicalOperatorNorLogicalOperatorOrFilterCondition(TypedDict, tot
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -1064,7 +1072,7 @@ class FiltersOrLogicalOperatorNorFilterCondition(TypedDict, total=False):
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -1080,7 +1088,7 @@ class FiltersOrLogicalOperatorOrFilterCondition(TypedDict, total=False):
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -1105,7 +1113,7 @@ class FiltersOrFilterCondition(TypedDict, total=False):
     value: Required[object]
     """Value to compare against"""
 
-    operator: str
+    operator: Literal["eq", "ne", "gt", "lt", "gte", "lte", "in", "nin", "exists", "regex"]
     """Comparison operator"""
 
 
@@ -1123,9 +1131,38 @@ class Filters(TypedDict, total=False):
     or_: Annotated[Optional[Iterable[FiltersOr]], PropertyInfo(alias="OR")]
 
 
+class GroupBySearchWithinGroup(TypedDict, total=False):
+    enabled: bool
+    """Enable searching within grouped results"""
+
+    inner_page_num: int
+    """Page number for results within each group"""
+
+    inner_page_size: int
+    """Number of results per page within each group"""
+
+
 class GroupBy(TypedDict, total=False):
     field: Optional[str]
     """Field to group by"""
 
     max_features: Optional[int]
     """Maximum number of features to group"""
+
+    search_within_group: GroupBySearchWithinGroup
+    """Options for searching within grouped results.
+
+    When enabled, it performs a separate search for each group (e.g., file_id) and returns results organized by these groups.
+            This is useful for maintaining context within documents or files while still providing relevant search results across the entire collection.
+            Note: Each group will contain its own pagination information.
+
+            Note: This option may impact performance for large datasets.
+    """
+
+
+class Sort(TypedDict, total=False):
+    direction: Required[Literal["asc", "desc"]]
+    """Sort direction"""
+
+    field: Required[str]
+    """Field to sort by, supports dot notation for nested fields"""
