@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Dict, List, Mapping, Iterable, Optional, cast
+from typing import List, Mapping, Iterable, Optional, cast
 from typing_extensions import Literal
 
 import httpx
@@ -57,7 +57,8 @@ class SearchResource(SyncAPIResource):
         filters: Optional[search_text_params.Filters] | NotGiven = NOT_GIVEN,
         group_by: Optional[search_text_params.GroupBy] | NotGiven = NOT_GIVEN,
         model_id: Optional[Literal["vuse-generic-v1", "multimodal-v1", "image-embed-v1"]] | NotGiven = NOT_GIVEN,
-        sort: Optional[Iterable[Dict[str, str]]] | NotGiven = NOT_GIVEN,
+        select: Optional[List[str]] | NotGiven = NOT_GIVEN,
+        sort: Optional[Iterable[search_text_params.Sort]] | NotGiven = NOT_GIVEN,
         authorization: str | NotGiven = NOT_GIVEN,
         index_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -78,6 +79,9 @@ class SearchResource(SyncAPIResource):
           group_by: Grouping options for search results
 
           model_id: Embedding model to use
+
+          select: List of fields to return in results, supports dot notation. If None, all fields
+              are returned.
 
           sort: List of fields to sort by, with direction (asc or desc)
 
@@ -109,6 +113,7 @@ class SearchResource(SyncAPIResource):
                     "filters": filters,
                     "group_by": group_by,
                     "model_id": model_id,
+                    "select": select,
                     "sort": sort,
                 },
                 search_text_params.SearchTextParams,
@@ -189,7 +194,8 @@ class SearchResource(SyncAPIResource):
         filters: Optional[search_url_params.Filters] | NotGiven = NOT_GIVEN,
         group_by: Optional[search_url_params.GroupBy] | NotGiven = NOT_GIVEN,
         model_id: Optional[Literal["vuse-generic-v1", "multimodal-v1", "image-embed-v1"]] | NotGiven = NOT_GIVEN,
-        sort: Optional[Iterable[Dict[str, str]]] | NotGiven = NOT_GIVEN,
+        select: Optional[List[str]] | NotGiven = NOT_GIVEN,
+        sort: Optional[Iterable[search_url_params.Sort]] | NotGiven = NOT_GIVEN,
         authorization: str | NotGiven = NOT_GIVEN,
         index_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -210,6 +216,9 @@ class SearchResource(SyncAPIResource):
           group_by: Grouping options for search results
 
           model_id: Embedding model to use
+
+          select: List of fields to return in results, supports dot notation. If None, all fields
+              are returned.
 
           sort: List of fields to sort by, with direction (asc or desc)
 
@@ -241,6 +250,7 @@ class SearchResource(SyncAPIResource):
                     "filters": filters,
                     "group_by": group_by,
                     "model_id": model_id,
+                    "select": select,
                     "sort": sort,
                 },
                 search_url_params.SearchURLParams,
@@ -280,7 +290,8 @@ class AsyncSearchResource(AsyncAPIResource):
         filters: Optional[search_text_params.Filters] | NotGiven = NOT_GIVEN,
         group_by: Optional[search_text_params.GroupBy] | NotGiven = NOT_GIVEN,
         model_id: Optional[Literal["vuse-generic-v1", "multimodal-v1", "image-embed-v1"]] | NotGiven = NOT_GIVEN,
-        sort: Optional[Iterable[Dict[str, str]]] | NotGiven = NOT_GIVEN,
+        select: Optional[List[str]] | NotGiven = NOT_GIVEN,
+        sort: Optional[Iterable[search_text_params.Sort]] | NotGiven = NOT_GIVEN,
         authorization: str | NotGiven = NOT_GIVEN,
         index_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -301,6 +312,9 @@ class AsyncSearchResource(AsyncAPIResource):
           group_by: Grouping options for search results
 
           model_id: Embedding model to use
+
+          select: List of fields to return in results, supports dot notation. If None, all fields
+              are returned.
 
           sort: List of fields to sort by, with direction (asc or desc)
 
@@ -332,6 +346,7 @@ class AsyncSearchResource(AsyncAPIResource):
                     "filters": filters,
                     "group_by": group_by,
                     "model_id": model_id,
+                    "select": select,
                     "sort": sort,
                 },
                 search_text_params.SearchTextParams,
@@ -412,7 +427,8 @@ class AsyncSearchResource(AsyncAPIResource):
         filters: Optional[search_url_params.Filters] | NotGiven = NOT_GIVEN,
         group_by: Optional[search_url_params.GroupBy] | NotGiven = NOT_GIVEN,
         model_id: Optional[Literal["vuse-generic-v1", "multimodal-v1", "image-embed-v1"]] | NotGiven = NOT_GIVEN,
-        sort: Optional[Iterable[Dict[str, str]]] | NotGiven = NOT_GIVEN,
+        select: Optional[List[str]] | NotGiven = NOT_GIVEN,
+        sort: Optional[Iterable[search_url_params.Sort]] | NotGiven = NOT_GIVEN,
         authorization: str | NotGiven = NOT_GIVEN,
         index_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -433,6 +449,9 @@ class AsyncSearchResource(AsyncAPIResource):
           group_by: Grouping options for search results
 
           model_id: Embedding model to use
+
+          select: List of fields to return in results, supports dot notation. If None, all fields
+              are returned.
 
           sort: List of fields to sort by, with direction (asc or desc)
 
@@ -464,6 +483,7 @@ class AsyncSearchResource(AsyncAPIResource):
                     "filters": filters,
                     "group_by": group_by,
                     "model_id": model_id,
+                    "select": select,
                     "sort": sort,
                 },
                 search_url_params.SearchURLParams,
