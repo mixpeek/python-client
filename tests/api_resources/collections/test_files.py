@@ -7,7 +7,7 @@ from typing import Any, cast
 
 import pytest
 
-from mixpeek import MixpeekSDK, AsyncMixpeekSDK
+from mixpeek import Mixpeek, AsyncMixpeek
 from tests.utils import assert_matches_type
 from mixpeek.types.collections import (
     Fileresponse,
@@ -21,14 +21,14 @@ class TestFiles:
     parametrize = pytest.mark.parametrize("client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
-    def test_method_create(self, client: MixpeekSDK) -> None:
+    def test_method_create(self, client: Mixpeek) -> None:
         file = client.collections.files.create(
             collection_id="collection_id",
         )
         assert_matches_type(object, file, path=["response"])
 
     @parametrize
-    def test_method_create_with_all_params(self, client: MixpeekSDK) -> None:
+    def test_method_create_with_all_params(self, client: Mixpeek) -> None:
         file = client.collections.files.create(
             collection_id="collection_id",
             filters={},
@@ -43,7 +43,7 @@ class TestFiles:
         assert_matches_type(object, file, path=["response"])
 
     @parametrize
-    def test_raw_response_create(self, client: MixpeekSDK) -> None:
+    def test_raw_response_create(self, client: Mixpeek) -> None:
         response = client.collections.files.with_raw_response.create(
             collection_id="collection_id",
         )
@@ -54,7 +54,7 @@ class TestFiles:
         assert_matches_type(object, file, path=["response"])
 
     @parametrize
-    def test_streaming_response_create(self, client: MixpeekSDK) -> None:
+    def test_streaming_response_create(self, client: Mixpeek) -> None:
         with client.collections.files.with_streaming_response.create(
             collection_id="collection_id",
         ) as response:
@@ -67,14 +67,14 @@ class TestFiles:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    def test_method_retrieve(self, client: MixpeekSDK) -> None:
+    def test_method_retrieve(self, client: Mixpeek) -> None:
         file = client.collections.files.retrieve(
             file_id="file_id",
         )
         assert_matches_type(Fileresponse, file, path=["response"])
 
     @parametrize
-    def test_method_retrieve_with_all_params(self, client: MixpeekSDK) -> None:
+    def test_method_retrieve_with_all_params(self, client: Mixpeek) -> None:
         file = client.collections.files.retrieve(
             file_id="file_id",
             authorization="Authorization",
@@ -83,7 +83,7 @@ class TestFiles:
         assert_matches_type(Fileresponse, file, path=["response"])
 
     @parametrize
-    def test_raw_response_retrieve(self, client: MixpeekSDK) -> None:
+    def test_raw_response_retrieve(self, client: Mixpeek) -> None:
         response = client.collections.files.with_raw_response.retrieve(
             file_id="file_id",
         )
@@ -94,7 +94,7 @@ class TestFiles:
         assert_matches_type(Fileresponse, file, path=["response"])
 
     @parametrize
-    def test_streaming_response_retrieve(self, client: MixpeekSDK) -> None:
+    def test_streaming_response_retrieve(self, client: Mixpeek) -> None:
         with client.collections.files.with_streaming_response.retrieve(
             file_id="file_id",
         ) as response:
@@ -107,14 +107,14 @@ class TestFiles:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    def test_path_params_retrieve(self, client: MixpeekSDK) -> None:
+    def test_path_params_retrieve(self, client: Mixpeek) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `file_id` but received ''"):
             client.collections.files.with_raw_response.retrieve(
                 file_id="",
             )
 
     @parametrize
-    def test_method_update(self, client: MixpeekSDK) -> None:
+    def test_method_update(self, client: Mixpeek) -> None:
         file = client.collections.files.update(
             file_id="file_id",
             body={},
@@ -122,7 +122,7 @@ class TestFiles:
         assert_matches_type(Fileresponse, file, path=["response"])
 
     @parametrize
-    def test_method_update_with_all_params(self, client: MixpeekSDK) -> None:
+    def test_method_update_with_all_params(self, client: Mixpeek) -> None:
         file = client.collections.files.update(
             file_id="file_id",
             body={},
@@ -132,7 +132,7 @@ class TestFiles:
         assert_matches_type(Fileresponse, file, path=["response"])
 
     @parametrize
-    def test_raw_response_update(self, client: MixpeekSDK) -> None:
+    def test_raw_response_update(self, client: Mixpeek) -> None:
         response = client.collections.files.with_raw_response.update(
             file_id="file_id",
             body={},
@@ -144,7 +144,7 @@ class TestFiles:
         assert_matches_type(Fileresponse, file, path=["response"])
 
     @parametrize
-    def test_streaming_response_update(self, client: MixpeekSDK) -> None:
+    def test_streaming_response_update(self, client: Mixpeek) -> None:
         with client.collections.files.with_streaming_response.update(
             file_id="file_id",
             body={},
@@ -158,7 +158,7 @@ class TestFiles:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    def test_path_params_update(self, client: MixpeekSDK) -> None:
+    def test_path_params_update(self, client: Mixpeek) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `file_id` but received ''"):
             client.collections.files.with_raw_response.update(
                 file_id="",
@@ -166,14 +166,14 @@ class TestFiles:
             )
 
     @parametrize
-    def test_method_delete(self, client: MixpeekSDK) -> None:
+    def test_method_delete(self, client: Mixpeek) -> None:
         file = client.collections.files.delete(
             file_id="file_id",
         )
         assert_matches_type(object, file, path=["response"])
 
     @parametrize
-    def test_method_delete_with_all_params(self, client: MixpeekSDK) -> None:
+    def test_method_delete_with_all_params(self, client: Mixpeek) -> None:
         file = client.collections.files.delete(
             file_id="file_id",
             authorization="Authorization",
@@ -182,7 +182,7 @@ class TestFiles:
         assert_matches_type(object, file, path=["response"])
 
     @parametrize
-    def test_raw_response_delete(self, client: MixpeekSDK) -> None:
+    def test_raw_response_delete(self, client: Mixpeek) -> None:
         response = client.collections.files.with_raw_response.delete(
             file_id="file_id",
         )
@@ -193,7 +193,7 @@ class TestFiles:
         assert_matches_type(object, file, path=["response"])
 
     @parametrize
-    def test_streaming_response_delete(self, client: MixpeekSDK) -> None:
+    def test_streaming_response_delete(self, client: Mixpeek) -> None:
         with client.collections.files.with_streaming_response.delete(
             file_id="file_id",
         ) as response:
@@ -206,21 +206,21 @@ class TestFiles:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    def test_path_params_delete(self, client: MixpeekSDK) -> None:
+    def test_path_params_delete(self, client: Mixpeek) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `file_id` but received ''"):
             client.collections.files.with_raw_response.delete(
                 file_id="",
             )
 
     @parametrize
-    def test_method_full(self, client: MixpeekSDK) -> None:
+    def test_method_full(self, client: Mixpeek) -> None:
         file = client.collections.files.full(
             file_id="file_id",
         )
         assert_matches_type(Groupedfiledata, file, path=["response"])
 
     @parametrize
-    def test_method_full_with_all_params(self, client: MixpeekSDK) -> None:
+    def test_method_full_with_all_params(self, client: Mixpeek) -> None:
         file = client.collections.files.full(
             file_id="file_id",
             modality="modality",
@@ -232,7 +232,7 @@ class TestFiles:
         assert_matches_type(Groupedfiledata, file, path=["response"])
 
     @parametrize
-    def test_raw_response_full(self, client: MixpeekSDK) -> None:
+    def test_raw_response_full(self, client: Mixpeek) -> None:
         response = client.collections.files.with_raw_response.full(
             file_id="file_id",
         )
@@ -243,7 +243,7 @@ class TestFiles:
         assert_matches_type(Groupedfiledata, file, path=["response"])
 
     @parametrize
-    def test_streaming_response_full(self, client: MixpeekSDK) -> None:
+    def test_streaming_response_full(self, client: Mixpeek) -> None:
         with client.collections.files.with_streaming_response.full(
             file_id="file_id",
         ) as response:
@@ -256,7 +256,7 @@ class TestFiles:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    def test_path_params_full(self, client: MixpeekSDK) -> None:
+    def test_path_params_full(self, client: Mixpeek) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `file_id` but received ''"):
             client.collections.files.with_raw_response.full(
                 file_id="",
@@ -267,14 +267,14 @@ class TestAsyncFiles:
     parametrize = pytest.mark.parametrize("async_client", [False, True], indirect=True, ids=["loose", "strict"])
 
     @parametrize
-    async def test_method_create(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_method_create(self, async_client: AsyncMixpeek) -> None:
         file = await async_client.collections.files.create(
             collection_id="collection_id",
         )
         assert_matches_type(object, file, path=["response"])
 
     @parametrize
-    async def test_method_create_with_all_params(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_method_create_with_all_params(self, async_client: AsyncMixpeek) -> None:
         file = await async_client.collections.files.create(
             collection_id="collection_id",
             filters={},
@@ -289,7 +289,7 @@ class TestAsyncFiles:
         assert_matches_type(object, file, path=["response"])
 
     @parametrize
-    async def test_raw_response_create(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_raw_response_create(self, async_client: AsyncMixpeek) -> None:
         response = await async_client.collections.files.with_raw_response.create(
             collection_id="collection_id",
         )
@@ -300,7 +300,7 @@ class TestAsyncFiles:
         assert_matches_type(object, file, path=["response"])
 
     @parametrize
-    async def test_streaming_response_create(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_streaming_response_create(self, async_client: AsyncMixpeek) -> None:
         async with async_client.collections.files.with_streaming_response.create(
             collection_id="collection_id",
         ) as response:
@@ -313,14 +313,14 @@ class TestAsyncFiles:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_method_retrieve(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_method_retrieve(self, async_client: AsyncMixpeek) -> None:
         file = await async_client.collections.files.retrieve(
             file_id="file_id",
         )
         assert_matches_type(Fileresponse, file, path=["response"])
 
     @parametrize
-    async def test_method_retrieve_with_all_params(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_method_retrieve_with_all_params(self, async_client: AsyncMixpeek) -> None:
         file = await async_client.collections.files.retrieve(
             file_id="file_id",
             authorization="Authorization",
@@ -329,7 +329,7 @@ class TestAsyncFiles:
         assert_matches_type(Fileresponse, file, path=["response"])
 
     @parametrize
-    async def test_raw_response_retrieve(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_raw_response_retrieve(self, async_client: AsyncMixpeek) -> None:
         response = await async_client.collections.files.with_raw_response.retrieve(
             file_id="file_id",
         )
@@ -340,7 +340,7 @@ class TestAsyncFiles:
         assert_matches_type(Fileresponse, file, path=["response"])
 
     @parametrize
-    async def test_streaming_response_retrieve(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_streaming_response_retrieve(self, async_client: AsyncMixpeek) -> None:
         async with async_client.collections.files.with_streaming_response.retrieve(
             file_id="file_id",
         ) as response:
@@ -353,14 +353,14 @@ class TestAsyncFiles:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_path_params_retrieve(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_path_params_retrieve(self, async_client: AsyncMixpeek) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `file_id` but received ''"):
             await async_client.collections.files.with_raw_response.retrieve(
                 file_id="",
             )
 
     @parametrize
-    async def test_method_update(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_method_update(self, async_client: AsyncMixpeek) -> None:
         file = await async_client.collections.files.update(
             file_id="file_id",
             body={},
@@ -368,7 +368,7 @@ class TestAsyncFiles:
         assert_matches_type(Fileresponse, file, path=["response"])
 
     @parametrize
-    async def test_method_update_with_all_params(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_method_update_with_all_params(self, async_client: AsyncMixpeek) -> None:
         file = await async_client.collections.files.update(
             file_id="file_id",
             body={},
@@ -378,7 +378,7 @@ class TestAsyncFiles:
         assert_matches_type(Fileresponse, file, path=["response"])
 
     @parametrize
-    async def test_raw_response_update(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_raw_response_update(self, async_client: AsyncMixpeek) -> None:
         response = await async_client.collections.files.with_raw_response.update(
             file_id="file_id",
             body={},
@@ -390,7 +390,7 @@ class TestAsyncFiles:
         assert_matches_type(Fileresponse, file, path=["response"])
 
     @parametrize
-    async def test_streaming_response_update(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_streaming_response_update(self, async_client: AsyncMixpeek) -> None:
         async with async_client.collections.files.with_streaming_response.update(
             file_id="file_id",
             body={},
@@ -404,7 +404,7 @@ class TestAsyncFiles:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_path_params_update(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_path_params_update(self, async_client: AsyncMixpeek) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `file_id` but received ''"):
             await async_client.collections.files.with_raw_response.update(
                 file_id="",
@@ -412,14 +412,14 @@ class TestAsyncFiles:
             )
 
     @parametrize
-    async def test_method_delete(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_method_delete(self, async_client: AsyncMixpeek) -> None:
         file = await async_client.collections.files.delete(
             file_id="file_id",
         )
         assert_matches_type(object, file, path=["response"])
 
     @parametrize
-    async def test_method_delete_with_all_params(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_method_delete_with_all_params(self, async_client: AsyncMixpeek) -> None:
         file = await async_client.collections.files.delete(
             file_id="file_id",
             authorization="Authorization",
@@ -428,7 +428,7 @@ class TestAsyncFiles:
         assert_matches_type(object, file, path=["response"])
 
     @parametrize
-    async def test_raw_response_delete(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_raw_response_delete(self, async_client: AsyncMixpeek) -> None:
         response = await async_client.collections.files.with_raw_response.delete(
             file_id="file_id",
         )
@@ -439,7 +439,7 @@ class TestAsyncFiles:
         assert_matches_type(object, file, path=["response"])
 
     @parametrize
-    async def test_streaming_response_delete(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_streaming_response_delete(self, async_client: AsyncMixpeek) -> None:
         async with async_client.collections.files.with_streaming_response.delete(
             file_id="file_id",
         ) as response:
@@ -452,21 +452,21 @@ class TestAsyncFiles:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_path_params_delete(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_path_params_delete(self, async_client: AsyncMixpeek) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `file_id` but received ''"):
             await async_client.collections.files.with_raw_response.delete(
                 file_id="",
             )
 
     @parametrize
-    async def test_method_full(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_method_full(self, async_client: AsyncMixpeek) -> None:
         file = await async_client.collections.files.full(
             file_id="file_id",
         )
         assert_matches_type(Groupedfiledata, file, path=["response"])
 
     @parametrize
-    async def test_method_full_with_all_params(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_method_full_with_all_params(self, async_client: AsyncMixpeek) -> None:
         file = await async_client.collections.files.full(
             file_id="file_id",
             modality="modality",
@@ -478,7 +478,7 @@ class TestAsyncFiles:
         assert_matches_type(Groupedfiledata, file, path=["response"])
 
     @parametrize
-    async def test_raw_response_full(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_raw_response_full(self, async_client: AsyncMixpeek) -> None:
         response = await async_client.collections.files.with_raw_response.full(
             file_id="file_id",
         )
@@ -489,7 +489,7 @@ class TestAsyncFiles:
         assert_matches_type(Groupedfiledata, file, path=["response"])
 
     @parametrize
-    async def test_streaming_response_full(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_streaming_response_full(self, async_client: AsyncMixpeek) -> None:
         async with async_client.collections.files.with_streaming_response.full(
             file_id="file_id",
         ) as response:
@@ -502,7 +502,7 @@ class TestAsyncFiles:
         assert cast(Any, response.is_closed) is True
 
     @parametrize
-    async def test_path_params_full(self, async_client: AsyncMixpeekSDK) -> None:
+    async def test_path_params_full(self, async_client: AsyncMixpeek) -> None:
         with pytest.raises(ValueError, match=r"Expected a non-empty value for `file_id` but received ''"):
             await async_client.collections.files.with_raw_response.full(
                 file_id="",

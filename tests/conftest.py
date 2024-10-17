@@ -7,7 +7,7 @@ from typing import TYPE_CHECKING, Iterator, AsyncIterator
 
 import pytest
 
-from mixpeek import MixpeekSDK, AsyncMixpeekSDK
+from mixpeek import Mixpeek, AsyncMixpeek
 
 if TYPE_CHECKING:
     from _pytest.fixtures import FixtureRequest
@@ -28,20 +28,20 @@ base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
 
 @pytest.fixture(scope="session")
-def client(request: FixtureRequest) -> Iterator[MixpeekSDK]:
+def client(request: FixtureRequest) -> Iterator[Mixpeek]:
     strict = getattr(request, "param", True)
     if not isinstance(strict, bool):
         raise TypeError(f"Unexpected fixture parameter type {type(strict)}, expected {bool}")
 
-    with MixpeekSDK(base_url=base_url, _strict_response_validation=strict) as client:
+    with Mixpeek(base_url=base_url, _strict_response_validation=strict) as client:
         yield client
 
 
 @pytest.fixture(scope="session")
-async def async_client(request: FixtureRequest) -> AsyncIterator[AsyncMixpeekSDK]:
+async def async_client(request: FixtureRequest) -> AsyncIterator[AsyncMixpeek]:
     strict = getattr(request, "param", True)
     if not isinstance(strict, bool):
         raise TypeError(f"Unexpected fixture parameter type {type(strict)}, expected {bool}")
 
-    async with AsyncMixpeekSDK(base_url=base_url, _strict_response_validation=strict) as client:
+    async with AsyncMixpeek(base_url=base_url, _strict_response_validation=strict) as client:
         yield client

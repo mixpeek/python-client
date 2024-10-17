@@ -8,13 +8,13 @@ from typing import TYPE_CHECKING
 import anyio
 
 if TYPE_CHECKING:
-    from ._client import MixpeekSDK, AsyncMixpeekSDK
+    from ._client import Mixpeek, AsyncMixpeek
 
 
 class SyncAPIResource:
-    _client: MixpeekSDK
+    _client: Mixpeek
 
-    def __init__(self, client: MixpeekSDK) -> None:
+    def __init__(self, client: Mixpeek) -> None:
         self._client = client
         self._get = client.get
         self._post = client.post
@@ -28,9 +28,9 @@ class SyncAPIResource:
 
 
 class AsyncAPIResource:
-    _client: AsyncMixpeekSDK
+    _client: AsyncMixpeek
 
-    def __init__(self, client: AsyncMixpeekSDK) -> None:
+    def __init__(self, client: AsyncMixpeek) -> None:
         self._client = client
         self._get = client.get
         self._post = client.post

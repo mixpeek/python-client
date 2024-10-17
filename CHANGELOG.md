@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.12.0 (2024-10-17)
+
+Full Changelog: [v0.11.0...v0.12.0](https://github.com/mixpeek/python-client/compare/v0.11.0...v0.12.0)
+
+### Features
+
+* **api:** api update ([#20](https://github.com/mixpeek/python-client/issues/20)) ([db2e6da](https://github.com/mixpeek/python-client/commit/db2e6daf9557d9abf4b9a277406de6a8faf389b1))
+* **api:** api update ([#22](https://github.com/mixpeek/python-client/issues/22)) ([0a1e8b6](https://github.com/mixpeek/python-client/commit/0a1e8b687755a374928842f750f09a8d6be8214c))
+* **api:** api update ([#23](https://github.com/mixpeek/python-client/issues/23)) ([4136eed](https://github.com/mixpeek/python-client/commit/4136eed5afd041e521cfd4c4de8670fd65847ab9))
+* **api:** api update ([#24](https://github.com/mixpeek/python-client/issues/24)) ([ccd3506](https://github.com/mixpeek/python-client/commit/ccd3506617ed1acebb8f67bd7000ce3a1ab37815))
+* **api:** api update ([#25](https://github.com/mixpeek/python-client/issues/25)) ([a49b288](https://github.com/mixpeek/python-client/commit/a49b2889fcb0fc49972d1a1debe23b1380831b9d))
+* **api:** api update ([#26](https://github.com/mixpeek/python-client/issues/26)) ([333a7be](https://github.com/mixpeek/python-client/commit/333a7befe193832c411b6fce0db2902f3f2f3d27))
+* **api:** api update ([#27](https://github.com/mixpeek/python-client/issues/27)) ([0dd1ce5](https://github.com/mixpeek/python-client/commit/0dd1ce5ece27d0462256d285a9e4e37d410a73fb))
+* **api:** api update ([#28](https://github.com/mixpeek/python-client/issues/28)) ([b8e47eb](https://github.com/mixpeek/python-client/commit/b8e47ebbc34842590adf1f2c7d250fb7ae069c81))
+
 ## 0.11.0 (2024-10-08)
 
 Full Changelog: [v0.10.0...v0.11.0](https://github.com/mixpeek/python-client/compare/v0.10.0...v0.11.0)

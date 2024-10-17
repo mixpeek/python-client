@@ -18,11 +18,11 @@ __all__ = [
 ]
 
 
-class MixpeekSDKError(Exception):
+class MixpeekError(Exception):
     pass
 
 
-class APIError(MixpeekSDKError):
+class APIError(MixpeekError):
     message: str
     request: httpx.Request
 
