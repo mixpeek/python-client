@@ -1144,7 +1144,12 @@ class GroupBySearchWithinGroup(TypedDict, total=False):
 
 class GroupBy(TypedDict, total=False):
     field: Optional[str]
-    """Field to group by"""
+    """Field to group by
+
+            Note: We currently do not support ad-hoc grouping.
+            This means the field must be indexed separately.
+            Please contact us to add additional fields for grouping.
+    """
 
     max_features: Optional[int]
     """Maximum number of features to group"""
@@ -1156,7 +1161,7 @@ class GroupBy(TypedDict, total=False):
             This is useful for maintaining context within documents or files while still providing relevant search results across the entire collection.
             Note: Each group will contain its own pagination information.
 
-            Note: This option may impact performance for large datasets.
+            Note: This option may impact performance for large datasets, and it is not available for Free tier users.
     """
 
 
