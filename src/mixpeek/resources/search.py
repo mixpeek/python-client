@@ -141,7 +141,7 @@ class SearchResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> object:
         """
-        Search File
+        Search Upload
 
         Args:
           index_id: filter by organization
@@ -374,7 +374,7 @@ class AsyncSearchResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> object:
         """
-        Search File
+        Search Upload
 
         Args:
           index_id: filter by organization
