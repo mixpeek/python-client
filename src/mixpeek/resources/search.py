@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from typing import Mapping, Optional, cast
+from typing import List, Mapping, Iterable, Optional, cast
+from typing_extensions import Literal
 
 import httpx
 
@@ -51,14 +52,13 @@ class SearchResource(SyncAPIResource):
     def text(
         self,
         *,
-        input: str,
-        filters: object | NotGiven = NOT_GIVEN,
-        group_by_file: bool | NotGiven = NOT_GIVEN,
-        input_type: Optional[str] | NotGiven = NOT_GIVEN,
-        modality: Optional[str] | NotGiven = NOT_GIVEN,
-        model_id: Optional[str] | NotGiven = NOT_GIVEN,
-        pagination: search_text_params.Pagination | NotGiven = NOT_GIVEN,
-        source: Optional[str] | NotGiven = NOT_GIVEN,
+        collection_ids: List[str],
+        query: str,
+        filters: Optional[search_text_params.Filters] | NotGiven = NOT_GIVEN,
+        group_by: Optional[search_text_params.GroupBy] | NotGiven = NOT_GIVEN,
+        model_id: Optional[Literal["vuse-generic-v1", "multimodal-v1", "image-embed-v1"]] | NotGiven = NOT_GIVEN,
+        select: Optional[List[str]] | NotGiven = NOT_GIVEN,
+        sort: Optional[Iterable[search_text_params.Sort]] | NotGiven = NOT_GIVEN,
         authorization: str | NotGiven = NOT_GIVEN,
         index_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -69,16 +69,21 @@ class SearchResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> object:
         """
-        Search
+        Perform a text-based search across specified collections.
 
         Args:
-          input: url, text, or base64 input
+          collection_ids: List of Collection IDs to search within, required
 
-          filters: Additional filters for the search
+          filters: Complex nested query filters
 
-          group_by_file: Whether to group search results by file
+          group_by: Grouping options for search results
 
-          pagination: Pagination parameters
+          model_id: Embedding model to use
+
+          select: List of fields to return in results, supports dot notation. If None, all fields
+              are returned.
+
+          sort: List of fields to sort by, with direction (asc or desc)
 
           index_id: filter by organization
 
@@ -103,14 +108,13 @@ class SearchResource(SyncAPIResource):
             "/search/text",
             body=maybe_transform(
                 {
-                    "input": input,
+                    "collection_ids": collection_ids,
+                    "query": query,
                     "filters": filters,
-                    "group_by_file": group_by_file,
-                    "input_type": input_type,
-                    "modality": modality,
+                    "group_by": group_by,
                     "model_id": model_id,
-                    "pagination": pagination,
-                    "source": source,
+                    "select": select,
+                    "sort": sort,
                 },
                 search_text_params.SearchTextParams,
             ),
@@ -137,7 +141,7 @@ class SearchResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> object:
         """
-        Search Video
+        Search Upload
 
         Args:
           index_id: filter by organization
@@ -185,14 +189,13 @@ class SearchResource(SyncAPIResource):
     def url(
         self,
         *,
-        input: str,
-        filters: object | NotGiven = NOT_GIVEN,
-        group_by_file: bool | NotGiven = NOT_GIVEN,
-        input_type: Optional[str] | NotGiven = NOT_GIVEN,
-        modality: Optional[str] | NotGiven = NOT_GIVEN,
-        model_id: Optional[str] | NotGiven = NOT_GIVEN,
-        pagination: search_url_params.Pagination | NotGiven = NOT_GIVEN,
-        source: Optional[str] | NotGiven = NOT_GIVEN,
+        collection_ids: List[str],
+        url: str,
+        filters: Optional[search_url_params.Filters] | NotGiven = NOT_GIVEN,
+        group_by: Optional[search_url_params.GroupBy] | NotGiven = NOT_GIVEN,
+        model_id: Optional[Literal["vuse-generic-v1", "multimodal-v1", "image-embed-v1"]] | NotGiven = NOT_GIVEN,
+        select: Optional[List[str]] | NotGiven = NOT_GIVEN,
+        sort: Optional[Iterable[search_url_params.Sort]] | NotGiven = NOT_GIVEN,
         authorization: str | NotGiven = NOT_GIVEN,
         index_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -203,16 +206,21 @@ class SearchResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> object:
         """
-        Search Url
+        Perform a search based on the content of a specified URL.
 
         Args:
-          input: url, text, or base64 input
+          collection_ids: List of Collection IDs to search within, required
 
-          filters: Additional filters for the search
+          filters: Complex nested query filters
 
-          group_by_file: Whether to group search results by file
+          group_by: Grouping options for search results
 
-          pagination: Pagination parameters
+          model_id: Embedding model to use
+
+          select: List of fields to return in results, supports dot notation. If None, all fields
+              are returned.
+
+          sort: List of fields to sort by, with direction (asc or desc)
 
           index_id: filter by organization
 
@@ -237,14 +245,13 @@ class SearchResource(SyncAPIResource):
             "/search/url",
             body=maybe_transform(
                 {
-                    "input": input,
+                    "collection_ids": collection_ids,
+                    "url": url,
                     "filters": filters,
-                    "group_by_file": group_by_file,
-                    "input_type": input_type,
-                    "modality": modality,
+                    "group_by": group_by,
                     "model_id": model_id,
-                    "pagination": pagination,
-                    "source": source,
+                    "select": select,
+                    "sort": sort,
                 },
                 search_url_params.SearchURLParams,
             ),
@@ -278,14 +285,13 @@ class AsyncSearchResource(AsyncAPIResource):
     async def text(
         self,
         *,
-        input: str,
-        filters: object | NotGiven = NOT_GIVEN,
-        group_by_file: bool | NotGiven = NOT_GIVEN,
-        input_type: Optional[str] | NotGiven = NOT_GIVEN,
-        modality: Optional[str] | NotGiven = NOT_GIVEN,
-        model_id: Optional[str] | NotGiven = NOT_GIVEN,
-        pagination: search_text_params.Pagination | NotGiven = NOT_GIVEN,
-        source: Optional[str] | NotGiven = NOT_GIVEN,
+        collection_ids: List[str],
+        query: str,
+        filters: Optional[search_text_params.Filters] | NotGiven = NOT_GIVEN,
+        group_by: Optional[search_text_params.GroupBy] | NotGiven = NOT_GIVEN,
+        model_id: Optional[Literal["vuse-generic-v1", "multimodal-v1", "image-embed-v1"]] | NotGiven = NOT_GIVEN,
+        select: Optional[List[str]] | NotGiven = NOT_GIVEN,
+        sort: Optional[Iterable[search_text_params.Sort]] | NotGiven = NOT_GIVEN,
         authorization: str | NotGiven = NOT_GIVEN,
         index_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -296,16 +302,21 @@ class AsyncSearchResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> object:
         """
-        Search
+        Perform a text-based search across specified collections.
 
         Args:
-          input: url, text, or base64 input
+          collection_ids: List of Collection IDs to search within, required
 
-          filters: Additional filters for the search
+          filters: Complex nested query filters
 
-          group_by_file: Whether to group search results by file
+          group_by: Grouping options for search results
 
-          pagination: Pagination parameters
+          model_id: Embedding model to use
+
+          select: List of fields to return in results, supports dot notation. If None, all fields
+              are returned.
+
+          sort: List of fields to sort by, with direction (asc or desc)
 
           index_id: filter by organization
 
@@ -330,14 +341,13 @@ class AsyncSearchResource(AsyncAPIResource):
             "/search/text",
             body=await async_maybe_transform(
                 {
-                    "input": input,
+                    "collection_ids": collection_ids,
+                    "query": query,
                     "filters": filters,
-                    "group_by_file": group_by_file,
-                    "input_type": input_type,
-                    "modality": modality,
+                    "group_by": group_by,
                     "model_id": model_id,
-                    "pagination": pagination,
-                    "source": source,
+                    "select": select,
+                    "sort": sort,
                 },
                 search_text_params.SearchTextParams,
             ),
@@ -364,7 +374,7 @@ class AsyncSearchResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> object:
         """
-        Search Video
+        Search Upload
 
         Args:
           index_id: filter by organization
@@ -412,14 +422,13 @@ class AsyncSearchResource(AsyncAPIResource):
     async def url(
         self,
         *,
-        input: str,
-        filters: object | NotGiven = NOT_GIVEN,
-        group_by_file: bool | NotGiven = NOT_GIVEN,
-        input_type: Optional[str] | NotGiven = NOT_GIVEN,
-        modality: Optional[str] | NotGiven = NOT_GIVEN,
-        model_id: Optional[str] | NotGiven = NOT_GIVEN,
-        pagination: search_url_params.Pagination | NotGiven = NOT_GIVEN,
-        source: Optional[str] | NotGiven = NOT_GIVEN,
+        collection_ids: List[str],
+        url: str,
+        filters: Optional[search_url_params.Filters] | NotGiven = NOT_GIVEN,
+        group_by: Optional[search_url_params.GroupBy] | NotGiven = NOT_GIVEN,
+        model_id: Optional[Literal["vuse-generic-v1", "multimodal-v1", "image-embed-v1"]] | NotGiven = NOT_GIVEN,
+        select: Optional[List[str]] | NotGiven = NOT_GIVEN,
+        sort: Optional[Iterable[search_url_params.Sort]] | NotGiven = NOT_GIVEN,
         authorization: str | NotGiven = NOT_GIVEN,
         index_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -430,16 +439,21 @@ class AsyncSearchResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> object:
         """
-        Search Url
+        Perform a search based on the content of a specified URL.
 
         Args:
-          input: url, text, or base64 input
+          collection_ids: List of Collection IDs to search within, required
 
-          filters: Additional filters for the search
+          filters: Complex nested query filters
 
-          group_by_file: Whether to group search results by file
+          group_by: Grouping options for search results
 
-          pagination: Pagination parameters
+          model_id: Embedding model to use
+
+          select: List of fields to return in results, supports dot notation. If None, all fields
+              are returned.
+
+          sort: List of fields to sort by, with direction (asc or desc)
 
           index_id: filter by organization
 
@@ -464,14 +478,13 @@ class AsyncSearchResource(AsyncAPIResource):
             "/search/url",
             body=await async_maybe_transform(
                 {
-                    "input": input,
+                    "collection_ids": collection_ids,
+                    "url": url,
                     "filters": filters,
-                    "group_by_file": group_by_file,
-                    "input_type": input_type,
-                    "modality": modality,
+                    "group_by": group_by,
                     "model_id": model_id,
-                    "pagination": pagination,
-                    "source": source,
+                    "select": select,
+                    "sort": sort,
                 },
                 search_url_params.SearchURLParams,
             ),

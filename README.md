@@ -1,8 +1,8 @@
-# Mixpeek SDK Python API library
+# Mixpeek Python API library
 
 [![PyPI version](https://img.shields.io/pypi/v/mixpeek.svg)](https://pypi.org/project/mixpeek/)
 
-The Mixpeek SDK Python library provides convenient access to the Mixpeek SDK REST API from any Python 3.7+
+The Mixpeek Python library provides convenient access to the Mixpeek REST API from any Python 3.7+
 application. The library includes type definitions for all request params and response fields,
 and offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).
 
@@ -24,32 +24,32 @@ pip install mixpeek
 The full API of this library can be found in [api.md](api.md).
 
 ```python
-from mixpeek import MixpeekSDK
+from mixpeek import Mixpeek
 
-client = MixpeekSDK()
+client = Mixpeek()
 
-agentresponse = client.agent.create(
+response = client.describe.upload(
+    file=b"raw file contents",
     prompt="prompt",
 )
-print(agentresponse.task_id)
 ```
 
 ## Async usage
 
-Simply import `AsyncMixpeekSDK` instead of `MixpeekSDK` and use `await` with each API call:
+Simply import `AsyncMixpeek` instead of `Mixpeek` and use `await` with each API call:
 
 ```python
 import asyncio
-from mixpeek import AsyncMixpeekSDK
+from mixpeek import AsyncMixpeek
 
-client = AsyncMixpeekSDK()
+client = AsyncMixpeek()
 
 
 async def main() -> None:
-    agentresponse = await client.agent.create(
+    response = await client.describe.upload(
+        file=b"raw file contents",
         prompt="prompt",
     )
-    print(agentresponse.task_id)
 
 
 asyncio.run(main())
@@ -77,12 +77,13 @@ All errors inherit from `mixpeek.APIError`.
 
 ```python
 import mixpeek
-from mixpeek import MixpeekSDK
+from mixpeek import Mixpeek
 
-client = MixpeekSDK()
+client = Mixpeek()
 
 try:
-    client.agent.create(
+    client.describe.upload(
+        file=b"raw file contents",
         prompt="prompt",
     )
 except mixpeek.APIConnectionError as e:
@@ -118,16 +119,17 @@ Connection errors (for example, due to a network connectivity problem), 408 Requ
 You can use the `max_retries` option to configure or disable retry settings:
 
 ```python
-from mixpeek import MixpeekSDK
+from mixpeek import Mixpeek
 
 # Configure the default for all requests:
-client = MixpeekSDK(
+client = Mixpeek(
     # default is 2
     max_retries=0,
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).agent.create(
+client.with_options(max_retries=5).describe.upload(
+    file=b"raw file contents",
     prompt="prompt",
 )
 ```
@@ -138,21 +140,22 @@ By default requests time out after 1 minute. You can configure this with a `time
 which accepts a float or an [`httpx.Timeout`](https://www.python-httpx.org/advanced/#fine-tuning-the-configuration) object:
 
 ```python
-from mixpeek import MixpeekSDK
+from mixpeek import Mixpeek
 
 # Configure the default for all requests:
-client = MixpeekSDK(
+client = Mixpeek(
     # 20 seconds (default is 1 minute)
     timeout=20.0,
 )
 
 # More granular control:
-client = MixpeekSDK(
+client = Mixpeek(
     timeout=httpx.Timeout(60.0, read=5.0, write=10.0, connect=2.0),
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).agent.create(
+client.with_options(timeout=5.0).describe.upload(
+    file=b"raw file contents",
     prompt="prompt",
 )
 ```
@@ -167,10 +170,10 @@ Note that requests that time out are [retried twice by default](#retries).
 
 We use the standard library [`logging`](https://docs.python.org/3/library/logging.html) module.
 
-You can enable logging by setting the environment variable `MIXPEEK_SDK_LOG` to `debug`.
+You can enable logging by setting the environment variable `MIXPEEK_LOG` to `debug`.
 
 ```shell
-$ export MIXPEEK_SDK_LOG=debug
+$ export MIXPEEK_LOG=debug
 ```
 
 ### How to tell whether `None` means `null` or missing
@@ -190,16 +193,17 @@ if response.my_field is None:
 The "raw" Response object can be accessed by prefixing `.with_raw_response.` to any HTTP method call, e.g.,
 
 ```py
-from mixpeek import MixpeekSDK
+from mixpeek import Mixpeek
 
-client = MixpeekSDK()
-response = client.agent.with_raw_response.create(
+client = Mixpeek()
+response = client.describe.with_raw_response.upload(
+    file=b'raw file contents',
     prompt="prompt",
 )
 print(response.headers.get('X-My-Header'))
 
-agent = response.parse()  # get the object that `agent.create()` would have returned
-print(agent.task_id)
+describe = response.parse()  # get the object that `describe.upload()` would have returned
+print(describe)
 ```
 
 These methods return an [`APIResponse`](https://github.com/mixpeek/python-client/tree/main/src/mixpeek/_response.py) object.
@@ -213,7 +217,8 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.agent.with_streaming_response.create(
+with client.describe.with_streaming_response.upload(
+    file=b"raw file contents",
     prompt="prompt",
 ) as response:
     print(response.headers.get("X-My-Header"))
@@ -268,10 +273,10 @@ You can directly override the [httpx client](https://www.python-httpx.org/api/#c
 - Additional [advanced](https://www.python-httpx.org/advanced/clients/) functionality
 
 ```python
-from mixpeek import MixpeekSDK, DefaultHttpxClient
+from mixpeek import Mixpeek, DefaultHttpxClient
 
-client = MixpeekSDK(
-    # Or use the `MIXPEEK_SDK_BASE_URL` env var
+client = Mixpeek(
+    # Or use the `MIXPEEK_BASE_URL` env var
     base_url="http://my.test.server.example.com:8083",
     http_client=DefaultHttpxClient(
         proxies="http://my.test.proxy.example.com",

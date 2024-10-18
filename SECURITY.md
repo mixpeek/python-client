@@ -16,11 +16,11 @@ before making any information public.
 ## Reporting Non-SDK Related Security Issues
 
 If you encounter security issues that are not directly related to SDKs but pertain to the services
-or products provided by Mixpeek SDK please follow the respective company's security reporting guidelines.
+or products provided by Mixpeek please follow the respective company's security reporting guidelines.
 
-### Mixpeek SDK Terms and Policies
+### Mixpeek Terms and Policies
 
-Please contact dev-feedback-test@mixpeek-sdk.com for any questions or concerns regarding security of our services.
+Please contact dev-feedback@mixpeek-sdk.com for any questions or concerns regarding security of our services.
 
 ---
 
