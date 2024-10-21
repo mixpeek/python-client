@@ -119,7 +119,7 @@ class IndexesResource(SyncAPIResource):
         *,
         collection_id: str,
         url: str,
-        file_id: Optional[str] | NotGiven = NOT_GIVEN,
+        file_update: Optional[index_url_params.FileUpdate] | NotGiven = NOT_GIVEN,
         image_settings: Optional[index_url_params.ImageSettings] | NotGiven = NOT_GIVEN,
         metadata: object | NotGiven = NOT_GIVEN,
         prevent_duplicate: Optional[bool] | NotGiven = NOT_GIVEN,
@@ -142,9 +142,7 @@ class IndexesResource(SyncAPIResource):
 
           url: The URL of the file to be processed. Must be a valid HTTP or HTTPS URL.
 
-          file_id: Unique identifier for the file to be processed. If provided, feature extraction
-              will be performed and the results will be upserted with the existing file_id. If
-              not provided, a random UUID will be generated.
+          file_update: File update information for existing files
 
           image_settings: Settings for image processing. Only applicable if the URL points to an image
               file.
@@ -186,7 +184,7 @@ class IndexesResource(SyncAPIResource):
                     {
                         "collection_id": collection_id,
                         "url": url,
-                        "file_id": file_id,
+                        "file_update": file_update,
                         "image_settings": image_settings,
                         "metadata": metadata,
                         "prevent_duplicate": prevent_duplicate,
@@ -292,7 +290,7 @@ class AsyncIndexesResource(AsyncAPIResource):
         *,
         collection_id: str,
         url: str,
-        file_id: Optional[str] | NotGiven = NOT_GIVEN,
+        file_update: Optional[index_url_params.FileUpdate] | NotGiven = NOT_GIVEN,
         image_settings: Optional[index_url_params.ImageSettings] | NotGiven = NOT_GIVEN,
         metadata: object | NotGiven = NOT_GIVEN,
         prevent_duplicate: Optional[bool] | NotGiven = NOT_GIVEN,
@@ -315,9 +313,7 @@ class AsyncIndexesResource(AsyncAPIResource):
 
           url: The URL of the file to be processed. Must be a valid HTTP or HTTPS URL.
 
-          file_id: Unique identifier for the file to be processed. If provided, feature extraction
-              will be performed and the results will be upserted with the existing file_id. If
-              not provided, a random UUID will be generated.
+          file_update: File update information for existing files
 
           image_settings: Settings for image processing. Only applicable if the URL points to an image
               file.
@@ -359,7 +355,7 @@ class AsyncIndexesResource(AsyncAPIResource):
                     {
                         "collection_id": collection_id,
                         "url": url,
-                        "file_id": file_id,
+                        "file_update": file_update,
                         "image_settings": image_settings,
                         "metadata": metadata,
                         "prevent_duplicate": prevent_duplicate,

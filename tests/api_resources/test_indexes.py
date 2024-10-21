@@ -77,7 +77,10 @@ class TestIndexes:
         index = client.indexes.url(
             collection_id="my_document_collection",
             url="https://example.com/sample-file.mp4",
-            file_id="my_file_id",
+            file_update={
+                "file_id": "file_id",
+                "mode": "mode",
+            },
             image_settings={
                 "describe": {
                     "json_output": {},
@@ -324,7 +327,10 @@ class TestAsyncIndexes:
         index = await async_client.indexes.url(
             collection_id="my_document_collection",
             url="https://example.com/sample-file.mp4",
-            file_id="my_file_id",
+            file_update={
+                "file_id": "file_id",
+                "mode": "mode",
+            },
             image_settings={
                 "describe": {
                     "json_output": {},
