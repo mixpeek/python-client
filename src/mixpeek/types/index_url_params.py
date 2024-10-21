@@ -9,6 +9,7 @@ from .._utils import PropertyInfo
 
 __all__ = [
     "IndexURLParams",
+    "FileUpdate",
     "ImageSettings",
     "ImageSettingsDescribe",
     "ImageSettingsDetect",
@@ -36,13 +37,8 @@ class IndexURLParams(TypedDict, total=False):
     url: Required[str]
     """The URL of the file to be processed. Must be a valid HTTP or HTTPS URL."""
 
-    file_id: Optional[str]
-    """Unique identifier for the file to be processed.
-
-    If provided, feature extraction will be performed and the results will be
-    upserted with the existing file_id. If not provided, a random UUID will be
-    generated.
-    """
+    file_update: Optional[FileUpdate]
+    """File update information for existing files"""
 
     image_settings: Optional[ImageSettings]
     """Settings for image processing.
@@ -72,6 +68,14 @@ class IndexURLParams(TypedDict, total=False):
 
     index_id: Annotated[str, PropertyInfo(alias="index-id")]
     """filter by organization"""
+
+
+class FileUpdate(TypedDict, total=False):
+    file_id: Required[str]
+    """Unique identifier for the file to be updated"""
+
+    mode: Required[str]
+    """Update mode: 'replace' or 'update'"""
 
 
 class ImageSettingsDescribe(TypedDict, total=False):
