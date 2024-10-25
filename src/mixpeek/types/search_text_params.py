@@ -121,6 +121,7 @@ __all__ = [
     "FiltersOrLogicalOperatorOr",
     "FiltersOrLogicalOperatorOrFilterCondition",
     "FiltersOrFilterCondition",
+    "FulltextParams",
     "GroupBy",
     "GroupBySearchWithinGroup",
     "Sort",
@@ -136,11 +137,17 @@ class SearchTextParams(TypedDict, total=False):
     filters: Optional[Filters]
     """Complex nested query filters"""
 
+    fulltext_params: Optional[FulltextParams]
+    """Parameters for full-text search"""
+
     group_by: Optional[GroupBy]
     """Grouping options for search results"""
 
     model_id: Optional[Literal["vuse-generic-v1", "multimodal-v1", "image-embed-v1"]]
     """Embedding model to use"""
+
+    search_type: Literal["semantic", "fulltext"]
+    """Type of search to perform"""
 
     select: Optional[List[str]]
     """List of fields to return in results, supports dot notation.
@@ -1129,6 +1136,17 @@ class Filters(TypedDict, total=False):
     nor: Annotated[Optional[Iterable[FiltersNor]], PropertyInfo(alias="NOR")]
 
     or_: Annotated[Optional[Iterable[FiltersOr]], PropertyInfo(alias="OR")]
+
+
+class FulltextParams(TypedDict, total=False):
+    fields: Required[List[str]]
+    """List of fields to perform full-text search on"""
+
+    query: Required[str]
+    """The full-text search query"""
+
+    operator: Literal["and", "or"]
+    """Logical operator for combining field searches"""
 
 
 class GroupBySearchWithinGroup(TypedDict, total=False):
