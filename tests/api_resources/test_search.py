@@ -8707,6 +8707,11 @@ class TestSearch:
                     },
                 ],
             },
+            fulltext_params={
+                "fields": ["title", "content"],
+                "query": "machine learning",
+                "operator": "and",
+            },
             group_by={
                 "field": "file_id",
                 "max_features": 10,
@@ -8717,6 +8722,7 @@ class TestSearch:
                 },
             },
             model_id="vuse-generic-v1",
+            search_type="semantic",
             select=["title", "content", "metadata.author", "metadata.publication_date"],
             sort=[
                 {
@@ -17503,6 +17509,7 @@ class TestSearch:
                 },
             },
             model_id="vuse-generic-v1",
+            search_type="semantic",
             select=["title", "content", "metadata.author", "metadata.publication_date"],
             sort=[
                 {
@@ -26240,6 +26247,11 @@ class TestAsyncSearch:
                     },
                 ],
             },
+            fulltext_params={
+                "fields": ["title", "content"],
+                "query": "machine learning",
+                "operator": "and",
+            },
             group_by={
                 "field": "file_id",
                 "max_features": 10,
@@ -26250,6 +26262,7 @@ class TestAsyncSearch:
                 },
             },
             model_id="vuse-generic-v1",
+            search_type="semantic",
             select=["title", "content", "metadata.author", "metadata.publication_date"],
             sort=[
                 {
@@ -35036,6 +35049,7 @@ class TestAsyncSearch:
                 },
             },
             model_id="vuse-generic-v1",
+            search_type="semantic",
             select=["title", "content", "metadata.author", "metadata.publication_date"],
             sort=[
                 {

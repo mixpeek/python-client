@@ -142,6 +142,9 @@ class SearchURLParams(TypedDict, total=False):
     model_id: Optional[Literal["vuse-generic-v1", "multimodal-v1", "image-embed-v1"]]
     """Embedding model to use"""
 
+    search_type: Literal["semantic", "fulltext"]
+    """Type of search to perform"""
+
     select: Optional[List[str]]
     """List of fields to return in results, supports dot notation.
 
