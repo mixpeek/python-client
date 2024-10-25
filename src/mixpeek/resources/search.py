@@ -55,8 +55,10 @@ class SearchResource(SyncAPIResource):
         collection_ids: List[str],
         query: str,
         filters: Optional[search_text_params.Filters] | NotGiven = NOT_GIVEN,
+        fulltext_params: Optional[search_text_params.FulltextParams] | NotGiven = NOT_GIVEN,
         group_by: Optional[search_text_params.GroupBy] | NotGiven = NOT_GIVEN,
         model_id: Optional[Literal["vuse-generic-v1", "multimodal-v1", "image-embed-v1"]] | NotGiven = NOT_GIVEN,
+        search_type: Literal["semantic", "fulltext"] | NotGiven = NOT_GIVEN,
         select: Optional[List[str]] | NotGiven = NOT_GIVEN,
         sort: Optional[Iterable[search_text_params.Sort]] | NotGiven = NOT_GIVEN,
         authorization: str | NotGiven = NOT_GIVEN,
@@ -76,9 +78,13 @@ class SearchResource(SyncAPIResource):
 
           filters: Complex nested query filters
 
+          fulltext_params: Parameters for full-text search
+
           group_by: Grouping options for search results
 
           model_id: Embedding model to use
+
+          search_type: Type of search to perform
 
           select: List of fields to return in results, supports dot notation. If None, all fields
               are returned.
@@ -111,8 +117,10 @@ class SearchResource(SyncAPIResource):
                     "collection_ids": collection_ids,
                     "query": query,
                     "filters": filters,
+                    "fulltext_params": fulltext_params,
                     "group_by": group_by,
                     "model_id": model_id,
+                    "search_type": search_type,
                     "select": select,
                     "sort": sort,
                 },
@@ -194,6 +202,7 @@ class SearchResource(SyncAPIResource):
         filters: Optional[search_url_params.Filters] | NotGiven = NOT_GIVEN,
         group_by: Optional[search_url_params.GroupBy] | NotGiven = NOT_GIVEN,
         model_id: Optional[Literal["vuse-generic-v1", "multimodal-v1", "image-embed-v1"]] | NotGiven = NOT_GIVEN,
+        search_type: Literal["semantic", "fulltext"] | NotGiven = NOT_GIVEN,
         select: Optional[List[str]] | NotGiven = NOT_GIVEN,
         sort: Optional[Iterable[search_url_params.Sort]] | NotGiven = NOT_GIVEN,
         authorization: str | NotGiven = NOT_GIVEN,
@@ -216,6 +225,8 @@ class SearchResource(SyncAPIResource):
           group_by: Grouping options for search results
 
           model_id: Embedding model to use
+
+          search_type: Type of search to perform
 
           select: List of fields to return in results, supports dot notation. If None, all fields
               are returned.
@@ -250,6 +261,7 @@ class SearchResource(SyncAPIResource):
                     "filters": filters,
                     "group_by": group_by,
                     "model_id": model_id,
+                    "search_type": search_type,
                     "select": select,
                     "sort": sort,
                 },
@@ -288,8 +300,10 @@ class AsyncSearchResource(AsyncAPIResource):
         collection_ids: List[str],
         query: str,
         filters: Optional[search_text_params.Filters] | NotGiven = NOT_GIVEN,
+        fulltext_params: Optional[search_text_params.FulltextParams] | NotGiven = NOT_GIVEN,
         group_by: Optional[search_text_params.GroupBy] | NotGiven = NOT_GIVEN,
         model_id: Optional[Literal["vuse-generic-v1", "multimodal-v1", "image-embed-v1"]] | NotGiven = NOT_GIVEN,
+        search_type: Literal["semantic", "fulltext"] | NotGiven = NOT_GIVEN,
         select: Optional[List[str]] | NotGiven = NOT_GIVEN,
         sort: Optional[Iterable[search_text_params.Sort]] | NotGiven = NOT_GIVEN,
         authorization: str | NotGiven = NOT_GIVEN,
@@ -309,9 +323,13 @@ class AsyncSearchResource(AsyncAPIResource):
 
           filters: Complex nested query filters
 
+          fulltext_params: Parameters for full-text search
+
           group_by: Grouping options for search results
 
           model_id: Embedding model to use
+
+          search_type: Type of search to perform
 
           select: List of fields to return in results, supports dot notation. If None, all fields
               are returned.
@@ -344,8 +362,10 @@ class AsyncSearchResource(AsyncAPIResource):
                     "collection_ids": collection_ids,
                     "query": query,
                     "filters": filters,
+                    "fulltext_params": fulltext_params,
                     "group_by": group_by,
                     "model_id": model_id,
+                    "search_type": search_type,
                     "select": select,
                     "sort": sort,
                 },
@@ -427,6 +447,7 @@ class AsyncSearchResource(AsyncAPIResource):
         filters: Optional[search_url_params.Filters] | NotGiven = NOT_GIVEN,
         group_by: Optional[search_url_params.GroupBy] | NotGiven = NOT_GIVEN,
         model_id: Optional[Literal["vuse-generic-v1", "multimodal-v1", "image-embed-v1"]] | NotGiven = NOT_GIVEN,
+        search_type: Literal["semantic", "fulltext"] | NotGiven = NOT_GIVEN,
         select: Optional[List[str]] | NotGiven = NOT_GIVEN,
         sort: Optional[Iterable[search_url_params.Sort]] | NotGiven = NOT_GIVEN,
         authorization: str | NotGiven = NOT_GIVEN,
@@ -449,6 +470,8 @@ class AsyncSearchResource(AsyncAPIResource):
           group_by: Grouping options for search results
 
           model_id: Embedding model to use
+
+          search_type: Type of search to perform
 
           select: List of fields to return in results, supports dot notation. If None, all fields
               are returned.
@@ -483,6 +506,7 @@ class AsyncSearchResource(AsyncAPIResource):
                     "filters": filters,
                     "group_by": group_by,
                     "model_id": model_id,
+                    "search_type": search_type,
                     "select": select,
                     "sort": sort,
                 },
