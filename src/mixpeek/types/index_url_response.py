@@ -10,14 +10,11 @@ __all__ = ["IndexURLResponse", "AssetResponse", "DBModelTaskResponse"]
 
 
 class AssetResponse(BaseModel):
-    asset_id: str
+    asset_id: Optional[str] = None
     """The unique identifier for the asset"""
 
-    collection_id: str
+    collection_id: Optional[str] = None
     """The ID of the collection the asset belongs to"""
-
-    status: str
-    """The current status of the asset processing"""
 
     created_at: Optional[datetime] = None
     """MongoDB datetime format"""
@@ -30,6 +27,12 @@ class AssetResponse(BaseModel):
 
     modality: Optional[str] = None
     """The type of media"""
+
+    score: Optional[float] = None
+    """The relevance score of the asset"""
+
+    status: Optional[str] = None
+    """The current status of the asset processing"""
 
     task_id: Optional[str] = None
     """The task ID"""
