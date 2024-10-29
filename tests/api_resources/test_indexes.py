@@ -20,16 +20,16 @@ class TestIndexes:
     @parametrize
     def test_method_upload(self, client: Mixpeek) -> None:
         index = client.indexes.upload(
+            asset=b"raw file contents",
             collection_id="collection_id",
-            file=b"raw file contents",
         )
         assert_matches_type(IndexUploadResponse, index, path=["response"])
 
     @parametrize
     def test_method_upload_with_all_params(self, client: Mixpeek) -> None:
         index = client.indexes.upload(
+            asset=b"raw file contents",
             collection_id="collection_id",
-            file=b"raw file contents",
             image_settings="image_settings",
             metadata="metadata",
             video_settings="video_settings",
@@ -41,8 +41,8 @@ class TestIndexes:
     @parametrize
     def test_raw_response_upload(self, client: Mixpeek) -> None:
         response = client.indexes.with_raw_response.upload(
+            asset=b"raw file contents",
             collection_id="collection_id",
-            file=b"raw file contents",
         )
 
         assert response.is_closed is True
@@ -53,8 +53,8 @@ class TestIndexes:
     @parametrize
     def test_streaming_response_upload(self, client: Mixpeek) -> None:
         with client.indexes.with_streaming_response.upload(
+            asset=b"raw file contents",
             collection_id="collection_id",
-            file=b"raw file contents",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -68,7 +68,7 @@ class TestIndexes:
     def test_method_url(self, client: Mixpeek) -> None:
         index = client.indexes.url(
             collection_id="my_document_collection",
-            url="https://example.com/sample-file.mp4",
+            url="https://example.com/sample-video.mp4",
         )
         assert_matches_type(IndexURLResponse, index, path=["response"])
 
@@ -76,10 +76,10 @@ class TestIndexes:
     def test_method_url_with_all_params(self, client: Mixpeek) -> None:
         index = client.indexes.url(
             collection_id="my_document_collection",
-            url="https://example.com/sample-file.mp4",
-            file_update={
-                "file_id": "file_id",
-                "mode": "mode",
+            url="https://example.com/sample-video.mp4",
+            asset_update={
+                "asset_id": "asset_id",
+                "mode": "replace",
             },
             image_settings={
                 "describe": {
@@ -98,7 +98,7 @@ class TestIndexes:
                         "model_id": "logo-detector-v1",
                     },
                 },
-                "embed": {"model_id": "image-embed-v1"},
+                "embed": {"model_id": "multimodal-v1"},
                 "json_output": {
                     "prompt": "prompt",
                     "response_shape": {
@@ -137,7 +137,7 @@ class TestIndexes:
                             "model_id": "logo-detector-v1",
                         },
                     },
-                    "embed": {"model_id": "vuse-generic-v1"},
+                    "embed": {"model_id": "multimodal-v1"},
                     "interval_sec": 15,
                     "json_output": {
                         "prompt": "prompt",
@@ -174,7 +174,7 @@ class TestIndexes:
                             "model_id": "logo-detector-v1",
                         },
                     },
-                    "embed": {"model_id": "vuse-generic-v1"},
+                    "embed": {"model_id": "multimodal-v1"},
                     "interval_sec": 15,
                     "json_output": {
                         "prompt": "prompt",
@@ -211,7 +211,7 @@ class TestIndexes:
                             "model_id": "logo-detector-v1",
                         },
                     },
-                    "embed": {"model_id": "vuse-generic-v1"},
+                    "embed": {"model_id": "multimodal-v1"},
                     "interval_sec": 15,
                     "json_output": {
                         "prompt": "prompt",
@@ -241,7 +241,7 @@ class TestIndexes:
     def test_raw_response_url(self, client: Mixpeek) -> None:
         response = client.indexes.with_raw_response.url(
             collection_id="my_document_collection",
-            url="https://example.com/sample-file.mp4",
+            url="https://example.com/sample-video.mp4",
         )
 
         assert response.is_closed is True
@@ -253,7 +253,7 @@ class TestIndexes:
     def test_streaming_response_url(self, client: Mixpeek) -> None:
         with client.indexes.with_streaming_response.url(
             collection_id="my_document_collection",
-            url="https://example.com/sample-file.mp4",
+            url="https://example.com/sample-video.mp4",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -270,16 +270,16 @@ class TestAsyncIndexes:
     @parametrize
     async def test_method_upload(self, async_client: AsyncMixpeek) -> None:
         index = await async_client.indexes.upload(
+            asset=b"raw file contents",
             collection_id="collection_id",
-            file=b"raw file contents",
         )
         assert_matches_type(IndexUploadResponse, index, path=["response"])
 
     @parametrize
     async def test_method_upload_with_all_params(self, async_client: AsyncMixpeek) -> None:
         index = await async_client.indexes.upload(
+            asset=b"raw file contents",
             collection_id="collection_id",
-            file=b"raw file contents",
             image_settings="image_settings",
             metadata="metadata",
             video_settings="video_settings",
@@ -291,8 +291,8 @@ class TestAsyncIndexes:
     @parametrize
     async def test_raw_response_upload(self, async_client: AsyncMixpeek) -> None:
         response = await async_client.indexes.with_raw_response.upload(
+            asset=b"raw file contents",
             collection_id="collection_id",
-            file=b"raw file contents",
         )
 
         assert response.is_closed is True
@@ -303,8 +303,8 @@ class TestAsyncIndexes:
     @parametrize
     async def test_streaming_response_upload(self, async_client: AsyncMixpeek) -> None:
         async with async_client.indexes.with_streaming_response.upload(
+            asset=b"raw file contents",
             collection_id="collection_id",
-            file=b"raw file contents",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -318,7 +318,7 @@ class TestAsyncIndexes:
     async def test_method_url(self, async_client: AsyncMixpeek) -> None:
         index = await async_client.indexes.url(
             collection_id="my_document_collection",
-            url="https://example.com/sample-file.mp4",
+            url="https://example.com/sample-video.mp4",
         )
         assert_matches_type(IndexURLResponse, index, path=["response"])
 
@@ -326,10 +326,10 @@ class TestAsyncIndexes:
     async def test_method_url_with_all_params(self, async_client: AsyncMixpeek) -> None:
         index = await async_client.indexes.url(
             collection_id="my_document_collection",
-            url="https://example.com/sample-file.mp4",
-            file_update={
-                "file_id": "file_id",
-                "mode": "mode",
+            url="https://example.com/sample-video.mp4",
+            asset_update={
+                "asset_id": "asset_id",
+                "mode": "replace",
             },
             image_settings={
                 "describe": {
@@ -348,7 +348,7 @@ class TestAsyncIndexes:
                         "model_id": "logo-detector-v1",
                     },
                 },
-                "embed": {"model_id": "image-embed-v1"},
+                "embed": {"model_id": "multimodal-v1"},
                 "json_output": {
                     "prompt": "prompt",
                     "response_shape": {
@@ -387,7 +387,7 @@ class TestAsyncIndexes:
                             "model_id": "logo-detector-v1",
                         },
                     },
-                    "embed": {"model_id": "vuse-generic-v1"},
+                    "embed": {"model_id": "multimodal-v1"},
                     "interval_sec": 15,
                     "json_output": {
                         "prompt": "prompt",
@@ -424,7 +424,7 @@ class TestAsyncIndexes:
                             "model_id": "logo-detector-v1",
                         },
                     },
-                    "embed": {"model_id": "vuse-generic-v1"},
+                    "embed": {"model_id": "multimodal-v1"},
                     "interval_sec": 15,
                     "json_output": {
                         "prompt": "prompt",
@@ -461,7 +461,7 @@ class TestAsyncIndexes:
                             "model_id": "logo-detector-v1",
                         },
                     },
-                    "embed": {"model_id": "vuse-generic-v1"},
+                    "embed": {"model_id": "multimodal-v1"},
                     "interval_sec": 15,
                     "json_output": {
                         "prompt": "prompt",
@@ -491,7 +491,7 @@ class TestAsyncIndexes:
     async def test_raw_response_url(self, async_client: AsyncMixpeek) -> None:
         response = await async_client.indexes.with_raw_response.url(
             collection_id="my_document_collection",
-            url="https://example.com/sample-file.mp4",
+            url="https://example.com/sample-video.mp4",
         )
 
         assert response.is_closed is True
@@ -503,7 +503,7 @@ class TestAsyncIndexes:
     async def test_streaming_response_url(self, async_client: AsyncMixpeek) -> None:
         async with async_client.indexes.with_streaming_response.url(
             collection_id="my_document_collection",
-            url="https://example.com/sample-file.mp4",
+            url="https://example.com/sample-video.mp4",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

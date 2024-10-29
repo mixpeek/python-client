@@ -9,7 +9,7 @@ from .._utils import PropertyInfo
 
 __all__ = [
     "IndexURLParams",
-    "FileUpdate",
+    "AssetUpdate",
     "ImageSettings",
     "ImageSettingsDescribe",
     "ImageSettingsDetect",
@@ -32,13 +32,13 @@ __all__ = [
 
 class IndexURLParams(TypedDict, total=False):
     collection_id: Required[str]
-    """Unique identifier for the collection where the processed file will be stored."""
+    """Unique identifier for the collection where the processed asset will be stored."""
 
     url: Required[str]
-    """The URL of the file to be processed. Must be a valid HTTP or HTTPS URL."""
+    """The URL of the asset to be processed. Must be a valid HTTP or HTTPS URL."""
 
-    file_update: Optional[FileUpdate]
-    """File update information for existing files"""
+    asset_update: Optional[AssetUpdate]
+    """Asset update information for existing assets"""
 
     image_settings: Optional[ImageSettings]
     """Settings for image processing.
@@ -47,16 +47,16 @@ class IndexURLParams(TypedDict, total=False):
     """
 
     metadata: object
-    """Additional metadata associated with the file.
+    """Additional metadata associated with the asset.
 
-    Can include any key-value pairs relevant to the file.
+    Can include any key-value pairs relevant to the asset.
     """
 
     prevent_duplicate: Optional[bool]
     """Indicates whether to prevent duplicate processing of the same URL."""
 
     should_save: Optional[bool]
-    """Indicates whether the processed file should be uploaded to S3 storage."""
+    """Indicates whether the processed asset should be uploaded to S3 storage."""
 
     video_settings: Optional[Iterable[VideoSetting]]
     """Settings for video processing.
@@ -70,12 +70,12 @@ class IndexURLParams(TypedDict, total=False):
     """filter by organization"""
 
 
-class FileUpdate(TypedDict, total=False):
-    file_id: Required[str]
-    """Unique identifier for the file to be updated"""
+class AssetUpdate(TypedDict, total=False):
+    asset_id: Required[str]
+    """Unique identifier for the asset to be updated"""
 
-    mode: Required[str]
-    """Update mode: 'replace' or 'update'"""
+    mode: Required[Literal["replace", "append"]]
+    """Update mode: 'replace' or 'append'"""
 
 
 class ImageSettingsDescribe(TypedDict, total=False):
@@ -116,7 +116,7 @@ class ImageSettingsDetect(TypedDict, total=False):
 
 
 class ImageSettingsEmbed(TypedDict, total=False):
-    model_id: Optional[Literal["image-embed-v1", "multimodal-v1"]]
+    model_id: Optional[Literal["multimodal-v1"]]
 
 
 class ImageSettingsJsonOutput(TypedDict, total=False):
@@ -190,7 +190,7 @@ class VideoSettingDetect(TypedDict, total=False):
 
 
 class VideoSettingEmbed(TypedDict, total=False):
-    model_id: Optional[Literal["vuse-generic-v1", "multimodal-v1"]]
+    model_id: Optional[Literal["multimodal-v1"]]
 
 
 class VideoSettingJsonOutput(TypedDict, total=False):

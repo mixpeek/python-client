@@ -11,9 +11,9 @@ __all__ = ["IndexUploadParams"]
 
 
 class IndexUploadParams(TypedDict, total=False):
-    collection_id: Required[str]
+    asset: Required[FileTypes]
 
-    file: Required[FileTypes]
+    collection_id: Required[str]
 
     image_settings: str
 

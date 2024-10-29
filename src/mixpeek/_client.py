@@ -46,9 +46,7 @@ __all__ = [
 
 
 class Mixpeek(SyncAPIClient):
-    describe: resources.DescribeResource
     indexes: resources.IndexesResource
-    search: resources.SearchResource
     collections: resources.CollectionsResource
     tasks: resources.TasksResource
     with_raw_response: MixpeekWithRawResponse
@@ -95,9 +93,7 @@ class Mixpeek(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.describe = resources.DescribeResource(self)
         self.indexes = resources.IndexesResource(self)
-        self.search = resources.SearchResource(self)
         self.collections = resources.CollectionsResource(self)
         self.tasks = resources.TasksResource(self)
         self.with_raw_response = MixpeekWithRawResponse(self)
@@ -201,9 +197,7 @@ class Mixpeek(SyncAPIClient):
 
 
 class AsyncMixpeek(AsyncAPIClient):
-    describe: resources.AsyncDescribeResource
     indexes: resources.AsyncIndexesResource
-    search: resources.AsyncSearchResource
     collections: resources.AsyncCollectionsResource
     tasks: resources.AsyncTasksResource
     with_raw_response: AsyncMixpeekWithRawResponse
@@ -250,9 +244,7 @@ class AsyncMixpeek(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.describe = resources.AsyncDescribeResource(self)
         self.indexes = resources.AsyncIndexesResource(self)
-        self.search = resources.AsyncSearchResource(self)
         self.collections = resources.AsyncCollectionsResource(self)
         self.tasks = resources.AsyncTasksResource(self)
         self.with_raw_response = AsyncMixpeekWithRawResponse(self)
@@ -357,36 +349,28 @@ class AsyncMixpeek(AsyncAPIClient):
 
 class MixpeekWithRawResponse:
     def __init__(self, client: Mixpeek) -> None:
-        self.describe = resources.DescribeResourceWithRawResponse(client.describe)
         self.indexes = resources.IndexesResourceWithRawResponse(client.indexes)
-        self.search = resources.SearchResourceWithRawResponse(client.search)
         self.collections = resources.CollectionsResourceWithRawResponse(client.collections)
         self.tasks = resources.TasksResourceWithRawResponse(client.tasks)
 
 
 class AsyncMixpeekWithRawResponse:
     def __init__(self, client: AsyncMixpeek) -> None:
-        self.describe = resources.AsyncDescribeResourceWithRawResponse(client.describe)
         self.indexes = resources.AsyncIndexesResourceWithRawResponse(client.indexes)
-        self.search = resources.AsyncSearchResourceWithRawResponse(client.search)
         self.collections = resources.AsyncCollectionsResourceWithRawResponse(client.collections)
         self.tasks = resources.AsyncTasksResourceWithRawResponse(client.tasks)
 
 
 class MixpeekWithStreamedResponse:
     def __init__(self, client: Mixpeek) -> None:
-        self.describe = resources.DescribeResourceWithStreamingResponse(client.describe)
         self.indexes = resources.IndexesResourceWithStreamingResponse(client.indexes)
-        self.search = resources.SearchResourceWithStreamingResponse(client.search)
         self.collections = resources.CollectionsResourceWithStreamingResponse(client.collections)
         self.tasks = resources.TasksResourceWithStreamingResponse(client.tasks)
 
 
 class AsyncMixpeekWithStreamedResponse:
     def __init__(self, client: AsyncMixpeek) -> None:
-        self.describe = resources.AsyncDescribeResourceWithStreamingResponse(client.describe)
         self.indexes = resources.AsyncIndexesResourceWithStreamingResponse(client.indexes)
-        self.search = resources.AsyncSearchResourceWithStreamingResponse(client.search)
         self.collections = resources.AsyncCollectionsResourceWithStreamingResponse(client.collections)
         self.tasks = resources.AsyncTasksResourceWithStreamingResponse(client.tasks)
 

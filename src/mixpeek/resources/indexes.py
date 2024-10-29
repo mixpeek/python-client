@@ -53,8 +53,8 @@ class IndexesResource(SyncAPIResource):
     def upload(
         self,
         *,
+        asset: FileTypes,
         collection_id: str,
-        file: FileTypes,
         image_settings: str | NotGiven = NOT_GIVEN,
         metadata: str | NotGiven = NOT_GIVEN,
         video_settings: str | NotGiven = NOT_GIVEN,
@@ -92,14 +92,14 @@ class IndexesResource(SyncAPIResource):
         }
         body = deepcopy_minimal(
             {
+                "asset": asset,
                 "collection_id": collection_id,
-                "file": file,
                 "image_settings": image_settings,
                 "metadata": metadata,
                 "video_settings": video_settings,
             }
         )
-        files = extract_files(cast(Mapping[str, object], body), paths=[["file"]])
+        files = extract_files(cast(Mapping[str, object], body), paths=[["asset"]])
         # It should be noted that the actual Content-Type header that will be
         # sent to the server will contain a `boundary` parameter, e.g.
         # multipart/form-data; boundary=---abc--
@@ -119,7 +119,7 @@ class IndexesResource(SyncAPIResource):
         *,
         collection_id: str,
         url: str,
-        file_update: Optional[index_url_params.FileUpdate] | NotGiven = NOT_GIVEN,
+        asset_update: Optional[index_url_params.AssetUpdate] | NotGiven = NOT_GIVEN,
         image_settings: Optional[index_url_params.ImageSettings] | NotGiven = NOT_GIVEN,
         metadata: object | NotGiven = NOT_GIVEN,
         prevent_duplicate: Optional[bool] | NotGiven = NOT_GIVEN,
@@ -138,21 +138,21 @@ class IndexesResource(SyncAPIResource):
         Index Url
 
         Args:
-          collection_id: Unique identifier for the collection where the processed file will be stored.
+          collection_id: Unique identifier for the collection where the processed asset will be stored.
 
-          url: The URL of the file to be processed. Must be a valid HTTP or HTTPS URL.
+          url: The URL of the asset to be processed. Must be a valid HTTP or HTTPS URL.
 
-          file_update: File update information for existing files
+          asset_update: Asset update information for existing assets
 
           image_settings: Settings for image processing. Only applicable if the URL points to an image
               file.
 
-          metadata: Additional metadata associated with the file. Can include any key-value pairs
-              relevant to the file.
+          metadata: Additional metadata associated with the asset. Can include any key-value pairs
+              relevant to the asset.
 
           prevent_duplicate: Indicates whether to prevent duplicate processing of the same URL.
 
-          should_save: Indicates whether the processed file should be uploaded to S3 storage.
+          should_save: Indicates whether the processed asset should be uploaded to S3 storage.
 
           video_settings: Settings for video processing. Only applicable if the URL points to a video
               file.
@@ -184,7 +184,7 @@ class IndexesResource(SyncAPIResource):
                     {
                         "collection_id": collection_id,
                         "url": url,
-                        "file_update": file_update,
+                        "asset_update": asset_update,
                         "image_settings": image_settings,
                         "metadata": metadata,
                         "prevent_duplicate": prevent_duplicate,
@@ -224,8 +224,8 @@ class AsyncIndexesResource(AsyncAPIResource):
     async def upload(
         self,
         *,
+        asset: FileTypes,
         collection_id: str,
-        file: FileTypes,
         image_settings: str | NotGiven = NOT_GIVEN,
         metadata: str | NotGiven = NOT_GIVEN,
         video_settings: str | NotGiven = NOT_GIVEN,
@@ -263,14 +263,14 @@ class AsyncIndexesResource(AsyncAPIResource):
         }
         body = deepcopy_minimal(
             {
+                "asset": asset,
                 "collection_id": collection_id,
-                "file": file,
                 "image_settings": image_settings,
                 "metadata": metadata,
                 "video_settings": video_settings,
             }
         )
-        files = extract_files(cast(Mapping[str, object], body), paths=[["file"]])
+        files = extract_files(cast(Mapping[str, object], body), paths=[["asset"]])
         # It should be noted that the actual Content-Type header that will be
         # sent to the server will contain a `boundary` parameter, e.g.
         # multipart/form-data; boundary=---abc--
@@ -290,7 +290,7 @@ class AsyncIndexesResource(AsyncAPIResource):
         *,
         collection_id: str,
         url: str,
-        file_update: Optional[index_url_params.FileUpdate] | NotGiven = NOT_GIVEN,
+        asset_update: Optional[index_url_params.AssetUpdate] | NotGiven = NOT_GIVEN,
         image_settings: Optional[index_url_params.ImageSettings] | NotGiven = NOT_GIVEN,
         metadata: object | NotGiven = NOT_GIVEN,
         prevent_duplicate: Optional[bool] | NotGiven = NOT_GIVEN,
@@ -309,21 +309,21 @@ class AsyncIndexesResource(AsyncAPIResource):
         Index Url
 
         Args:
-          collection_id: Unique identifier for the collection where the processed file will be stored.
+          collection_id: Unique identifier for the collection where the processed asset will be stored.
 
-          url: The URL of the file to be processed. Must be a valid HTTP or HTTPS URL.
+          url: The URL of the asset to be processed. Must be a valid HTTP or HTTPS URL.
 
-          file_update: File update information for existing files
+          asset_update: Asset update information for existing assets
 
           image_settings: Settings for image processing. Only applicable if the URL points to an image
               file.
 
-          metadata: Additional metadata associated with the file. Can include any key-value pairs
-              relevant to the file.
+          metadata: Additional metadata associated with the asset. Can include any key-value pairs
+              relevant to the asset.
 
           prevent_duplicate: Indicates whether to prevent duplicate processing of the same URL.
 
-          should_save: Indicates whether the processed file should be uploaded to S3 storage.
+          should_save: Indicates whether the processed asset should be uploaded to S3 storage.
 
           video_settings: Settings for video processing. Only applicable if the URL points to a video
               file.
@@ -355,7 +355,7 @@ class AsyncIndexesResource(AsyncAPIResource):
                     {
                         "collection_id": collection_id,
                         "url": url,
-                        "file_update": file_update,
+                        "asset_update": asset_update,
                         "image_settings": image_settings,
                         "metadata": metadata,
                         "prevent_duplicate": prevent_duplicate,
