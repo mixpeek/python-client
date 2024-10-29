@@ -2,10 +2,17 @@
 
 from __future__ import annotations
 
+from typing import Optional
+
 import httpx
 
+from ...types import collection_list_params
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from ..._utils import strip_not_given
+from ..._utils import (
+    maybe_transform,
+    strip_not_given,
+    async_maybe_transform,
+)
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -43,6 +50,8 @@ class CollectionsResource(SyncAPIResource):
     def list(
         self,
         *,
+        page: Optional[int] | NotGiven = NOT_GIVEN,
+        page_size: int | NotGiven = NOT_GIVEN,
         authorization: str | NotGiven = NOT_GIVEN,
         index_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -78,7 +87,17 @@ class CollectionsResource(SyncAPIResource):
         return self._get(
             "/collections/",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "page": page,
+                        "page_size": page_size,
+                    },
+                    collection_list_params.CollectionListParams,
+                ),
             ),
             cast_to=CollectionListResponse,
         )
@@ -153,6 +172,8 @@ class AsyncCollectionsResource(AsyncAPIResource):
     async def list(
         self,
         *,
+        page: Optional[int] | NotGiven = NOT_GIVEN,
+        page_size: int | NotGiven = NOT_GIVEN,
         authorization: str | NotGiven = NOT_GIVEN,
         index_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -188,7 +209,17 @@ class AsyncCollectionsResource(AsyncAPIResource):
         return await self._get(
             "/collections/",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "page": page,
+                        "page_size": page_size,
+                    },
+                    collection_list_params.CollectionListParams,
+                ),
             ),
             cast_to=CollectionListResponse,
         )
