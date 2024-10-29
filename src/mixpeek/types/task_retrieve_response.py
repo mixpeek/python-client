@@ -8,7 +8,7 @@ __all__ = ["TaskRetrieveResponse"]
 
 
 class TaskRetrieveResponse(BaseModel):
-    file_id: str
+    asset_id: str
 
     status: Literal["DONE", "FAILED", "PROCESSING", "DOWNLOADING", "INITIALIZING"]
 
