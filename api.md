@@ -21,7 +21,7 @@ from mixpeek.types import CollectionListResponse, CollectionDeleteResponse
 
 Methods:
 
-- <code title="get /collections/">client.collections.<a href="./src/mixpeek/resources/collections/collections.py">list</a>() -> <a href="./src/mixpeek/types/collection_list_response.py">CollectionListResponse</a></code>
+- <code title="get /collections/">client.collections.<a href="./src/mixpeek/resources/collections/collections.py">list</a>(\*\*<a href="src/mixpeek/types/collection_list_params.py">params</a>) -> <a href="./src/mixpeek/types/collection_list_response.py">CollectionListResponse</a></code>
 - <code title="delete /collections/{collection_id}">client.collections.<a href="./src/mixpeek/resources/collections/collections.py">delete</a>(collection_id) -> <a href="./src/mixpeek/types/collection_delete_response.py">object</a></code>
 
 # Tasks

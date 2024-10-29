@@ -25,6 +25,8 @@ class TestCollections:
     @parametrize
     def test_method_list_with_all_params(self, client: Mixpeek) -> None:
         collection = client.collections.list(
+            page=0,
+            page_size=0,
             authorization="Authorization",
             index_id="index-id",
         )
@@ -109,6 +111,8 @@ class TestAsyncCollections:
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncMixpeek) -> None:
         collection = await async_client.collections.list(
+            page=0,
+            page_size=0,
             authorization="Authorization",
             index_id="index-id",
         )
