@@ -28,10 +28,11 @@ from mixpeek import Mixpeek
 
 client = Mixpeek()
 
-response = client.describe.upload(
-    file=b"raw file contents",
-    prompt="prompt",
+response = client.indexes.upload(
+    asset=b"raw file contents",
+    collection_id="collection_id",
 )
+print(response.task_id)
 ```
 
 ## Async usage
@@ -46,10 +47,11 @@ client = AsyncMixpeek()
 
 
 async def main() -> None:
-    response = await client.describe.upload(
-        file=b"raw file contents",
-        prompt="prompt",
+    response = await client.indexes.upload(
+        asset=b"raw file contents",
+        collection_id="collection_id",
     )
+    print(response.task_id)
 
 
 asyncio.run(main())
@@ -82,9 +84,9 @@ from mixpeek import Mixpeek
 client = Mixpeek()
 
 try:
-    client.describe.upload(
-        file=b"raw file contents",
-        prompt="prompt",
+    client.indexes.upload(
+        asset=b"raw file contents",
+        collection_id="collection_id",
     )
 except mixpeek.APIConnectionError as e:
     print("The server could not be reached")
@@ -128,9 +130,9 @@ client = Mixpeek(
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).describe.upload(
-    file=b"raw file contents",
-    prompt="prompt",
+client.with_options(max_retries=5).indexes.upload(
+    asset=b"raw file contents",
+    collection_id="collection_id",
 )
 ```
 
@@ -154,9 +156,9 @@ client = Mixpeek(
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).describe.upload(
-    file=b"raw file contents",
-    prompt="prompt",
+client.with_options(timeout=5.0).indexes.upload(
+    asset=b"raw file contents",
+    collection_id="collection_id",
 )
 ```
 
@@ -196,14 +198,14 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 from mixpeek import Mixpeek
 
 client = Mixpeek()
-response = client.describe.with_raw_response.upload(
-    file=b'raw file contents',
-    prompt="prompt",
+response = client.indexes.with_raw_response.upload(
+    asset=b'raw file contents',
+    collection_id="collection_id",
 )
 print(response.headers.get('X-My-Header'))
 
-describe = response.parse()  # get the object that `describe.upload()` would have returned
-print(describe)
+index = response.parse()  # get the object that `indexes.upload()` would have returned
+print(index.task_id)
 ```
 
 These methods return an [`APIResponse`](https://github.com/mixpeek/python-client/tree/main/src/mixpeek/_response.py) object.
@@ -217,9 +219,9 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.describe.with_streaming_response.upload(
-    file=b"raw file contents",
-    prompt="prompt",
+with client.indexes.with_streaming_response.upload(
+    asset=b"raw file contents",
+    collection_id="collection_id",
 ) as response:
     print(response.headers.get("X-My-Header"))
 

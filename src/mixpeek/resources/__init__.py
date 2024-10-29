@@ -8,14 +8,6 @@ from .tasks import (
     TasksResourceWithStreamingResponse,
     AsyncTasksResourceWithStreamingResponse,
 )
-from .search import (
-    SearchResource,
-    AsyncSearchResource,
-    SearchResourceWithRawResponse,
-    AsyncSearchResourceWithRawResponse,
-    SearchResourceWithStreamingResponse,
-    AsyncSearchResourceWithStreamingResponse,
-)
 from .indexes import (
     IndexesResource,
     AsyncIndexesResource,
@@ -23,14 +15,6 @@ from .indexes import (
     AsyncIndexesResourceWithRawResponse,
     IndexesResourceWithStreamingResponse,
     AsyncIndexesResourceWithStreamingResponse,
-)
-from .describe import (
-    DescribeResource,
-    AsyncDescribeResource,
-    DescribeResourceWithRawResponse,
-    AsyncDescribeResourceWithRawResponse,
-    DescribeResourceWithStreamingResponse,
-    AsyncDescribeResourceWithStreamingResponse,
 )
 from .collections import (
     CollectionsResource,
@@ -42,24 +26,12 @@ from .collections import (
 )
 
 __all__ = [
-    "DescribeResource",
-    "AsyncDescribeResource",
-    "DescribeResourceWithRawResponse",
-    "AsyncDescribeResourceWithRawResponse",
-    "DescribeResourceWithStreamingResponse",
-    "AsyncDescribeResourceWithStreamingResponse",
     "IndexesResource",
     "AsyncIndexesResource",
     "IndexesResourceWithRawResponse",
     "AsyncIndexesResourceWithRawResponse",
     "IndexesResourceWithStreamingResponse",
     "AsyncIndexesResourceWithStreamingResponse",
-    "SearchResource",
-    "AsyncSearchResource",
-    "SearchResourceWithRawResponse",
-    "AsyncSearchResourceWithRawResponse",
-    "SearchResourceWithStreamingResponse",
-    "AsyncSearchResourceWithStreamingResponse",
     "CollectionsResource",
     "AsyncCollectionsResource",
     "CollectionsResourceWithRawResponse",
