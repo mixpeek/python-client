@@ -79,6 +79,9 @@ class AssetUpdate(TypedDict, total=False):
 
 
 class ImageSettingsDescribe(TypedDict, total=False):
+    field_name: Optional[str]
+    """Field name for the description"""
+
     json_output: object
     """JSON format for the response"""
 
@@ -120,12 +123,18 @@ class ImageSettingsEmbed(TypedDict, total=False):
 
 
 class ImageSettingsJsonOutput(TypedDict, total=False):
+    field_name: Optional[str]
+    """Name of the field in the JSON output"""
+
     prompt: Optional[str]
 
     response_shape: Optional[object]
 
 
 class ImageSettingsRead(TypedDict, total=False):
+    field_name: Optional[str]
+    """Field name for the response"""
+
     json_output: object
     """JSON format for the response"""
 
@@ -153,6 +162,9 @@ class ImageSettings(TypedDict, total=False):
 
 
 class VideoSettingDescribe(TypedDict, total=False):
+    field_name: Optional[str]
+    """Field name for the description"""
+
     json_output: object
     """JSON format for the response"""
 
@@ -194,12 +206,18 @@ class VideoSettingEmbed(TypedDict, total=False):
 
 
 class VideoSettingJsonOutput(TypedDict, total=False):
+    field_name: Optional[str]
+    """Name of the field in the JSON output"""
+
     prompt: Optional[str]
 
     response_shape: Optional[object]
 
 
 class VideoSettingRead(TypedDict, total=False):
+    field_name: Optional[str]
+    """Field name for the response"""
+
     json_output: object
     """JSON format for the response"""
 
@@ -210,6 +228,9 @@ class VideoSettingRead(TypedDict, total=False):
 
 
 class VideoSettingTranscribe(TypedDict, total=False):
+    field_name: str
+    """Field name to store the transcription"""
+
     json_output: object
     """JSON format for the response"""
 

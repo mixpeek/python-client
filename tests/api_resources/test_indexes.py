@@ -83,6 +83,7 @@ class TestIndexes:
             },
             image_settings={
                 "describe": {
+                    "field_name": "field_name",
                     "json_output": {},
                     "max_length": 100,
                     "model_id": "image-descriptor-v1",
@@ -100,6 +101,7 @@ class TestIndexes:
                 },
                 "embed": {"model_id": "multimodal-v1"},
                 "json_output": {
+                    "field_name": "field_name",
                     "prompt": "prompt",
                     "response_shape": {
                         "colors": ["str"],
@@ -107,6 +109,7 @@ class TestIndexes:
                     },
                 },
                 "read": {
+                    "field_name": "field_name",
                     "json_output": {},
                     "model_id": "image-descriptor-v1",
                     "prompt": "prompt",
@@ -122,6 +125,7 @@ class TestIndexes:
             video_settings=[
                 {
                     "describe": {
+                        "field_name": "field_name",
                         "json_output": {},
                         "max_length": 0,
                         "model_id": "video-descriptor-v1",
@@ -140,6 +144,7 @@ class TestIndexes:
                     "embed": {"model_id": "multimodal-v1"},
                     "interval_sec": 15,
                     "json_output": {
+                        "field_name": "field_name",
                         "prompt": "prompt",
                         "response_shape": {
                             "objects": ["str"],
@@ -147,11 +152,13 @@ class TestIndexes:
                         },
                     },
                     "read": {
+                        "field_name": "field_name",
                         "json_output": {},
                         "model_id": "video-descriptor-v1",
                         "prompt": "prompt",
                     },
                     "transcribe": {
+                        "field_name": "field_name",
                         "json_output": {},
                         "model_id": "polyglot-v1",
                         "prompt": "prompt",
@@ -159,6 +166,7 @@ class TestIndexes:
                 },
                 {
                     "describe": {
+                        "field_name": "field_name",
                         "json_output": {},
                         "max_length": 0,
                         "model_id": "video-descriptor-v1",
@@ -177,6 +185,7 @@ class TestIndexes:
                     "embed": {"model_id": "multimodal-v1"},
                     "interval_sec": 15,
                     "json_output": {
+                        "field_name": "field_name",
                         "prompt": "prompt",
                         "response_shape": {
                             "objects": ["str"],
@@ -184,11 +193,13 @@ class TestIndexes:
                         },
                     },
                     "read": {
+                        "field_name": "field_name",
                         "json_output": {},
                         "model_id": "video-descriptor-v1",
                         "prompt": "prompt",
                     },
                     "transcribe": {
+                        "field_name": "field_name",
                         "json_output": {},
                         "model_id": "polyglot-v1",
                         "prompt": "prompt",
@@ -196,6 +207,7 @@ class TestIndexes:
                 },
                 {
                     "describe": {
+                        "field_name": "field_name",
                         "json_output": {},
                         "max_length": 0,
                         "model_id": "video-descriptor-v1",
@@ -214,6 +226,7 @@ class TestIndexes:
                     "embed": {"model_id": "multimodal-v1"},
                     "interval_sec": 15,
                     "json_output": {
+                        "field_name": "field_name",
                         "prompt": "prompt",
                         "response_shape": {
                             "objects": ["str"],
@@ -221,11 +234,13 @@ class TestIndexes:
                         },
                     },
                     "read": {
+                        "field_name": "field_name",
                         "json_output": {},
                         "model_id": "video-descriptor-v1",
                         "prompt": "prompt",
                     },
                     "transcribe": {
+                        "field_name": "field_name",
                         "json_output": {},
                         "model_id": "polyglot-v1",
                         "prompt": "prompt",
@@ -333,6 +348,7 @@ class TestAsyncIndexes:
             },
             image_settings={
                 "describe": {
+                    "field_name": "field_name",
                     "json_output": {},
                     "max_length": 100,
                     "model_id": "image-descriptor-v1",
@@ -350,6 +366,7 @@ class TestAsyncIndexes:
                 },
                 "embed": {"model_id": "multimodal-v1"},
                 "json_output": {
+                    "field_name": "field_name",
                     "prompt": "prompt",
                     "response_shape": {
                         "colors": ["str"],
@@ -357,6 +374,7 @@ class TestAsyncIndexes:
                     },
                 },
                 "read": {
+                    "field_name": "field_name",
                     "json_output": {},
                     "model_id": "image-descriptor-v1",
                     "prompt": "prompt",
@@ -372,6 +390,7 @@ class TestAsyncIndexes:
             video_settings=[
                 {
                     "describe": {
+                        "field_name": "field_name",
                         "json_output": {},
                         "max_length": 0,
                         "model_id": "video-descriptor-v1",
@@ -390,6 +409,7 @@ class TestAsyncIndexes:
                     "embed": {"model_id": "multimodal-v1"},
                     "interval_sec": 15,
                     "json_output": {
+                        "field_name": "field_name",
                         "prompt": "prompt",
                         "response_shape": {
                             "objects": ["str"],
@@ -397,11 +417,13 @@ class TestAsyncIndexes:
                         },
                     },
                     "read": {
+                        "field_name": "field_name",
                         "json_output": {},
                         "model_id": "video-descriptor-v1",
                         "prompt": "prompt",
                     },
                     "transcribe": {
+                        "field_name": "field_name",
                         "json_output": {},
                         "model_id": "polyglot-v1",
                         "prompt": "prompt",
@@ -409,6 +431,7 @@ class TestAsyncIndexes:
                 },
                 {
                     "describe": {
+                        "field_name": "field_name",
                         "json_output": {},
                         "max_length": 0,
                         "model_id": "video-descriptor-v1",
@@ -427,6 +450,7 @@ class TestAsyncIndexes:
                     "embed": {"model_id": "multimodal-v1"},
                     "interval_sec": 15,
                     "json_output": {
+                        "field_name": "field_name",
                         "prompt": "prompt",
                         "response_shape": {
                             "objects": ["str"],
@@ -434,11 +458,13 @@ class TestAsyncIndexes:
                         },
                     },
                     "read": {
+                        "field_name": "field_name",
                         "json_output": {},
                         "model_id": "video-descriptor-v1",
                         "prompt": "prompt",
                     },
                     "transcribe": {
+                        "field_name": "field_name",
                         "json_output": {},
                         "model_id": "polyglot-v1",
                         "prompt": "prompt",
@@ -446,6 +472,7 @@ class TestAsyncIndexes:
                 },
                 {
                     "describe": {
+                        "field_name": "field_name",
                         "json_output": {},
                         "max_length": 0,
                         "model_id": "video-descriptor-v1",
@@ -464,6 +491,7 @@ class TestAsyncIndexes:
                     "embed": {"model_id": "multimodal-v1"},
                     "interval_sec": 15,
                     "json_output": {
+                        "field_name": "field_name",
                         "prompt": "prompt",
                         "response_shape": {
                             "objects": ["str"],
@@ -471,11 +499,13 @@ class TestAsyncIndexes:
                         },
                     },
                     "read": {
+                        "field_name": "field_name",
                         "json_output": {},
                         "model_id": "video-descriptor-v1",
                         "prompt": "prompt",
                     },
                     "transcribe": {
+                        "field_name": "field_name",
                         "json_output": {},
                         "model_id": "polyglot-v1",
                         "prompt": "prompt",
