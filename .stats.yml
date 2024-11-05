@@ -1,2 +1,2 @@
-configured_endpoints: 5
-openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/mixpeek-esteininger%2Fmixpeek-sdk-5da61b57872f182039c8aed4f1b910000f33094033ca0dbab248822c2c1f92a8.yml
+configured_endpoints: 3
+openapi_spec_url: https://storage.googleapis.com/stainless-sdk-openapi-specs/mixpeek-esteininger%2Fmixpeek-sdk-cbea6c5884153aa86fd62ccfc7ac25e48fd42e80e300d9ebf048103d88d8894b.yml
