@@ -1,16 +1,3 @@
-# Indexes
-
-Types:
-
-```python
-from mixpeek.types import IndexUploadResponse, IndexURLResponse
-```
-
-Methods:
-
-- <code title="post /index/upload">client.indexes.<a href="./src/mixpeek/resources/indexes.py">upload</a>(\*\*<a href="src/mixpeek/types/index_upload_params.py">params</a>) -> <a href="./src/mixpeek/types/index_upload_response.py">IndexUploadResponse</a></code>
-- <code title="post /index/url">client.indexes.<a href="./src/mixpeek/resources/indexes.py">url</a>(\*\*<a href="src/mixpeek/types/index_url_params.py">params</a>) -> <a href="./src/mixpeek/types/index_url_response.py">IndexURLResponse</a></code>
-
 # Collections
 
 Types:
