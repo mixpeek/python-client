@@ -8,14 +8,6 @@ from .tasks import (
     TasksResourceWithStreamingResponse,
     AsyncTasksResourceWithStreamingResponse,
 )
-from .indexes import (
-    IndexesResource,
-    AsyncIndexesResource,
-    IndexesResourceWithRawResponse,
-    AsyncIndexesResourceWithRawResponse,
-    IndexesResourceWithStreamingResponse,
-    AsyncIndexesResourceWithStreamingResponse,
-)
 from .collections import (
     CollectionsResource,
     AsyncCollectionsResource,
@@ -26,12 +18,6 @@ from .collections import (
 )
 
 __all__ = [
-    "IndexesResource",
-    "AsyncIndexesResource",
-    "IndexesResourceWithRawResponse",
-    "AsyncIndexesResourceWithRawResponse",
-    "IndexesResourceWithStreamingResponse",
-    "AsyncIndexesResourceWithStreamingResponse",
     "CollectionsResource",
     "AsyncCollectionsResource",
     "CollectionsResourceWithRawResponse",
