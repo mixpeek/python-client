@@ -21,9 +21,6 @@ __all__ = ["TasksResource", "AsyncTasksResource"]
 
 
 class TasksResource(SyncAPIResource):
-    def wait_on_task(self, task: Task) -> None:
-        pass
-    
     @cached_property
     def with_raw_response(self) -> TasksResourceWithRawResponse:
         """
