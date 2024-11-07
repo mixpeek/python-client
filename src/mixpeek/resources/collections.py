@@ -2,10 +2,17 @@
 
 from __future__ import annotations
 
+from typing import Optional
+
 import httpx
 
+from ..types import collection_list_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from .._utils import strip_not_given
+from .._utils import (
+    maybe_transform,
+    strip_not_given,
+    async_maybe_transform,
+)
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -15,38 +22,36 @@ from .._response import (
     async_to_streamed_response_wrapper,
 )
 from .._base_client import make_request_options
-from ..types.shared.task_response import TaskResponse
+from ..types.collection_list_response import CollectionListResponse
 
-__all__ = ["TasksResource", "AsyncTasksResource"]
+__all__ = ["CollectionsResource", "AsyncCollectionsResource"]
 
 
-class TasksResource(SyncAPIResource):
-    def wait_on_task(self, task: Task) -> None:
-        pass
-    
+class CollectionsResource(SyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> TasksResourceWithRawResponse:
+    def with_raw_response(self) -> CollectionsResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return the
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/mixpeek/python-client#accessing-raw-response-data-eg-headers
         """
-        return TasksResourceWithRawResponse(self)
+        return CollectionsResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> TasksResourceWithStreamingResponse:
+    def with_streaming_response(self) -> CollectionsResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/mixpeek/python-client#with_streaming_response
         """
-        return TasksResourceWithStreamingResponse(self)
+        return CollectionsResourceWithStreamingResponse(self)
 
-    def retrieve(
+    def list(
         self,
-        task_id: str,
         *,
+        page: Optional[int] | NotGiven = NOT_GIVEN,
+        page_size: int | NotGiven = NOT_GIVEN,
         index_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -54,9 +59,9 @@ class TasksResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> TaskResponse:
+    ) -> CollectionListResponse:
         """
-        Get Task
+        List Collections
 
         Args:
           index_id: filter by organization
@@ -69,20 +74,28 @@ class TasksResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not task_id:
-            raise ValueError(f"Expected a non-empty value for `task_id` but received {task_id!r}")
         extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
         return self._get(
-            f"/tasks/{task_id}",
+            "/collections",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform(
+                    {
+                        "page": page,
+                        "page_size": page_size,
+                    },
+                    collection_list_params.CollectionListParams,
+                ),
             ),
-            cast_to=TaskResponse,
+            cast_to=CollectionListResponse,
         )
 
     def delete(
         self,
-        task_id: str,
+        collection_id: str,
         *,
         index_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -93,7 +106,7 @@ class TasksResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> object:
         """
-        Kill Task
+        Delete Collection
 
         Args:
           index_id: filter by organization
@@ -106,11 +119,11 @@ class TasksResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not task_id:
-            raise ValueError(f"Expected a non-empty value for `task_id` but received {task_id!r}")
+        if not collection_id:
+            raise ValueError(f"Expected a non-empty value for `collection_id` but received {collection_id!r}")
         extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
         return self._delete(
-            f"/tasks/{task_id}",
+            f"/collections/{collection_id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -118,30 +131,31 @@ class TasksResource(SyncAPIResource):
         )
 
 
-class AsyncTasksResource(AsyncAPIResource):
+class AsyncCollectionsResource(AsyncAPIResource):
     @cached_property
-    def with_raw_response(self) -> AsyncTasksResourceWithRawResponse:
+    def with_raw_response(self) -> AsyncCollectionsResourceWithRawResponse:
         """
         This property can be used as a prefix for any HTTP method call to return the
         the raw response object instead of the parsed content.
 
         For more information, see https://www.github.com/mixpeek/python-client#accessing-raw-response-data-eg-headers
         """
-        return AsyncTasksResourceWithRawResponse(self)
+        return AsyncCollectionsResourceWithRawResponse(self)
 
     @cached_property
-    def with_streaming_response(self) -> AsyncTasksResourceWithStreamingResponse:
+    def with_streaming_response(self) -> AsyncCollectionsResourceWithStreamingResponse:
         """
         An alternative to `.with_raw_response` that doesn't eagerly read the response body.
 
         For more information, see https://www.github.com/mixpeek/python-client#with_streaming_response
         """
-        return AsyncTasksResourceWithStreamingResponse(self)
+        return AsyncCollectionsResourceWithStreamingResponse(self)
 
-    async def retrieve(
+    async def list(
         self,
-        task_id: str,
         *,
+        page: Optional[int] | NotGiven = NOT_GIVEN,
+        page_size: int | NotGiven = NOT_GIVEN,
         index_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -149,9 +163,9 @@ class AsyncTasksResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> TaskResponse:
+    ) -> CollectionListResponse:
         """
-        Get Task
+        List Collections
 
         Args:
           index_id: filter by organization
@@ -164,20 +178,28 @@ class AsyncTasksResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not task_id:
-            raise ValueError(f"Expected a non-empty value for `task_id` but received {task_id!r}")
         extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
         return await self._get(
-            f"/tasks/{task_id}",
+            "/collections",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {
+                        "page": page,
+                        "page_size": page_size,
+                    },
+                    collection_list_params.CollectionListParams,
+                ),
             ),
-            cast_to=TaskResponse,
+            cast_to=CollectionListResponse,
         )
 
     async def delete(
         self,
-        task_id: str,
+        collection_id: str,
         *,
         index_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -188,7 +210,7 @@ class AsyncTasksResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> object:
         """
-        Kill Task
+        Delete Collection
 
         Args:
           index_id: filter by organization
@@ -201,11 +223,11 @@ class AsyncTasksResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        if not task_id:
-            raise ValueError(f"Expected a non-empty value for `task_id` but received {task_id!r}")
+        if not collection_id:
+            raise ValueError(f"Expected a non-empty value for `collection_id` but received {collection_id!r}")
         extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
         return await self._delete(
-            f"/tasks/{task_id}",
+            f"/collections/{collection_id}",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
@@ -213,49 +235,49 @@ class AsyncTasksResource(AsyncAPIResource):
         )
 
 
-class TasksResourceWithRawResponse:
-    def __init__(self, tasks: TasksResource) -> None:
-        self._tasks = tasks
+class CollectionsResourceWithRawResponse:
+    def __init__(self, collections: CollectionsResource) -> None:
+        self._collections = collections
 
-        self.retrieve = to_raw_response_wrapper(
-            tasks.retrieve,
+        self.list = to_raw_response_wrapper(
+            collections.list,
         )
         self.delete = to_raw_response_wrapper(
-            tasks.delete,
+            collections.delete,
         )
 
 
-class AsyncTasksResourceWithRawResponse:
-    def __init__(self, tasks: AsyncTasksResource) -> None:
-        self._tasks = tasks
+class AsyncCollectionsResourceWithRawResponse:
+    def __init__(self, collections: AsyncCollectionsResource) -> None:
+        self._collections = collections
 
-        self.retrieve = async_to_raw_response_wrapper(
-            tasks.retrieve,
+        self.list = async_to_raw_response_wrapper(
+            collections.list,
         )
         self.delete = async_to_raw_response_wrapper(
-            tasks.delete,
+            collections.delete,
         )
 
 
-class TasksResourceWithStreamingResponse:
-    def __init__(self, tasks: TasksResource) -> None:
-        self._tasks = tasks
+class CollectionsResourceWithStreamingResponse:
+    def __init__(self, collections: CollectionsResource) -> None:
+        self._collections = collections
 
-        self.retrieve = to_streamed_response_wrapper(
-            tasks.retrieve,
+        self.list = to_streamed_response_wrapper(
+            collections.list,
         )
         self.delete = to_streamed_response_wrapper(
-            tasks.delete,
+            collections.delete,
         )
 
 
-class AsyncTasksResourceWithStreamingResponse:
-    def __init__(self, tasks: AsyncTasksResource) -> None:
-        self._tasks = tasks
+class AsyncCollectionsResourceWithStreamingResponse:
+    def __init__(self, collections: AsyncCollectionsResource) -> None:
+        self._collections = collections
 
-        self.retrieve = async_to_streamed_response_wrapper(
-            tasks.retrieve,
+        self.list = async_to_streamed_response_wrapper(
+            collections.list,
         )
         self.delete = async_to_streamed_response_wrapper(
-            tasks.delete,
+            collections.delete,
         )

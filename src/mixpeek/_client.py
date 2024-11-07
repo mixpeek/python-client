@@ -46,16 +46,24 @@ __all__ = [
 
 
 class Mixpeek(SyncAPIClient):
+    accounts: resources.AccountsResource
+    features: resources.FeaturesResource
+    index: resources.IndexResource
+    entities: resources.EntitiesResource
+    assets: resources.AssetsResource
     collections: resources.CollectionsResource
     tasks: resources.TasksResource
+    healthcheck: resources.HealthcheckResource
     with_raw_response: MixpeekWithRawResponse
     with_streaming_response: MixpeekWithStreamedResponse
 
     # client options
+    api_key: str
 
     def __init__(
         self,
         *,
+        api_key: str,
         base_url: str | httpx.URL | None = None,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
         max_retries: int = DEFAULT_MAX_RETRIES,
@@ -76,6 +84,8 @@ class Mixpeek(SyncAPIClient):
         _strict_response_validation: bool = False,
     ) -> None:
         """Construct a new synchronous mixpeek client instance."""
+        self.api_key = api_key
+
         if base_url is None:
             base_url = os.environ.get("MIXPEEK_BASE_URL")
         if base_url is None:
@@ -92,8 +102,14 @@ class Mixpeek(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
+        self.accounts = resources.AccountsResource(self)
+        self.features = resources.FeaturesResource(self)
+        self.index = resources.IndexResource(self)
+        self.entities = resources.EntitiesResource(self)
+        self.assets = resources.AssetsResource(self)
         self.collections = resources.CollectionsResource(self)
         self.tasks = resources.TasksResource(self)
+        self.healthcheck = resources.HealthcheckResource(self)
         self.with_raw_response = MixpeekWithRawResponse(self)
         self.with_streaming_response = MixpeekWithStreamedResponse(self)
 
@@ -101,6 +117,12 @@ class Mixpeek(SyncAPIClient):
     @override
     def qs(self) -> Querystring:
         return Querystring(array_format="comma")
+
+    @property
+    @override
+    def auth_headers(self) -> dict[str, str]:
+        api_key = self.api_key
+        return {"Authorization": f"Bearer {api_key}"}
 
     @property
     @override
@@ -114,6 +136,7 @@ class Mixpeek(SyncAPIClient):
     def copy(
         self,
         *,
+        api_key: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
         http_client: httpx.Client | None = None,
@@ -147,6 +170,7 @@ class Mixpeek(SyncAPIClient):
 
         http_client = http_client or self._client
         return self.__class__(
+            api_key=api_key or self.api_key,
             base_url=base_url or self.base_url,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
             http_client=http_client,
@@ -195,16 +219,24 @@ class Mixpeek(SyncAPIClient):
 
 
 class AsyncMixpeek(AsyncAPIClient):
+    accounts: resources.AsyncAccountsResource
+    features: resources.AsyncFeaturesResource
+    index: resources.AsyncIndexResource
+    entities: resources.AsyncEntitiesResource
+    assets: resources.AsyncAssetsResource
     collections: resources.AsyncCollectionsResource
     tasks: resources.AsyncTasksResource
+    healthcheck: resources.AsyncHealthcheckResource
     with_raw_response: AsyncMixpeekWithRawResponse
     with_streaming_response: AsyncMixpeekWithStreamedResponse
 
     # client options
+    api_key: str
 
     def __init__(
         self,
         *,
+        api_key: str,
         base_url: str | httpx.URL | None = None,
         timeout: Union[float, Timeout, None, NotGiven] = NOT_GIVEN,
         max_retries: int = DEFAULT_MAX_RETRIES,
@@ -225,6 +257,8 @@ class AsyncMixpeek(AsyncAPIClient):
         _strict_response_validation: bool = False,
     ) -> None:
         """Construct a new async mixpeek client instance."""
+        self.api_key = api_key
+
         if base_url is None:
             base_url = os.environ.get("MIXPEEK_BASE_URL")
         if base_url is None:
@@ -241,8 +275,14 @@ class AsyncMixpeek(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
+        self.accounts = resources.AsyncAccountsResource(self)
+        self.features = resources.AsyncFeaturesResource(self)
+        self.index = resources.AsyncIndexResource(self)
+        self.entities = resources.AsyncEntitiesResource(self)
+        self.assets = resources.AsyncAssetsResource(self)
         self.collections = resources.AsyncCollectionsResource(self)
         self.tasks = resources.AsyncTasksResource(self)
+        self.healthcheck = resources.AsyncHealthcheckResource(self)
         self.with_raw_response = AsyncMixpeekWithRawResponse(self)
         self.with_streaming_response = AsyncMixpeekWithStreamedResponse(self)
 
@@ -250,6 +290,12 @@ class AsyncMixpeek(AsyncAPIClient):
     @override
     def qs(self) -> Querystring:
         return Querystring(array_format="comma")
+
+    @property
+    @override
+    def auth_headers(self) -> dict[str, str]:
+        api_key = self.api_key
+        return {"Authorization": f"Bearer {api_key}"}
 
     @property
     @override
@@ -263,6 +309,7 @@ class AsyncMixpeek(AsyncAPIClient):
     def copy(
         self,
         *,
+        api_key: str | None = None,
         base_url: str | httpx.URL | None = None,
         timeout: float | Timeout | None | NotGiven = NOT_GIVEN,
         http_client: httpx.AsyncClient | None = None,
@@ -296,6 +343,7 @@ class AsyncMixpeek(AsyncAPIClient):
 
         http_client = http_client or self._client
         return self.__class__(
+            api_key=api_key or self.api_key,
             base_url=base_url or self.base_url,
             timeout=self.timeout if isinstance(timeout, NotGiven) else timeout,
             http_client=http_client,
@@ -345,26 +393,50 @@ class AsyncMixpeek(AsyncAPIClient):
 
 class MixpeekWithRawResponse:
     def __init__(self, client: Mixpeek) -> None:
+        self.accounts = resources.AccountsResourceWithRawResponse(client.accounts)
+        self.features = resources.FeaturesResourceWithRawResponse(client.features)
+        self.index = resources.IndexResourceWithRawResponse(client.index)
+        self.entities = resources.EntitiesResourceWithRawResponse(client.entities)
+        self.assets = resources.AssetsResourceWithRawResponse(client.assets)
         self.collections = resources.CollectionsResourceWithRawResponse(client.collections)
         self.tasks = resources.TasksResourceWithRawResponse(client.tasks)
+        self.healthcheck = resources.HealthcheckResourceWithRawResponse(client.healthcheck)
 
 
 class AsyncMixpeekWithRawResponse:
     def __init__(self, client: AsyncMixpeek) -> None:
+        self.accounts = resources.AsyncAccountsResourceWithRawResponse(client.accounts)
+        self.features = resources.AsyncFeaturesResourceWithRawResponse(client.features)
+        self.index = resources.AsyncIndexResourceWithRawResponse(client.index)
+        self.entities = resources.AsyncEntitiesResourceWithRawResponse(client.entities)
+        self.assets = resources.AsyncAssetsResourceWithRawResponse(client.assets)
         self.collections = resources.AsyncCollectionsResourceWithRawResponse(client.collections)
         self.tasks = resources.AsyncTasksResourceWithRawResponse(client.tasks)
+        self.healthcheck = resources.AsyncHealthcheckResourceWithRawResponse(client.healthcheck)
 
 
 class MixpeekWithStreamedResponse:
     def __init__(self, client: Mixpeek) -> None:
+        self.accounts = resources.AccountsResourceWithStreamingResponse(client.accounts)
+        self.features = resources.FeaturesResourceWithStreamingResponse(client.features)
+        self.index = resources.IndexResourceWithStreamingResponse(client.index)
+        self.entities = resources.EntitiesResourceWithStreamingResponse(client.entities)
+        self.assets = resources.AssetsResourceWithStreamingResponse(client.assets)
         self.collections = resources.CollectionsResourceWithStreamingResponse(client.collections)
         self.tasks = resources.TasksResourceWithStreamingResponse(client.tasks)
+        self.healthcheck = resources.HealthcheckResourceWithStreamingResponse(client.healthcheck)
 
 
 class AsyncMixpeekWithStreamedResponse:
     def __init__(self, client: AsyncMixpeek) -> None:
+        self.accounts = resources.AsyncAccountsResourceWithStreamingResponse(client.accounts)
+        self.features = resources.AsyncFeaturesResourceWithStreamingResponse(client.features)
+        self.index = resources.AsyncIndexResourceWithStreamingResponse(client.index)
+        self.entities = resources.AsyncEntitiesResourceWithStreamingResponse(client.entities)
+        self.assets = resources.AsyncAssetsResourceWithStreamingResponse(client.assets)
         self.collections = resources.AsyncCollectionsResourceWithStreamingResponse(client.collections)
         self.tasks = resources.AsyncTasksResourceWithStreamingResponse(client.tasks)
+        self.healthcheck = resources.AsyncHealthcheckResourceWithStreamingResponse(client.healthcheck)
 
 
 Client = Mixpeek

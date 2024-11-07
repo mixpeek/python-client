@@ -26,11 +26,12 @@ The full API of this library can be found in [api.md](api.md).
 ```python
 from mixpeek import Mixpeek
 
-client = Mixpeek()
-
-collection = client.collections.delete(
-    collection_id="collection_id",
+client = Mixpeek(
+    api_key="My API Key",
 )
+
+user = client.accounts.update()
+print(user.index_ids)
 ```
 
 ## Async usage
@@ -41,13 +42,14 @@ Simply import `AsyncMixpeek` instead of `Mixpeek` and use `await` with each API 
 import asyncio
 from mixpeek import AsyncMixpeek
 
-client = AsyncMixpeek()
+client = AsyncMixpeek(
+    api_key="My API Key",
+)
 
 
 async def main() -> None:
-    collection = await client.collections.delete(
-        collection_id="collection_id",
-    )
+    user = await client.accounts.update()
+    print(user.index_ids)
 
 
 asyncio.run(main())
@@ -80,9 +82,7 @@ from mixpeek import Mixpeek
 client = Mixpeek()
 
 try:
-    client.collections.delete(
-        collection_id="collection_id",
-    )
+    client.accounts.update()
 except mixpeek.APIConnectionError as e:
     print("The server could not be reached")
     print(e.__cause__)  # an underlying Exception, likely raised within httpx.
@@ -125,9 +125,7 @@ client = Mixpeek(
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).collections.delete(
-    collection_id="collection_id",
-)
+client.with_options(max_retries=5).accounts.update()
 ```
 
 ### Timeouts
@@ -150,9 +148,7 @@ client = Mixpeek(
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).collections.delete(
-    collection_id="collection_id",
-)
+client.with_options(timeout=5.0).accounts.update()
 ```
 
 On timeout, an `APITimeoutError` is thrown.
@@ -191,13 +187,11 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 from mixpeek import Mixpeek
 
 client = Mixpeek()
-response = client.collections.with_raw_response.delete(
-    collection_id="collection_id",
-)
+response = client.accounts.with_raw_response.update()
 print(response.headers.get('X-My-Header'))
 
-collection = response.parse()  # get the object that `collections.delete()` would have returned
-print(collection)
+account = response.parse()  # get the object that `accounts.update()` would have returned
+print(account.index_ids)
 ```
 
 These methods return an [`APIResponse`](https://github.com/mixpeek/python-client/tree/main/src/mixpeek/_response.py) object.
@@ -211,9 +205,7 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.collections.with_streaming_response.delete(
-    collection_id="collection_id",
-) as response:
+with client.accounts.with_streaming_response.update() as response:
     print(response.headers.get("X-My-Header"))
 
     for line in response.iter_lines():
