@@ -2,12 +2,12 @@
 
 from typing_extensions import Literal
 
-from .._models import BaseModel
+from ..._models import BaseModel
 
-__all__ = ["TaskRetrieveResponse"]
+__all__ = ["TaskResponse"]
 
 
-class TaskRetrieveResponse(BaseModel):
+class TaskResponse(BaseModel):
     asset_id: str
 
     status: Literal["DONE", "FAILED", "PROCESSING", "DOWNLOADING", "INITIALIZING"]

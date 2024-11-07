@@ -9,7 +9,7 @@ import pytest
 
 from mixpeek import Mixpeek, AsyncMixpeek
 from tests.utils import assert_matches_type
-from mixpeek.types import TaskRetrieveResponse
+from mixpeek.types.shared import TaskResponse
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
 
@@ -22,16 +22,15 @@ class TestTasks:
         task = client.tasks.retrieve(
             task_id="task_id",
         )
-        assert_matches_type(TaskRetrieveResponse, task, path=["response"])
+        assert_matches_type(TaskResponse, task, path=["response"])
 
     @parametrize
     def test_method_retrieve_with_all_params(self, client: Mixpeek) -> None:
         task = client.tasks.retrieve(
             task_id="task_id",
-            authorization="Authorization",
             index_id="index-id",
         )
-        assert_matches_type(TaskRetrieveResponse, task, path=["response"])
+        assert_matches_type(TaskResponse, task, path=["response"])
 
     @parametrize
     def test_raw_response_retrieve(self, client: Mixpeek) -> None:
@@ -42,7 +41,7 @@ class TestTasks:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         task = response.parse()
-        assert_matches_type(TaskRetrieveResponse, task, path=["response"])
+        assert_matches_type(TaskResponse, task, path=["response"])
 
     @parametrize
     def test_streaming_response_retrieve(self, client: Mixpeek) -> None:
@@ -53,7 +52,7 @@ class TestTasks:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             task = response.parse()
-            assert_matches_type(TaskRetrieveResponse, task, path=["response"])
+            assert_matches_type(TaskResponse, task, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -75,7 +74,6 @@ class TestTasks:
     def test_method_delete_with_all_params(self, client: Mixpeek) -> None:
         task = client.tasks.delete(
             task_id="task_id",
-            authorization="Authorization",
             index_id="index-id",
         )
         assert_matches_type(object, task, path=["response"])
@@ -120,16 +118,15 @@ class TestAsyncTasks:
         task = await async_client.tasks.retrieve(
             task_id="task_id",
         )
-        assert_matches_type(TaskRetrieveResponse, task, path=["response"])
+        assert_matches_type(TaskResponse, task, path=["response"])
 
     @parametrize
     async def test_method_retrieve_with_all_params(self, async_client: AsyncMixpeek) -> None:
         task = await async_client.tasks.retrieve(
             task_id="task_id",
-            authorization="Authorization",
             index_id="index-id",
         )
-        assert_matches_type(TaskRetrieveResponse, task, path=["response"])
+        assert_matches_type(TaskResponse, task, path=["response"])
 
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncMixpeek) -> None:
@@ -140,7 +137,7 @@ class TestAsyncTasks:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         task = await response.parse()
-        assert_matches_type(TaskRetrieveResponse, task, path=["response"])
+        assert_matches_type(TaskResponse, task, path=["response"])
 
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncMixpeek) -> None:
@@ -151,7 +148,7 @@ class TestAsyncTasks:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             task = await response.parse()
-            assert_matches_type(TaskRetrieveResponse, task, path=["response"])
+            assert_matches_type(TaskResponse, task, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -173,7 +170,6 @@ class TestAsyncTasks:
     async def test_method_delete_with_all_params(self, async_client: AsyncMixpeek) -> None:
         task = await async_client.tasks.delete(
             task_id="task_id",
-            authorization="Authorization",
             index_id="index-id",
         )
         assert_matches_type(object, task, path=["response"])
