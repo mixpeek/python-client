@@ -10,13 +10,14 @@ import inspect
 import tracemalloc
 from typing import Any, Union, cast
 from unittest import mock
+from typing_extensions import Literal
 
 import httpx
 import pytest
 from respx import MockRouter
 from pydantic import ValidationError
 
-from mixpeek import MixpeekSDK, AsyncMixpeekSDK, APIResponseValidationError
+from mixpeek import Mixpeek, AsyncMixpeek, APIResponseValidationError
 from mixpeek._types import Omit
 from mixpeek._models import BaseModel, FinalRequestOptions
 from mixpeek._constants import RAW_RESPONSE_HEADER
@@ -31,6 +32,7 @@ from mixpeek._base_client import (
 from .utils import update_env
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
+api_key = "My API Key"
 
 
 def _get_params(client: BaseClient[Any, Any]) -> dict[str, str]:
@@ -43,7 +45,7 @@ def _low_retry_timeout(*_args: Any, **_kwargs: Any) -> float:
     return 0.1
 
 
-def _get_open_connections(client: MixpeekSDK | AsyncMixpeekSDK) -> int:
+def _get_open_connections(client: Mixpeek | AsyncMixpeek) -> int:
     transport = client._client._transport
     assert isinstance(transport, httpx.HTTPTransport) or isinstance(transport, httpx.AsyncHTTPTransport)
 
@@ -51,8 +53,8 @@ def _get_open_connections(client: MixpeekSDK | AsyncMixpeekSDK) -> int:
     return len(pool._requests)
 
 
-class TestMixpeekSDK:
-    client = MixpeekSDK(base_url=base_url, _strict_response_validation=True)
+class TestMixpeek:
+    client = Mixpeek(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
     @pytest.mark.respx(base_url=base_url)
     def test_raw_response(self, respx_mock: MockRouter) -> None:
@@ -78,6 +80,10 @@ class TestMixpeekSDK:
         copied = self.client.copy()
         assert id(copied) != id(self.client)
 
+        copied = self.client.copy(api_key="another My API Key")
+        assert copied.api_key == "another My API Key"
+        assert self.client.api_key == "My API Key"
+
     def test_copy_default_options(self) -> None:
         # options that have a default are overridden correctly
         copied = self.client.copy(max_retries=7)
@@ -95,7 +101,9 @@ class TestMixpeekSDK:
         assert isinstance(self.client.timeout, httpx.Timeout)
 
     def test_copy_default_headers(self) -> None:
-        client = MixpeekSDK(base_url=base_url, _strict_response_validation=True, default_headers={"X-Foo": "bar"})
+        client = Mixpeek(
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
+        )
         assert client.default_headers["X-Foo"] == "bar"
 
         # does not override the already given value when not specified
@@ -127,7 +135,9 @@ class TestMixpeekSDK:
             client.copy(set_default_headers={}, default_headers={"X-Foo": "Bar"})
 
     def test_copy_default_query(self) -> None:
-        client = MixpeekSDK(base_url=base_url, _strict_response_validation=True, default_query={"foo": "bar"})
+        client = Mixpeek(
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"foo": "bar"}
+        )
         assert _get_params(client)["foo"] == "bar"
 
         # does not override the already given value when not specified
@@ -250,7 +260,7 @@ class TestMixpeekSDK:
         assert timeout == httpx.Timeout(100.0)
 
     def test_client_timeout_option(self) -> None:
-        client = MixpeekSDK(base_url=base_url, _strict_response_validation=True, timeout=httpx.Timeout(0))
+        client = Mixpeek(base_url=base_url, api_key=api_key, _strict_response_validation=True, timeout=httpx.Timeout(0))
 
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
@@ -259,7 +269,9 @@ class TestMixpeekSDK:
     def test_http_client_timeout_option(self) -> None:
         # custom timeout given to the httpx client should be used
         with httpx.Client(timeout=None) as http_client:
-            client = MixpeekSDK(base_url=base_url, _strict_response_validation=True, http_client=http_client)
+            client = Mixpeek(
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
+            )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
             timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
@@ -267,7 +279,9 @@ class TestMixpeekSDK:
 
         # no timeout given to the httpx client should not use the httpx default
         with httpx.Client() as http_client:
-            client = MixpeekSDK(base_url=base_url, _strict_response_validation=True, http_client=http_client)
+            client = Mixpeek(
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
+            )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
             timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
@@ -275,7 +289,9 @@ class TestMixpeekSDK:
 
         # explicitly passing the default timeout currently results in it being ignored
         with httpx.Client(timeout=HTTPX_DEFAULT_TIMEOUT) as http_client:
-            client = MixpeekSDK(base_url=base_url, _strict_response_validation=True, http_client=http_client)
+            client = Mixpeek(
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
+            )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
             timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
@@ -284,16 +300,24 @@ class TestMixpeekSDK:
     async def test_invalid_http_client(self) -> None:
         with pytest.raises(TypeError, match="Invalid `http_client` arg"):
             async with httpx.AsyncClient() as http_client:
-                MixpeekSDK(base_url=base_url, _strict_response_validation=True, http_client=cast(Any, http_client))
+                Mixpeek(
+                    base_url=base_url,
+                    api_key=api_key,
+                    _strict_response_validation=True,
+                    http_client=cast(Any, http_client),
+                )
 
     def test_default_headers_option(self) -> None:
-        client = MixpeekSDK(base_url=base_url, _strict_response_validation=True, default_headers={"X-Foo": "bar"})
+        client = Mixpeek(
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
+        )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "bar"
         assert request.headers.get("x-stainless-lang") == "python"
 
-        client2 = MixpeekSDK(
+        client2 = Mixpeek(
             base_url=base_url,
+            api_key=api_key,
             _strict_response_validation=True,
             default_headers={
                 "X-Foo": "stainless",
@@ -304,8 +328,15 @@ class TestMixpeekSDK:
         assert request.headers.get("x-foo") == "stainless"
         assert request.headers.get("x-stainless-lang") == "my-overriding-header"
 
+    def test_validate_headers(self) -> None:
+        client = Mixpeek(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
+        assert request.headers.get("Authorization") == f"Bearer {api_key}"
+
     def test_default_query_option(self) -> None:
-        client = MixpeekSDK(base_url=base_url, _strict_response_validation=True, default_query={"query_param": "bar"})
+        client = Mixpeek(
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"query_param": "bar"}
+        )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         url = httpx.URL(request.url)
         assert dict(url.params) == {"query_param": "bar"}
@@ -417,7 +448,7 @@ class TestMixpeekSDK:
         params = dict(request.url.params)
         assert params == {"foo": "2"}
 
-    def test_multipart_repeating_array(self, client: MixpeekSDK) -> None:
+    def test_multipart_repeating_array(self, client: Mixpeek) -> None:
         request = client._build_request(
             FinalRequestOptions.construct(
                 method="get",
@@ -504,7 +535,7 @@ class TestMixpeekSDK:
         assert response.foo == 2
 
     def test_base_url_setter(self) -> None:
-        client = MixpeekSDK(base_url="https://example.com/from_init", _strict_response_validation=True)
+        client = Mixpeek(base_url="https://example.com/from_init", api_key=api_key, _strict_response_validation=True)
         assert client.base_url == "https://example.com/from_init/"
 
         client.base_url = "https://example.com/from_setter"  # type: ignore[assignment]
@@ -512,23 +543,24 @@ class TestMixpeekSDK:
         assert client.base_url == "https://example.com/from_setter/"
 
     def test_base_url_env(self) -> None:
-        with update_env(MIXPEEK_SDK_BASE_URL="http://localhost:5000/from/env"):
-            client = MixpeekSDK(_strict_response_validation=True)
+        with update_env(MIXPEEK_BASE_URL="http://localhost:5000/from/env"):
+            client = Mixpeek(api_key=api_key, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
     @pytest.mark.parametrize(
         "client",
         [
-            MixpeekSDK(base_url="http://localhost:5000/custom/path/", _strict_response_validation=True),
-            MixpeekSDK(
+            Mixpeek(base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True),
+            Mixpeek(
                 base_url="http://localhost:5000/custom/path/",
+                api_key=api_key,
                 _strict_response_validation=True,
                 http_client=httpx.Client(),
             ),
         ],
         ids=["standard", "custom http client"],
     )
-    def test_base_url_trailing_slash(self, client: MixpeekSDK) -> None:
+    def test_base_url_trailing_slash(self, client: Mixpeek) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -541,16 +573,17 @@ class TestMixpeekSDK:
     @pytest.mark.parametrize(
         "client",
         [
-            MixpeekSDK(base_url="http://localhost:5000/custom/path/", _strict_response_validation=True),
-            MixpeekSDK(
+            Mixpeek(base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True),
+            Mixpeek(
                 base_url="http://localhost:5000/custom/path/",
+                api_key=api_key,
                 _strict_response_validation=True,
                 http_client=httpx.Client(),
             ),
         ],
         ids=["standard", "custom http client"],
     )
-    def test_base_url_no_trailing_slash(self, client: MixpeekSDK) -> None:
+    def test_base_url_no_trailing_slash(self, client: Mixpeek) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -563,16 +596,17 @@ class TestMixpeekSDK:
     @pytest.mark.parametrize(
         "client",
         [
-            MixpeekSDK(base_url="http://localhost:5000/custom/path/", _strict_response_validation=True),
-            MixpeekSDK(
+            Mixpeek(base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True),
+            Mixpeek(
                 base_url="http://localhost:5000/custom/path/",
+                api_key=api_key,
                 _strict_response_validation=True,
                 http_client=httpx.Client(),
             ),
         ],
         ids=["standard", "custom http client"],
     )
-    def test_absolute_request_url(self, client: MixpeekSDK) -> None:
+    def test_absolute_request_url(self, client: Mixpeek) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -583,7 +617,7 @@ class TestMixpeekSDK:
         assert request.url == "https://myapi.com/foo"
 
     def test_copied_client_does_not_close_http(self) -> None:
-        client = MixpeekSDK(base_url=base_url, _strict_response_validation=True)
+        client = Mixpeek(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         assert not client.is_closed()
 
         copied = client.copy()
@@ -594,7 +628,7 @@ class TestMixpeekSDK:
         assert not client.is_closed()
 
     def test_client_context_manager(self) -> None:
-        client = MixpeekSDK(base_url=base_url, _strict_response_validation=True)
+        client = Mixpeek(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         with client as c2:
             assert c2 is client
             assert not c2.is_closed()
@@ -615,7 +649,7 @@ class TestMixpeekSDK:
 
     def test_client_max_retries_validation(self) -> None:
         with pytest.raises(TypeError, match=r"max_retries cannot be None"):
-            MixpeekSDK(base_url=base_url, _strict_response_validation=True, max_retries=cast(Any, None))
+            Mixpeek(base_url=base_url, api_key=api_key, _strict_response_validation=True, max_retries=cast(Any, None))
 
     @pytest.mark.respx(base_url=base_url)
     def test_received_text_for_expected_json(self, respx_mock: MockRouter) -> None:
@@ -624,12 +658,12 @@ class TestMixpeekSDK:
 
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, text="my-custom-format"))
 
-        strict_client = MixpeekSDK(base_url=base_url, _strict_response_validation=True)
+        strict_client = Mixpeek(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
         with pytest.raises(APIResponseValidationError):
             strict_client.get("/foo", cast_to=Model)
 
-        client = MixpeekSDK(base_url=base_url, _strict_response_validation=False)
+        client = Mixpeek(base_url=base_url, api_key=api_key, _strict_response_validation=False)
 
         response = client.get("/foo", cast_to=Model)
         assert isinstance(response, str)  # type: ignore[unreachable]
@@ -652,12 +686,12 @@ class TestMixpeekSDK:
             [3, "", 0.5],
             [2, "", 0.5 * 2.0],
             [1, "", 0.5 * 4.0],
-            [-1100, "", 7.8],  # test large number potentially overflowing
+            [-1100, "", 8],  # test large number potentially overflowing
         ],
     )
     @mock.patch("time.time", mock.MagicMock(return_value=1696004797))
     def test_parse_retry_after_header(self, remaining_retries: int, retry_after: str, timeout: float) -> None:
-        client = MixpeekSDK(base_url=base_url, _strict_response_validation=True)
+        client = Mixpeek(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
         headers = httpx.Headers({"retry-after": retry_after})
         options = FinalRequestOptions(method="get", url="/foo", max_retries=3)
@@ -667,12 +701,12 @@ class TestMixpeekSDK:
     @mock.patch("mixpeek._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/agent/").mock(side_effect=httpx.TimeoutException("Test timeout error"))
+        respx_mock.put("/accounts/").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            self.client.post(
-                "/agent/",
-                body=cast(object, dict(prompt="prompt")),
+            self.client.put(
+                "/accounts/",
+                body=cast(object, dict()),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -682,12 +716,12 @@ class TestMixpeekSDK:
     @mock.patch("mixpeek._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/agent/").mock(return_value=httpx.Response(500))
+        respx_mock.put("/accounts/").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            self.client.post(
-                "/agent/",
-                body=cast(object, dict(prompt="prompt")),
+            self.client.put(
+                "/accounts/",
+                body=cast(object, dict()),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -697,7 +731,14 @@ class TestMixpeekSDK:
     @pytest.mark.parametrize("failures_before_success", [0, 2, 4])
     @mock.patch("mixpeek._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
-    def test_retries_taken(self, client: MixpeekSDK, failures_before_success: int, respx_mock: MockRouter) -> None:
+    @pytest.mark.parametrize("failure_mode", ["status", "exception"])
+    def test_retries_taken(
+        self,
+        client: Mixpeek,
+        failures_before_success: int,
+        failure_mode: Literal["status", "exception"],
+        respx_mock: MockRouter,
+    ) -> None:
         client = client.with_options(max_retries=4)
 
         nb_retries = 0
@@ -706,12 +747,14 @@ class TestMixpeekSDK:
             nonlocal nb_retries
             if nb_retries < failures_before_success:
                 nb_retries += 1
+                if failure_mode == "exception":
+                    raise RuntimeError("oops")
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/agent/").mock(side_effect=retry_handler)
+        respx_mock.put("/accounts/").mock(side_effect=retry_handler)
 
-        response = client.agent.with_raw_response.create(prompt="prompt")
+        response = client.accounts.with_raw_response.update()
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
@@ -720,7 +763,7 @@ class TestMixpeekSDK:
     @mock.patch("mixpeek._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_omit_retry_count_header(
-        self, client: MixpeekSDK, failures_before_success: int, respx_mock: MockRouter
+        self, client: Mixpeek, failures_before_success: int, respx_mock: MockRouter
     ) -> None:
         client = client.with_options(max_retries=4)
 
@@ -733,11 +776,9 @@ class TestMixpeekSDK:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/agent/").mock(side_effect=retry_handler)
+        respx_mock.put("/accounts/").mock(side_effect=retry_handler)
 
-        response = client.agent.with_raw_response.create(
-            prompt="prompt", extra_headers={"x-stainless-retry-count": Omit()}
-        )
+        response = client.accounts.with_raw_response.update(extra_headers={"x-stainless-retry-count": Omit()})
 
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
 
@@ -745,7 +786,7 @@ class TestMixpeekSDK:
     @mock.patch("mixpeek._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_overwrite_retry_count_header(
-        self, client: MixpeekSDK, failures_before_success: int, respx_mock: MockRouter
+        self, client: Mixpeek, failures_before_success: int, respx_mock: MockRouter
     ) -> None:
         client = client.with_options(max_retries=4)
 
@@ -758,17 +799,15 @@ class TestMixpeekSDK:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/agent/").mock(side_effect=retry_handler)
+        respx_mock.put("/accounts/").mock(side_effect=retry_handler)
 
-        response = client.agent.with_raw_response.create(
-            prompt="prompt", extra_headers={"x-stainless-retry-count": "42"}
-        )
+        response = client.accounts.with_raw_response.update(extra_headers={"x-stainless-retry-count": "42"})
 
         assert response.http_request.headers.get("x-stainless-retry-count") == "42"
 
 
-class TestAsyncMixpeekSDK:
-    client = AsyncMixpeekSDK(base_url=base_url, _strict_response_validation=True)
+class TestAsyncMixpeek:
+    client = AsyncMixpeek(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
@@ -796,6 +835,10 @@ class TestAsyncMixpeekSDK:
         copied = self.client.copy()
         assert id(copied) != id(self.client)
 
+        copied = self.client.copy(api_key="another My API Key")
+        assert copied.api_key == "another My API Key"
+        assert self.client.api_key == "My API Key"
+
     def test_copy_default_options(self) -> None:
         # options that have a default are overridden correctly
         copied = self.client.copy(max_retries=7)
@@ -813,7 +856,9 @@ class TestAsyncMixpeekSDK:
         assert isinstance(self.client.timeout, httpx.Timeout)
 
     def test_copy_default_headers(self) -> None:
-        client = AsyncMixpeekSDK(base_url=base_url, _strict_response_validation=True, default_headers={"X-Foo": "bar"})
+        client = AsyncMixpeek(
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
+        )
         assert client.default_headers["X-Foo"] == "bar"
 
         # does not override the already given value when not specified
@@ -845,7 +890,9 @@ class TestAsyncMixpeekSDK:
             client.copy(set_default_headers={}, default_headers={"X-Foo": "Bar"})
 
     def test_copy_default_query(self) -> None:
-        client = AsyncMixpeekSDK(base_url=base_url, _strict_response_validation=True, default_query={"foo": "bar"})
+        client = AsyncMixpeek(
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"foo": "bar"}
+        )
         assert _get_params(client)["foo"] == "bar"
 
         # does not override the already given value when not specified
@@ -968,7 +1015,9 @@ class TestAsyncMixpeekSDK:
         assert timeout == httpx.Timeout(100.0)
 
     async def test_client_timeout_option(self) -> None:
-        client = AsyncMixpeekSDK(base_url=base_url, _strict_response_validation=True, timeout=httpx.Timeout(0))
+        client = AsyncMixpeek(
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, timeout=httpx.Timeout(0)
+        )
 
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
@@ -977,7 +1026,9 @@ class TestAsyncMixpeekSDK:
     async def test_http_client_timeout_option(self) -> None:
         # custom timeout given to the httpx client should be used
         async with httpx.AsyncClient(timeout=None) as http_client:
-            client = AsyncMixpeekSDK(base_url=base_url, _strict_response_validation=True, http_client=http_client)
+            client = AsyncMixpeek(
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
+            )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
             timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
@@ -985,7 +1036,9 @@ class TestAsyncMixpeekSDK:
 
         # no timeout given to the httpx client should not use the httpx default
         async with httpx.AsyncClient() as http_client:
-            client = AsyncMixpeekSDK(base_url=base_url, _strict_response_validation=True, http_client=http_client)
+            client = AsyncMixpeek(
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
+            )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
             timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
@@ -993,7 +1046,9 @@ class TestAsyncMixpeekSDK:
 
         # explicitly passing the default timeout currently results in it being ignored
         async with httpx.AsyncClient(timeout=HTTPX_DEFAULT_TIMEOUT) as http_client:
-            client = AsyncMixpeekSDK(base_url=base_url, _strict_response_validation=True, http_client=http_client)
+            client = AsyncMixpeek(
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, http_client=http_client
+            )
 
             request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
             timeout = httpx.Timeout(**request.extensions["timeout"])  # type: ignore
@@ -1002,16 +1057,24 @@ class TestAsyncMixpeekSDK:
     def test_invalid_http_client(self) -> None:
         with pytest.raises(TypeError, match="Invalid `http_client` arg"):
             with httpx.Client() as http_client:
-                AsyncMixpeekSDK(base_url=base_url, _strict_response_validation=True, http_client=cast(Any, http_client))
+                AsyncMixpeek(
+                    base_url=base_url,
+                    api_key=api_key,
+                    _strict_response_validation=True,
+                    http_client=cast(Any, http_client),
+                )
 
     def test_default_headers_option(self) -> None:
-        client = AsyncMixpeekSDK(base_url=base_url, _strict_response_validation=True, default_headers={"X-Foo": "bar"})
+        client = AsyncMixpeek(
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_headers={"X-Foo": "bar"}
+        )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         assert request.headers.get("x-foo") == "bar"
         assert request.headers.get("x-stainless-lang") == "python"
 
-        client2 = AsyncMixpeekSDK(
+        client2 = AsyncMixpeek(
             base_url=base_url,
+            api_key=api_key,
             _strict_response_validation=True,
             default_headers={
                 "X-Foo": "stainless",
@@ -1022,9 +1085,14 @@ class TestAsyncMixpeekSDK:
         assert request.headers.get("x-foo") == "stainless"
         assert request.headers.get("x-stainless-lang") == "my-overriding-header"
 
+    def test_validate_headers(self) -> None:
+        client = AsyncMixpeek(base_url=base_url, api_key=api_key, _strict_response_validation=True)
+        request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
+        assert request.headers.get("Authorization") == f"Bearer {api_key}"
+
     def test_default_query_option(self) -> None:
-        client = AsyncMixpeekSDK(
-            base_url=base_url, _strict_response_validation=True, default_query={"query_param": "bar"}
+        client = AsyncMixpeek(
+            base_url=base_url, api_key=api_key, _strict_response_validation=True, default_query={"query_param": "bar"}
         )
         request = client._build_request(FinalRequestOptions(method="get", url="/foo"))
         url = httpx.URL(request.url)
@@ -1137,7 +1205,7 @@ class TestAsyncMixpeekSDK:
         params = dict(request.url.params)
         assert params == {"foo": "2"}
 
-    def test_multipart_repeating_array(self, async_client: AsyncMixpeekSDK) -> None:
+    def test_multipart_repeating_array(self, async_client: AsyncMixpeek) -> None:
         request = async_client._build_request(
             FinalRequestOptions.construct(
                 method="get",
@@ -1224,7 +1292,9 @@ class TestAsyncMixpeekSDK:
         assert response.foo == 2
 
     def test_base_url_setter(self) -> None:
-        client = AsyncMixpeekSDK(base_url="https://example.com/from_init", _strict_response_validation=True)
+        client = AsyncMixpeek(
+            base_url="https://example.com/from_init", api_key=api_key, _strict_response_validation=True
+        )
         assert client.base_url == "https://example.com/from_init/"
 
         client.base_url = "https://example.com/from_setter"  # type: ignore[assignment]
@@ -1232,23 +1302,26 @@ class TestAsyncMixpeekSDK:
         assert client.base_url == "https://example.com/from_setter/"
 
     def test_base_url_env(self) -> None:
-        with update_env(MIXPEEK_SDK_BASE_URL="http://localhost:5000/from/env"):
-            client = AsyncMixpeekSDK(_strict_response_validation=True)
+        with update_env(MIXPEEK_BASE_URL="http://localhost:5000/from/env"):
+            client = AsyncMixpeek(api_key=api_key, _strict_response_validation=True)
             assert client.base_url == "http://localhost:5000/from/env/"
 
     @pytest.mark.parametrize(
         "client",
         [
-            AsyncMixpeekSDK(base_url="http://localhost:5000/custom/path/", _strict_response_validation=True),
-            AsyncMixpeekSDK(
+            AsyncMixpeek(
+                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
+            ),
+            AsyncMixpeek(
                 base_url="http://localhost:5000/custom/path/",
+                api_key=api_key,
                 _strict_response_validation=True,
                 http_client=httpx.AsyncClient(),
             ),
         ],
         ids=["standard", "custom http client"],
     )
-    def test_base_url_trailing_slash(self, client: AsyncMixpeekSDK) -> None:
+    def test_base_url_trailing_slash(self, client: AsyncMixpeek) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -1261,16 +1334,19 @@ class TestAsyncMixpeekSDK:
     @pytest.mark.parametrize(
         "client",
         [
-            AsyncMixpeekSDK(base_url="http://localhost:5000/custom/path/", _strict_response_validation=True),
-            AsyncMixpeekSDK(
+            AsyncMixpeek(
+                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
+            ),
+            AsyncMixpeek(
                 base_url="http://localhost:5000/custom/path/",
+                api_key=api_key,
                 _strict_response_validation=True,
                 http_client=httpx.AsyncClient(),
             ),
         ],
         ids=["standard", "custom http client"],
     )
-    def test_base_url_no_trailing_slash(self, client: AsyncMixpeekSDK) -> None:
+    def test_base_url_no_trailing_slash(self, client: AsyncMixpeek) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -1283,16 +1359,19 @@ class TestAsyncMixpeekSDK:
     @pytest.mark.parametrize(
         "client",
         [
-            AsyncMixpeekSDK(base_url="http://localhost:5000/custom/path/", _strict_response_validation=True),
-            AsyncMixpeekSDK(
+            AsyncMixpeek(
+                base_url="http://localhost:5000/custom/path/", api_key=api_key, _strict_response_validation=True
+            ),
+            AsyncMixpeek(
                 base_url="http://localhost:5000/custom/path/",
+                api_key=api_key,
                 _strict_response_validation=True,
                 http_client=httpx.AsyncClient(),
             ),
         ],
         ids=["standard", "custom http client"],
     )
-    def test_absolute_request_url(self, client: AsyncMixpeekSDK) -> None:
+    def test_absolute_request_url(self, client: AsyncMixpeek) -> None:
         request = client._build_request(
             FinalRequestOptions(
                 method="post",
@@ -1303,7 +1382,7 @@ class TestAsyncMixpeekSDK:
         assert request.url == "https://myapi.com/foo"
 
     async def test_copied_client_does_not_close_http(self) -> None:
-        client = AsyncMixpeekSDK(base_url=base_url, _strict_response_validation=True)
+        client = AsyncMixpeek(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         assert not client.is_closed()
 
         copied = client.copy()
@@ -1315,7 +1394,7 @@ class TestAsyncMixpeekSDK:
         assert not client.is_closed()
 
     async def test_client_context_manager(self) -> None:
-        client = AsyncMixpeekSDK(base_url=base_url, _strict_response_validation=True)
+        client = AsyncMixpeek(base_url=base_url, api_key=api_key, _strict_response_validation=True)
         async with client as c2:
             assert c2 is client
             assert not c2.is_closed()
@@ -1337,7 +1416,9 @@ class TestAsyncMixpeekSDK:
 
     async def test_client_max_retries_validation(self) -> None:
         with pytest.raises(TypeError, match=r"max_retries cannot be None"):
-            AsyncMixpeekSDK(base_url=base_url, _strict_response_validation=True, max_retries=cast(Any, None))
+            AsyncMixpeek(
+                base_url=base_url, api_key=api_key, _strict_response_validation=True, max_retries=cast(Any, None)
+            )
 
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
@@ -1347,12 +1428,12 @@ class TestAsyncMixpeekSDK:
 
         respx_mock.get("/foo").mock(return_value=httpx.Response(200, text="my-custom-format"))
 
-        strict_client = AsyncMixpeekSDK(base_url=base_url, _strict_response_validation=True)
+        strict_client = AsyncMixpeek(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
         with pytest.raises(APIResponseValidationError):
             await strict_client.get("/foo", cast_to=Model)
 
-        client = AsyncMixpeekSDK(base_url=base_url, _strict_response_validation=False)
+        client = AsyncMixpeek(base_url=base_url, api_key=api_key, _strict_response_validation=False)
 
         response = await client.get("/foo", cast_to=Model)
         assert isinstance(response, str)  # type: ignore[unreachable]
@@ -1375,13 +1456,13 @@ class TestAsyncMixpeekSDK:
             [3, "", 0.5],
             [2, "", 0.5 * 2.0],
             [1, "", 0.5 * 4.0],
-            [-1100, "", 7.8],  # test large number potentially overflowing
+            [-1100, "", 8],  # test large number potentially overflowing
         ],
     )
     @mock.patch("time.time", mock.MagicMock(return_value=1696004797))
     @pytest.mark.asyncio
     async def test_parse_retry_after_header(self, remaining_retries: int, retry_after: str, timeout: float) -> None:
-        client = AsyncMixpeekSDK(base_url=base_url, _strict_response_validation=True)
+        client = AsyncMixpeek(base_url=base_url, api_key=api_key, _strict_response_validation=True)
 
         headers = httpx.Headers({"retry-after": retry_after})
         options = FinalRequestOptions(method="get", url="/foo", max_retries=3)
@@ -1391,12 +1472,12 @@ class TestAsyncMixpeekSDK:
     @mock.patch("mixpeek._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/agent/").mock(side_effect=httpx.TimeoutException("Test timeout error"))
+        respx_mock.put("/accounts/").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            await self.client.post(
-                "/agent/",
-                body=cast(object, dict(prompt="prompt")),
+            await self.client.put(
+                "/accounts/",
+                body=cast(object, dict()),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -1406,12 +1487,12 @@ class TestAsyncMixpeekSDK:
     @mock.patch("mixpeek._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/agent/").mock(return_value=httpx.Response(500))
+        respx_mock.put("/accounts/").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            await self.client.post(
-                "/agent/",
-                body=cast(object, dict(prompt="prompt")),
+            await self.client.put(
+                "/accounts/",
+                body=cast(object, dict()),
                 cast_to=httpx.Response,
                 options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
             )
@@ -1422,8 +1503,13 @@ class TestAsyncMixpeekSDK:
     @mock.patch("mixpeek._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
+    @pytest.mark.parametrize("failure_mode", ["status", "exception"])
     async def test_retries_taken(
-        self, async_client: AsyncMixpeekSDK, failures_before_success: int, respx_mock: MockRouter
+        self,
+        async_client: AsyncMixpeek,
+        failures_before_success: int,
+        failure_mode: Literal["status", "exception"],
+        respx_mock: MockRouter,
     ) -> None:
         client = async_client.with_options(max_retries=4)
 
@@ -1433,12 +1519,14 @@ class TestAsyncMixpeekSDK:
             nonlocal nb_retries
             if nb_retries < failures_before_success:
                 nb_retries += 1
+                if failure_mode == "exception":
+                    raise RuntimeError("oops")
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/agent/").mock(side_effect=retry_handler)
+        respx_mock.put("/accounts/").mock(side_effect=retry_handler)
 
-        response = await client.agent.with_raw_response.create(prompt="prompt")
+        response = await client.accounts.with_raw_response.update()
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
@@ -1448,7 +1536,7 @@ class TestAsyncMixpeekSDK:
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
     async def test_omit_retry_count_header(
-        self, async_client: AsyncMixpeekSDK, failures_before_success: int, respx_mock: MockRouter
+        self, async_client: AsyncMixpeek, failures_before_success: int, respx_mock: MockRouter
     ) -> None:
         client = async_client.with_options(max_retries=4)
 
@@ -1461,11 +1549,9 @@ class TestAsyncMixpeekSDK:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/agent/").mock(side_effect=retry_handler)
+        respx_mock.put("/accounts/").mock(side_effect=retry_handler)
 
-        response = await client.agent.with_raw_response.create(
-            prompt="prompt", extra_headers={"x-stainless-retry-count": Omit()}
-        )
+        response = await client.accounts.with_raw_response.update(extra_headers={"x-stainless-retry-count": Omit()})
 
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
 
@@ -1474,7 +1560,7 @@ class TestAsyncMixpeekSDK:
     @pytest.mark.respx(base_url=base_url)
     @pytest.mark.asyncio
     async def test_overwrite_retry_count_header(
-        self, async_client: AsyncMixpeekSDK, failures_before_success: int, respx_mock: MockRouter
+        self, async_client: AsyncMixpeek, failures_before_success: int, respx_mock: MockRouter
     ) -> None:
         client = async_client.with_options(max_retries=4)
 
@@ -1487,10 +1573,8 @@ class TestAsyncMixpeekSDK:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/agent/").mock(side_effect=retry_handler)
+        respx_mock.put("/accounts/").mock(side_effect=retry_handler)
 
-        response = await client.agent.with_raw_response.create(
-            prompt="prompt", extra_headers={"x-stainless-retry-count": "42"}
-        )
+        response = await client.accounts.with_raw_response.update(extra_headers={"x-stainless-retry-count": "42"})
 
         assert response.http_request.headers.get("x-stainless-retry-count") == "42"

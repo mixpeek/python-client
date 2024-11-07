@@ -1,8 +1,8 @@
-# Mixpeek SDK Python API library
+# Mixpeek Python API library
 
 [![PyPI version](https://img.shields.io/pypi/v/mixpeek.svg)](https://pypi.org/project/mixpeek/)
 
-The Mixpeek SDK Python library provides convenient access to the Mixpeek SDK REST API from any Python 3.7+
+The Mixpeek Python library provides convenient access to the Mixpeek REST API from any Python 3.8+
 application. The library includes type definitions for all request params and response fields,
 and offers both synchronous and asynchronous clients powered by [httpx](https://github.com/encode/httpx).
 
@@ -24,32 +24,32 @@ pip install mixpeek
 The full API of this library can be found in [api.md](api.md).
 
 ```python
-from mixpeek import MixpeekSDK
+from mixpeek import Mixpeek
 
-client = MixpeekSDK()
-
-agentresponse = client.agent.create(
-    prompt="prompt",
+client = Mixpeek(
+    api_key="My API Key",
 )
-print(agentresponse.task_id)
+
+user = client.accounts.update()
+print(user.index_ids)
 ```
 
 ## Async usage
 
-Simply import `AsyncMixpeekSDK` instead of `MixpeekSDK` and use `await` with each API call:
+Simply import `AsyncMixpeek` instead of `Mixpeek` and use `await` with each API call:
 
 ```python
 import asyncio
-from mixpeek import AsyncMixpeekSDK
+from mixpeek import AsyncMixpeek
 
-client = AsyncMixpeekSDK()
+client = AsyncMixpeek(
+    api_key="My API Key",
+)
 
 
 async def main() -> None:
-    agentresponse = await client.agent.create(
-        prompt="prompt",
-    )
-    print(agentresponse.task_id)
+    user = await client.accounts.update()
+    print(user.index_ids)
 
 
 asyncio.run(main())
@@ -77,14 +77,12 @@ All errors inherit from `mixpeek.APIError`.
 
 ```python
 import mixpeek
-from mixpeek import MixpeekSDK
+from mixpeek import Mixpeek
 
-client = MixpeekSDK()
+client = Mixpeek()
 
 try:
-    client.agent.create(
-        prompt="prompt",
-    )
+    client.accounts.update()
 except mixpeek.APIConnectionError as e:
     print("The server could not be reached")
     print(e.__cause__)  # an underlying Exception, likely raised within httpx.
@@ -118,18 +116,16 @@ Connection errors (for example, due to a network connectivity problem), 408 Requ
 You can use the `max_retries` option to configure or disable retry settings:
 
 ```python
-from mixpeek import MixpeekSDK
+from mixpeek import Mixpeek
 
 # Configure the default for all requests:
-client = MixpeekSDK(
+client = Mixpeek(
     # default is 2
     max_retries=0,
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).agent.create(
-    prompt="prompt",
-)
+client.with_options(max_retries=5).accounts.update()
 ```
 
 ### Timeouts
@@ -138,23 +134,21 @@ By default requests time out after 1 minute. You can configure this with a `time
 which accepts a float or an [`httpx.Timeout`](https://www.python-httpx.org/advanced/#fine-tuning-the-configuration) object:
 
 ```python
-from mixpeek import MixpeekSDK
+from mixpeek import Mixpeek
 
 # Configure the default for all requests:
-client = MixpeekSDK(
+client = Mixpeek(
     # 20 seconds (default is 1 minute)
     timeout=20.0,
 )
 
 # More granular control:
-client = MixpeekSDK(
+client = Mixpeek(
     timeout=httpx.Timeout(60.0, read=5.0, write=10.0, connect=2.0),
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).agent.create(
-    prompt="prompt",
-)
+client.with_options(timeout=5.0).accounts.update()
 ```
 
 On timeout, an `APITimeoutError` is thrown.
@@ -167,10 +161,10 @@ Note that requests that time out are [retried twice by default](#retries).
 
 We use the standard library [`logging`](https://docs.python.org/3/library/logging.html) module.
 
-You can enable logging by setting the environment variable `MIXPEEK_SDK_LOG` to `debug`.
+You can enable logging by setting the environment variable `MIXPEEK_LOG` to `debug`.
 
 ```shell
-$ export MIXPEEK_SDK_LOG=debug
+$ export MIXPEEK_LOG=debug
 ```
 
 ### How to tell whether `None` means `null` or missing
@@ -190,16 +184,14 @@ if response.my_field is None:
 The "raw" Response object can be accessed by prefixing `.with_raw_response.` to any HTTP method call, e.g.,
 
 ```py
-from mixpeek import MixpeekSDK
+from mixpeek import Mixpeek
 
-client = MixpeekSDK()
-response = client.agent.with_raw_response.create(
-    prompt="prompt",
-)
+client = Mixpeek()
+response = client.accounts.with_raw_response.update()
 print(response.headers.get('X-My-Header'))
 
-agent = response.parse()  # get the object that `agent.create()` would have returned
-print(agent.task_id)
+account = response.parse()  # get the object that `accounts.update()` would have returned
+print(account.index_ids)
 ```
 
 These methods return an [`APIResponse`](https://github.com/mixpeek/python-client/tree/main/src/mixpeek/_response.py) object.
@@ -213,9 +205,7 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.agent.with_streaming_response.create(
-    prompt="prompt",
-) as response:
+with client.accounts.with_streaming_response.update() as response:
     print(response.headers.get("X-My-Header"))
 
     for line in response.iter_lines():
@@ -268,10 +258,10 @@ You can directly override the [httpx client](https://www.python-httpx.org/api/#c
 - Additional [advanced](https://www.python-httpx.org/advanced/clients/) functionality
 
 ```python
-from mixpeek import MixpeekSDK, DefaultHttpxClient
+from mixpeek import Mixpeek, DefaultHttpxClient
 
-client = MixpeekSDK(
-    # Or use the `MIXPEEK_SDK_BASE_URL` env var
+client = Mixpeek(
+    # Or use the `MIXPEEK_BASE_URL` env var
     base_url="http://my.test.server.example.com:8083",
     http_client=DefaultHttpxClient(
         proxies="http://my.test.proxy.example.com",
@@ -315,7 +305,7 @@ print(mixpeek.__version__)
 
 ## Requirements
 
-Python 3.7 or higher.
+Python 3.8 or higher.
 
 ## Contributing
 

@@ -1,175 +1,193 @@
+# Shared Types
+
+```python
+from mixpeek.types import (
+    FilterCondition,
+    LogicalOperator,
+    ModelPaginationResponse,
+    SortOption,
+    TaskResponse,
+)
+```
+
 # Accounts
 
-## Private
-
 Types:
 
 ```python
-from mixpeek.types.accounts import User
+from mixpeek.types import User
 ```
 
 Methods:
 
-- <code title="put /accounts/private/">client.accounts.private.<a href="./src/mixpeek/resources/accounts/private.py">update</a>(\*\*<a href="src/mixpeek/types/accounts/private_update_params.py">params</a>) -> <a href="./src/mixpeek/types/accounts/user.py">User</a></code>
-- <code title="get /accounts/private/">client.accounts.private.<a href="./src/mixpeek/resources/accounts/private.py">list</a>() -> <a href="./src/mixpeek/types/accounts/user.py">User</a></code>
+- <code title="put /accounts/">client.accounts.<a href="./src/mixpeek/resources/accounts.py">update</a>(\*\*<a href="src/mixpeek/types/account_update_params.py">params</a>) -> <a href="./src/mixpeek/types/user.py">User</a></code>
+- <code title="get /accounts/">client.accounts.<a href="./src/mixpeek/resources/accounts.py">list</a>() -> <a href="./src/mixpeek/types/user.py">User</a></code>
 
-# Describe
-
-Types:
-
-```python
-from mixpeek.types import DescribeUploadResponse, DescribeURLResponse
-```
-
-Methods:
-
-- <code title="post /describe/upload">client.describe.<a href="./src/mixpeek/resources/describe.py">upload</a>(\*\*<a href="src/mixpeek/types/describe_upload_params.py">params</a>) -> <a href="./src/mixpeek/types/describe_upload_response.py">object</a></code>
-- <code title="post /describe/url">client.describe.<a href="./src/mixpeek/resources/describe.py">url</a>(\*\*<a href="src/mixpeek/types/describe_url_params.py">params</a>) -> <a href="./src/mixpeek/types/describe_url_response.py">object</a></code>
-
-# Embed
+# Features
 
 Types:
 
 ```python
-from mixpeek.types import Embeddingresponse
+from mixpeek.types import Feature, FeatureListResponse, FeatureDeleteResponse
 ```
 
 Methods:
 
-- <code title="post /embed/">client.embed.<a href="./src/mixpeek/resources/embed.py">create</a>(\*\*<a href="src/mixpeek/types/embed_create_params.py">params</a>) -> <a href="./src/mixpeek/types/embeddingresponse.py">Embeddingresponse</a></code>
+- <code title="get /features/{feature_id}">client.features.<a href="./src/mixpeek/resources/features/features.py">retrieve</a>(feature_id, \*\*<a href="src/mixpeek/types/feature_retrieve_params.py">params</a>) -> <a href="./src/mixpeek/types/feature.py">Feature</a></code>
+- <code title="put /features/{feature_id}">client.features.<a href="./src/mixpeek/resources/features/features.py">update</a>(feature_id, \*\*<a href="src/mixpeek/types/feature_update_params.py">params</a>) -> <a href="./src/mixpeek/types/feature.py">Feature</a></code>
+- <code title="post /features">client.features.<a href="./src/mixpeek/resources/features/features.py">list</a>(\*\*<a href="src/mixpeek/types/feature_list_params.py">params</a>) -> <a href="./src/mixpeek/types/feature_list_response.py">FeatureListResponse</a></code>
+- <code title="delete /features/{feature_id}">client.features.<a href="./src/mixpeek/resources/features/features.py">delete</a>(feature_id) -> <a href="./src/mixpeek/types/feature_delete_response.py">object</a></code>
 
-# Transcribe
+## Search
 
 Types:
 
 ```python
-from mixpeek.types import TranscribeURLResponse
+from mixpeek.types.features import (
+    SearchFeedbackResponse,
+    SearchFileResponse,
+    SearchTextResponse,
+    SearchURLResponse,
+)
 ```
 
 Methods:
 
-- <code title="post /transcribe/url">client.transcribe.<a href="./src/mixpeek/resources/transcribe.py">url</a>(\*\*<a href="src/mixpeek/types/transcribe_url_params.py">params</a>) -> <a href="./src/mixpeek/types/transcribe_url_response.py">object</a></code>
+- <code title="post /features/search/feedback">client.features.search.<a href="./src/mixpeek/resources/features/search.py">feedback</a>(\*\*<a href="src/mixpeek/types/features/search_feedback_params.py">params</a>) -> <a href="./src/mixpeek/types/features/search_feedback_response.py">object</a></code>
+- <code title="post /features/search/file">client.features.search.<a href="./src/mixpeek/resources/features/search.py">file</a>(\*\*<a href="src/mixpeek/types/features/search_file_params.py">params</a>) -> <a href="./src/mixpeek/types/features/search_file_response.py">object</a></code>
+- <code title="post /features/search/text">client.features.search.<a href="./src/mixpeek/resources/features/search.py">text</a>(\*\*<a href="src/mixpeek/types/features/search_text_params.py">params</a>) -> <a href="./src/mixpeek/types/features/search_text_response.py">object</a></code>
+- <code title="post /features/search/url">client.features.search.<a href="./src/mixpeek/resources/features/search.py">url</a>(\*\*<a href="src/mixpeek/types/features/search_url_params.py">params</a>) -> <a href="./src/mixpeek/types/features/search_url_response.py">object</a></code>
 
-# Read
+# Index
 
 Types:
 
 ```python
-from mixpeek.types import ReadCreateResponse
+from mixpeek.types import IndexTextResponse
 ```
 
 Methods:
 
-- <code title="post /read/">client.read.<a href="./src/mixpeek/resources/read.py">create</a>() -> <a href="./src/mixpeek/types/read_create_response.py">object</a></code>
+- <code title="post /index/text">client.index.<a href="./src/mixpeek/resources/index/index.py">text</a>(\*\*<a href="src/mixpeek/types/index_text_params.py">params</a>) -> <a href="./src/mixpeek/types/index_text_response.py">IndexTextResponse</a></code>
 
-# Recognize
+## Videos
 
 Types:
 
 ```python
-from mixpeek.types import RecognizeCreateResponse
+from mixpeek.types.index import VideoURLResponse
 ```
 
 Methods:
 
-- <code title="post /recognize/">client.recognize.<a href="./src/mixpeek/resources/recognize.py">create</a>() -> <a href="./src/mixpeek/types/recognize_create_response.py">object</a></code>
+- <code title="post /index/videos/url">client.index.videos.<a href="./src/mixpeek/resources/index/videos.py">url</a>(\*\*<a href="src/mixpeek/types/index/video_url_params.py">params</a>) -> <a href="./src/mixpeek/types/index/video_url_response.py">VideoURLResponse</a></code>
 
-# Agent
+## Images
 
 Types:
 
 ```python
-from mixpeek.types import Agentresponse
+from mixpeek.types.index import ImageURLResponse
 ```
 
 Methods:
 
-- <code title="post /agent/">client.agent.<a href="./src/mixpeek/resources/agent/agent.py">create</a>(\*\*<a href="src/mixpeek/types/agent_create_params.py">params</a>) -> <a href="./src/mixpeek/types/agentresponse.py">Agentresponse</a></code>
+- <code title="post /index/images/url">client.index.images.<a href="./src/mixpeek/resources/index/images.py">url</a>(\*\*<a href="src/mixpeek/types/index/image_url_params.py">params</a>) -> <a href="./src/mixpeek/types/index/image_url_response.py">ImageURLResponse</a></code>
 
-## Task
+# Entities
+
+## Faces
 
 Types:
 
 ```python
-from mixpeek.types.agent import TaskRetrieveResponse
+from mixpeek.types.entities import FaceResponse, FaceListResponse, FaceDeleteResponse
 ```
 
 Methods:
 
-- <code title="get /agent/{task_id}">client.agent.task.<a href="./src/mixpeek/resources/agent/task.py">retrieve</a>(task_id) -> <a href="./src/mixpeek/types/agent/task_retrieve_response.py">object</a></code>
+- <code title="post /entities/faces">client.entities.faces.<a href="./src/mixpeek/resources/entities/faces.py">create</a>(\*\*<a href="src/mixpeek/types/entities/face_create_params.py">params</a>) -> <a href="./src/mixpeek/types/entities/face_response.py">FaceResponse</a></code>
+- <code title="patch /entities/faces/{face_id}">client.entities.faces.<a href="./src/mixpeek/resources/entities/faces.py">update</a>(\*, path_face_id, \*\*<a href="src/mixpeek/types/entities/face_update_params.py">params</a>) -> <a href="./src/mixpeek/types/entities/face_response.py">FaceResponse</a></code>
+- <code title="get /entities/faces/{collection_id}">client.entities.faces.<a href="./src/mixpeek/resources/entities/faces.py">list</a>(collection_id, \*\*<a href="src/mixpeek/types/entities/face_list_params.py">params</a>) -> <a href="./src/mixpeek/types/entities/face_list_response.py">FaceListResponse</a></code>
+- <code title="delete /entities/faces/{face_id}">client.entities.faces.<a href="./src/mixpeek/resources/entities/faces.py">delete</a>(face_id) -> <a href="./src/mixpeek/types/entities/face_delete_response.py">object</a></code>
 
-# Indexes
+## Labels
 
 Types:
 
 ```python
-from mixpeek.types import IndexFaceResponse, IndexUploadResponse, IndexURLResponse
+from mixpeek.types.entities import LabelResponse, LabelListResponse, LabelDeleteResponse
 ```
 
 Methods:
 
-- <code title="post /index/face">client.indexes.<a href="./src/mixpeek/resources/indexes.py">face</a>(\*\*<a href="src/mixpeek/types/index_face_params.py">params</a>) -> <a href="./src/mixpeek/types/index_face_response.py">object</a></code>
-- <code title="post /index/upload">client.indexes.<a href="./src/mixpeek/resources/indexes.py">upload</a>(\*\*<a href="src/mixpeek/types/index_upload_params.py">params</a>) -> <a href="./src/mixpeek/types/index_upload_response.py">object</a></code>
-- <code title="post /index/url">client.indexes.<a href="./src/mixpeek/resources/indexes.py">url</a>(\*\*<a href="src/mixpeek/types/index_url_params.py">params</a>) -> <a href="./src/mixpeek/types/index_url_response.py">object</a></code>
+- <code title="patch /entities/labels/{label_id}">client.entities.labels.<a href="./src/mixpeek/resources/entities/labels.py">update</a>(\*, path_label_id, \*\*<a href="src/mixpeek/types/entities/label_update_params.py">params</a>) -> <a href="./src/mixpeek/types/entities/label_response.py">LabelResponse</a></code>
+- <code title="get /entities/labels">client.entities.labels.<a href="./src/mixpeek/resources/entities/labels.py">list</a>(\*\*<a href="src/mixpeek/types/entities/label_list_params.py">params</a>) -> <a href="./src/mixpeek/types/entities/label_list_response.py">LabelListResponse</a></code>
+- <code title="delete /entities/labels/{label_id}">client.entities.labels.<a href="./src/mixpeek/resources/entities/labels.py">delete</a>(label_id) -> <a href="./src/mixpeek/types/entities/label_delete_response.py">object</a></code>
 
-# Search
+# Assets
 
 Types:
 
 ```python
-from mixpeek.types import SearchTextResponse, SearchUploadResponse, SearchURLResponse
+from mixpeek.types import (
+    AssetResponse,
+    GroupedAssetData,
+    AssetCreateResponse,
+    AssetUpdateResponse,
+    AssetDeleteResponse,
+    AssetSearchResponse,
+)
 ```
 
 Methods:
 
-- <code title="post /search/text">client.search.<a href="./src/mixpeek/resources/search.py">text</a>(\*\*<a href="src/mixpeek/types/search_text_params.py">params</a>) -> <a href="./src/mixpeek/types/search_text_response.py">object</a></code>
-- <code title="post /search/upload">client.search.<a href="./src/mixpeek/resources/search.py">upload</a>(\*\*<a href="src/mixpeek/types/search_upload_params.py">params</a>) -> <a href="./src/mixpeek/types/search_upload_response.py">object</a></code>
-- <code title="post /search/url">client.search.<a href="./src/mixpeek/resources/search.py">url</a>(\*\*<a href="src/mixpeek/types/search_url_params.py">params</a>) -> <a href="./src/mixpeek/types/search_url_response.py">object</a></code>
+- <code title="post /assets">client.assets.<a href="./src/mixpeek/resources/assets/assets.py">create</a>(\*\*<a href="src/mixpeek/types/asset_create_params.py">params</a>) -> <a href="./src/mixpeek/types/asset_create_response.py">AssetCreateResponse</a></code>
+- <code title="get /assets/{asset_id}">client.assets.<a href="./src/mixpeek/resources/assets/assets.py">retrieve</a>(asset_id) -> <a href="./src/mixpeek/types/asset_response.py">AssetResponse</a></code>
+- <code title="patch /assets/{asset_id}">client.assets.<a href="./src/mixpeek/resources/assets/assets.py">update</a>(asset_id, \*\*<a href="src/mixpeek/types/asset_update_params.py">params</a>) -> <a href="./src/mixpeek/types/asset_update_response.py">AssetUpdateResponse</a></code>
+- <code title="delete /assets/{asset_id}">client.assets.<a href="./src/mixpeek/resources/assets/assets.py">delete</a>(asset_id) -> <a href="./src/mixpeek/types/asset_delete_response.py">object</a></code>
+- <code title="post /assets/search">client.assets.<a href="./src/mixpeek/resources/assets/assets.py">search</a>(\*\*<a href="src/mixpeek/types/asset_search_params.py">params</a>) -> <a href="./src/mixpeek/types/asset_search_response.py">AssetSearchResponse</a></code>
+
+## Features
+
+Methods:
+
+- <code title="get /assets/{asset_id}/features">client.assets.features.<a href="./src/mixpeek/resources/assets/features.py">list</a>(asset_id) -> <a href="./src/mixpeek/types/grouped_asset_data.py">GroupedAssetData</a></code>
 
 # Collections
 
 Types:
 
 ```python
-from mixpeek.types import CollectionListResponse, CollectionDeleteResponse, CollectionSearchResponse
+from mixpeek.types import CollectionListResponse, CollectionDeleteResponse
 ```
 
 Methods:
 
-- <code title="get /collections/">client.collections.<a href="./src/mixpeek/resources/collections/collections.py">list</a>() -> <a href="./src/mixpeek/types/collection_list_response.py">object</a></code>
-- <code title="delete /collections/{collection_id}">client.collections.<a href="./src/mixpeek/resources/collections/collections.py">delete</a>(collection_id) -> <a href="./src/mixpeek/types/collection_delete_response.py">object</a></code>
-- <code title="post /collections/search">client.collections.<a href="./src/mixpeek/resources/collections/collections.py">search</a>(\*\*<a href="src/mixpeek/types/collection_search_params.py">params</a>) -> <a href="./src/mixpeek/types/collection_search_response.py">object</a></code>
-
-## Files
-
-Types:
-
-```python
-from mixpeek.types.collections import (
-    Fileresponse,
-    Groupedfiledata,
-    FileCreateResponse,
-    FileDeleteResponse,
-)
-```
-
-Methods:
-
-- <code title="post /collections/files">client.collections.files.<a href="./src/mixpeek/resources/collections/files.py">create</a>(\*\*<a href="src/mixpeek/types/collections/file_create_params.py">params</a>) -> <a href="./src/mixpeek/types/collections/file_create_response.py">object</a></code>
-- <code title="get /collections/file/{file_id}">client.collections.files.<a href="./src/mixpeek/resources/collections/files.py">retrieve</a>(file_id) -> <a href="./src/mixpeek/types/collections/fileresponse.py">Fileresponse</a></code>
-- <code title="put /collections/file/{file_id}">client.collections.files.<a href="./src/mixpeek/resources/collections/files.py">update</a>(file_id, \*\*<a href="src/mixpeek/types/collections/file_update_params.py">params</a>) -> <a href="./src/mixpeek/types/collections/fileresponse.py">Fileresponse</a></code>
-- <code title="delete /collections/file/{file_id}">client.collections.files.<a href="./src/mixpeek/resources/collections/files.py">delete</a>(file_id) -> <a href="./src/mixpeek/types/collections/file_delete_response.py">object</a></code>
-- <code title="get /collections/file/{file_id}/full">client.collections.files.<a href="./src/mixpeek/resources/collections/files.py">full</a>(file_id, \*\*<a href="src/mixpeek/types/collections/file_full_params.py">params</a>) -> <a href="./src/mixpeek/types/collections/groupedfiledata.py">Groupedfiledata</a></code>
+- <code title="get /collections">client.collections.<a href="./src/mixpeek/resources/collections.py">list</a>(\*\*<a href="src/mixpeek/types/collection_list_params.py">params</a>) -> <a href="./src/mixpeek/types/collection_list_response.py">CollectionListResponse</a></code>
+- <code title="delete /collections/{collection_id}">client.collections.<a href="./src/mixpeek/resources/collections.py">delete</a>(collection_id) -> <a href="./src/mixpeek/types/collection_delete_response.py">object</a></code>
 
 # Tasks
 
 Types:
 
 ```python
-from mixpeek.types import Taskresponse, TaskDeleteResponse
+from mixpeek.types import TaskDeleteResponse
 ```
 
 Methods:
 
-- <code title="get /tasks/{task_id}">client.tasks.<a href="./src/mixpeek/resources/tasks.py">retrieve</a>(task_id) -> <a href="./src/mixpeek/types/taskresponse.py">Taskresponse</a></code>
+- <code title="get /tasks/{task_id}">client.tasks.<a href="./src/mixpeek/resources/tasks.py">retrieve</a>(task_id) -> <a href="./src/mixpeek/types/shared/task_response.py">TaskResponse</a></code>
 - <code title="delete /tasks/{task_id}">client.tasks.<a href="./src/mixpeek/resources/tasks.py">delete</a>(task_id) -> <a href="./src/mixpeek/types/task_delete_response.py">object</a></code>
+
+# Healthcheck
+
+Types:
+
+```python
+from mixpeek.types import HealthCheckResponse
+```
+
+Methods:
+
+- <code title="get /healthcheck">client.healthcheck.<a href="./src/mixpeek/resources/healthcheck.py">retrieve</a>() -> <a href="./src/mixpeek/types/health_check_response.py">HealthCheckResponse</a></code>
