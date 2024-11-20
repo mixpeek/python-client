@@ -142,7 +142,7 @@ class FacesResource(SyncAPIResource):
             body=maybe_transform(
                 {
                     "collection_id": collection_id,
-                    "face_id": body_face_id,
+                    "body_face_id": body_face_id,
                     "metadata": metadata,
                 },
                 face_update_params.FaceUpdateParams,
@@ -355,7 +355,7 @@ class AsyncFacesResource(AsyncAPIResource):
             body=await async_maybe_transform(
                 {
                     "collection_id": collection_id,
-                    "face_id": body_face_id,
+                    "body_face_id": body_face_id,
                     "metadata": metadata,
                 },
                 face_update_params.FaceUpdateParams,
