@@ -1,22 +1,11 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import TYPE_CHECKING, Optional
+from typing import Optional
 from datetime import datetime
 
 from .._models import BaseModel
 
-__all__ = ["AssetResponse", "Metadata"]
-
-
-class Metadata(BaseModel):
-    preview_url: Optional[str] = None
-    """The presigned URL for accessing the asset"""
-
-    if TYPE_CHECKING:
-        # Stub to indicate that arbitrary properties are accepted.
-        # To access properties that are not valid identifiers you can use `getattr`, e.g.
-        # `getattr(obj, '$type')`
-        def __getattr__(self, attr: str) -> object: ...
+__all__ = ["AssetResponse"]
 
 
 class AssetResponse(BaseModel):
@@ -32,11 +21,14 @@ class AssetResponse(BaseModel):
     error: Optional[str] = None
     """The error message if the asset processing failed"""
 
-    metadata: Optional[Metadata] = None
+    metadata: Optional[object] = None
     """Additional metadata associated with the asset"""
 
     modality: Optional[str] = None
     """The type of media"""
+
+    preview_url: Optional[str] = None
+    """The presigned URL for accessing the asset preview"""
 
     score: Optional[float] = None
     """The relevance score of the asset"""

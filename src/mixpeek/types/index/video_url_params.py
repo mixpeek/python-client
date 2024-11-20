@@ -73,10 +73,10 @@ class FeatureExtractorDescribe(TypedDict, total=False):
     prompt: Optional[str]
     """Prompt for video description"""
 
-    vector_name: Optional[Literal["image_vector", "multimodal_vector", "text_vector", "keyword_vector"]]
+    vector_index: Optional[Literal["image_vector", "multimodal_vector", "text_vector", "keyword_vector"]]
     """Name of the vector model to use for embedding the text output.
 
-    If vector_name is duplicated, the vector will be overwritten.
+    If vector_index is duplicated, the vector will be overwritten.
     """
 
 
@@ -108,10 +108,14 @@ class FeatureExtractorEmbed(TypedDict, total=False):
     type: Required[Literal["url", "text", "file", "base64"]]
     """Type of input to embed"""
 
-    vector_name: Required[Literal["image_vector", "multimodal_vector", "text_vector", "keyword_vector"]]
-    """Name of the vector model to use for embedding"""
+    vector_index: Required[Literal["image_vector", "multimodal_vector", "text_vector", "keyword_vector"]]
+    """Name of the vector index to use for embedding"""
 
     field_name: Optional[str]
+    """
+    Field name to insert into the database, if not provided, the embedding will be
+    inserted into the default field
+    """
 
     value: Optional[str]
     """The input content to embed.
@@ -136,10 +140,10 @@ class FeatureExtractorRead(TypedDict, total=False):
     prompt: Optional[str]
     """Prompt for reading on-screen text"""
 
-    vector_name: Optional[Literal["image_vector", "multimodal_vector", "text_vector", "keyword_vector"]]
+    vector_index: Optional[Literal["image_vector", "multimodal_vector", "text_vector", "keyword_vector"]]
     """Name of the vector model to use for embedding the text output.
 
-    If vector_name is duplicated, the vector will be overwritten.
+    If vector_index is duplicated, the vector will be overwritten.
     """
 
 
@@ -152,10 +156,10 @@ class FeatureExtractorTranscribe(TypedDict, total=False):
 
     prompt: Optional[str]
 
-    vector_name: Optional[Literal["image_vector", "multimodal_vector", "text_vector", "keyword_vector"]]
+    vector_index: Optional[Literal["image_vector", "multimodal_vector", "text_vector", "keyword_vector"]]
     """Name of the vector model to use for embedding the text output.
 
-    If vector_name is duplicated, the vector will be overwritten.
+    If vector_index is duplicated, the vector will be overwritten.
     """
 
 

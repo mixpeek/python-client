@@ -41,7 +41,7 @@ class TestVideos:
                         "json_output": {},
                         "max_length": 0,
                         "prompt": "prompt",
-                        "vector_name": "image_vector",
+                        "vector_index": "image_vector",
                     },
                     "detect": {
                         "faces": {
@@ -56,20 +56,20 @@ class TestVideos:
                     "embed": [
                         {
                             "type": "url",
-                            "vector_name": "image_vector",
-                            "field_name": "field_name",
+                            "vector_index": "image_vector",
+                            "field_name": "description",
                             "value": "https://example.com/image.jpg",
                         },
                         {
                             "type": "url",
-                            "vector_name": "image_vector",
-                            "field_name": "field_name",
+                            "vector_index": "image_vector",
+                            "field_name": "description",
                             "value": "lorem ipsum",
                         },
                         {
                             "type": "url",
-                            "vector_name": "image_vector",
-                            "field_name": "field_name",
+                            "vector_index": "image_vector",
+                            "field_name": "description",
                             "value": "Thing #1",
                         },
                     ],
@@ -85,13 +85,13 @@ class TestVideos:
                         "enabled": True,
                         "json_output": {},
                         "prompt": "prompt",
-                        "vector_name": "image_vector",
+                        "vector_index": "image_vector",
                     },
                     "transcribe": {
                         "enabled": True,
                         "json_output": {},
                         "prompt": "prompt",
-                        "vector_name": "image_vector",
+                        "vector_index": "image_vector",
                     },
                 },
                 {
@@ -100,7 +100,7 @@ class TestVideos:
                         "json_output": {},
                         "max_length": 0,
                         "prompt": "prompt",
-                        "vector_name": "image_vector",
+                        "vector_index": "image_vector",
                     },
                     "detect": {
                         "faces": {
@@ -115,20 +115,20 @@ class TestVideos:
                     "embed": [
                         {
                             "type": "url",
-                            "vector_name": "image_vector",
-                            "field_name": "field_name",
+                            "vector_index": "image_vector",
+                            "field_name": "description",
                             "value": "https://example.com/image.jpg",
                         },
                         {
                             "type": "url",
-                            "vector_name": "image_vector",
-                            "field_name": "field_name",
+                            "vector_index": "image_vector",
+                            "field_name": "description",
                             "value": "lorem ipsum",
                         },
                         {
                             "type": "url",
-                            "vector_name": "image_vector",
-                            "field_name": "field_name",
+                            "vector_index": "image_vector",
+                            "field_name": "description",
                             "value": "Thing #1",
                         },
                     ],
@@ -144,13 +144,13 @@ class TestVideos:
                         "enabled": True,
                         "json_output": {},
                         "prompt": "prompt",
-                        "vector_name": "image_vector",
+                        "vector_index": "image_vector",
                     },
                     "transcribe": {
                         "enabled": True,
                         "json_output": {},
                         "prompt": "prompt",
-                        "vector_name": "image_vector",
+                        "vector_index": "image_vector",
                     },
                 },
                 {
@@ -159,7 +159,7 @@ class TestVideos:
                         "json_output": {},
                         "max_length": 0,
                         "prompt": "prompt",
-                        "vector_name": "image_vector",
+                        "vector_index": "image_vector",
                     },
                     "detect": {
                         "faces": {
@@ -174,20 +174,20 @@ class TestVideos:
                     "embed": [
                         {
                             "type": "url",
-                            "vector_name": "image_vector",
-                            "field_name": "field_name",
+                            "vector_index": "image_vector",
+                            "field_name": "description",
                             "value": "https://example.com/image.jpg",
                         },
                         {
                             "type": "url",
-                            "vector_name": "image_vector",
-                            "field_name": "field_name",
+                            "vector_index": "image_vector",
+                            "field_name": "description",
                             "value": "lorem ipsum",
                         },
                         {
                             "type": "url",
-                            "vector_name": "image_vector",
-                            "field_name": "field_name",
+                            "vector_index": "image_vector",
+                            "field_name": "description",
                             "value": "Thing #1",
                         },
                     ],
@@ -203,13 +203,13 @@ class TestVideos:
                         "enabled": True,
                         "json_output": {},
                         "prompt": "prompt",
-                        "vector_name": "image_vector",
+                        "vector_index": "image_vector",
                     },
                     "transcribe": {
                         "enabled": True,
                         "json_output": {},
                         "prompt": "prompt",
-                        "vector_name": "image_vector",
+                        "vector_index": "image_vector",
                     },
                 },
             ],
@@ -276,7 +276,7 @@ class TestAsyncVideos:
                         "json_output": {},
                         "max_length": 0,
                         "prompt": "prompt",
-                        "vector_name": "image_vector",
+                        "vector_index": "image_vector",
                     },
                     "detect": {
                         "faces": {
@@ -291,20 +291,20 @@ class TestAsyncVideos:
                     "embed": [
                         {
                             "type": "url",
-                            "vector_name": "image_vector",
-                            "field_name": "field_name",
+                            "vector_index": "image_vector",
+                            "field_name": "description",
                             "value": "https://example.com/image.jpg",
                         },
                         {
                             "type": "url",
-                            "vector_name": "image_vector",
-                            "field_name": "field_name",
+                            "vector_index": "image_vector",
+                            "field_name": "description",
                             "value": "lorem ipsum",
                         },
                         {
                             "type": "url",
-                            "vector_name": "image_vector",
-                            "field_name": "field_name",
+                            "vector_index": "image_vector",
+                            "field_name": "description",
                             "value": "Thing #1",
                         },
                     ],
@@ -320,13 +320,13 @@ class TestAsyncVideos:
                         "enabled": True,
                         "json_output": {},
                         "prompt": "prompt",
-                        "vector_name": "image_vector",
+                        "vector_index": "image_vector",
                     },
                     "transcribe": {
                         "enabled": True,
                         "json_output": {},
                         "prompt": "prompt",
-                        "vector_name": "image_vector",
+                        "vector_index": "image_vector",
                     },
                 },
                 {
@@ -335,7 +335,7 @@ class TestAsyncVideos:
                         "json_output": {},
                         "max_length": 0,
                         "prompt": "prompt",
-                        "vector_name": "image_vector",
+                        "vector_index": "image_vector",
                     },
                     "detect": {
                         "faces": {
@@ -350,20 +350,20 @@ class TestAsyncVideos:
                     "embed": [
                         {
                             "type": "url",
-                            "vector_name": "image_vector",
-                            "field_name": "field_name",
+                            "vector_index": "image_vector",
+                            "field_name": "description",
                             "value": "https://example.com/image.jpg",
                         },
                         {
                             "type": "url",
-                            "vector_name": "image_vector",
-                            "field_name": "field_name",
+                            "vector_index": "image_vector",
+                            "field_name": "description",
                             "value": "lorem ipsum",
                         },
                         {
                             "type": "url",
-                            "vector_name": "image_vector",
-                            "field_name": "field_name",
+                            "vector_index": "image_vector",
+                            "field_name": "description",
                             "value": "Thing #1",
                         },
                     ],
@@ -379,13 +379,13 @@ class TestAsyncVideos:
                         "enabled": True,
                         "json_output": {},
                         "prompt": "prompt",
-                        "vector_name": "image_vector",
+                        "vector_index": "image_vector",
                     },
                     "transcribe": {
                         "enabled": True,
                         "json_output": {},
                         "prompt": "prompt",
-                        "vector_name": "image_vector",
+                        "vector_index": "image_vector",
                     },
                 },
                 {
@@ -394,7 +394,7 @@ class TestAsyncVideos:
                         "json_output": {},
                         "max_length": 0,
                         "prompt": "prompt",
-                        "vector_name": "image_vector",
+                        "vector_index": "image_vector",
                     },
                     "detect": {
                         "faces": {
@@ -409,20 +409,20 @@ class TestAsyncVideos:
                     "embed": [
                         {
                             "type": "url",
-                            "vector_name": "image_vector",
-                            "field_name": "field_name",
+                            "vector_index": "image_vector",
+                            "field_name": "description",
                             "value": "https://example.com/image.jpg",
                         },
                         {
                             "type": "url",
-                            "vector_name": "image_vector",
-                            "field_name": "field_name",
+                            "vector_index": "image_vector",
+                            "field_name": "description",
                             "value": "lorem ipsum",
                         },
                         {
                             "type": "url",
-                            "vector_name": "image_vector",
-                            "field_name": "field_name",
+                            "vector_index": "image_vector",
+                            "field_name": "description",
                             "value": "Thing #1",
                         },
                     ],
@@ -438,13 +438,13 @@ class TestAsyncVideos:
                         "enabled": True,
                         "json_output": {},
                         "prompt": "prompt",
-                        "vector_name": "image_vector",
+                        "vector_index": "image_vector",
                     },
                     "transcribe": {
                         "enabled": True,
                         "json_output": {},
                         "prompt": "prompt",
-                        "vector_name": "image_vector",
+                        "vector_index": "image_vector",
                     },
                 },
             ],
