@@ -10,14 +10,6 @@ from .faces import (
     FacesResourceWithStreamingResponse,
     AsyncFacesResourceWithStreamingResponse,
 )
-from .labels import (
-    LabelsResource,
-    AsyncLabelsResource,
-    LabelsResourceWithRawResponse,
-    AsyncLabelsResourceWithRawResponse,
-    LabelsResourceWithStreamingResponse,
-    AsyncLabelsResourceWithStreamingResponse,
-)
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 
@@ -28,10 +20,6 @@ class EntitiesResource(SyncAPIResource):
     @cached_property
     def faces(self) -> FacesResource:
         return FacesResource(self._client)
-
-    @cached_property
-    def labels(self) -> LabelsResource:
-        return LabelsResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> EntitiesResourceWithRawResponse:
@@ -57,10 +45,6 @@ class AsyncEntitiesResource(AsyncAPIResource):
     @cached_property
     def faces(self) -> AsyncFacesResource:
         return AsyncFacesResource(self._client)
-
-    @cached_property
-    def labels(self) -> AsyncLabelsResource:
-        return AsyncLabelsResource(self._client)
 
     @cached_property
     def with_raw_response(self) -> AsyncEntitiesResourceWithRawResponse:
@@ -90,10 +74,6 @@ class EntitiesResourceWithRawResponse:
     def faces(self) -> FacesResourceWithRawResponse:
         return FacesResourceWithRawResponse(self._entities.faces)
 
-    @cached_property
-    def labels(self) -> LabelsResourceWithRawResponse:
-        return LabelsResourceWithRawResponse(self._entities.labels)
-
 
 class AsyncEntitiesResourceWithRawResponse:
     def __init__(self, entities: AsyncEntitiesResource) -> None:
@@ -102,10 +82,6 @@ class AsyncEntitiesResourceWithRawResponse:
     @cached_property
     def faces(self) -> AsyncFacesResourceWithRawResponse:
         return AsyncFacesResourceWithRawResponse(self._entities.faces)
-
-    @cached_property
-    def labels(self) -> AsyncLabelsResourceWithRawResponse:
-        return AsyncLabelsResourceWithRawResponse(self._entities.labels)
 
 
 class EntitiesResourceWithStreamingResponse:
@@ -116,10 +92,6 @@ class EntitiesResourceWithStreamingResponse:
     def faces(self) -> FacesResourceWithStreamingResponse:
         return FacesResourceWithStreamingResponse(self._entities.faces)
 
-    @cached_property
-    def labels(self) -> LabelsResourceWithStreamingResponse:
-        return LabelsResourceWithStreamingResponse(self._entities.labels)
-
 
 class AsyncEntitiesResourceWithStreamingResponse:
     def __init__(self, entities: AsyncEntitiesResource) -> None:
@@ -128,7 +100,3 @@ class AsyncEntitiesResourceWithStreamingResponse:
     @cached_property
     def faces(self) -> AsyncFacesResourceWithStreamingResponse:
         return AsyncFacesResourceWithStreamingResponse(self._entities.faces)
-
-    @cached_property
-    def labels(self) -> AsyncLabelsResourceWithStreamingResponse:
-        return AsyncLabelsResourceWithStreamingResponse(self._entities.labels)

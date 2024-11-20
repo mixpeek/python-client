@@ -34,24 +34,44 @@ class TestImages:
                 "asset_id": "asset_id",
                 "mode": "replace",
             },
-            image_settings={
+            feature_extractors={
                 "describe": {
+                    "enabled": True,
                     "json_output": {},
-                    "max_length": 100,
-                    "model_id": "image-descriptor-v1",
+                    "max_length": 1000,
                     "prompt": "prompt",
+                    "vector_name": "image_vector",
                 },
                 "detect": {
                     "faces": {
                         "confidence_threshold": 0.8,
-                        "model_id": "face-detector-v1",
+                        "enabled": True,
                     },
                     "logos": {
                         "confidence_threshold": 0,
-                        "model_id": "logo-detector-v1",
+                        "enabled": True,
                     },
                 },
-                "embed": {"model_id": "multimodal-v1"},
+                "embed": [
+                    {
+                        "type": "url",
+                        "vector_name": "image_vector",
+                        "field_name": "field_name",
+                        "value": "https://example.com/image.jpg",
+                    },
+                    {
+                        "type": "url",
+                        "vector_name": "image_vector",
+                        "field_name": "field_name",
+                        "value": "lorem ipsum",
+                    },
+                    {
+                        "type": "url",
+                        "vector_name": "image_vector",
+                        "field_name": "field_name",
+                        "value": "Thing #1",
+                    },
+                ],
                 "json_output": {
                     "prompt": "prompt",
                     "response_shape": {
@@ -60,9 +80,10 @@ class TestImages:
                     },
                 },
                 "read": {
+                    "enabled": True,
                     "json_output": {},
-                    "model_id": "image-descriptor-v1",
                     "prompt": "prompt",
+                    "vector_name": "image_vector",
                 },
             },
             metadata={
@@ -70,9 +91,7 @@ class TestImages:
                 "category": "Research Paper",
                 "tags": ["AI", "Machine Learning"],
             },
-            prevent_duplicate=False,
-            should_save=True,
-            index_id="index-id",
+            x_namespace="X-Namespace",
         )
         assert_matches_type(ImageURLResponse, image, path=["response"])
 
@@ -123,24 +142,44 @@ class TestAsyncImages:
                 "asset_id": "asset_id",
                 "mode": "replace",
             },
-            image_settings={
+            feature_extractors={
                 "describe": {
+                    "enabled": True,
                     "json_output": {},
-                    "max_length": 100,
-                    "model_id": "image-descriptor-v1",
+                    "max_length": 1000,
                     "prompt": "prompt",
+                    "vector_name": "image_vector",
                 },
                 "detect": {
                     "faces": {
                         "confidence_threshold": 0.8,
-                        "model_id": "face-detector-v1",
+                        "enabled": True,
                     },
                     "logos": {
                         "confidence_threshold": 0,
-                        "model_id": "logo-detector-v1",
+                        "enabled": True,
                     },
                 },
-                "embed": {"model_id": "multimodal-v1"},
+                "embed": [
+                    {
+                        "type": "url",
+                        "vector_name": "image_vector",
+                        "field_name": "field_name",
+                        "value": "https://example.com/image.jpg",
+                    },
+                    {
+                        "type": "url",
+                        "vector_name": "image_vector",
+                        "field_name": "field_name",
+                        "value": "lorem ipsum",
+                    },
+                    {
+                        "type": "url",
+                        "vector_name": "image_vector",
+                        "field_name": "field_name",
+                        "value": "Thing #1",
+                    },
+                ],
                 "json_output": {
                     "prompt": "prompt",
                     "response_shape": {
@@ -149,9 +188,10 @@ class TestAsyncImages:
                     },
                 },
                 "read": {
+                    "enabled": True,
                     "json_output": {},
-                    "model_id": "image-descriptor-v1",
                     "prompt": "prompt",
+                    "vector_name": "image_vector",
                 },
             },
             metadata={
@@ -159,9 +199,7 @@ class TestAsyncImages:
                 "category": "Research Paper",
                 "tags": ["AI", "Machine Learning"],
             },
-            prevent_duplicate=False,
-            should_save=True,
-            index_id="index-id",
+            x_namespace="X-Namespace",
         )
         assert_matches_type(ImageURLResponse, image, path=["response"])
 

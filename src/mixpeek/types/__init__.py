@@ -7,7 +7,6 @@ from .shared import (
     SortOption as SortOption,
     TaskResponse as TaskResponse,
     FilterCondition as FilterCondition,
-    LogicalOperator as LogicalOperator,
     ModelPaginationResponse as ModelPaginationResponse,
 )
 from .feature import Feature as Feature

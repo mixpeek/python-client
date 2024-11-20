@@ -44,7 +44,6 @@ class TestAccounts:
                 },
             ],
             metadata={},
-            index_id="index-id",
         )
         assert_matches_type(User, account, path=["response"])
 
@@ -71,13 +70,6 @@ class TestAccounts:
     @parametrize
     def test_method_list(self, client: Mixpeek) -> None:
         account = client.accounts.list()
-        assert_matches_type(User, account, path=["response"])
-
-    @parametrize
-    def test_method_list_with_all_params(self, client: Mixpeek) -> None:
-        account = client.accounts.list(
-            index_id="index-id",
-        )
         assert_matches_type(User, account, path=["response"])
 
     @parametrize
@@ -130,7 +122,6 @@ class TestAsyncAccounts:
                 },
             ],
             metadata={},
-            index_id="index-id",
         )
         assert_matches_type(User, account, path=["response"])
 
@@ -157,13 +148,6 @@ class TestAsyncAccounts:
     @parametrize
     async def test_method_list(self, async_client: AsyncMixpeek) -> None:
         account = await async_client.accounts.list()
-        assert_matches_type(User, account, path=["response"])
-
-    @parametrize
-    async def test_method_list_with_all_params(self, async_client: AsyncMixpeek) -> None:
-        account = await async_client.accounts.list(
-            index_id="index-id",
-        )
         assert_matches_type(User, account, path=["response"])
 
     @parametrize
