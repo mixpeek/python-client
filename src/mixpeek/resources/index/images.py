@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, Optional, cast
+from typing import Optional
 
 import httpx
 
@@ -53,11 +53,9 @@ class ImagesResource(SyncAPIResource):
         collection_id: str,
         url: str,
         asset_update: Optional[image_url_params.AssetUpdate] | NotGiven = NOT_GIVEN,
-        image_settings: Optional[image_url_params.ImageSettings] | NotGiven = NOT_GIVEN,
+        feature_extractors: Optional[image_url_params.FeatureExtractors] | NotGiven = NOT_GIVEN,
         metadata: object | NotGiven = NOT_GIVEN,
-        prevent_duplicate: Optional[bool] | NotGiven = NOT_GIVEN,
-        should_save: Optional[bool] | NotGiven = NOT_GIVEN,
-        index_id: str | NotGiven = NOT_GIVEN,
+        x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -75,17 +73,14 @@ class ImagesResource(SyncAPIResource):
 
           asset_update: Asset update information for existing assets
 
-          image_settings: Settings for image processing. Only applicable if the URL points to an image
+          feature_extractors: Settings for image processing. Only applicable if the URL points to an image
               file.
 
           metadata: Additional metadata associated with the asset. Can include any key-value pairs
               relevant to the asset.
 
-          prevent_duplicate: Indicates whether to prevent duplicate processing of the same URL.
-
-          should_save: Indicates whether the processed asset should be uploaded to S3 storage.
-
-          index_id: filter by organization
+          x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
+              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -95,28 +90,23 @@ class ImagesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
-        return cast(
-            ImageURLResponse,
-            self._post(
-                "/index/images/url",
-                body=maybe_transform(
-                    {
-                        "collection_id": collection_id,
-                        "url": url,
-                        "asset_update": asset_update,
-                        "image_settings": image_settings,
-                        "metadata": metadata,
-                        "prevent_duplicate": prevent_duplicate,
-                        "should_save": should_save,
-                    },
-                    image_url_params.ImageURLParams,
-                ),
-                options=make_request_options(
-                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-                ),
-                cast_to=cast(Any, ImageURLResponse),  # Union types cannot be passed in as arguments in the type system
+        extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
+        return self._post(
+            "/index/images/url",
+            body=maybe_transform(
+                {
+                    "collection_id": collection_id,
+                    "url": url,
+                    "asset_update": asset_update,
+                    "feature_extractors": feature_extractors,
+                    "metadata": metadata,
+                },
+                image_url_params.ImageURLParams,
             ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ImageURLResponse,
         )
 
 
@@ -146,11 +136,9 @@ class AsyncImagesResource(AsyncAPIResource):
         collection_id: str,
         url: str,
         asset_update: Optional[image_url_params.AssetUpdate] | NotGiven = NOT_GIVEN,
-        image_settings: Optional[image_url_params.ImageSettings] | NotGiven = NOT_GIVEN,
+        feature_extractors: Optional[image_url_params.FeatureExtractors] | NotGiven = NOT_GIVEN,
         metadata: object | NotGiven = NOT_GIVEN,
-        prevent_duplicate: Optional[bool] | NotGiven = NOT_GIVEN,
-        should_save: Optional[bool] | NotGiven = NOT_GIVEN,
-        index_id: str | NotGiven = NOT_GIVEN,
+        x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -168,17 +156,14 @@ class AsyncImagesResource(AsyncAPIResource):
 
           asset_update: Asset update information for existing assets
 
-          image_settings: Settings for image processing. Only applicable if the URL points to an image
+          feature_extractors: Settings for image processing. Only applicable if the URL points to an image
               file.
 
           metadata: Additional metadata associated with the asset. Can include any key-value pairs
               relevant to the asset.
 
-          prevent_duplicate: Indicates whether to prevent duplicate processing of the same URL.
-
-          should_save: Indicates whether the processed asset should be uploaded to S3 storage.
-
-          index_id: filter by organization
+          x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
+              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -188,28 +173,23 @@ class AsyncImagesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
-        return cast(
-            ImageURLResponse,
-            await self._post(
-                "/index/images/url",
-                body=await async_maybe_transform(
-                    {
-                        "collection_id": collection_id,
-                        "url": url,
-                        "asset_update": asset_update,
-                        "image_settings": image_settings,
-                        "metadata": metadata,
-                        "prevent_duplicate": prevent_duplicate,
-                        "should_save": should_save,
-                    },
-                    image_url_params.ImageURLParams,
-                ),
-                options=make_request_options(
-                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-                ),
-                cast_to=cast(Any, ImageURLResponse),  # Union types cannot be passed in as arguments in the type system
+        extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
+        return await self._post(
+            "/index/images/url",
+            body=await async_maybe_transform(
+                {
+                    "collection_id": collection_id,
+                    "url": url,
+                    "asset_update": asset_update,
+                    "feature_extractors": feature_extractors,
+                    "metadata": metadata,
+                },
+                image_url_params.ImageURLParams,
             ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=ImageURLResponse,
         )
 
 

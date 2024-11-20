@@ -6,14 +6,6 @@ from typing import List, Iterable, Optional
 
 import httpx
 
-from .search import (
-    SearchResource,
-    AsyncSearchResource,
-    SearchResourceWithRawResponse,
-    AsyncSearchResourceWithRawResponse,
-    SearchResourceWithStreamingResponse,
-    AsyncSearchResourceWithStreamingResponse,
-)
 from ...types import feature_list_params, feature_update_params, feature_retrieve_params
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from ..._utils import (
@@ -33,16 +25,11 @@ from ..._base_client import make_request_options
 from ...types.feature import Feature
 from ...types.feature_list_response import FeatureListResponse
 from ...types.shared_params.sort_option import SortOption
-from ...types.shared_params.logical_operator import LogicalOperator
 
 __all__ = ["FeaturesResource", "AsyncFeaturesResource"]
 
 
 class FeaturesResource(SyncAPIResource):
-    @cached_property
-    def search(self) -> SearchResource:
-        return SearchResource(self._client)
-
     @cached_property
     def with_raw_response(self) -> FeaturesResourceWithRawResponse:
         """
@@ -67,7 +54,7 @@ class FeaturesResource(SyncAPIResource):
         feature_id: str,
         *,
         include_vectors: Optional[bool] | NotGiven = NOT_GIVEN,
-        index_id: str | NotGiven = NOT_GIVEN,
+        x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -81,7 +68,8 @@ class FeaturesResource(SyncAPIResource):
         Args:
           include_vectors: When true, includes the feature's vector embeddings in the response
 
-          index_id: filter by organization
+          x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
+              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -93,7 +81,7 @@ class FeaturesResource(SyncAPIResource):
         """
         if not feature_id:
             raise ValueError(f"Expected a non-empty value for `feature_id` but received {feature_id!r}")
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
         return self._get(
             f"/features/{feature_id}",
             options=make_request_options(
@@ -113,7 +101,7 @@ class FeaturesResource(SyncAPIResource):
         feature_id: str,
         *,
         metadata: object,
-        index_id: str | NotGiven = NOT_GIVEN,
+        x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -121,11 +109,13 @@ class FeaturesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Feature:
-        """
-        Full Feature Update
+        """Full Feature Update
 
         Args:
-          index_id: filter by organization
+          x_namespace: Optional namespace for data isolation.
+
+        Example: 'netflix_prod' or
+              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -137,7 +127,7 @@ class FeaturesResource(SyncAPIResource):
         """
         if not feature_id:
             raise ValueError(f"Expected a non-empty value for `feature_id` but received {feature_id!r}")
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
         return self._put(
             f"/features/{feature_id}",
             body=maybe_transform({"metadata": metadata}, feature_update_params.FeatureUpdateParams),
@@ -153,10 +143,10 @@ class FeaturesResource(SyncAPIResource):
         collection_ids: List[str],
         offset_feature_id: Optional[str] | NotGiven = NOT_GIVEN,
         page_size: int | NotGiven = NOT_GIVEN,
-        filters: Optional[LogicalOperator] | NotGiven = NOT_GIVEN,
+        filters: Optional[feature_list_params.Filters] | NotGiven = NOT_GIVEN,
         select: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
         sort: Optional[SortOption] | NotGiven = NOT_GIVEN,
-        index_id: str | NotGiven = NOT_GIVEN,
+        x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -180,7 +170,8 @@ class FeaturesResource(SyncAPIResource):
           sort: List of fields to sort by, with direction (asc or desc).
                       NOTE: fields will require a specialty index to use this, consult with the team.
 
-          index_id: filter by organization
+          x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
+              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -190,7 +181,7 @@ class FeaturesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
         return self._post(
             "/features",
             body=maybe_transform(
@@ -222,7 +213,7 @@ class FeaturesResource(SyncAPIResource):
         self,
         feature_id: str,
         *,
-        index_id: str | NotGiven = NOT_GIVEN,
+        x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -230,11 +221,13 @@ class FeaturesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> object:
-        """
-        Delete Feature
+        """Delete Feature
 
         Args:
-          index_id: filter by organization
+          x_namespace: Optional namespace for data isolation.
+
+        Example: 'netflix_prod' or
+              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -246,7 +239,7 @@ class FeaturesResource(SyncAPIResource):
         """
         if not feature_id:
             raise ValueError(f"Expected a non-empty value for `feature_id` but received {feature_id!r}")
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
         return self._delete(
             f"/features/{feature_id}",
             options=make_request_options(
@@ -257,10 +250,6 @@ class FeaturesResource(SyncAPIResource):
 
 
 class AsyncFeaturesResource(AsyncAPIResource):
-    @cached_property
-    def search(self) -> AsyncSearchResource:
-        return AsyncSearchResource(self._client)
-
     @cached_property
     def with_raw_response(self) -> AsyncFeaturesResourceWithRawResponse:
         """
@@ -285,7 +274,7 @@ class AsyncFeaturesResource(AsyncAPIResource):
         feature_id: str,
         *,
         include_vectors: Optional[bool] | NotGiven = NOT_GIVEN,
-        index_id: str | NotGiven = NOT_GIVEN,
+        x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -299,7 +288,8 @@ class AsyncFeaturesResource(AsyncAPIResource):
         Args:
           include_vectors: When true, includes the feature's vector embeddings in the response
 
-          index_id: filter by organization
+          x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
+              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -311,7 +301,7 @@ class AsyncFeaturesResource(AsyncAPIResource):
         """
         if not feature_id:
             raise ValueError(f"Expected a non-empty value for `feature_id` but received {feature_id!r}")
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
         return await self._get(
             f"/features/{feature_id}",
             options=make_request_options(
@@ -331,7 +321,7 @@ class AsyncFeaturesResource(AsyncAPIResource):
         feature_id: str,
         *,
         metadata: object,
-        index_id: str | NotGiven = NOT_GIVEN,
+        x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -339,11 +329,13 @@ class AsyncFeaturesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> Feature:
-        """
-        Full Feature Update
+        """Full Feature Update
 
         Args:
-          index_id: filter by organization
+          x_namespace: Optional namespace for data isolation.
+
+        Example: 'netflix_prod' or
+              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -355,7 +347,7 @@ class AsyncFeaturesResource(AsyncAPIResource):
         """
         if not feature_id:
             raise ValueError(f"Expected a non-empty value for `feature_id` but received {feature_id!r}")
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
         return await self._put(
             f"/features/{feature_id}",
             body=await async_maybe_transform({"metadata": metadata}, feature_update_params.FeatureUpdateParams),
@@ -371,10 +363,10 @@ class AsyncFeaturesResource(AsyncAPIResource):
         collection_ids: List[str],
         offset_feature_id: Optional[str] | NotGiven = NOT_GIVEN,
         page_size: int | NotGiven = NOT_GIVEN,
-        filters: Optional[LogicalOperator] | NotGiven = NOT_GIVEN,
+        filters: Optional[feature_list_params.Filters] | NotGiven = NOT_GIVEN,
         select: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
         sort: Optional[SortOption] | NotGiven = NOT_GIVEN,
-        index_id: str | NotGiven = NOT_GIVEN,
+        x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -398,7 +390,8 @@ class AsyncFeaturesResource(AsyncAPIResource):
           sort: List of fields to sort by, with direction (asc or desc).
                       NOTE: fields will require a specialty index to use this, consult with the team.
 
-          index_id: filter by organization
+          x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
+              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -408,7 +401,7 @@ class AsyncFeaturesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
         return await self._post(
             "/features",
             body=await async_maybe_transform(
@@ -440,7 +433,7 @@ class AsyncFeaturesResource(AsyncAPIResource):
         self,
         feature_id: str,
         *,
-        index_id: str | NotGiven = NOT_GIVEN,
+        x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -448,11 +441,13 @@ class AsyncFeaturesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> object:
-        """
-        Delete Feature
+        """Delete Feature
 
         Args:
-          index_id: filter by organization
+          x_namespace: Optional namespace for data isolation.
+
+        Example: 'netflix_prod' or
+              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -464,7 +459,7 @@ class AsyncFeaturesResource(AsyncAPIResource):
         """
         if not feature_id:
             raise ValueError(f"Expected a non-empty value for `feature_id` but received {feature_id!r}")
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
         return await self._delete(
             f"/features/{feature_id}",
             options=make_request_options(
@@ -491,10 +486,6 @@ class FeaturesResourceWithRawResponse:
             features.delete,
         )
 
-    @cached_property
-    def search(self) -> SearchResourceWithRawResponse:
-        return SearchResourceWithRawResponse(self._features.search)
-
 
 class AsyncFeaturesResourceWithRawResponse:
     def __init__(self, features: AsyncFeaturesResource) -> None:
@@ -512,10 +503,6 @@ class AsyncFeaturesResourceWithRawResponse:
         self.delete = async_to_raw_response_wrapper(
             features.delete,
         )
-
-    @cached_property
-    def search(self) -> AsyncSearchResourceWithRawResponse:
-        return AsyncSearchResourceWithRawResponse(self._features.search)
 
 
 class FeaturesResourceWithStreamingResponse:
@@ -535,10 +522,6 @@ class FeaturesResourceWithStreamingResponse:
             features.delete,
         )
 
-    @cached_property
-    def search(self) -> SearchResourceWithStreamingResponse:
-        return SearchResourceWithStreamingResponse(self._features.search)
-
 
 class AsyncFeaturesResourceWithStreamingResponse:
     def __init__(self, features: AsyncFeaturesResource) -> None:
@@ -556,7 +539,3 @@ class AsyncFeaturesResourceWithStreamingResponse:
         self.delete = async_to_streamed_response_wrapper(
             features.delete,
         )
-
-    @cached_property
-    def search(self) -> AsyncSearchResourceWithStreamingResponse:
-        return AsyncSearchResourceWithStreamingResponse(self._features.search)

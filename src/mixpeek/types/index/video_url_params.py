@@ -10,15 +10,15 @@ from ..._utils import PropertyInfo
 __all__ = [
     "VideoURLParams",
     "AssetUpdate",
-    "VideoSetting",
-    "VideoSettingDescribe",
-    "VideoSettingDetect",
-    "VideoSettingDetectFaces",
-    "VideoSettingDetectLogos",
-    "VideoSettingEmbed",
-    "VideoSettingJsonOutput",
-    "VideoSettingRead",
-    "VideoSettingTranscribe",
+    "FeatureExtractor",
+    "FeatureExtractorDescribe",
+    "FeatureExtractorDetect",
+    "FeatureExtractorDetectFaces",
+    "FeatureExtractorDetectLogos",
+    "FeatureExtractorEmbed",
+    "FeatureExtractorJsonOutput",
+    "FeatureExtractorRead",
+    "FeatureExtractorTranscribe",
 ]
 
 
@@ -32,26 +32,24 @@ class VideoURLParams(TypedDict, total=False):
     asset_update: Optional[AssetUpdate]
     """Asset update information for existing assets"""
 
+    feature_extractors: Optional[Iterable[FeatureExtractor]]
+    """Settings for video processing.
+
+    Only applicable if the URL points to a video file.
+    """
+
     metadata: object
     """Additional metadata associated with the asset.
 
     Can include any key-value pairs relevant to the asset.
     """
 
-    prevent_duplicate: Optional[bool]
-    """Indicates whether to prevent duplicate processing of the same URL."""
+    x_namespace: Annotated[str, PropertyInfo(alias="X-Namespace")]
+    """Optional namespace for data isolation.
 
-    should_save: Optional[bool]
-    """Indicates whether the processed asset should be uploaded to S3 storage."""
-
-    video_settings: Optional[Iterable[VideoSetting]]
-    """Settings for video processing.
-
-    Only applicable if the URL points to a video file.
+    Example: 'netflix_prod' or 'spotify_recs_dev'. To create a namespace, use the
+    /namespaces endpoint.
     """
-
-    index_id: Annotated[str, PropertyInfo(alias="index-id")]
-    """filter by organization"""
 
 
 class AssetUpdate(TypedDict, total=False):
@@ -62,81 +60,117 @@ class AssetUpdate(TypedDict, total=False):
     """Update mode: 'replace' or 'append'"""
 
 
-class VideoSettingDescribe(TypedDict, total=False):
+class FeatureExtractorDescribe(TypedDict, total=False):
+    enabled: bool
+    """Enable video description"""
+
     json_output: object
     """JSON format for the response"""
 
     max_length: Optional[int]
     """Maximum length of the description"""
 
-    model_id: Optional[Literal["video-descriptor-v1"]]
-
     prompt: Optional[str]
     """Prompt for video description"""
 
+    vector_name: Optional[Literal["image_vector", "multimodal_vector", "text_vector", "keyword_vector"]]
+    """Name of the vector model to use for embedding the text output.
 
-class VideoSettingDetectFaces(TypedDict, total=False):
+    If vector_name is duplicated, the vector will be overwritten.
+    """
+
+
+class FeatureExtractorDetectFaces(TypedDict, total=False):
     confidence_threshold: Optional[float]
     """Minimum confidence threshold for detected objects"""
 
-    model_id: Optional[Literal["face-detector-v1"]]
-    """Model ID for face detection"""
+    enabled: bool
+    """Enable face detection"""
 
 
-class VideoSettingDetectLogos(TypedDict, total=False):
+class FeatureExtractorDetectLogos(TypedDict, total=False):
     confidence_threshold: Optional[float]
     """Minimum confidence threshold for detected logos"""
 
-    model_id: Optional[Literal["logo-detector-v1"]]
-    """Model ID for logo detection"""
+    enabled: bool
+    """Enable logo detection"""
 
 
-class VideoSettingDetect(TypedDict, total=False):
-    faces: Optional[VideoSettingDetectFaces]
+class FeatureExtractorDetect(TypedDict, total=False):
+    faces: Optional[FeatureExtractorDetectFaces]
     """Settings for face detection"""
 
-    logos: Optional[VideoSettingDetectLogos]
+    logos: Optional[FeatureExtractorDetectLogos]
     """Settings for logo detection"""
 
 
-class VideoSettingEmbed(TypedDict, total=False):
-    model_id: Optional[Literal["multimodal-v1"]]
+class FeatureExtractorEmbed(TypedDict, total=False):
+    type: Required[Literal["url", "text", "file", "base64"]]
+    """Type of input to embed"""
+
+    vector_name: Required[Literal["image_vector", "multimodal_vector", "text_vector", "keyword_vector"]]
+    """Name of the vector model to use for embedding"""
+
+    field_name: Optional[str]
+
+    value: Optional[str]
+    """The input content to embed.
+
+    Could be a URL, text content, file path, or base64 encoded string
+    """
 
 
-class VideoSettingJsonOutput(TypedDict, total=False):
+class FeatureExtractorJsonOutput(TypedDict, total=False):
     prompt: Optional[str]
 
     response_shape: Optional[object]
 
 
-class VideoSettingRead(TypedDict, total=False):
+class FeatureExtractorRead(TypedDict, total=False):
+    enabled: bool
+    """Enable video reading"""
+
     json_output: object
     """JSON format for the response"""
-
-    model_id: Optional[Literal["video-descriptor-v1"]]
 
     prompt: Optional[str]
     """Prompt for reading on-screen text"""
 
+    vector_name: Optional[Literal["image_vector", "multimodal_vector", "text_vector", "keyword_vector"]]
+    """Name of the vector model to use for embedding the text output.
 
-class VideoSettingTranscribe(TypedDict, total=False):
+    If vector_name is duplicated, the vector will be overwritten.
+    """
+
+
+class FeatureExtractorTranscribe(TypedDict, total=False):
+    enabled: bool
+    """Enable video transcription"""
+
     json_output: object
     """JSON format for the response"""
 
-    model_id: Optional[Literal["polyglot-v1"]]
-
     prompt: Optional[str]
 
+    vector_name: Optional[Literal["image_vector", "multimodal_vector", "text_vector", "keyword_vector"]]
+    """Name of the vector model to use for embedding the text output.
 
-class VideoSetting(TypedDict, total=False):
-    describe: Optional[VideoSettingDescribe]
+    If vector_name is duplicated, the vector will be overwritten.
+    """
+
+
+class FeatureExtractor(TypedDict, total=False):
+    describe: Optional[FeatureExtractorDescribe]
     """Settings for generating video descriptions."""
 
-    detect: Optional[VideoSettingDetect]
+    detect: Optional[FeatureExtractorDetect]
     """Settings for object detection in video frames."""
 
-    embed: Optional[VideoSettingEmbed]
-    """Settings for generating video embeddings."""
+    embed: Iterable[FeatureExtractorEmbed]
+    """List of embedding settings for generating multiple embeddings.
+
+    For now, if url is provided, value must be None.
+    """
 
     interval_sec: int
     """Interval in seconds for processing video.
@@ -144,11 +178,11 @@ class VideoSetting(TypedDict, total=False):
     Must be greater than or equal to 5, less than 120.
     """
 
-    json_output: Optional[VideoSettingJsonOutput]
+    json_output: Optional[FeatureExtractorJsonOutput]
     """Settings for structured JSON output of video analysis."""
 
-    read: Optional[VideoSettingRead]
+    read: Optional[FeatureExtractorRead]
     """Settings for reading and analyzing video content."""
 
-    transcribe: Optional[VideoSettingTranscribe]
+    transcribe: Optional[FeatureExtractorTranscribe]
     """Settings for transcribing video audio."""

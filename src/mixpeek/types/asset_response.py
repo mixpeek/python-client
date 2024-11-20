@@ -1,11 +1,22 @@
 # File generated from our OpenAPI spec by Stainless. See CONTRIBUTING.md for details.
 
-from typing import Optional
+from typing import TYPE_CHECKING, Optional
 from datetime import datetime
 
 from .._models import BaseModel
 
-__all__ = ["AssetResponse"]
+__all__ = ["AssetResponse", "Metadata"]
+
+
+class Metadata(BaseModel):
+    preview_url: Optional[str] = None
+    """The presigned URL for accessing the asset"""
+
+    if TYPE_CHECKING:
+        # Stub to indicate that arbitrary properties are accepted.
+        # To access properties that are not valid identifiers you can use `getattr`, e.g.
+        # `getattr(obj, '$type')`
+        def __getattr__(self, attr: str) -> object: ...
 
 
 class AssetResponse(BaseModel):
@@ -21,7 +32,7 @@ class AssetResponse(BaseModel):
     error: Optional[str] = None
     """The error message if the asset processing failed"""
 
-    metadata: Optional[object] = None
+    metadata: Optional[Metadata] = None
     """Additional metadata associated with the asset"""
 
     modality: Optional[str] = None
@@ -43,4 +54,4 @@ class AssetResponse(BaseModel):
     """MongoDB datetime format"""
 
     url: Optional[str] = None
-    """The URL where the asset can be accessed"""
+    """The presigned URL for accessing the asset"""

@@ -16,9 +16,6 @@ class AccountUpdateParams(TypedDict, total=False):
 
     metadata: Optional[object]
 
-    index_id: Annotated[str, PropertyInfo(alias="index-id")]
-    """filter by organization"""
-
 
 class APIKey(TypedDict, total=False):
     created_at: Annotated[Union[str, datetime], PropertyInfo(format="iso8601")]

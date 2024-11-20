@@ -34,127 +34,191 @@ class TestVideos:
                 "asset_id": "asset_id",
                 "mode": "replace",
             },
+            feature_extractors=[
+                {
+                    "describe": {
+                        "enabled": True,
+                        "json_output": {},
+                        "max_length": 0,
+                        "prompt": "prompt",
+                        "vector_name": "image_vector",
+                    },
+                    "detect": {
+                        "faces": {
+                            "confidence_threshold": 0.8,
+                            "enabled": True,
+                        },
+                        "logos": {
+                            "confidence_threshold": 0,
+                            "enabled": True,
+                        },
+                    },
+                    "embed": [
+                        {
+                            "type": "url",
+                            "vector_name": "image_vector",
+                            "field_name": "field_name",
+                            "value": "https://example.com/image.jpg",
+                        },
+                        {
+                            "type": "url",
+                            "vector_name": "image_vector",
+                            "field_name": "field_name",
+                            "value": "lorem ipsum",
+                        },
+                        {
+                            "type": "url",
+                            "vector_name": "image_vector",
+                            "field_name": "field_name",
+                            "value": "Thing #1",
+                        },
+                    ],
+                    "interval_sec": 15,
+                    "json_output": {
+                        "prompt": "prompt",
+                        "response_shape": {
+                            "objects": ["str"],
+                            "scenes": ["str"],
+                        },
+                    },
+                    "read": {
+                        "enabled": True,
+                        "json_output": {},
+                        "prompt": "prompt",
+                        "vector_name": "image_vector",
+                    },
+                    "transcribe": {
+                        "enabled": True,
+                        "json_output": {},
+                        "prompt": "prompt",
+                        "vector_name": "image_vector",
+                    },
+                },
+                {
+                    "describe": {
+                        "enabled": True,
+                        "json_output": {},
+                        "max_length": 0,
+                        "prompt": "prompt",
+                        "vector_name": "image_vector",
+                    },
+                    "detect": {
+                        "faces": {
+                            "confidence_threshold": 0.8,
+                            "enabled": True,
+                        },
+                        "logos": {
+                            "confidence_threshold": 0,
+                            "enabled": True,
+                        },
+                    },
+                    "embed": [
+                        {
+                            "type": "url",
+                            "vector_name": "image_vector",
+                            "field_name": "field_name",
+                            "value": "https://example.com/image.jpg",
+                        },
+                        {
+                            "type": "url",
+                            "vector_name": "image_vector",
+                            "field_name": "field_name",
+                            "value": "lorem ipsum",
+                        },
+                        {
+                            "type": "url",
+                            "vector_name": "image_vector",
+                            "field_name": "field_name",
+                            "value": "Thing #1",
+                        },
+                    ],
+                    "interval_sec": 15,
+                    "json_output": {
+                        "prompt": "prompt",
+                        "response_shape": {
+                            "objects": ["str"],
+                            "scenes": ["str"],
+                        },
+                    },
+                    "read": {
+                        "enabled": True,
+                        "json_output": {},
+                        "prompt": "prompt",
+                        "vector_name": "image_vector",
+                    },
+                    "transcribe": {
+                        "enabled": True,
+                        "json_output": {},
+                        "prompt": "prompt",
+                        "vector_name": "image_vector",
+                    },
+                },
+                {
+                    "describe": {
+                        "enabled": True,
+                        "json_output": {},
+                        "max_length": 0,
+                        "prompt": "prompt",
+                        "vector_name": "image_vector",
+                    },
+                    "detect": {
+                        "faces": {
+                            "confidence_threshold": 0.8,
+                            "enabled": True,
+                        },
+                        "logos": {
+                            "confidence_threshold": 0,
+                            "enabled": True,
+                        },
+                    },
+                    "embed": [
+                        {
+                            "type": "url",
+                            "vector_name": "image_vector",
+                            "field_name": "field_name",
+                            "value": "https://example.com/image.jpg",
+                        },
+                        {
+                            "type": "url",
+                            "vector_name": "image_vector",
+                            "field_name": "field_name",
+                            "value": "lorem ipsum",
+                        },
+                        {
+                            "type": "url",
+                            "vector_name": "image_vector",
+                            "field_name": "field_name",
+                            "value": "Thing #1",
+                        },
+                    ],
+                    "interval_sec": 15,
+                    "json_output": {
+                        "prompt": "prompt",
+                        "response_shape": {
+                            "objects": ["str"],
+                            "scenes": ["str"],
+                        },
+                    },
+                    "read": {
+                        "enabled": True,
+                        "json_output": {},
+                        "prompt": "prompt",
+                        "vector_name": "image_vector",
+                    },
+                    "transcribe": {
+                        "enabled": True,
+                        "json_output": {},
+                        "prompt": "prompt",
+                        "vector_name": "image_vector",
+                    },
+                },
+            ],
             metadata={
                 "author": "John Doe",
                 "category": "Research Paper",
                 "tags": ["AI", "Machine Learning"],
             },
-            prevent_duplicate=False,
-            should_save=True,
-            video_settings=[
-                {
-                    "describe": {
-                        "json_output": {},
-                        "max_length": 0,
-                        "model_id": "video-descriptor-v1",
-                        "prompt": "prompt",
-                    },
-                    "detect": {
-                        "faces": {
-                            "confidence_threshold": 0.8,
-                            "model_id": "face-detector-v1",
-                        },
-                        "logos": {
-                            "confidence_threshold": 0,
-                            "model_id": "logo-detector-v1",
-                        },
-                    },
-                    "embed": {"model_id": "multimodal-v1"},
-                    "interval_sec": 15,
-                    "json_output": {
-                        "prompt": "prompt",
-                        "response_shape": {
-                            "objects": ["str"],
-                            "scenes": ["str"],
-                        },
-                    },
-                    "read": {
-                        "json_output": {},
-                        "model_id": "video-descriptor-v1",
-                        "prompt": "prompt",
-                    },
-                    "transcribe": {
-                        "json_output": {},
-                        "model_id": "polyglot-v1",
-                        "prompt": "prompt",
-                    },
-                },
-                {
-                    "describe": {
-                        "json_output": {},
-                        "max_length": 0,
-                        "model_id": "video-descriptor-v1",
-                        "prompt": "prompt",
-                    },
-                    "detect": {
-                        "faces": {
-                            "confidence_threshold": 0.8,
-                            "model_id": "face-detector-v1",
-                        },
-                        "logos": {
-                            "confidence_threshold": 0,
-                            "model_id": "logo-detector-v1",
-                        },
-                    },
-                    "embed": {"model_id": "multimodal-v1"},
-                    "interval_sec": 15,
-                    "json_output": {
-                        "prompt": "prompt",
-                        "response_shape": {
-                            "objects": ["str"],
-                            "scenes": ["str"],
-                        },
-                    },
-                    "read": {
-                        "json_output": {},
-                        "model_id": "video-descriptor-v1",
-                        "prompt": "prompt",
-                    },
-                    "transcribe": {
-                        "json_output": {},
-                        "model_id": "polyglot-v1",
-                        "prompt": "prompt",
-                    },
-                },
-                {
-                    "describe": {
-                        "json_output": {},
-                        "max_length": 0,
-                        "model_id": "video-descriptor-v1",
-                        "prompt": "prompt",
-                    },
-                    "detect": {
-                        "faces": {
-                            "confidence_threshold": 0.8,
-                            "model_id": "face-detector-v1",
-                        },
-                        "logos": {
-                            "confidence_threshold": 0,
-                            "model_id": "logo-detector-v1",
-                        },
-                    },
-                    "embed": {"model_id": "multimodal-v1"},
-                    "interval_sec": 15,
-                    "json_output": {
-                        "prompt": "prompt",
-                        "response_shape": {
-                            "objects": ["str"],
-                            "scenes": ["str"],
-                        },
-                    },
-                    "read": {
-                        "json_output": {},
-                        "model_id": "video-descriptor-v1",
-                        "prompt": "prompt",
-                    },
-                    "transcribe": {
-                        "json_output": {},
-                        "model_id": "polyglot-v1",
-                        "prompt": "prompt",
-                    },
-                },
-            ],
-            index_id="index-id",
+            x_namespace="X-Namespace",
         )
         assert_matches_type(VideoURLResponse, video, path=["response"])
 
@@ -205,127 +269,191 @@ class TestAsyncVideos:
                 "asset_id": "asset_id",
                 "mode": "replace",
             },
+            feature_extractors=[
+                {
+                    "describe": {
+                        "enabled": True,
+                        "json_output": {},
+                        "max_length": 0,
+                        "prompt": "prompt",
+                        "vector_name": "image_vector",
+                    },
+                    "detect": {
+                        "faces": {
+                            "confidence_threshold": 0.8,
+                            "enabled": True,
+                        },
+                        "logos": {
+                            "confidence_threshold": 0,
+                            "enabled": True,
+                        },
+                    },
+                    "embed": [
+                        {
+                            "type": "url",
+                            "vector_name": "image_vector",
+                            "field_name": "field_name",
+                            "value": "https://example.com/image.jpg",
+                        },
+                        {
+                            "type": "url",
+                            "vector_name": "image_vector",
+                            "field_name": "field_name",
+                            "value": "lorem ipsum",
+                        },
+                        {
+                            "type": "url",
+                            "vector_name": "image_vector",
+                            "field_name": "field_name",
+                            "value": "Thing #1",
+                        },
+                    ],
+                    "interval_sec": 15,
+                    "json_output": {
+                        "prompt": "prompt",
+                        "response_shape": {
+                            "objects": ["str"],
+                            "scenes": ["str"],
+                        },
+                    },
+                    "read": {
+                        "enabled": True,
+                        "json_output": {},
+                        "prompt": "prompt",
+                        "vector_name": "image_vector",
+                    },
+                    "transcribe": {
+                        "enabled": True,
+                        "json_output": {},
+                        "prompt": "prompt",
+                        "vector_name": "image_vector",
+                    },
+                },
+                {
+                    "describe": {
+                        "enabled": True,
+                        "json_output": {},
+                        "max_length": 0,
+                        "prompt": "prompt",
+                        "vector_name": "image_vector",
+                    },
+                    "detect": {
+                        "faces": {
+                            "confidence_threshold": 0.8,
+                            "enabled": True,
+                        },
+                        "logos": {
+                            "confidence_threshold": 0,
+                            "enabled": True,
+                        },
+                    },
+                    "embed": [
+                        {
+                            "type": "url",
+                            "vector_name": "image_vector",
+                            "field_name": "field_name",
+                            "value": "https://example.com/image.jpg",
+                        },
+                        {
+                            "type": "url",
+                            "vector_name": "image_vector",
+                            "field_name": "field_name",
+                            "value": "lorem ipsum",
+                        },
+                        {
+                            "type": "url",
+                            "vector_name": "image_vector",
+                            "field_name": "field_name",
+                            "value": "Thing #1",
+                        },
+                    ],
+                    "interval_sec": 15,
+                    "json_output": {
+                        "prompt": "prompt",
+                        "response_shape": {
+                            "objects": ["str"],
+                            "scenes": ["str"],
+                        },
+                    },
+                    "read": {
+                        "enabled": True,
+                        "json_output": {},
+                        "prompt": "prompt",
+                        "vector_name": "image_vector",
+                    },
+                    "transcribe": {
+                        "enabled": True,
+                        "json_output": {},
+                        "prompt": "prompt",
+                        "vector_name": "image_vector",
+                    },
+                },
+                {
+                    "describe": {
+                        "enabled": True,
+                        "json_output": {},
+                        "max_length": 0,
+                        "prompt": "prompt",
+                        "vector_name": "image_vector",
+                    },
+                    "detect": {
+                        "faces": {
+                            "confidence_threshold": 0.8,
+                            "enabled": True,
+                        },
+                        "logos": {
+                            "confidence_threshold": 0,
+                            "enabled": True,
+                        },
+                    },
+                    "embed": [
+                        {
+                            "type": "url",
+                            "vector_name": "image_vector",
+                            "field_name": "field_name",
+                            "value": "https://example.com/image.jpg",
+                        },
+                        {
+                            "type": "url",
+                            "vector_name": "image_vector",
+                            "field_name": "field_name",
+                            "value": "lorem ipsum",
+                        },
+                        {
+                            "type": "url",
+                            "vector_name": "image_vector",
+                            "field_name": "field_name",
+                            "value": "Thing #1",
+                        },
+                    ],
+                    "interval_sec": 15,
+                    "json_output": {
+                        "prompt": "prompt",
+                        "response_shape": {
+                            "objects": ["str"],
+                            "scenes": ["str"],
+                        },
+                    },
+                    "read": {
+                        "enabled": True,
+                        "json_output": {},
+                        "prompt": "prompt",
+                        "vector_name": "image_vector",
+                    },
+                    "transcribe": {
+                        "enabled": True,
+                        "json_output": {},
+                        "prompt": "prompt",
+                        "vector_name": "image_vector",
+                    },
+                },
+            ],
             metadata={
                 "author": "John Doe",
                 "category": "Research Paper",
                 "tags": ["AI", "Machine Learning"],
             },
-            prevent_duplicate=False,
-            should_save=True,
-            video_settings=[
-                {
-                    "describe": {
-                        "json_output": {},
-                        "max_length": 0,
-                        "model_id": "video-descriptor-v1",
-                        "prompt": "prompt",
-                    },
-                    "detect": {
-                        "faces": {
-                            "confidence_threshold": 0.8,
-                            "model_id": "face-detector-v1",
-                        },
-                        "logos": {
-                            "confidence_threshold": 0,
-                            "model_id": "logo-detector-v1",
-                        },
-                    },
-                    "embed": {"model_id": "multimodal-v1"},
-                    "interval_sec": 15,
-                    "json_output": {
-                        "prompt": "prompt",
-                        "response_shape": {
-                            "objects": ["str"],
-                            "scenes": ["str"],
-                        },
-                    },
-                    "read": {
-                        "json_output": {},
-                        "model_id": "video-descriptor-v1",
-                        "prompt": "prompt",
-                    },
-                    "transcribe": {
-                        "json_output": {},
-                        "model_id": "polyglot-v1",
-                        "prompt": "prompt",
-                    },
-                },
-                {
-                    "describe": {
-                        "json_output": {},
-                        "max_length": 0,
-                        "model_id": "video-descriptor-v1",
-                        "prompt": "prompt",
-                    },
-                    "detect": {
-                        "faces": {
-                            "confidence_threshold": 0.8,
-                            "model_id": "face-detector-v1",
-                        },
-                        "logos": {
-                            "confidence_threshold": 0,
-                            "model_id": "logo-detector-v1",
-                        },
-                    },
-                    "embed": {"model_id": "multimodal-v1"},
-                    "interval_sec": 15,
-                    "json_output": {
-                        "prompt": "prompt",
-                        "response_shape": {
-                            "objects": ["str"],
-                            "scenes": ["str"],
-                        },
-                    },
-                    "read": {
-                        "json_output": {},
-                        "model_id": "video-descriptor-v1",
-                        "prompt": "prompt",
-                    },
-                    "transcribe": {
-                        "json_output": {},
-                        "model_id": "polyglot-v1",
-                        "prompt": "prompt",
-                    },
-                },
-                {
-                    "describe": {
-                        "json_output": {},
-                        "max_length": 0,
-                        "model_id": "video-descriptor-v1",
-                        "prompt": "prompt",
-                    },
-                    "detect": {
-                        "faces": {
-                            "confidence_threshold": 0.8,
-                            "model_id": "face-detector-v1",
-                        },
-                        "logos": {
-                            "confidence_threshold": 0,
-                            "model_id": "logo-detector-v1",
-                        },
-                    },
-                    "embed": {"model_id": "multimodal-v1"},
-                    "interval_sec": 15,
-                    "json_output": {
-                        "prompt": "prompt",
-                        "response_shape": {
-                            "objects": ["str"],
-                            "scenes": ["str"],
-                        },
-                    },
-                    "read": {
-                        "json_output": {},
-                        "model_id": "video-descriptor-v1",
-                        "prompt": "prompt",
-                    },
-                    "transcribe": {
-                        "json_output": {},
-                        "model_id": "polyglot-v1",
-                        "prompt": "prompt",
-                    },
-                },
-            ],
-            index_id="index-id",
+            x_namespace="X-Namespace",
         )
         assert_matches_type(VideoURLResponse, video, path=["response"])
 

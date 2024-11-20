@@ -28,7 +28,7 @@ class TestFeatures:
     def test_method_list_with_all_params(self, client: Mixpeek) -> None:
         feature = client.assets.features.list(
             asset_id="asset_id",
-            index_id="index-id",
+            x_namespace="X-Namespace",
         )
         assert_matches_type(GroupedAssetData, feature, path=["response"])
 
@@ -78,7 +78,7 @@ class TestAsyncFeatures:
     async def test_method_list_with_all_params(self, async_client: AsyncMixpeek) -> None:
         feature = await async_client.assets.features.list(
             asset_id="asset_id",
-            index_id="index-id",
+            x_namespace="X-Namespace",
         )
         assert_matches_type(GroupedAssetData, feature, path=["response"])
 

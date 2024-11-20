@@ -56,7 +56,7 @@ class FacesResource(SyncAPIResource):
         collection_id: str,
         file: FileTypes,
         metadata: str | NotGiven = NOT_GIVEN,
-        index_id: str | NotGiven = NOT_GIVEN,
+        x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -64,11 +64,13 @@ class FacesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> FaceResponse:
-        """
-        Register Face
+        """Register Face
 
         Args:
-          index_id: filter by organization
+          x_namespace: Optional namespace for data isolation.
+
+        Example: 'netflix_prod' or
+              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -78,7 +80,7 @@ class FacesResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
         body = deepcopy_minimal(
             {
                 "collection_id": collection_id,
@@ -108,7 +110,7 @@ class FacesResource(SyncAPIResource):
         collection_id: str,
         body_face_id: str,
         metadata: object,
-        index_id: str | NotGiven = NOT_GIVEN,
+        x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -116,11 +118,13 @@ class FacesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> FaceResponse:
-        """
-        Update Face
+        """Update Face
 
         Args:
-          index_id: filter by organization
+          x_namespace: Optional namespace for data isolation.
+
+        Example: 'netflix_prod' or
+              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -132,7 +136,7 @@ class FacesResource(SyncAPIResource):
         """
         if not path_face_id:
             raise ValueError(f"Expected a non-empty value for `path_face_id` but received {path_face_id!r}")
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
         return self._patch(
             f"/entities/faces/{path_face_id}",
             body=maybe_transform(
@@ -155,7 +159,7 @@ class FacesResource(SyncAPIResource):
         *,
         page: int | NotGiven = NOT_GIVEN,
         page_size: int | NotGiven = NOT_GIVEN,
-        index_id: str | NotGiven = NOT_GIVEN,
+        x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -167,7 +171,8 @@ class FacesResource(SyncAPIResource):
         List registered faces for a specific collection.
 
         Args:
-          index_id: filter by organization
+          x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
+              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -179,7 +184,7 @@ class FacesResource(SyncAPIResource):
         """
         if not collection_id:
             raise ValueError(f"Expected a non-empty value for `collection_id` but received {collection_id!r}")
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
         return self._get(
             f"/entities/faces/{collection_id}",
             options=make_request_options(
@@ -202,7 +207,7 @@ class FacesResource(SyncAPIResource):
         self,
         face_id: str,
         *,
-        index_id: str | NotGiven = NOT_GIVEN,
+        x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -210,11 +215,13 @@ class FacesResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> object:
-        """
-        Delete Face
+        """Delete Face
 
         Args:
-          index_id: filter by organization
+          x_namespace: Optional namespace for data isolation.
+
+        Example: 'netflix_prod' or
+              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -226,7 +233,7 @@ class FacesResource(SyncAPIResource):
         """
         if not face_id:
             raise ValueError(f"Expected a non-empty value for `face_id` but received {face_id!r}")
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
         return self._delete(
             f"/entities/faces/{face_id}",
             options=make_request_options(
@@ -262,7 +269,7 @@ class AsyncFacesResource(AsyncAPIResource):
         collection_id: str,
         file: FileTypes,
         metadata: str | NotGiven = NOT_GIVEN,
-        index_id: str | NotGiven = NOT_GIVEN,
+        x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -270,11 +277,13 @@ class AsyncFacesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> FaceResponse:
-        """
-        Register Face
+        """Register Face
 
         Args:
-          index_id: filter by organization
+          x_namespace: Optional namespace for data isolation.
+
+        Example: 'netflix_prod' or
+              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -284,7 +293,7 @@ class AsyncFacesResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
         body = deepcopy_minimal(
             {
                 "collection_id": collection_id,
@@ -314,7 +323,7 @@ class AsyncFacesResource(AsyncAPIResource):
         collection_id: str,
         body_face_id: str,
         metadata: object,
-        index_id: str | NotGiven = NOT_GIVEN,
+        x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -322,11 +331,13 @@ class AsyncFacesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> FaceResponse:
-        """
-        Update Face
+        """Update Face
 
         Args:
-          index_id: filter by organization
+          x_namespace: Optional namespace for data isolation.
+
+        Example: 'netflix_prod' or
+              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -338,7 +349,7 @@ class AsyncFacesResource(AsyncAPIResource):
         """
         if not path_face_id:
             raise ValueError(f"Expected a non-empty value for `path_face_id` but received {path_face_id!r}")
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
         return await self._patch(
             f"/entities/faces/{path_face_id}",
             body=await async_maybe_transform(
@@ -361,7 +372,7 @@ class AsyncFacesResource(AsyncAPIResource):
         *,
         page: int | NotGiven = NOT_GIVEN,
         page_size: int | NotGiven = NOT_GIVEN,
-        index_id: str | NotGiven = NOT_GIVEN,
+        x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -373,7 +384,8 @@ class AsyncFacesResource(AsyncAPIResource):
         List registered faces for a specific collection.
 
         Args:
-          index_id: filter by organization
+          x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
+              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -385,7 +397,7 @@ class AsyncFacesResource(AsyncAPIResource):
         """
         if not collection_id:
             raise ValueError(f"Expected a non-empty value for `collection_id` but received {collection_id!r}")
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
         return await self._get(
             f"/entities/faces/{collection_id}",
             options=make_request_options(
@@ -408,7 +420,7 @@ class AsyncFacesResource(AsyncAPIResource):
         self,
         face_id: str,
         *,
-        index_id: str | NotGiven = NOT_GIVEN,
+        x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -416,11 +428,13 @@ class AsyncFacesResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> object:
-        """
-        Delete Face
+        """Delete Face
 
         Args:
-          index_id: filter by organization
+          x_namespace: Optional namespace for data isolation.
+
+        Example: 'netflix_prod' or
+              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -432,7 +446,7 @@ class AsyncFacesResource(AsyncAPIResource):
         """
         if not face_id:
             raise ValueError(f"Expected a non-empty value for `face_id` but received {face_id!r}")
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
         return await self._delete(
             f"/entities/faces/{face_id}",
             options=make_request_options(

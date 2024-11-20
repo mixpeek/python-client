@@ -21,7 +21,6 @@ class TestIndex:
     def test_method_text(self, client: Mixpeek) -> None:
         index = client.index.text(
             collection_id="my_document_collection",
-            text="the quick brown fox jumps over the lazy dog",
         )
         assert_matches_type(IndexTextResponse, index, path=["response"])
 
@@ -29,19 +28,25 @@ class TestIndex:
     def test_method_text_with_all_params(self, client: Mixpeek) -> None:
         index = client.index.text(
             collection_id="my_document_collection",
-            text="the quick brown fox jumps over the lazy dog",
             asset_update={
                 "asset_id": "asset_id",
                 "mode": "replace",
             },
-            metadata={
-                "author": "John Doe",
-                "category": "Research Paper",
-                "tags": ["AI", "Machine Learning"],
-            },
-            text_settings={
-                "embed": {"model_id": "multimodal-v1"},
-                "fulltext": {"model_id": "splade-v3"},
+            feature_extractors={
+                "embed": [
+                    {
+                        "type": "url",
+                        "vector_name": "image_vector",
+                        "field_name": "description",
+                        "value": "lorem ipsum",
+                    },
+                    {
+                        "type": "url",
+                        "vector_name": "image_vector",
+                        "field_name": "title",
+                        "value": "Thing #1",
+                    },
+                ],
                 "json_output": {
                     "prompt": "prompt",
                     "response_shape": {
@@ -50,7 +55,12 @@ class TestIndex:
                     },
                 },
             },
-            index_id="index-id",
+            metadata={
+                "author": "John Doe",
+                "category": "Research Paper",
+                "tags": ["AI", "Machine Learning"],
+            },
+            x_namespace="X-Namespace",
         )
         assert_matches_type(IndexTextResponse, index, path=["response"])
 
@@ -58,7 +68,6 @@ class TestIndex:
     def test_raw_response_text(self, client: Mixpeek) -> None:
         response = client.index.with_raw_response.text(
             collection_id="my_document_collection",
-            text="the quick brown fox jumps over the lazy dog",
         )
 
         assert response.is_closed is True
@@ -70,7 +79,6 @@ class TestIndex:
     def test_streaming_response_text(self, client: Mixpeek) -> None:
         with client.index.with_streaming_response.text(
             collection_id="my_document_collection",
-            text="the quick brown fox jumps over the lazy dog",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -88,7 +96,6 @@ class TestAsyncIndex:
     async def test_method_text(self, async_client: AsyncMixpeek) -> None:
         index = await async_client.index.text(
             collection_id="my_document_collection",
-            text="the quick brown fox jumps over the lazy dog",
         )
         assert_matches_type(IndexTextResponse, index, path=["response"])
 
@@ -96,19 +103,25 @@ class TestAsyncIndex:
     async def test_method_text_with_all_params(self, async_client: AsyncMixpeek) -> None:
         index = await async_client.index.text(
             collection_id="my_document_collection",
-            text="the quick brown fox jumps over the lazy dog",
             asset_update={
                 "asset_id": "asset_id",
                 "mode": "replace",
             },
-            metadata={
-                "author": "John Doe",
-                "category": "Research Paper",
-                "tags": ["AI", "Machine Learning"],
-            },
-            text_settings={
-                "embed": {"model_id": "multimodal-v1"},
-                "fulltext": {"model_id": "splade-v3"},
+            feature_extractors={
+                "embed": [
+                    {
+                        "type": "url",
+                        "vector_name": "image_vector",
+                        "field_name": "description",
+                        "value": "lorem ipsum",
+                    },
+                    {
+                        "type": "url",
+                        "vector_name": "image_vector",
+                        "field_name": "title",
+                        "value": "Thing #1",
+                    },
+                ],
                 "json_output": {
                     "prompt": "prompt",
                     "response_shape": {
@@ -117,7 +130,12 @@ class TestAsyncIndex:
                     },
                 },
             },
-            index_id="index-id",
+            metadata={
+                "author": "John Doe",
+                "category": "Research Paper",
+                "tags": ["AI", "Machine Learning"],
+            },
+            x_namespace="X-Namespace",
         )
         assert_matches_type(IndexTextResponse, index, path=["response"])
 
@@ -125,7 +143,6 @@ class TestAsyncIndex:
     async def test_raw_response_text(self, async_client: AsyncMixpeek) -> None:
         response = await async_client.index.with_raw_response.text(
             collection_id="my_document_collection",
-            text="the quick brown fox jumps over the lazy dog",
         )
 
         assert response.is_closed is True
@@ -137,7 +154,6 @@ class TestAsyncIndex:
     async def test_streaming_response_text(self, async_client: AsyncMixpeek) -> None:
         async with async_client.index.with_streaming_response.text(
             collection_id="my_document_collection",
-            text="the quick brown fox jumps over the lazy dog",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
