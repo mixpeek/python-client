@@ -75,11 +75,10 @@ class IndexResource(SyncAPIResource):
         self,
         *,
         collection_id: str,
-        text: str,
         asset_update: Optional[index_text_params.AssetUpdate] | NotGiven = NOT_GIVEN,
+        feature_extractors: Optional[index_text_params.FeatureExtractors] | NotGiven = NOT_GIVEN,
         metadata: object | NotGiven = NOT_GIVEN,
-        text_settings: Optional[index_text_params.TextSettings] | NotGiven = NOT_GIVEN,
-        index_id: str | NotGiven = NOT_GIVEN,
+        x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -93,16 +92,15 @@ class IndexResource(SyncAPIResource):
         Args:
           collection_id: Unique identifier for the collection where the processed asset will be stored.
 
-          text: The text to be processed.
-
           asset_update: Asset update information for existing assets
+
+          feature_extractors: Settings for text processing.
 
           metadata: Additional metadata associated with the file. Can include any key-value pairs
               relevant to the file.
 
-          text_settings: Settings for text processing.
-
-          index_id: filter by organization
+          x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
+              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -112,16 +110,15 @@ class IndexResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
         return self._post(
             "/index/text",
             body=maybe_transform(
                 {
                     "collection_id": collection_id,
-                    "text": text,
                     "asset_update": asset_update,
+                    "feature_extractors": feature_extractors,
                     "metadata": metadata,
-                    "text_settings": text_settings,
                 },
                 index_text_params.IndexTextParams,
             ),
@@ -164,11 +161,10 @@ class AsyncIndexResource(AsyncAPIResource):
         self,
         *,
         collection_id: str,
-        text: str,
         asset_update: Optional[index_text_params.AssetUpdate] | NotGiven = NOT_GIVEN,
+        feature_extractors: Optional[index_text_params.FeatureExtractors] | NotGiven = NOT_GIVEN,
         metadata: object | NotGiven = NOT_GIVEN,
-        text_settings: Optional[index_text_params.TextSettings] | NotGiven = NOT_GIVEN,
-        index_id: str | NotGiven = NOT_GIVEN,
+        x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -182,16 +178,15 @@ class AsyncIndexResource(AsyncAPIResource):
         Args:
           collection_id: Unique identifier for the collection where the processed asset will be stored.
 
-          text: The text to be processed.
-
           asset_update: Asset update information for existing assets
+
+          feature_extractors: Settings for text processing.
 
           metadata: Additional metadata associated with the file. Can include any key-value pairs
               relevant to the file.
 
-          text_settings: Settings for text processing.
-
-          index_id: filter by organization
+          x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
+              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -201,16 +196,15 @@ class AsyncIndexResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
         return await self._post(
             "/index/text",
             body=await async_maybe_transform(
                 {
                     "collection_id": collection_id,
-                    "text": text,
                     "asset_update": asset_update,
+                    "feature_extractors": feature_extractors,
                     "metadata": metadata,
-                    "text_settings": text_settings,
                 },
                 index_text_params.IndexTextParams,
             ),

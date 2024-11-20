@@ -1,13 +1,7 @@
 # Shared Types
 
 ```python
-from mixpeek.types import (
-    FilterCondition,
-    LogicalOperator,
-    ModelPaginationResponse,
-    SortOption,
-    TaskResponse,
-)
+from mixpeek.types import FilterCondition, ModelPaginationResponse, SortOption, TaskResponse
 ```
 
 # Accounts
@@ -37,26 +31,6 @@ Methods:
 - <code title="put /features/{feature_id}">client.features.<a href="./src/mixpeek/resources/features/features.py">update</a>(feature_id, \*\*<a href="src/mixpeek/types/feature_update_params.py">params</a>) -> <a href="./src/mixpeek/types/feature.py">Feature</a></code>
 - <code title="post /features">client.features.<a href="./src/mixpeek/resources/features/features.py">list</a>(\*\*<a href="src/mixpeek/types/feature_list_params.py">params</a>) -> <a href="./src/mixpeek/types/feature_list_response.py">FeatureListResponse</a></code>
 - <code title="delete /features/{feature_id}">client.features.<a href="./src/mixpeek/resources/features/features.py">delete</a>(feature_id) -> <a href="./src/mixpeek/types/feature_delete_response.py">object</a></code>
-
-## Search
-
-Types:
-
-```python
-from mixpeek.types.features import (
-    SearchFeedbackResponse,
-    SearchFileResponse,
-    SearchTextResponse,
-    SearchURLResponse,
-)
-```
-
-Methods:
-
-- <code title="post /features/search/feedback">client.features.search.<a href="./src/mixpeek/resources/features/search.py">feedback</a>(\*\*<a href="src/mixpeek/types/features/search_feedback_params.py">params</a>) -> <a href="./src/mixpeek/types/features/search_feedback_response.py">object</a></code>
-- <code title="post /features/search/file">client.features.search.<a href="./src/mixpeek/resources/features/search.py">file</a>(\*\*<a href="src/mixpeek/types/features/search_file_params.py">params</a>) -> <a href="./src/mixpeek/types/features/search_file_response.py">object</a></code>
-- <code title="post /features/search/text">client.features.search.<a href="./src/mixpeek/resources/features/search.py">text</a>(\*\*<a href="src/mixpeek/types/features/search_text_params.py">params</a>) -> <a href="./src/mixpeek/types/features/search_text_response.py">object</a></code>
-- <code title="post /features/search/url">client.features.search.<a href="./src/mixpeek/resources/features/search.py">url</a>(\*\*<a href="src/mixpeek/types/features/search_url_params.py">params</a>) -> <a href="./src/mixpeek/types/features/search_url_response.py">object</a></code>
 
 # Index
 
@@ -110,20 +84,6 @@ Methods:
 - <code title="patch /entities/faces/{face_id}">client.entities.faces.<a href="./src/mixpeek/resources/entities/faces.py">update</a>(\*, path_face_id, \*\*<a href="src/mixpeek/types/entities/face_update_params.py">params</a>) -> <a href="./src/mixpeek/types/entities/face_response.py">FaceResponse</a></code>
 - <code title="get /entities/faces/{collection_id}">client.entities.faces.<a href="./src/mixpeek/resources/entities/faces.py">list</a>(collection_id, \*\*<a href="src/mixpeek/types/entities/face_list_params.py">params</a>) -> <a href="./src/mixpeek/types/entities/face_list_response.py">FaceListResponse</a></code>
 - <code title="delete /entities/faces/{face_id}">client.entities.faces.<a href="./src/mixpeek/resources/entities/faces.py">delete</a>(face_id) -> <a href="./src/mixpeek/types/entities/face_delete_response.py">object</a></code>
-
-## Labels
-
-Types:
-
-```python
-from mixpeek.types.entities import LabelResponse, LabelListResponse, LabelDeleteResponse
-```
-
-Methods:
-
-- <code title="patch /entities/labels/{label_id}">client.entities.labels.<a href="./src/mixpeek/resources/entities/labels.py">update</a>(\*, path_label_id, \*\*<a href="src/mixpeek/types/entities/label_update_params.py">params</a>) -> <a href="./src/mixpeek/types/entities/label_response.py">LabelResponse</a></code>
-- <code title="get /entities/labels">client.entities.labels.<a href="./src/mixpeek/resources/entities/labels.py">list</a>(\*\*<a href="src/mixpeek/types/entities/label_list_params.py">params</a>) -> <a href="./src/mixpeek/types/entities/label_list_response.py">LabelListResponse</a></code>
-- <code title="delete /entities/labels/{label_id}">client.entities.labels.<a href="./src/mixpeek/resources/entities/labels.py">delete</a>(label_id) -> <a href="./src/mixpeek/types/entities/label_delete_response.py">object</a></code>
 
 # Assets
 

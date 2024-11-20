@@ -27,7 +27,7 @@ class TestCollections:
         collection = client.collections.list(
             page=0,
             page_size=0,
-            index_id="index-id",
+            x_namespace="X-Namespace",
         )
         assert_matches_type(CollectionListResponse, collection, path=["response"])
 
@@ -62,7 +62,7 @@ class TestCollections:
     def test_method_delete_with_all_params(self, client: Mixpeek) -> None:
         collection = client.collections.delete(
             collection_id="collection_id",
-            index_id="index-id",
+            x_namespace="X-Namespace",
         )
         assert_matches_type(object, collection, path=["response"])
 
@@ -111,7 +111,7 @@ class TestAsyncCollections:
         collection = await async_client.collections.list(
             page=0,
             page_size=0,
-            index_id="index-id",
+            x_namespace="X-Namespace",
         )
         assert_matches_type(CollectionListResponse, collection, path=["response"])
 
@@ -146,7 +146,7 @@ class TestAsyncCollections:
     async def test_method_delete_with_all_params(self, async_client: AsyncMixpeek) -> None:
         collection = await async_client.collections.delete(
             collection_id="collection_id",
-            index_id="index-id",
+            x_namespace="X-Namespace",
         )
         assert_matches_type(object, collection, path=["response"])
 

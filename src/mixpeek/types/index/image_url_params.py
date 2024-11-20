@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import Iterable, Optional
 from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from ..._utils import PropertyInfo
@@ -10,14 +10,14 @@ from ..._utils import PropertyInfo
 __all__ = [
     "ImageURLParams",
     "AssetUpdate",
-    "ImageSettings",
-    "ImageSettingsDescribe",
-    "ImageSettingsDetect",
-    "ImageSettingsDetectFaces",
-    "ImageSettingsDetectLogos",
-    "ImageSettingsEmbed",
-    "ImageSettingsJsonOutput",
-    "ImageSettingsRead",
+    "FeatureExtractors",
+    "FeatureExtractorsDescribe",
+    "FeatureExtractorsDetect",
+    "FeatureExtractorsDetectFaces",
+    "FeatureExtractorsDetectLogos",
+    "FeatureExtractorsEmbed",
+    "FeatureExtractorsJsonOutput",
+    "FeatureExtractorsRead",
 ]
 
 
@@ -31,7 +31,7 @@ class ImageURLParams(TypedDict, total=False):
     asset_update: Optional[AssetUpdate]
     """Asset update information for existing assets"""
 
-    image_settings: Optional[ImageSettings]
+    feature_extractors: Optional[FeatureExtractors]
     """Settings for image processing.
 
     Only applicable if the URL points to an image file.
@@ -43,14 +43,12 @@ class ImageURLParams(TypedDict, total=False):
     Can include any key-value pairs relevant to the asset.
     """
 
-    prevent_duplicate: Optional[bool]
-    """Indicates whether to prevent duplicate processing of the same URL."""
+    x_namespace: Annotated[str, PropertyInfo(alias="X-Namespace")]
+    """Optional namespace for data isolation.
 
-    should_save: Optional[bool]
-    """Indicates whether the processed asset should be uploaded to S3 storage."""
-
-    index_id: Annotated[str, PropertyInfo(alias="index-id")]
-    """filter by organization"""
+    Example: 'netflix_prod' or 'spotify_recs_dev'. To create a namespace, use the
+    /namespaces endpoint.
+    """
 
 
 class AssetUpdate(TypedDict, total=False):
@@ -61,75 +59,104 @@ class AssetUpdate(TypedDict, total=False):
     """Update mode: 'replace' or 'append'"""
 
 
-class ImageSettingsDescribe(TypedDict, total=False):
+class FeatureExtractorsDescribe(TypedDict, total=False):
+    enabled: bool
+    """Enable image description"""
+
     json_output: object
     """JSON format for the response"""
 
     max_length: Optional[int]
     """Maximum length of the description"""
 
-    model_id: Optional[Literal["image-descriptor-v1"]]
-
     prompt: Optional[str]
     """Prompt for image description"""
 
+    vector_name: Optional[Literal["image_vector", "multimodal_vector", "text_vector", "keyword_vector"]]
+    """Name of the vector model to use for embedding the text output.
 
-class ImageSettingsDetectFaces(TypedDict, total=False):
+    If vector_name is duplicated, the vector will be overwritten.
+    """
+
+
+class FeatureExtractorsDetectFaces(TypedDict, total=False):
     confidence_threshold: Optional[float]
     """Minimum confidence threshold for detected objects"""
 
-    model_id: Optional[Literal["face-detector-v1"]]
-    """Model ID for face detection"""
+    enabled: bool
+    """Enable face detection"""
 
 
-class ImageSettingsDetectLogos(TypedDict, total=False):
+class FeatureExtractorsDetectLogos(TypedDict, total=False):
     confidence_threshold: Optional[float]
     """Minimum confidence threshold for detected logos"""
 
-    model_id: Optional[Literal["logo-detector-v1"]]
-    """Model ID for logo detection"""
+    enabled: bool
+    """Enable logo detection"""
 
 
-class ImageSettingsDetect(TypedDict, total=False):
-    faces: Optional[ImageSettingsDetectFaces]
+class FeatureExtractorsDetect(TypedDict, total=False):
+    faces: Optional[FeatureExtractorsDetectFaces]
     """Settings for face detection"""
 
-    logos: Optional[ImageSettingsDetectLogos]
+    logos: Optional[FeatureExtractorsDetectLogos]
     """Settings for logo detection"""
 
 
-class ImageSettingsEmbed(TypedDict, total=False):
-    model_id: Optional[Literal["multimodal-v1"]]
+class FeatureExtractorsEmbed(TypedDict, total=False):
+    type: Required[Literal["url", "text", "file", "base64"]]
+    """Type of input to embed"""
+
+    vector_name: Required[Literal["image_vector", "multimodal_vector", "text_vector", "keyword_vector"]]
+    """Name of the vector model to use for embedding"""
+
+    field_name: Optional[str]
+
+    value: Optional[str]
+    """The input content to embed.
+
+    Could be a URL, text content, file path, or base64 encoded string
+    """
 
 
-class ImageSettingsJsonOutput(TypedDict, total=False):
+class FeatureExtractorsJsonOutput(TypedDict, total=False):
     prompt: Optional[str]
 
     response_shape: Optional[object]
 
 
-class ImageSettingsRead(TypedDict, total=False):
+class FeatureExtractorsRead(TypedDict, total=False):
+    enabled: bool
+    """Enable image reading"""
+
     json_output: object
     """JSON format for the response"""
-
-    model_id: Optional[Literal["image-descriptor-v1"]]
 
     prompt: Optional[str]
     """Prompt for reading on-screen text"""
 
+    vector_name: Optional[Literal["image_vector", "multimodal_vector", "text_vector", "keyword_vector"]]
+    """Name of the vector model to use for embedding the text output.
 
-class ImageSettings(TypedDict, total=False):
-    describe: Optional[ImageSettingsDescribe]
+    If vector_name is duplicated, the vector will be overwritten.
+    """
+
+
+class FeatureExtractors(TypedDict, total=False):
+    describe: Optional[FeatureExtractorsDescribe]
     """Settings for generating image descriptions."""
 
-    detect: Optional[ImageSettingsDetect]
+    detect: Optional[FeatureExtractorsDetect]
     """Settings for object detection in images."""
 
-    embed: Optional[ImageSettingsEmbed]
-    """Settings for generating image embeddings."""
+    embed: Iterable[FeatureExtractorsEmbed]
+    """List of embedding settings for generating multiple embeddings.
 
-    json_output: Optional[ImageSettingsJsonOutput]
+    For now, if url is provided, value must be None.
+    """
+
+    json_output: Optional[FeatureExtractorsJsonOutput]
     """Settings for structured JSON output of image analysis."""
 
-    read: Optional[ImageSettingsRead]
+    read: Optional[FeatureExtractorsRead]
     """Settings for reading and analyzing image content."""

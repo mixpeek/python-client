@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Optional
+from typing import Iterable, Optional
 from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
@@ -10,10 +10,9 @@ from .._utils import PropertyInfo
 __all__ = [
     "IndexTextParams",
     "AssetUpdate",
-    "TextSettings",
-    "TextSettingsEmbed",
-    "TextSettingsFulltext",
-    "TextSettingsJsonOutput",
+    "FeatureExtractors",
+    "FeatureExtractorsEmbed",
+    "FeatureExtractorsJsonOutput",
 ]
 
 
@@ -21,11 +20,11 @@ class IndexTextParams(TypedDict, total=False):
     collection_id: Required[str]
     """Unique identifier for the collection where the processed asset will be stored."""
 
-    text: Required[str]
-    """The text to be processed."""
-
     asset_update: Optional[AssetUpdate]
     """Asset update information for existing assets"""
+
+    feature_extractors: Optional[FeatureExtractors]
+    """Settings for text processing."""
 
     metadata: object
     """Additional metadata associated with the file.
@@ -33,11 +32,12 @@ class IndexTextParams(TypedDict, total=False):
     Can include any key-value pairs relevant to the file.
     """
 
-    text_settings: Optional[TextSettings]
-    """Settings for text processing."""
+    x_namespace: Annotated[str, PropertyInfo(alias="X-Namespace")]
+    """Optional namespace for data isolation.
 
-    index_id: Annotated[str, PropertyInfo(alias="index-id")]
-    """filter by organization"""
+    Example: 'netflix_prod' or 'spotify_recs_dev'. To create a namespace, use the
+    /namespaces endpoint.
+    """
 
 
 class AssetUpdate(TypedDict, total=False):
@@ -48,30 +48,35 @@ class AssetUpdate(TypedDict, total=False):
     """Update mode: 'replace' or 'append'"""
 
 
-class TextSettingsEmbed(TypedDict, total=False):
-    model_id: Optional[Literal["multimodal-v1"]]
+class FeatureExtractorsEmbed(TypedDict, total=False):
+    type: Required[Literal["url", "text", "file", "base64"]]
+    """Type of input to embed"""
+
+    vector_name: Required[Literal["image_vector", "multimodal_vector", "text_vector", "keyword_vector"]]
+    """Name of the vector model to use for embedding"""
+
+    field_name: Optional[str]
+
+    value: Optional[str]
+    """The input content to embed.
+
+    Could be a URL, text content, file path, or base64 encoded string
+    """
 
 
-class TextSettingsFulltext(TypedDict, total=False):
-    model_id: Literal["splade-v3"]
-    """Model ID for fulltext indexing. Only 'splade-v3' is currently supported."""
-
-
-class TextSettingsJsonOutput(TypedDict, total=False):
+class FeatureExtractorsJsonOutput(TypedDict, total=False):
     prompt: Optional[str]
 
     response_shape: Optional[object]
 
 
-class TextSettings(TypedDict, total=False):
-    embed: Optional[TextSettingsEmbed]
-    """Settings for generating text embeddings. Only multimodal-v1 is supported."""
+class FeatureExtractors(TypedDict, total=False):
+    embed: Iterable[FeatureExtractorsEmbed]
+    """List of embedding settings for generating multiple embeddings.
 
-    fulltext: Optional[TextSettingsFulltext]
-    """Field names to be used for fulltext indexing.
-
-    Only one field is supported initially.
+    field_name's provided are how the raw text will be inserted, if not provided,
+    the field_name will be auto-generated.
     """
 
-    json_output: Optional[TextSettingsJsonOutput]
+    json_output: Optional[FeatureExtractorsJsonOutput]
     """Settings for structured JSON output of text analysis."""

@@ -5,7 +5,6 @@ from __future__ import annotations
 import httpx
 
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from .._utils import strip_not_given
 from .._compat import cached_property
 from .._resource import SyncAPIResource, AsyncAPIResource
 from .._response import (
@@ -44,7 +43,6 @@ class TasksResource(SyncAPIResource):
         self,
         task_id: str,
         *,
-        index_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -56,8 +54,6 @@ class TasksResource(SyncAPIResource):
         Get Task
 
         Args:
-          index_id: filter by organization
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -68,7 +64,6 @@ class TasksResource(SyncAPIResource):
         """
         if not task_id:
             raise ValueError(f"Expected a non-empty value for `task_id` but received {task_id!r}")
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
         return self._get(
             f"/tasks/{task_id}",
             options=make_request_options(
@@ -81,7 +76,6 @@ class TasksResource(SyncAPIResource):
         self,
         task_id: str,
         *,
-        index_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -93,8 +87,6 @@ class TasksResource(SyncAPIResource):
         Kill Task
 
         Args:
-          index_id: filter by organization
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -105,7 +97,6 @@ class TasksResource(SyncAPIResource):
         """
         if not task_id:
             raise ValueError(f"Expected a non-empty value for `task_id` but received {task_id!r}")
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
         return self._delete(
             f"/tasks/{task_id}",
             options=make_request_options(
@@ -139,7 +130,6 @@ class AsyncTasksResource(AsyncAPIResource):
         self,
         task_id: str,
         *,
-        index_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -151,8 +141,6 @@ class AsyncTasksResource(AsyncAPIResource):
         Get Task
 
         Args:
-          index_id: filter by organization
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -163,7 +151,6 @@ class AsyncTasksResource(AsyncAPIResource):
         """
         if not task_id:
             raise ValueError(f"Expected a non-empty value for `task_id` but received {task_id!r}")
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
         return await self._get(
             f"/tasks/{task_id}",
             options=make_request_options(
@@ -176,7 +163,6 @@ class AsyncTasksResource(AsyncAPIResource):
         self,
         task_id: str,
         *,
-        index_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -188,8 +174,6 @@ class AsyncTasksResource(AsyncAPIResource):
         Kill Task
 
         Args:
-          index_id: filter by organization
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -200,7 +184,6 @@ class AsyncTasksResource(AsyncAPIResource):
         """
         if not task_id:
             raise ValueError(f"Expected a non-empty value for `task_id` but received {task_id!r}")
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
         return await self._delete(
             f"/tasks/{task_id}",
             options=make_request_options(
