@@ -5,7 +5,11 @@ from __future__ import annotations
 import httpx
 
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
-from ..._utils import strip_not_given
+from ..._utils import (
+    maybe_transform,
+    strip_not_given,
+    async_maybe_transform,
+)
 from ..._compat import cached_property
 from ..._resource import SyncAPIResource, AsyncAPIResource
 from ..._response import (
@@ -15,6 +19,7 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
+from ...types.assets import feature_list_params
 from ...types.grouped_asset_data import GroupedAssetData
 
 __all__ = ["FeaturesResource", "AsyncFeaturesResource"]
@@ -44,6 +49,7 @@ class FeaturesResource(SyncAPIResource):
         self,
         asset_id: str,
         *,
+        return_url: bool | NotGiven = NOT_GIVEN,
         x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -56,6 +62,11 @@ class FeaturesResource(SyncAPIResource):
         Get asset details including all related features
 
         Args:
+          asset_id: Unique identifier of the asset
+
+          return_url: Whether to generate and return presigned S3 URLs for the asset and preview. Set
+              to false to improve performance when URLs aren't needed
+
           x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
               'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
@@ -73,7 +84,11 @@ class FeaturesResource(SyncAPIResource):
         return self._get(
             f"/assets/{asset_id}/features",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"return_url": return_url}, feature_list_params.FeatureListParams),
             ),
             cast_to=GroupedAssetData,
         )
@@ -103,6 +118,7 @@ class AsyncFeaturesResource(AsyncAPIResource):
         self,
         asset_id: str,
         *,
+        return_url: bool | NotGiven = NOT_GIVEN,
         x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -115,6 +131,11 @@ class AsyncFeaturesResource(AsyncAPIResource):
         Get asset details including all related features
 
         Args:
+          asset_id: Unique identifier of the asset
+
+          return_url: Whether to generate and return presigned S3 URLs for the asset and preview. Set
+              to false to improve performance when URLs aren't needed
+
           x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
               'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
@@ -132,7 +153,11 @@ class AsyncFeaturesResource(AsyncAPIResource):
         return await self._get(
             f"/assets/{asset_id}/features",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform({"return_url": return_url}, feature_list_params.FeatureListParams),
             ),
             cast_to=GroupedAssetData,
         )

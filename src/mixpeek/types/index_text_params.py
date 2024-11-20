@@ -52,10 +52,14 @@ class FeatureExtractorsEmbed(TypedDict, total=False):
     type: Required[Literal["url", "text", "file", "base64"]]
     """Type of input to embed"""
 
-    vector_name: Required[Literal["image_vector", "multimodal_vector", "text_vector", "keyword_vector"]]
-    """Name of the vector model to use for embedding"""
+    vector_index: Required[Literal["image_vector", "multimodal_vector", "text_vector", "keyword_vector"]]
+    """Name of the vector index to use for embedding"""
 
     field_name: Optional[str]
+    """
+    Field name to insert into the database, if not provided, the embedding will be
+    inserted into the default field
+    """
 
     value: Optional[str]
     """The input content to embed.

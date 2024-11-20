@@ -6,7 +6,12 @@ from typing import Any, List, Iterable, Optional, cast
 
 import httpx
 
-from ...types import asset_create_params, asset_search_params, asset_update_params
+from ...types import (
+    asset_create_params,
+    asset_search_params,
+    asset_update_params,
+    asset_retrieve_params,
+)
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from ..._utils import (
     maybe_transform,
@@ -136,6 +141,7 @@ class AssetsResource(SyncAPIResource):
         self,
         asset_id: str,
         *,
+        return_url: bool | NotGiven = NOT_GIVEN,
         x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -148,6 +154,11 @@ class AssetsResource(SyncAPIResource):
         Get basic asset details
 
         Args:
+          asset_id: Unique identifier of the asset
+
+          return_url: Whether to generate and return presigned S3 URLs for the asset and preview. Set
+              to false to improve performance when URLs aren't needed
+
           x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
               'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
@@ -165,7 +176,11 @@ class AssetsResource(SyncAPIResource):
         return self._get(
             f"/assets/{asset_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"return_url": return_url}, asset_retrieve_params.AssetRetrieveParams),
             ),
             cast_to=AssetResponse,
         )
@@ -426,6 +441,7 @@ class AsyncAssetsResource(AsyncAPIResource):
         self,
         asset_id: str,
         *,
+        return_url: bool | NotGiven = NOT_GIVEN,
         x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -438,6 +454,11 @@ class AsyncAssetsResource(AsyncAPIResource):
         Get basic asset details
 
         Args:
+          asset_id: Unique identifier of the asset
+
+          return_url: Whether to generate and return presigned S3 URLs for the asset and preview. Set
+              to false to improve performance when URLs aren't needed
+
           x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
               'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
@@ -455,7 +476,13 @@ class AsyncAssetsResource(AsyncAPIResource):
         return await self._get(
             f"/assets/{asset_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {"return_url": return_url}, asset_retrieve_params.AssetRetrieveParams
+                ),
             ),
             cast_to=AssetResponse,
         )
