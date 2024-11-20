@@ -103,7 +103,7 @@ from mixpeek.types import (
 Methods:
 
 - <code title="post /assets">client.assets.<a href="./src/mixpeek/resources/assets/assets.py">create</a>(\*\*<a href="src/mixpeek/types/asset_create_params.py">params</a>) -> <a href="./src/mixpeek/types/asset_create_response.py">AssetCreateResponse</a></code>
-- <code title="get /assets/{asset_id}">client.assets.<a href="./src/mixpeek/resources/assets/assets.py">retrieve</a>(asset_id) -> <a href="./src/mixpeek/types/asset_response.py">AssetResponse</a></code>
+- <code title="get /assets/{asset_id}">client.assets.<a href="./src/mixpeek/resources/assets/assets.py">retrieve</a>(asset_id, \*\*<a href="src/mixpeek/types/asset_retrieve_params.py">params</a>) -> <a href="./src/mixpeek/types/asset_response.py">AssetResponse</a></code>
 - <code title="patch /assets/{asset_id}">client.assets.<a href="./src/mixpeek/resources/assets/assets.py">update</a>(asset_id, \*\*<a href="src/mixpeek/types/asset_update_params.py">params</a>) -> <a href="./src/mixpeek/types/asset_update_response.py">AssetUpdateResponse</a></code>
 - <code title="delete /assets/{asset_id}">client.assets.<a href="./src/mixpeek/resources/assets/assets.py">delete</a>(asset_id) -> <a href="./src/mixpeek/types/asset_delete_response.py">object</a></code>
 - <code title="post /assets/search">client.assets.<a href="./src/mixpeek/resources/assets/assets.py">search</a>(\*\*<a href="src/mixpeek/types/asset_search_params.py">params</a>) -> <a href="./src/mixpeek/types/asset_search_response.py">AssetSearchResponse</a></code>
@@ -112,7 +112,7 @@ Methods:
 
 Methods:
 
-- <code title="get /assets/{asset_id}/features">client.assets.features.<a href="./src/mixpeek/resources/assets/features.py">list</a>(asset_id) -> <a href="./src/mixpeek/types/grouped_asset_data.py">GroupedAssetData</a></code>
+- <code title="get /assets/{asset_id}/features">client.assets.features.<a href="./src/mixpeek/resources/assets/features.py">list</a>(asset_id, \*\*<a href="src/mixpeek/types/assets/feature_list_params.py">params</a>) -> <a href="./src/mixpeek/types/grouped_asset_data.py">GroupedAssetData</a></code>
 
 # Collections
 
