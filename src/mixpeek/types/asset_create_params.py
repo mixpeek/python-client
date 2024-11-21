@@ -75,27 +75,40 @@ __all__ = [
     "FiltersOrLogicalOperatorInputNorLogicalOperatorInputNor",
     "FiltersOrLogicalOperatorInputNorLogicalOperatorInputOr",
     "FiltersOrLogicalOperatorInputOr",
+    "GroupBy",
 ]
 
 
 class AssetCreateParams(TypedDict, total=False):
     collection_ids: Required[List[str]]
-    """Collection IDs to filter features"""
+    """List of Collection IDs to search within, required"""
 
     page: Optional[int]
 
     page_size: int
 
     filters: Optional[Filters]
-    """Complex nested query filters"""
+    """Used for filtering across all indexes"""
 
-    select: Optional[Iterable[object]]
-    """List of fields to return in results, supports dot notation."""
+    group_by: Optional[GroupBy]
+    """Grouping options for search results"""
+
+    return_url: Optional[bool]
+    """
+    Return the presigned URL for the asset and preview asset, this will introduce
+    additional latency
+    """
+
+    select: Optional[List[str]]
+    """List of fields to return in results, supports dot notation.
+
+    If None, all fields are returned.
+    """
 
     sort: Optional[SortOption]
     """List of fields to sort by, with direction (asc or desc).
 
-    NOTE: fields will require a specialty index to use this, consult with the team
+    Supports dot notation for nested fields.
     """
 
     x_namespace: Annotated[str, PropertyInfo(alias="X-Namespace")]
@@ -534,3 +547,19 @@ class Filters(TypedDict, total=False):
     nor: Annotated[Optional[Iterable[FiltersNor]], PropertyInfo(alias="NOR")]
 
     or_: Annotated[Optional[Iterable[FiltersOr]], PropertyInfo(alias="OR")]
+
+
+class GroupBy(TypedDict, total=False):
+    field: Optional[str]
+    """Field to group by
+
+            Note: We currently do not support ad-hoc grouping.
+            This means the field must be indexed separately.
+            Please contact us to add additional fields for grouping.
+    """
+
+    max_assets: Optional[int]
+    """Maximum number of assets to group"""
+
+    sort: Optional[SortOption]
+    """Sort options for ordering the inside of the groups"""

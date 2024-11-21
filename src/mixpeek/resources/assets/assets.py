@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, List, Iterable, Optional, cast
+from typing import Any, List, Optional, cast
 
 import httpx
 
@@ -36,7 +36,6 @@ from ..._response import (
 )
 from ..._base_client import make_request_options
 from ...types.asset_response import AssetResponse
-from ...types.asset_create_response import AssetCreateResponse
 from ...types.asset_search_response import AssetSearchResponse
 from ...types.asset_update_response import AssetUpdateResponse
 from ...types.shared_params.sort_option import SortOption
@@ -75,7 +74,9 @@ class AssetsResource(SyncAPIResource):
         page: Optional[int] | NotGiven = NOT_GIVEN,
         page_size: int | NotGiven = NOT_GIVEN,
         filters: Optional[asset_create_params.Filters] | NotGiven = NOT_GIVEN,
-        select: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
+        group_by: Optional[asset_create_params.GroupBy] | NotGiven = NOT_GIVEN,
+        return_url: Optional[bool] | NotGiven = NOT_GIVEN,
+        select: Optional[List[str]] | NotGiven = NOT_GIVEN,
         sort: Optional[SortOption] | NotGiven = NOT_GIVEN,
         x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -84,19 +85,25 @@ class AssetsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AssetCreateResponse:
+    ) -> object:
         """
         List Assets
 
         Args:
-          collection_ids: Collection IDs to filter features
+          collection_ids: List of Collection IDs to search within, required
 
-          filters: Complex nested query filters
+          filters: Used for filtering across all indexes
 
-          select: List of fields to return in results, supports dot notation.
+          group_by: Grouping options for search results
 
-          sort: List of fields to sort by, with direction (asc or desc). NOTE: fields will
-              require a specialty index to use this, consult with the team
+          return_url: Return the presigned URL for the asset and preview asset, this will introduce
+              additional latency
+
+          select: List of fields to return in results, supports dot notation. If None, all fields
+              are returned.
+
+          sort: List of fields to sort by, with direction (asc or desc). Supports dot notation
+              for nested fields.
 
           x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
               'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
@@ -116,6 +123,8 @@ class AssetsResource(SyncAPIResource):
                 {
                     "collection_ids": collection_ids,
                     "filters": filters,
+                    "group_by": group_by,
+                    "return_url": return_url,
                     "select": select,
                     "sort": sort,
                 },
@@ -134,7 +143,7 @@ class AssetsResource(SyncAPIResource):
                     asset_create_params.AssetCreateParams,
                 ),
             ),
-            cast_to=AssetCreateResponse,
+            cast_to=object,
         )
 
     def retrieve(
@@ -375,7 +384,9 @@ class AsyncAssetsResource(AsyncAPIResource):
         page: Optional[int] | NotGiven = NOT_GIVEN,
         page_size: int | NotGiven = NOT_GIVEN,
         filters: Optional[asset_create_params.Filters] | NotGiven = NOT_GIVEN,
-        select: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
+        group_by: Optional[asset_create_params.GroupBy] | NotGiven = NOT_GIVEN,
+        return_url: Optional[bool] | NotGiven = NOT_GIVEN,
+        select: Optional[List[str]] | NotGiven = NOT_GIVEN,
         sort: Optional[SortOption] | NotGiven = NOT_GIVEN,
         x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
@@ -384,19 +395,25 @@ class AsyncAssetsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AssetCreateResponse:
+    ) -> object:
         """
         List Assets
 
         Args:
-          collection_ids: Collection IDs to filter features
+          collection_ids: List of Collection IDs to search within, required
 
-          filters: Complex nested query filters
+          filters: Used for filtering across all indexes
 
-          select: List of fields to return in results, supports dot notation.
+          group_by: Grouping options for search results
 
-          sort: List of fields to sort by, with direction (asc or desc). NOTE: fields will
-              require a specialty index to use this, consult with the team
+          return_url: Return the presigned URL for the asset and preview asset, this will introduce
+              additional latency
+
+          select: List of fields to return in results, supports dot notation. If None, all fields
+              are returned.
+
+          sort: List of fields to sort by, with direction (asc or desc). Supports dot notation
+              for nested fields.
 
           x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
               'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
@@ -416,6 +433,8 @@ class AsyncAssetsResource(AsyncAPIResource):
                 {
                     "collection_ids": collection_ids,
                     "filters": filters,
+                    "group_by": group_by,
+                    "return_url": return_url,
                     "select": select,
                     "sort": sort,
                 },
@@ -434,7 +453,7 @@ class AsyncAssetsResource(AsyncAPIResource):
                     asset_create_params.AssetCreateParams,
                 ),
             ),
-            cast_to=AssetCreateResponse,
+            cast_to=object,
         )
 
     async def retrieve(
