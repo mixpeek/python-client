@@ -19,7 +19,6 @@ from .asset_update_params import AssetUpdateParams as AssetUpdateParams
 from .feature_list_params import FeatureListParams as FeatureListParams
 from .index_text_response import IndexTextResponse as IndexTextResponse
 from .account_update_params import AccountUpdateParams as AccountUpdateParams
-from .asset_create_response import AssetCreateResponse as AssetCreateResponse
 from .asset_retrieve_params import AssetRetrieveParams as AssetRetrieveParams
 from .asset_search_response import AssetSearchResponse as AssetSearchResponse
 from .asset_update_response import AssetUpdateResponse as AssetUpdateResponse
