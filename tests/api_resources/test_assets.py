@@ -11,7 +11,6 @@ from mixpeek import Mixpeek, AsyncMixpeek
 from tests.utils import assert_matches_type
 from mixpeek.types import (
     AssetResponse,
-    AssetCreateResponse,
     AssetSearchResponse,
     AssetUpdateResponse,
 )
@@ -25,14 +24,14 @@ class TestAssets:
     @parametrize
     def test_method_create(self, client: Mixpeek) -> None:
         asset = client.assets.create(
-            collection_ids=["string"],
+            collection_ids=["collection1", "collection2"],
         )
-        assert_matches_type(AssetCreateResponse, asset, path=["response"])
+        assert_matches_type(object, asset, path=["response"])
 
     @parametrize
     def test_method_create_with_all_params(self, client: Mixpeek) -> None:
         asset = client.assets.create(
-            collection_ids=["string"],
+            collection_ids=["collection1", "collection2"],
             page=0,
             page_size=0,
             filters={
@@ -93,6 +92,45 @@ class TestAssets:
                         ],
                         "or": [
                             {
+                                "key": "personal.age",
+                                "operator": "eq",
+                                "value": 30,
+                            },
+                            {
+                                "key": "work.experience",
+                                "operator": "eq",
+                                "value": 5,
+                            },
+                        ],
+                    },
+                    {
+                        "key": "skills.programming",
+                        "operator": "eq",
+                        "value": ["python", "mongodb"],
+                    },
+                    {
+                        "and": [
+                            {
+                                "key": "key",
+                                "operator": "eq",
+                                "value": {},
+                            }
+                        ],
+                        "case_sensitive": True,
+                        "nor": [
+                            {
+                                "key": "status",
+                                "operator": "eq",
+                                "value": "inactive",
+                            },
+                            {
+                                "key": "department",
+                                "operator": "eq",
+                                "value": "HR",
+                            },
+                        ],
+                        "or": [
+                            {
                                 "and": [
                                     {
                                         "key": "key",
@@ -136,7 +174,17 @@ class TestAssets:
                                 ],
                             }
                         ],
-                    }
+                    },
+                    {
+                        "key": "salary",
+                        "operator": "eq",
+                        "value": 100000,
+                    },
+                    {
+                        "key": "certifications",
+                        "operator": "eq",
+                        "value": True,
+                    },
                 ],
                 "case_sensitive": True,
                 "nor": [
@@ -344,36 +392,45 @@ class TestAssets:
                     }
                 ],
             },
-            select=[{}],
+            group_by={
+                "field": "asset_id",
+                "max_assets": 10,
+                "sort": {
+                    "direction": "asc",
+                    "field": "metadata.field_name",
+                },
+            },
+            return_url=True,
+            select=["title", "content", "metadata.author", "metadata.publication_date"],
             sort={
                 "direction": "asc",
-                "field": "score",
+                "field": "relevance",
             },
             x_namespace="X-Namespace",
         )
-        assert_matches_type(AssetCreateResponse, asset, path=["response"])
+        assert_matches_type(object, asset, path=["response"])
 
     @parametrize
     def test_raw_response_create(self, client: Mixpeek) -> None:
         response = client.assets.with_raw_response.create(
-            collection_ids=["string"],
+            collection_ids=["collection1", "collection2"],
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         asset = response.parse()
-        assert_matches_type(AssetCreateResponse, asset, path=["response"])
+        assert_matches_type(object, asset, path=["response"])
 
     @parametrize
     def test_streaming_response_create(self, client: Mixpeek) -> None:
         with client.assets.with_streaming_response.create(
-            collection_ids=["string"],
+            collection_ids=["collection1", "collection2"],
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             asset = response.parse()
-            assert_matches_type(AssetCreateResponse, asset, path=["response"])
+            assert_matches_type(object, asset, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -882,14 +939,14 @@ class TestAsyncAssets:
     @parametrize
     async def test_method_create(self, async_client: AsyncMixpeek) -> None:
         asset = await async_client.assets.create(
-            collection_ids=["string"],
+            collection_ids=["collection1", "collection2"],
         )
-        assert_matches_type(AssetCreateResponse, asset, path=["response"])
+        assert_matches_type(object, asset, path=["response"])
 
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncMixpeek) -> None:
         asset = await async_client.assets.create(
-            collection_ids=["string"],
+            collection_ids=["collection1", "collection2"],
             page=0,
             page_size=0,
             filters={
@@ -950,6 +1007,45 @@ class TestAsyncAssets:
                         ],
                         "or": [
                             {
+                                "key": "personal.age",
+                                "operator": "eq",
+                                "value": 30,
+                            },
+                            {
+                                "key": "work.experience",
+                                "operator": "eq",
+                                "value": 5,
+                            },
+                        ],
+                    },
+                    {
+                        "key": "skills.programming",
+                        "operator": "eq",
+                        "value": ["python", "mongodb"],
+                    },
+                    {
+                        "and": [
+                            {
+                                "key": "key",
+                                "operator": "eq",
+                                "value": {},
+                            }
+                        ],
+                        "case_sensitive": True,
+                        "nor": [
+                            {
+                                "key": "status",
+                                "operator": "eq",
+                                "value": "inactive",
+                            },
+                            {
+                                "key": "department",
+                                "operator": "eq",
+                                "value": "HR",
+                            },
+                        ],
+                        "or": [
+                            {
                                 "and": [
                                     {
                                         "key": "key",
@@ -993,7 +1089,17 @@ class TestAsyncAssets:
                                 ],
                             }
                         ],
-                    }
+                    },
+                    {
+                        "key": "salary",
+                        "operator": "eq",
+                        "value": 100000,
+                    },
+                    {
+                        "key": "certifications",
+                        "operator": "eq",
+                        "value": True,
+                    },
                 ],
                 "case_sensitive": True,
                 "nor": [
@@ -1201,36 +1307,45 @@ class TestAsyncAssets:
                     }
                 ],
             },
-            select=[{}],
+            group_by={
+                "field": "asset_id",
+                "max_assets": 10,
+                "sort": {
+                    "direction": "asc",
+                    "field": "metadata.field_name",
+                },
+            },
+            return_url=True,
+            select=["title", "content", "metadata.author", "metadata.publication_date"],
             sort={
                 "direction": "asc",
-                "field": "score",
+                "field": "relevance",
             },
             x_namespace="X-Namespace",
         )
-        assert_matches_type(AssetCreateResponse, asset, path=["response"])
+        assert_matches_type(object, asset, path=["response"])
 
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncMixpeek) -> None:
         response = await async_client.assets.with_raw_response.create(
-            collection_ids=["string"],
+            collection_ids=["collection1", "collection2"],
         )
 
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         asset = await response.parse()
-        assert_matches_type(AssetCreateResponse, asset, path=["response"])
+        assert_matches_type(object, asset, path=["response"])
 
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncMixpeek) -> None:
         async with async_client.assets.with_streaming_response.create(
-            collection_ids=["string"],
+            collection_ids=["collection1", "collection2"],
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             asset = await response.parse()
-            assert_matches_type(AssetCreateResponse, asset, path=["response"])
+            assert_matches_type(object, asset, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
