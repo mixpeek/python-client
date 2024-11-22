@@ -106,7 +106,7 @@ class Namespace(BaseModel):
 
     payload_indexes: Optional[Dict[str, NamespacePayloadIndexes]] = None
 
-    vectors_indexes: List[str]
+    vector_indexes: List[str]
 
 
 class User(BaseModel):

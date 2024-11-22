@@ -40,7 +40,7 @@ class TestImages:
                     "json_output": {},
                     "max_length": 1000,
                     "prompt": "prompt",
-                    "vector_index": "image_vector",
+                    "vector_index": "image",
                 },
                 "detect": {
                     "faces": {
@@ -55,19 +55,19 @@ class TestImages:
                 "embed": [
                     {
                         "type": "url",
-                        "vector_index": "image_vector",
+                        "vector_index": "image",
                         "field_name": "description",
                         "value": "https://example.com/image.jpg",
                     },
                     {
                         "type": "url",
-                        "vector_index": "image_vector",
+                        "vector_index": "image",
                         "field_name": "description",
                         "value": "lorem ipsum",
                     },
                     {
                         "type": "url",
-                        "vector_index": "image_vector",
+                        "vector_index": "image",
                         "field_name": "description",
                         "value": "Thing #1",
                     },
@@ -83,7 +83,7 @@ class TestImages:
                     "enabled": True,
                     "json_output": {},
                     "prompt": "prompt",
-                    "vector_index": "image_vector",
+                    "vector_index": "image",
                 },
             },
             metadata={
@@ -148,7 +148,7 @@ class TestAsyncImages:
                     "json_output": {},
                     "max_length": 1000,
                     "prompt": "prompt",
-                    "vector_index": "image_vector",
+                    "vector_index": "image",
                 },
                 "detect": {
                     "faces": {
@@ -163,19 +163,19 @@ class TestAsyncImages:
                 "embed": [
                     {
                         "type": "url",
-                        "vector_index": "image_vector",
+                        "vector_index": "image",
                         "field_name": "description",
                         "value": "https://example.com/image.jpg",
                     },
                     {
                         "type": "url",
-                        "vector_index": "image_vector",
+                        "vector_index": "image",
                         "field_name": "description",
                         "value": "lorem ipsum",
                     },
                     {
                         "type": "url",
-                        "vector_index": "image_vector",
+                        "vector_index": "image",
                         "field_name": "description",
                         "value": "Thing #1",
                     },
@@ -191,7 +191,7 @@ class TestAsyncImages:
                     "enabled": True,
                     "json_output": {},
                     "prompt": "prompt",
-                    "vector_index": "image_vector",
+                    "vector_index": "image",
                 },
             },
             metadata={
