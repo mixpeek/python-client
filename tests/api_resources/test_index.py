@@ -36,13 +36,13 @@ class TestIndex:
                 "embed": [
                     {
                         "type": "url",
-                        "vector_index": "image_vector",
+                        "vector_index": "image",
                         "field_name": "description",
                         "value": "lorem ipsum",
                     },
                     {
                         "type": "url",
-                        "vector_index": "image_vector",
+                        "vector_index": "image",
                         "field_name": "title",
                         "value": "Thing #1",
                     },
@@ -111,13 +111,13 @@ class TestAsyncIndex:
                 "embed": [
                     {
                         "type": "url",
-                        "vector_index": "image_vector",
+                        "vector_index": "image",
                         "field_name": "description",
                         "value": "lorem ipsum",
                     },
                     {
                         "type": "url",
-                        "vector_index": "image_vector",
+                        "vector_index": "image",
                         "field_name": "title",
                         "value": "Thing #1",
                     },
