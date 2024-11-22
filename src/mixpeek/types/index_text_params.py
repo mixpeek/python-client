@@ -52,7 +52,7 @@ class FeatureExtractorsEmbed(TypedDict, total=False):
     type: Required[Literal["url", "text", "file", "base64"]]
     """Type of input to embed"""
 
-    vector_index: Required[Literal["image_vector", "multimodal_vector", "text_vector", "keyword_vector"]]
+    vector_index: Required[Literal["image", "multimodal", "text", "keyword"]]
     """Name of the vector index to use for embedding"""
 
     field_name: Optional[str]

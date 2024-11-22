@@ -41,7 +41,7 @@ class TestVideos:
                         "json_output": {},
                         "max_length": 0,
                         "prompt": "prompt",
-                        "vector_index": "image_vector",
+                        "vector_index": "image",
                     },
                     "detect": {
                         "faces": {
@@ -56,19 +56,19 @@ class TestVideos:
                     "embed": [
                         {
                             "type": "url",
-                            "vector_index": "image_vector",
+                            "vector_index": "image",
                             "field_name": "description",
                             "value": "https://example.com/image.jpg",
                         },
                         {
                             "type": "url",
-                            "vector_index": "image_vector",
+                            "vector_index": "image",
                             "field_name": "description",
                             "value": "lorem ipsum",
                         },
                         {
                             "type": "url",
-                            "vector_index": "image_vector",
+                            "vector_index": "image",
                             "field_name": "description",
                             "value": "Thing #1",
                         },
@@ -85,13 +85,13 @@ class TestVideos:
                         "enabled": True,
                         "json_output": {},
                         "prompt": "prompt",
-                        "vector_index": "image_vector",
+                        "vector_index": "image",
                     },
                     "transcribe": {
                         "enabled": True,
                         "json_output": {},
                         "prompt": "prompt",
-                        "vector_index": "image_vector",
+                        "vector_index": "image",
                     },
                 }
             ],
@@ -158,7 +158,7 @@ class TestAsyncVideos:
                         "json_output": {},
                         "max_length": 0,
                         "prompt": "prompt",
-                        "vector_index": "image_vector",
+                        "vector_index": "image",
                     },
                     "detect": {
                         "faces": {
@@ -173,19 +173,19 @@ class TestAsyncVideos:
                     "embed": [
                         {
                             "type": "url",
-                            "vector_index": "image_vector",
+                            "vector_index": "image",
                             "field_name": "description",
                             "value": "https://example.com/image.jpg",
                         },
                         {
                             "type": "url",
-                            "vector_index": "image_vector",
+                            "vector_index": "image",
                             "field_name": "description",
                             "value": "lorem ipsum",
                         },
                         {
                             "type": "url",
-                            "vector_index": "image_vector",
+                            "vector_index": "image",
                             "field_name": "description",
                             "value": "Thing #1",
                         },
@@ -202,13 +202,13 @@ class TestAsyncVideos:
                         "enabled": True,
                         "json_output": {},
                         "prompt": "prompt",
-                        "vector_index": "image_vector",
+                        "vector_index": "image",
                     },
                     "transcribe": {
                         "enabled": True,
                         "json_output": {},
                         "prompt": "prompt",
-                        "vector_index": "image_vector",
+                        "vector_index": "image",
                     },
                 }
             ],

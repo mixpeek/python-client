@@ -73,7 +73,7 @@ class FeatureExtractorDescribe(TypedDict, total=False):
     prompt: Optional[str]
     """Prompt for video description"""
 
-    vector_index: Optional[Literal["image_vector", "multimodal_vector", "text_vector", "keyword_vector"]]
+    vector_index: Optional[Literal["image", "multimodal", "text", "keyword"]]
     """Name of the vector model to use for embedding the text output.
 
     If vector_index is duplicated, the vector will be overwritten.
@@ -108,7 +108,7 @@ class FeatureExtractorEmbed(TypedDict, total=False):
     type: Required[Literal["url", "text", "file", "base64"]]
     """Type of input to embed"""
 
-    vector_index: Required[Literal["image_vector", "multimodal_vector", "text_vector", "keyword_vector"]]
+    vector_index: Required[Literal["image", "multimodal", "text", "keyword"]]
     """Name of the vector index to use for embedding"""
 
     field_name: Optional[str]
@@ -140,7 +140,7 @@ class FeatureExtractorRead(TypedDict, total=False):
     prompt: Optional[str]
     """Prompt for reading on-screen text"""
 
-    vector_index: Optional[Literal["image_vector", "multimodal_vector", "text_vector", "keyword_vector"]]
+    vector_index: Optional[Literal["image", "multimodal", "text", "keyword"]]
     """Name of the vector model to use for embedding the text output.
 
     If vector_index is duplicated, the vector will be overwritten.
@@ -156,7 +156,7 @@ class FeatureExtractorTranscribe(TypedDict, total=False):
 
     prompt: Optional[str]
 
-    vector_index: Optional[Literal["image_vector", "multimodal_vector", "text_vector", "keyword_vector"]]
+    vector_index: Optional[Literal["image", "multimodal", "text", "keyword"]]
     """Name of the vector model to use for embedding the text output.
 
     If vector_index is duplicated, the vector will be overwritten.
