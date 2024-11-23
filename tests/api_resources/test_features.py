@@ -134,313 +134,43 @@ class TestFeatures:
             filters={
                 "and": [
                     {
-                        "and": [
-                            {
-                                "key": "key",
-                                "operator": "eq",
-                                "value": {},
-                            }
-                        ],
-                        "case_sensitive": True,
-                        "nor": [
-                            {
-                                "and": [
-                                    {
-                                        "key": "key",
-                                        "operator": "eq",
-                                        "value": {},
-                                    }
-                                ],
-                                "case_sensitive": True,
-                                "nor": [
-                                    {
-                                        "key": "key",
-                                        "operator": "eq",
-                                        "value": {},
-                                    }
-                                ],
-                                "or": [
-                                    {
-                                        "and": [
-                                            {
-                                                "key": "key",
-                                                "operator": "eq",
-                                                "value": {},
-                                            }
-                                        ],
-                                        "case_sensitive": True,
-                                        "nor": [
-                                            {
-                                                "key": "key",
-                                                "operator": "eq",
-                                                "value": {},
-                                            }
-                                        ],
-                                        "or": [
-                                            {
-                                                "key": "key",
-                                                "operator": "eq",
-                                                "value": {},
-                                            }
-                                        ],
-                                    }
-                                ],
-                            }
-                        ],
-                        "or": [
-                            {
-                                "and": [
-                                    {
-                                        "key": "key",
-                                        "operator": "eq",
-                                        "value": {},
-                                    }
-                                ],
-                                "case_sensitive": True,
-                                "nor": [
-                                    {
-                                        "and": [
-                                            {
-                                                "key": "key",
-                                                "operator": "eq",
-                                                "value": {},
-                                            }
-                                        ],
-                                        "case_sensitive": True,
-                                        "nor": [
-                                            {
-                                                "key": "key",
-                                                "operator": "eq",
-                                                "value": {},
-                                            }
-                                        ],
-                                        "or": [
-                                            {
-                                                "key": "key",
-                                                "operator": "eq",
-                                                "value": {},
-                                            }
-                                        ],
-                                    }
-                                ],
-                                "or": [
-                                    {
-                                        "key": "key",
-                                        "operator": "eq",
-                                        "value": {},
-                                    }
-                                ],
-                            }
-                        ],
-                    }
+                        "key": "name",
+                        "operator": "eq",
+                        "value": "John",
+                    },
+                    {
+                        "key": "age",
+                        "operator": "eq",
+                        "value": 30,
+                    },
                 ],
                 "case_sensitive": True,
                 "nor": [
                     {
-                        "and": [
-                            {
-                                "and": [
-                                    {
-                                        "key": "key",
-                                        "operator": "eq",
-                                        "value": {},
-                                    }
-                                ],
-                                "case_sensitive": True,
-                                "nor": [
-                                    {
-                                        "key": "key",
-                                        "operator": "eq",
-                                        "value": {},
-                                    }
-                                ],
-                                "or": [
-                                    {
-                                        "and": [
-                                            {
-                                                "key": "key",
-                                                "operator": "eq",
-                                                "value": {},
-                                            }
-                                        ],
-                                        "case_sensitive": True,
-                                        "nor": [
-                                            {
-                                                "key": "key",
-                                                "operator": "eq",
-                                                "value": {},
-                                            }
-                                        ],
-                                        "or": [
-                                            {
-                                                "key": "key",
-                                                "operator": "eq",
-                                                "value": {},
-                                            }
-                                        ],
-                                    }
-                                ],
-                            }
-                        ],
-                        "case_sensitive": True,
-                        "nor": [
-                            {
-                                "key": "key",
-                                "operator": "eq",
-                                "value": {},
-                            }
-                        ],
-                        "or": [
-                            {
-                                "and": [
-                                    {
-                                        "and": [
-                                            {
-                                                "key": "key",
-                                                "operator": "eq",
-                                                "value": {},
-                                            }
-                                        ],
-                                        "case_sensitive": True,
-                                        "nor": [
-                                            {
-                                                "key": "key",
-                                                "operator": "eq",
-                                                "value": {},
-                                            }
-                                        ],
-                                        "or": [
-                                            {
-                                                "key": "key",
-                                                "operator": "eq",
-                                                "value": {},
-                                            }
-                                        ],
-                                    }
-                                ],
-                                "case_sensitive": True,
-                                "nor": [
-                                    {
-                                        "key": "key",
-                                        "operator": "eq",
-                                        "value": {},
-                                    }
-                                ],
-                                "or": [
-                                    {
-                                        "key": "key",
-                                        "operator": "eq",
-                                        "value": {},
-                                    }
-                                ],
-                            }
-                        ],
-                    }
+                        "key": "department",
+                        "operator": "eq",
+                        "value": "HR",
+                    },
+                    {
+                        "key": "location",
+                        "operator": "eq",
+                        "value": "remote",
+                    },
                 ],
                 "or": [
                     {
-                        "and": [
-                            {
-                                "and": [
-                                    {
-                                        "key": "key",
-                                        "operator": "eq",
-                                        "value": {},
-                                    }
-                                ],
-                                "case_sensitive": True,
-                                "nor": [
-                                    {
-                                        "and": [
-                                            {
-                                                "key": "key",
-                                                "operator": "eq",
-                                                "value": {},
-                                            }
-                                        ],
-                                        "case_sensitive": True,
-                                        "nor": [
-                                            {
-                                                "key": "key",
-                                                "operator": "eq",
-                                                "value": {},
-                                            }
-                                        ],
-                                        "or": [
-                                            {
-                                                "key": "key",
-                                                "operator": "eq",
-                                                "value": {},
-                                            }
-                                        ],
-                                    }
-                                ],
-                                "or": [
-                                    {
-                                        "key": "key",
-                                        "operator": "eq",
-                                        "value": {},
-                                    }
-                                ],
-                            }
-                        ],
-                        "case_sensitive": True,
-                        "nor": [
-                            {
-                                "and": [
-                                    {
-                                        "and": [
-                                            {
-                                                "key": "key",
-                                                "operator": "eq",
-                                                "value": {},
-                                            }
-                                        ],
-                                        "case_sensitive": True,
-                                        "nor": [
-                                            {
-                                                "key": "key",
-                                                "operator": "eq",
-                                                "value": {},
-                                            }
-                                        ],
-                                        "or": [
-                                            {
-                                                "key": "key",
-                                                "operator": "eq",
-                                                "value": {},
-                                            }
-                                        ],
-                                    }
-                                ],
-                                "case_sensitive": True,
-                                "nor": [
-                                    {
-                                        "key": "key",
-                                        "operator": "eq",
-                                        "value": {},
-                                    }
-                                ],
-                                "or": [
-                                    {
-                                        "key": "key",
-                                        "operator": "eq",
-                                        "value": {},
-                                    }
-                                ],
-                            }
-                        ],
-                        "or": [
-                            {
-                                "key": "key",
-                                "operator": "eq",
-                                "value": {},
-                            }
-                        ],
-                    }
+                        "key": "status",
+                        "operator": "eq",
+                        "value": "active",
+                    },
+                    {
+                        "key": "role",
+                        "operator": "eq",
+                        "value": "admin",
+                    },
                 ],
             },
-            select=[{}],
+            select=["metadata.tags"],
             sort={
                 "direction": "asc",
                 "field": "score",
@@ -637,313 +367,43 @@ class TestAsyncFeatures:
             filters={
                 "and": [
                     {
-                        "and": [
-                            {
-                                "key": "key",
-                                "operator": "eq",
-                                "value": {},
-                            }
-                        ],
-                        "case_sensitive": True,
-                        "nor": [
-                            {
-                                "and": [
-                                    {
-                                        "key": "key",
-                                        "operator": "eq",
-                                        "value": {},
-                                    }
-                                ],
-                                "case_sensitive": True,
-                                "nor": [
-                                    {
-                                        "key": "key",
-                                        "operator": "eq",
-                                        "value": {},
-                                    }
-                                ],
-                                "or": [
-                                    {
-                                        "and": [
-                                            {
-                                                "key": "key",
-                                                "operator": "eq",
-                                                "value": {},
-                                            }
-                                        ],
-                                        "case_sensitive": True,
-                                        "nor": [
-                                            {
-                                                "key": "key",
-                                                "operator": "eq",
-                                                "value": {},
-                                            }
-                                        ],
-                                        "or": [
-                                            {
-                                                "key": "key",
-                                                "operator": "eq",
-                                                "value": {},
-                                            }
-                                        ],
-                                    }
-                                ],
-                            }
-                        ],
-                        "or": [
-                            {
-                                "and": [
-                                    {
-                                        "key": "key",
-                                        "operator": "eq",
-                                        "value": {},
-                                    }
-                                ],
-                                "case_sensitive": True,
-                                "nor": [
-                                    {
-                                        "and": [
-                                            {
-                                                "key": "key",
-                                                "operator": "eq",
-                                                "value": {},
-                                            }
-                                        ],
-                                        "case_sensitive": True,
-                                        "nor": [
-                                            {
-                                                "key": "key",
-                                                "operator": "eq",
-                                                "value": {},
-                                            }
-                                        ],
-                                        "or": [
-                                            {
-                                                "key": "key",
-                                                "operator": "eq",
-                                                "value": {},
-                                            }
-                                        ],
-                                    }
-                                ],
-                                "or": [
-                                    {
-                                        "key": "key",
-                                        "operator": "eq",
-                                        "value": {},
-                                    }
-                                ],
-                            }
-                        ],
-                    }
+                        "key": "name",
+                        "operator": "eq",
+                        "value": "John",
+                    },
+                    {
+                        "key": "age",
+                        "operator": "eq",
+                        "value": 30,
+                    },
                 ],
                 "case_sensitive": True,
                 "nor": [
                     {
-                        "and": [
-                            {
-                                "and": [
-                                    {
-                                        "key": "key",
-                                        "operator": "eq",
-                                        "value": {},
-                                    }
-                                ],
-                                "case_sensitive": True,
-                                "nor": [
-                                    {
-                                        "key": "key",
-                                        "operator": "eq",
-                                        "value": {},
-                                    }
-                                ],
-                                "or": [
-                                    {
-                                        "and": [
-                                            {
-                                                "key": "key",
-                                                "operator": "eq",
-                                                "value": {},
-                                            }
-                                        ],
-                                        "case_sensitive": True,
-                                        "nor": [
-                                            {
-                                                "key": "key",
-                                                "operator": "eq",
-                                                "value": {},
-                                            }
-                                        ],
-                                        "or": [
-                                            {
-                                                "key": "key",
-                                                "operator": "eq",
-                                                "value": {},
-                                            }
-                                        ],
-                                    }
-                                ],
-                            }
-                        ],
-                        "case_sensitive": True,
-                        "nor": [
-                            {
-                                "key": "key",
-                                "operator": "eq",
-                                "value": {},
-                            }
-                        ],
-                        "or": [
-                            {
-                                "and": [
-                                    {
-                                        "and": [
-                                            {
-                                                "key": "key",
-                                                "operator": "eq",
-                                                "value": {},
-                                            }
-                                        ],
-                                        "case_sensitive": True,
-                                        "nor": [
-                                            {
-                                                "key": "key",
-                                                "operator": "eq",
-                                                "value": {},
-                                            }
-                                        ],
-                                        "or": [
-                                            {
-                                                "key": "key",
-                                                "operator": "eq",
-                                                "value": {},
-                                            }
-                                        ],
-                                    }
-                                ],
-                                "case_sensitive": True,
-                                "nor": [
-                                    {
-                                        "key": "key",
-                                        "operator": "eq",
-                                        "value": {},
-                                    }
-                                ],
-                                "or": [
-                                    {
-                                        "key": "key",
-                                        "operator": "eq",
-                                        "value": {},
-                                    }
-                                ],
-                            }
-                        ],
-                    }
+                        "key": "department",
+                        "operator": "eq",
+                        "value": "HR",
+                    },
+                    {
+                        "key": "location",
+                        "operator": "eq",
+                        "value": "remote",
+                    },
                 ],
                 "or": [
                     {
-                        "and": [
-                            {
-                                "and": [
-                                    {
-                                        "key": "key",
-                                        "operator": "eq",
-                                        "value": {},
-                                    }
-                                ],
-                                "case_sensitive": True,
-                                "nor": [
-                                    {
-                                        "and": [
-                                            {
-                                                "key": "key",
-                                                "operator": "eq",
-                                                "value": {},
-                                            }
-                                        ],
-                                        "case_sensitive": True,
-                                        "nor": [
-                                            {
-                                                "key": "key",
-                                                "operator": "eq",
-                                                "value": {},
-                                            }
-                                        ],
-                                        "or": [
-                                            {
-                                                "key": "key",
-                                                "operator": "eq",
-                                                "value": {},
-                                            }
-                                        ],
-                                    }
-                                ],
-                                "or": [
-                                    {
-                                        "key": "key",
-                                        "operator": "eq",
-                                        "value": {},
-                                    }
-                                ],
-                            }
-                        ],
-                        "case_sensitive": True,
-                        "nor": [
-                            {
-                                "and": [
-                                    {
-                                        "and": [
-                                            {
-                                                "key": "key",
-                                                "operator": "eq",
-                                                "value": {},
-                                            }
-                                        ],
-                                        "case_sensitive": True,
-                                        "nor": [
-                                            {
-                                                "key": "key",
-                                                "operator": "eq",
-                                                "value": {},
-                                            }
-                                        ],
-                                        "or": [
-                                            {
-                                                "key": "key",
-                                                "operator": "eq",
-                                                "value": {},
-                                            }
-                                        ],
-                                    }
-                                ],
-                                "case_sensitive": True,
-                                "nor": [
-                                    {
-                                        "key": "key",
-                                        "operator": "eq",
-                                        "value": {},
-                                    }
-                                ],
-                                "or": [
-                                    {
-                                        "key": "key",
-                                        "operator": "eq",
-                                        "value": {},
-                                    }
-                                ],
-                            }
-                        ],
-                        "or": [
-                            {
-                                "key": "key",
-                                "operator": "eq",
-                                "value": {},
-                            }
-                        ],
-                    }
+                        "key": "status",
+                        "operator": "eq",
+                        "value": "active",
+                    },
+                    {
+                        "key": "role",
+                        "operator": "eq",
+                        "value": "admin",
+                    },
                 ],
             },
-            select=[{}],
+            select=["metadata.tags"],
             sort={
                 "direction": "asc",
                 "field": "score",
