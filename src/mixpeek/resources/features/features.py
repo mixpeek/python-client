@@ -165,7 +165,8 @@ class FeaturesResource(SyncAPIResource):
 
           filters: Complex nested query filters
 
-          select: List of fields to return in results, supports dot notation.
+          select: List of fields to return in results, supports dot notation. Everything else is
+              excluded.
 
           sort: List of fields to sort by, with direction (asc or desc).
                       NOTE: fields will require a specialty index to use this, consult with the team.
@@ -385,7 +386,8 @@ class AsyncFeaturesResource(AsyncAPIResource):
 
           filters: Complex nested query filters
 
-          select: List of fields to return in results, supports dot notation.
+          select: List of fields to return in results, supports dot notation. Everything else is
+              excluded.
 
           sort: List of fields to sort by, with direction (asc or desc).
                       NOTE: fields will require a specialty index to use this, consult with the team.

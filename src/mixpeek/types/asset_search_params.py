@@ -130,6 +130,7 @@ class FiltersAndLogicalOperatorInputNorLogicalOperatorInputOrLogicalOperatorInpu
         Optional[Iterable[FiltersAndLogicalOperatorInputNorLogicalOperatorInputOrLogicalOperatorInputAnd]],
         PropertyInfo(alias="AND"),
     ]
+    """Logical AND operation"""
 
     case_sensitive: Optional[bool]
     """Whether to perform case-sensitive matching"""
@@ -138,11 +139,13 @@ class FiltersAndLogicalOperatorInputNorLogicalOperatorInputOrLogicalOperatorInpu
         Optional[Iterable[FiltersAndLogicalOperatorInputNorLogicalOperatorInputOrLogicalOperatorInputNor]],
         PropertyInfo(alias="NOR"),
     ]
+    """Logical NOR operation"""
 
     or_: Annotated[
         Optional[Iterable[FiltersAndLogicalOperatorInputNorLogicalOperatorInputOrLogicalOperatorInputOr]],
         PropertyInfo(alias="OR"),
     ]
+    """Logical OR operation"""
 
 
 FiltersAndLogicalOperatorInputNorLogicalOperatorInputOr: TypeAlias = Union[
@@ -154,6 +157,7 @@ class FiltersAndLogicalOperatorInputNorLogicalOperatorInput(TypedDict, total=Fal
     and_: Annotated[
         Optional[Iterable[FiltersAndLogicalOperatorInputNorLogicalOperatorInputAnd]], PropertyInfo(alias="AND")
     ]
+    """Logical AND operation"""
 
     case_sensitive: Optional[bool]
     """Whether to perform case-sensitive matching"""
@@ -161,10 +165,12 @@ class FiltersAndLogicalOperatorInputNorLogicalOperatorInput(TypedDict, total=Fal
     nor: Annotated[
         Optional[Iterable[FiltersAndLogicalOperatorInputNorLogicalOperatorInputNor]], PropertyInfo(alias="NOR")
     ]
+    """Logical NOR operation"""
 
     or_: Annotated[
         Optional[Iterable[FiltersAndLogicalOperatorInputNorLogicalOperatorInputOr]], PropertyInfo(alias="OR")
     ]
+    """Logical OR operation"""
 
 
 FiltersAndLogicalOperatorInputNor: TypeAlias = Union[
@@ -191,6 +197,7 @@ class FiltersAndLogicalOperatorInputOrLogicalOperatorInputNorLogicalOperatorInpu
         Optional[Iterable[FiltersAndLogicalOperatorInputOrLogicalOperatorInputNorLogicalOperatorInputAnd]],
         PropertyInfo(alias="AND"),
     ]
+    """Logical AND operation"""
 
     case_sensitive: Optional[bool]
     """Whether to perform case-sensitive matching"""
@@ -199,11 +206,13 @@ class FiltersAndLogicalOperatorInputOrLogicalOperatorInputNorLogicalOperatorInpu
         Optional[Iterable[FiltersAndLogicalOperatorInputOrLogicalOperatorInputNorLogicalOperatorInputNor]],
         PropertyInfo(alias="NOR"),
     ]
+    """Logical NOR operation"""
 
     or_: Annotated[
         Optional[Iterable[FiltersAndLogicalOperatorInputOrLogicalOperatorInputNorLogicalOperatorInputOr]],
         PropertyInfo(alias="OR"),
     ]
+    """Logical OR operation"""
 
 
 FiltersAndLogicalOperatorInputOrLogicalOperatorInputNor: TypeAlias = Union[
@@ -217,6 +226,7 @@ class FiltersAndLogicalOperatorInputOrLogicalOperatorInput(TypedDict, total=Fals
     and_: Annotated[
         Optional[Iterable[FiltersAndLogicalOperatorInputOrLogicalOperatorInputAnd]], PropertyInfo(alias="AND")
     ]
+    """Logical AND operation"""
 
     case_sensitive: Optional[bool]
     """Whether to perform case-sensitive matching"""
@@ -224,8 +234,10 @@ class FiltersAndLogicalOperatorInputOrLogicalOperatorInput(TypedDict, total=Fals
     nor: Annotated[
         Optional[Iterable[FiltersAndLogicalOperatorInputOrLogicalOperatorInputNor]], PropertyInfo(alias="NOR")
     ]
+    """Logical NOR operation"""
 
     or_: Annotated[Optional[Iterable[FiltersAndLogicalOperatorInputOrLogicalOperatorInputOr]], PropertyInfo(alias="OR")]
+    """Logical OR operation"""
 
 
 FiltersAndLogicalOperatorInputOr: TypeAlias = Union[
@@ -235,13 +247,16 @@ FiltersAndLogicalOperatorInputOr: TypeAlias = Union[
 
 class FiltersAndLogicalOperatorInput(TypedDict, total=False):
     and_: Annotated[Optional[Iterable[FiltersAndLogicalOperatorInputAnd]], PropertyInfo(alias="AND")]
+    """Logical AND operation"""
 
     case_sensitive: Optional[bool]
     """Whether to perform case-sensitive matching"""
 
     nor: Annotated[Optional[Iterable[FiltersAndLogicalOperatorInputNor]], PropertyInfo(alias="NOR")]
+    """Logical NOR operation"""
 
     or_: Annotated[Optional[Iterable[FiltersAndLogicalOperatorInputOr]], PropertyInfo(alias="OR")]
+    """Logical OR operation"""
 
 
 FiltersAnd: TypeAlias = Union[FiltersAndLogicalOperatorInput, FilterCondition]
@@ -268,6 +283,7 @@ class FiltersNorLogicalOperatorInputAndLogicalOperatorInputOrLogicalOperatorInpu
         Optional[Iterable[FiltersNorLogicalOperatorInputAndLogicalOperatorInputOrLogicalOperatorInputAnd]],
         PropertyInfo(alias="AND"),
     ]
+    """Logical AND operation"""
 
     case_sensitive: Optional[bool]
     """Whether to perform case-sensitive matching"""
@@ -276,11 +292,13 @@ class FiltersNorLogicalOperatorInputAndLogicalOperatorInputOrLogicalOperatorInpu
         Optional[Iterable[FiltersNorLogicalOperatorInputAndLogicalOperatorInputOrLogicalOperatorInputNor]],
         PropertyInfo(alias="NOR"),
     ]
+    """Logical NOR operation"""
 
     or_: Annotated[
         Optional[Iterable[FiltersNorLogicalOperatorInputAndLogicalOperatorInputOrLogicalOperatorInputOr]],
         PropertyInfo(alias="OR"),
     ]
+    """Logical OR operation"""
 
 
 FiltersNorLogicalOperatorInputAndLogicalOperatorInputOr: TypeAlias = Union[
@@ -292,6 +310,7 @@ class FiltersNorLogicalOperatorInputAndLogicalOperatorInput(TypedDict, total=Fal
     and_: Annotated[
         Optional[Iterable[FiltersNorLogicalOperatorInputAndLogicalOperatorInputAnd]], PropertyInfo(alias="AND")
     ]
+    """Logical AND operation"""
 
     case_sensitive: Optional[bool]
     """Whether to perform case-sensitive matching"""
@@ -299,10 +318,12 @@ class FiltersNorLogicalOperatorInputAndLogicalOperatorInput(TypedDict, total=Fal
     nor: Annotated[
         Optional[Iterable[FiltersNorLogicalOperatorInputAndLogicalOperatorInputNor]], PropertyInfo(alias="NOR")
     ]
+    """Logical NOR operation"""
 
     or_: Annotated[
         Optional[Iterable[FiltersNorLogicalOperatorInputAndLogicalOperatorInputOr]], PropertyInfo(alias="OR")
     ]
+    """Logical OR operation"""
 
 
 FiltersNorLogicalOperatorInputAnd: TypeAlias = Union[
@@ -329,6 +350,7 @@ class FiltersNorLogicalOperatorInputOrLogicalOperatorInputAndLogicalOperatorInpu
         Optional[Iterable[FiltersNorLogicalOperatorInputOrLogicalOperatorInputAndLogicalOperatorInputAnd]],
         PropertyInfo(alias="AND"),
     ]
+    """Logical AND operation"""
 
     case_sensitive: Optional[bool]
     """Whether to perform case-sensitive matching"""
@@ -337,11 +359,13 @@ class FiltersNorLogicalOperatorInputOrLogicalOperatorInputAndLogicalOperatorInpu
         Optional[Iterable[FiltersNorLogicalOperatorInputOrLogicalOperatorInputAndLogicalOperatorInputNor]],
         PropertyInfo(alias="NOR"),
     ]
+    """Logical NOR operation"""
 
     or_: Annotated[
         Optional[Iterable[FiltersNorLogicalOperatorInputOrLogicalOperatorInputAndLogicalOperatorInputOr]],
         PropertyInfo(alias="OR"),
     ]
+    """Logical OR operation"""
 
 
 FiltersNorLogicalOperatorInputOrLogicalOperatorInputAnd: TypeAlias = Union[
@@ -357,6 +381,7 @@ class FiltersNorLogicalOperatorInputOrLogicalOperatorInput(TypedDict, total=Fals
     and_: Annotated[
         Optional[Iterable[FiltersNorLogicalOperatorInputOrLogicalOperatorInputAnd]], PropertyInfo(alias="AND")
     ]
+    """Logical AND operation"""
 
     case_sensitive: Optional[bool]
     """Whether to perform case-sensitive matching"""
@@ -364,8 +389,10 @@ class FiltersNorLogicalOperatorInputOrLogicalOperatorInput(TypedDict, total=Fals
     nor: Annotated[
         Optional[Iterable[FiltersNorLogicalOperatorInputOrLogicalOperatorInputNor]], PropertyInfo(alias="NOR")
     ]
+    """Logical NOR operation"""
 
     or_: Annotated[Optional[Iterable[FiltersNorLogicalOperatorInputOrLogicalOperatorInputOr]], PropertyInfo(alias="OR")]
+    """Logical OR operation"""
 
 
 FiltersNorLogicalOperatorInputOr: TypeAlias = Union[
@@ -375,13 +402,16 @@ FiltersNorLogicalOperatorInputOr: TypeAlias = Union[
 
 class FiltersNorLogicalOperatorInput(TypedDict, total=False):
     and_: Annotated[Optional[Iterable[FiltersNorLogicalOperatorInputAnd]], PropertyInfo(alias="AND")]
+    """Logical AND operation"""
 
     case_sensitive: Optional[bool]
     """Whether to perform case-sensitive matching"""
 
     nor: Annotated[Optional[Iterable[FiltersNorLogicalOperatorInputNor]], PropertyInfo(alias="NOR")]
+    """Logical NOR operation"""
 
     or_: Annotated[Optional[Iterable[FiltersNorLogicalOperatorInputOr]], PropertyInfo(alias="OR")]
+    """Logical OR operation"""
 
 
 FiltersNor: TypeAlias = Union[FiltersNorLogicalOperatorInput, FilterCondition]
@@ -406,6 +436,7 @@ class FiltersOrLogicalOperatorInputAndLogicalOperatorInputNorLogicalOperatorInpu
         Optional[Iterable[FiltersOrLogicalOperatorInputAndLogicalOperatorInputNorLogicalOperatorInputAnd]],
         PropertyInfo(alias="AND"),
     ]
+    """Logical AND operation"""
 
     case_sensitive: Optional[bool]
     """Whether to perform case-sensitive matching"""
@@ -414,11 +445,13 @@ class FiltersOrLogicalOperatorInputAndLogicalOperatorInputNorLogicalOperatorInpu
         Optional[Iterable[FiltersOrLogicalOperatorInputAndLogicalOperatorInputNorLogicalOperatorInputNor]],
         PropertyInfo(alias="NOR"),
     ]
+    """Logical NOR operation"""
 
     or_: Annotated[
         Optional[Iterable[FiltersOrLogicalOperatorInputAndLogicalOperatorInputNorLogicalOperatorInputOr]],
         PropertyInfo(alias="OR"),
     ]
+    """Logical OR operation"""
 
 
 FiltersOrLogicalOperatorInputAndLogicalOperatorInputNor: TypeAlias = Union[
@@ -432,6 +465,7 @@ class FiltersOrLogicalOperatorInputAndLogicalOperatorInput(TypedDict, total=Fals
     and_: Annotated[
         Optional[Iterable[FiltersOrLogicalOperatorInputAndLogicalOperatorInputAnd]], PropertyInfo(alias="AND")
     ]
+    """Logical AND operation"""
 
     case_sensitive: Optional[bool]
     """Whether to perform case-sensitive matching"""
@@ -439,8 +473,10 @@ class FiltersOrLogicalOperatorInputAndLogicalOperatorInput(TypedDict, total=Fals
     nor: Annotated[
         Optional[Iterable[FiltersOrLogicalOperatorInputAndLogicalOperatorInputNor]], PropertyInfo(alias="NOR")
     ]
+    """Logical NOR operation"""
 
     or_: Annotated[Optional[Iterable[FiltersOrLogicalOperatorInputAndLogicalOperatorInputOr]], PropertyInfo(alias="OR")]
+    """Logical OR operation"""
 
 
 FiltersOrLogicalOperatorInputAnd: TypeAlias = Union[
@@ -465,6 +501,7 @@ class FiltersOrLogicalOperatorInputNorLogicalOperatorInputAndLogicalOperatorInpu
         Optional[Iterable[FiltersOrLogicalOperatorInputNorLogicalOperatorInputAndLogicalOperatorInputAnd]],
         PropertyInfo(alias="AND"),
     ]
+    """Logical AND operation"""
 
     case_sensitive: Optional[bool]
     """Whether to perform case-sensitive matching"""
@@ -473,11 +510,13 @@ class FiltersOrLogicalOperatorInputNorLogicalOperatorInputAndLogicalOperatorInpu
         Optional[Iterable[FiltersOrLogicalOperatorInputNorLogicalOperatorInputAndLogicalOperatorInputNor]],
         PropertyInfo(alias="NOR"),
     ]
+    """Logical NOR operation"""
 
     or_: Annotated[
         Optional[Iterable[FiltersOrLogicalOperatorInputNorLogicalOperatorInputAndLogicalOperatorInputOr]],
         PropertyInfo(alias="OR"),
     ]
+    """Logical OR operation"""
 
 
 FiltersOrLogicalOperatorInputNorLogicalOperatorInputAnd: TypeAlias = Union[
@@ -493,6 +532,7 @@ class FiltersOrLogicalOperatorInputNorLogicalOperatorInput(TypedDict, total=Fals
     and_: Annotated[
         Optional[Iterable[FiltersOrLogicalOperatorInputNorLogicalOperatorInputAnd]], PropertyInfo(alias="AND")
     ]
+    """Logical AND operation"""
 
     case_sensitive: Optional[bool]
     """Whether to perform case-sensitive matching"""
@@ -500,8 +540,10 @@ class FiltersOrLogicalOperatorInputNorLogicalOperatorInput(TypedDict, total=Fals
     nor: Annotated[
         Optional[Iterable[FiltersOrLogicalOperatorInputNorLogicalOperatorInputNor]], PropertyInfo(alias="NOR")
     ]
+    """Logical NOR operation"""
 
     or_: Annotated[Optional[Iterable[FiltersOrLogicalOperatorInputNorLogicalOperatorInputOr]], PropertyInfo(alias="OR")]
+    """Logical OR operation"""
 
 
 FiltersOrLogicalOperatorInputNor: TypeAlias = Union[
@@ -513,13 +555,16 @@ FiltersOrLogicalOperatorInputOr: TypeAlias = Union[FilterCondition, object]
 
 class FiltersOrLogicalOperatorInput(TypedDict, total=False):
     and_: Annotated[Optional[Iterable[FiltersOrLogicalOperatorInputAnd]], PropertyInfo(alias="AND")]
+    """Logical AND operation"""
 
     case_sensitive: Optional[bool]
     """Whether to perform case-sensitive matching"""
 
     nor: Annotated[Optional[Iterable[FiltersOrLogicalOperatorInputNor]], PropertyInfo(alias="NOR")]
+    """Logical NOR operation"""
 
     or_: Annotated[Optional[Iterable[FiltersOrLogicalOperatorInputOr]], PropertyInfo(alias="OR")]
+    """Logical OR operation"""
 
 
 FiltersOr: TypeAlias = Union[FiltersOrLogicalOperatorInput, FilterCondition]
@@ -527,13 +572,16 @@ FiltersOr: TypeAlias = Union[FiltersOrLogicalOperatorInput, FilterCondition]
 
 class Filters(TypedDict, total=False):
     and_: Annotated[Optional[Iterable[FiltersAnd]], PropertyInfo(alias="AND")]
+    """Logical AND operation"""
 
     case_sensitive: Optional[bool]
     """Whether to perform case-sensitive matching"""
 
     nor: Annotated[Optional[Iterable[FiltersNor]], PropertyInfo(alias="NOR")]
+    """Logical NOR operation"""
 
     or_: Annotated[Optional[Iterable[FiltersOr]], PropertyInfo(alias="OR")]
+    """Logical OR operation"""
 
 
 class Query(TypedDict, total=False):
