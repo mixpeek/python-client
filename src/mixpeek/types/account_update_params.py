@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Union, Iterable, Optional
+from typing import List, Union, Iterable, Optional
 from datetime import datetime
 from typing_extensions import Annotated, TypedDict
 
@@ -23,3 +23,5 @@ class APIKey(TypedDict, total=False):
     key: str
 
     name: str
+
+    permissions: List[str]

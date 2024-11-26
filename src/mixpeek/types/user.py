@@ -30,6 +30,8 @@ class APIKey(BaseModel):
 
     name: Optional[str] = None
 
+    permissions: Optional[List[str]] = None
+
 
 class NamespacePayloadIndexesFieldSchemaTextIndexParams(BaseModel):
     lowercase: Optional[bool] = None

@@ -31,6 +31,7 @@ class TestAccounts:
                     "created_at": parse_datetime("2019-12-27T18:11:19.117Z"),
                     "key": "key",
                     "name": "name",
+                    "permissions": ["string"],
                 }
             ],
             metadata={},
@@ -99,6 +100,7 @@ class TestAsyncAccounts:
                     "created_at": parse_datetime("2019-12-27T18:11:19.117Z"),
                     "key": "key",
                     "name": "name",
+                    "permissions": ["string"],
                 }
             ],
             metadata={},
