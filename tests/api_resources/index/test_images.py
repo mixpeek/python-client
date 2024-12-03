@@ -91,50 +91,6 @@ class TestImages:
                 "category": "Research Paper",
                 "tags": ["AI", "Machine Learning"],
             },
-            percolate={
-                "enabled": True,
-                "filters": {
-                    "and": [
-                        {
-                            "key": "name",
-                            "operator": "eq",
-                            "value": "John",
-                        },
-                        {
-                            "key": "age",
-                            "operator": "eq",
-                            "value": 30,
-                        },
-                    ],
-                    "case_sensitive": True,
-                    "nor": [
-                        {
-                            "key": "department",
-                            "operator": "eq",
-                            "value": "HR",
-                        },
-                        {
-                            "key": "location",
-                            "operator": "eq",
-                            "value": "remote",
-                        },
-                    ],
-                    "or": [
-                        {
-                            "key": "status",
-                            "operator": "eq",
-                            "value": "active",
-                        },
-                        {
-                            "key": "role",
-                            "operator": "eq",
-                            "value": "admin",
-                        },
-                    ],
-                },
-                "max_candidates": 0,
-                "min_relevance": 0.8,
-            },
             x_namespace="X-Namespace",
         )
         assert_matches_type(ImageURLResponse, image, path=["response"])
@@ -242,50 +198,6 @@ class TestAsyncImages:
                 "author": "John Doe",
                 "category": "Research Paper",
                 "tags": ["AI", "Machine Learning"],
-            },
-            percolate={
-                "enabled": True,
-                "filters": {
-                    "and": [
-                        {
-                            "key": "name",
-                            "operator": "eq",
-                            "value": "John",
-                        },
-                        {
-                            "key": "age",
-                            "operator": "eq",
-                            "value": 30,
-                        },
-                    ],
-                    "case_sensitive": True,
-                    "nor": [
-                        {
-                            "key": "department",
-                            "operator": "eq",
-                            "value": "HR",
-                        },
-                        {
-                            "key": "location",
-                            "operator": "eq",
-                            "value": "remote",
-                        },
-                    ],
-                    "or": [
-                        {
-                            "key": "status",
-                            "operator": "eq",
-                            "value": "active",
-                        },
-                        {
-                            "key": "role",
-                            "operator": "eq",
-                            "value": "admin",
-                        },
-                    ],
-                },
-                "max_candidates": 0,
-                "min_relevance": 0.8,
             },
             x_namespace="X-Namespace",
         )

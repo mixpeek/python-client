@@ -2,11 +2,10 @@
 
 from __future__ import annotations
 
-from typing import Union, Iterable, Optional
-from typing_extensions import Literal, Required, Annotated, TypeAlias, TypedDict
+from typing import Iterable, Optional
+from typing_extensions import Literal, Required, Annotated, TypedDict
 
 from .._utils import PropertyInfo
-from .shared_params.filter_condition import FilterCondition
 
 __all__ = [
     "IndexTextParams",
@@ -14,11 +13,6 @@ __all__ = [
     "FeatureExtractors",
     "FeatureExtractorsEmbed",
     "FeatureExtractorsJsonOutput",
-    "Percolate",
-    "PercolateFilters",
-    "PercolateFiltersAnd",
-    "PercolateFiltersNor",
-    "PercolateFiltersOr",
 ]
 
 
@@ -37,9 +31,6 @@ class IndexTextParams(TypedDict, total=False):
 
     Can include any key-value pairs relevant to the file.
     """
-
-    percolate: Optional[Percolate]
-    """Settings for percolating the asset against stored queries."""
 
     x_namespace: Annotated[str, PropertyInfo(alias="X-Namespace")]
     """Optional namespace for data isolation.
@@ -93,41 +84,3 @@ class FeatureExtractors(TypedDict, total=False):
 
     json_output: Optional[FeatureExtractorsJsonOutput]
     """Settings for structured JSON output of text analysis."""
-
-
-PercolateFiltersAnd: TypeAlias = Union[FilterCondition, object]
-
-PercolateFiltersNor: TypeAlias = Union[FilterCondition, object]
-
-PercolateFiltersOr: TypeAlias = Union[FilterCondition, object]
-
-
-class PercolateFilters(TypedDict, total=False):
-    and_: Annotated[Optional[Iterable[PercolateFiltersAnd]], PropertyInfo(alias="AND")]
-    """Logical AND operation"""
-
-    case_sensitive: Optional[bool]
-    """Whether to perform case-sensitive matching"""
-
-    nor: Annotated[Optional[Iterable[PercolateFiltersNor]], PropertyInfo(alias="NOR")]
-    """Logical NOR operation"""
-
-    or_: Annotated[Optional[Iterable[PercolateFiltersOr]], PropertyInfo(alias="OR")]
-    """Logical OR operation"""
-
-
-class Percolate(TypedDict, total=False):
-    enabled: bool
-    """Whether to enable percolator matching for this request"""
-
-    filters: Optional[PercolateFilters]
-    """These are filters applied to the saved percolators, not the incoming documents"""
-
-    max_candidates: Optional[int]
-    """Maximum number of matching percolators to return in the response"""
-
-    min_relevance: Optional[float]
-    """Minimum similarity score (0-1) required for a match.
-
-    Higher values mean stricter matching.
-    """
