@@ -55,6 +55,7 @@ class VideosResource(SyncAPIResource):
         asset_update: Optional[video_url_params.AssetUpdate] | NotGiven = NOT_GIVEN,
         feature_extractors: Optional[Iterable[video_url_params.FeatureExtractor]] | NotGiven = NOT_GIVEN,
         metadata: object | NotGiven = NOT_GIVEN,
+        percolate: Optional[video_url_params.Percolate] | NotGiven = NOT_GIVEN,
         x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -79,6 +80,8 @@ class VideosResource(SyncAPIResource):
           metadata: Additional metadata associated with the asset. Can include any key-value pairs
               relevant to the asset.
 
+          percolate: Settings for percolating the asset against stored queries.
+
           x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
               'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
@@ -100,6 +103,7 @@ class VideosResource(SyncAPIResource):
                     "asset_update": asset_update,
                     "feature_extractors": feature_extractors,
                     "metadata": metadata,
+                    "percolate": percolate,
                 },
                 video_url_params.VideoURLParams,
             ),
@@ -138,6 +142,7 @@ class AsyncVideosResource(AsyncAPIResource):
         asset_update: Optional[video_url_params.AssetUpdate] | NotGiven = NOT_GIVEN,
         feature_extractors: Optional[Iterable[video_url_params.FeatureExtractor]] | NotGiven = NOT_GIVEN,
         metadata: object | NotGiven = NOT_GIVEN,
+        percolate: Optional[video_url_params.Percolate] | NotGiven = NOT_GIVEN,
         x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -162,6 +167,8 @@ class AsyncVideosResource(AsyncAPIResource):
           metadata: Additional metadata associated with the asset. Can include any key-value pairs
               relevant to the asset.
 
+          percolate: Settings for percolating the asset against stored queries.
+
           x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
               'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
@@ -183,6 +190,7 @@ class AsyncVideosResource(AsyncAPIResource):
                     "asset_update": asset_update,
                     "feature_extractors": feature_extractors,
                     "metadata": metadata,
+                    "percolate": percolate,
                 },
                 video_url_params.VideoURLParams,
             ),
