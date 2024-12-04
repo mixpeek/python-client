@@ -60,6 +60,11 @@ class TestIndex:
                 "category": "Research Paper",
                 "tags": ["AI", "Machine Learning"],
             },
+            percolate={
+                "enabled": True,
+                "max_candidates": 0,
+                "min_score": 0,
+            },
             x_namespace="X-Namespace",
         )
         assert_matches_type(IndexTextResponse, index, path=["response"])
@@ -134,6 +139,11 @@ class TestAsyncIndex:
                 "author": "John Doe",
                 "category": "Research Paper",
                 "tags": ["AI", "Machine Learning"],
+            },
+            percolate={
+                "enabled": True,
+                "max_candidates": 0,
+                "min_score": 0,
             },
             x_namespace="X-Namespace",
         )
