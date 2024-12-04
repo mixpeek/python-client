@@ -78,7 +78,6 @@ class IndexResource(SyncAPIResource):
         asset_update: Optional[index_text_params.AssetUpdate] | NotGiven = NOT_GIVEN,
         feature_extractors: Optional[index_text_params.FeatureExtractors] | NotGiven = NOT_GIVEN,
         metadata: object | NotGiven = NOT_GIVEN,
-        percolate: Optional[index_text_params.Percolate] | NotGiven = NOT_GIVEN,
         x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -100,8 +99,6 @@ class IndexResource(SyncAPIResource):
           metadata: Additional metadata associated with the file. Can include any key-value pairs
               relevant to the file.
 
-          percolate: Settings for percolating the asset against stored queries.
-
           x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
               'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
@@ -122,7 +119,6 @@ class IndexResource(SyncAPIResource):
                     "asset_update": asset_update,
                     "feature_extractors": feature_extractors,
                     "metadata": metadata,
-                    "percolate": percolate,
                 },
                 index_text_params.IndexTextParams,
             ),
@@ -168,7 +164,6 @@ class AsyncIndexResource(AsyncAPIResource):
         asset_update: Optional[index_text_params.AssetUpdate] | NotGiven = NOT_GIVEN,
         feature_extractors: Optional[index_text_params.FeatureExtractors] | NotGiven = NOT_GIVEN,
         metadata: object | NotGiven = NOT_GIVEN,
-        percolate: Optional[index_text_params.Percolate] | NotGiven = NOT_GIVEN,
         x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -190,8 +185,6 @@ class AsyncIndexResource(AsyncAPIResource):
           metadata: Additional metadata associated with the file. Can include any key-value pairs
               relevant to the file.
 
-          percolate: Settings for percolating the asset against stored queries.
-
           x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
               'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
@@ -212,7 +205,6 @@ class AsyncIndexResource(AsyncAPIResource):
                     "asset_update": asset_update,
                     "feature_extractors": feature_extractors,
                     "metadata": metadata,
-                    "percolate": percolate,
                 },
                 index_text_params.IndexTextParams,
             ),
