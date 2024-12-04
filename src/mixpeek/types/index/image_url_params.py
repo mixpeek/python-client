@@ -18,7 +18,6 @@ __all__ = [
     "FeatureExtractorsEmbed",
     "FeatureExtractorsJsonOutput",
     "FeatureExtractorsRead",
-    "Percolate",
 ]
 
 
@@ -43,9 +42,6 @@ class ImageURLParams(TypedDict, total=False):
 
     Can include any key-value pairs relevant to the asset.
     """
-
-    percolate: Optional[Percolate]
-    """Settings for percolating the asset against stored queries."""
 
     x_namespace: Annotated[str, PropertyInfo(alias="X-Namespace")]
     """Optional namespace for data isolation.
@@ -168,17 +164,3 @@ class FeatureExtractors(TypedDict, total=False):
 
     read: Optional[FeatureExtractorsRead]
     """Settings for reading and analyzing image content."""
-
-
-class Percolate(TypedDict, total=False):
-    enabled: bool
-    """Whether to enable percolator matching for this request"""
-
-    max_candidates: Optional[int]
-    """Maximum number of matching percolators to return in the response"""
-
-    min_score: Optional[float]
-    """Minimum similarity score (0-1) required for a match.
-
-    Higher values mean stricter matching.
-    """
