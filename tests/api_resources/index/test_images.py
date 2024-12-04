@@ -91,6 +91,11 @@ class TestImages:
                 "category": "Research Paper",
                 "tags": ["AI", "Machine Learning"],
             },
+            percolate={
+                "enabled": True,
+                "max_candidates": 0,
+                "min_score": 0,
+            },
             x_namespace="X-Namespace",
         )
         assert_matches_type(ImageURLResponse, image, path=["response"])
@@ -198,6 +203,11 @@ class TestAsyncImages:
                 "author": "John Doe",
                 "category": "Research Paper",
                 "tags": ["AI", "Machine Learning"],
+            },
+            percolate={
+                "enabled": True,
+                "max_candidates": 0,
+                "min_score": 0,
             },
             x_namespace="X-Namespace",
         )
