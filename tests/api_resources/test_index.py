@@ -65,6 +65,7 @@ class TestIndex:
                 "max_candidates": 0,
                 "min_score": 0,
             },
+            skip_duplicate=True,
             x_namespace="X-Namespace",
         )
         assert_matches_type(IndexTextResponse, index, path=["response"])
@@ -145,6 +146,7 @@ class TestAsyncIndex:
                 "max_candidates": 0,
                 "min_score": 0,
             },
+            skip_duplicate=True,
             x_namespace="X-Namespace",
         )
         assert_matches_type(IndexTextResponse, index, path=["response"])

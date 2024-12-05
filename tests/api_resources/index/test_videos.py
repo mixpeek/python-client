@@ -105,6 +105,7 @@ class TestVideos:
                 "max_candidates": 0,
                 "min_score": 0,
             },
+            skip_duplicate=True,
             x_namespace="X-Namespace",
         )
         assert_matches_type(VideoURLResponse, video, path=["response"])
@@ -227,6 +228,7 @@ class TestAsyncVideos:
                 "max_candidates": 0,
                 "min_score": 0,
             },
+            skip_duplicate=True,
             x_namespace="X-Namespace",
         )
         assert_matches_type(VideoURLResponse, video, path=["response"])

@@ -47,6 +47,12 @@ class ImageURLParams(TypedDict, total=False):
     percolate: Optional[Percolate]
     """Settings for percolating the asset against stored queries."""
 
+    skip_duplicate: Optional[bool]
+    """
+    Skips processing when a duplicate hash is found and stores an error by the
+    task_id with the existing asset_id
+    """
+
     x_namespace: Annotated[str, PropertyInfo(alias="X-Namespace")]
     """Optional namespace for data isolation.
 
