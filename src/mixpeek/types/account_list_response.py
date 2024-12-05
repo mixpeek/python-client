@@ -7,7 +7,7 @@ from typing_extensions import Literal, TypeAlias
 from .._models import BaseModel
 
 __all__ = [
-    "User",
+    "AccountListResponse",
     "APIKey",
     "Namespace",
     "NamespacePayloadIndexes",
@@ -111,7 +111,7 @@ class Namespace(BaseModel):
     vector_indexes: List[str]
 
 
-class User(BaseModel):
+class AccountListResponse(BaseModel):
     email: str
 
     account_type: Optional[str] = None

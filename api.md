@@ -9,13 +9,13 @@ from mixpeek.types import FilterCondition, ModelPaginationResponse, SortOption, 
 Types:
 
 ```python
-from mixpeek.types import User
+from mixpeek.types import AccountUpdateResponse, AccountListResponse
 ```
 
 Methods:
 
-- <code title="put /accounts/">client.accounts.<a href="./src/mixpeek/resources/accounts.py">update</a>(\*\*<a href="src/mixpeek/types/account_update_params.py">params</a>) -> <a href="./src/mixpeek/types/user.py">User</a></code>
-- <code title="get /accounts/">client.accounts.<a href="./src/mixpeek/resources/accounts.py">list</a>() -> <a href="./src/mixpeek/types/user.py">User</a></code>
+- <code title="put /accounts/">client.accounts.<a href="./src/mixpeek/resources/accounts.py">update</a>(\*\*<a href="src/mixpeek/types/account_update_params.py">params</a>) -> <a href="./src/mixpeek/types/account_update_response.py">AccountUpdateResponse</a></code>
+- <code title="get /accounts/">client.accounts.<a href="./src/mixpeek/resources/accounts.py">list</a>() -> <a href="./src/mixpeek/types/account_list_response.py">AccountListResponse</a></code>
 
 # Features
 
