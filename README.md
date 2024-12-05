@@ -30,8 +30,8 @@ client = Mixpeek(
     api_key="My API Key",
 )
 
-user = client.accounts.update()
-print(user.index_ids)
+account = client.accounts.update()
+print(account.index_ids)
 ```
 
 ## Async usage
@@ -48,8 +48,8 @@ client = AsyncMixpeek(
 
 
 async def main() -> None:
-    user = await client.accounts.update()
-    print(user.index_ids)
+    account = await client.accounts.update()
+    print(account.index_ids)
 
 
 asyncio.run(main())
