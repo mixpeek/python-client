@@ -313,6 +313,7 @@ class TestAssets:
                 "key": ["title", "description"],
                 "value": "search term",
             },
+            return_url=True,
             select=["string"],
             sort={
                 "direction": "asc",
@@ -642,6 +643,7 @@ class TestAsyncAssets:
                 "key": ["title", "description"],
                 "value": "search term",
             },
+            return_url=True,
             select=["string"],
             sort={
                 "direction": "asc",
