@@ -297,6 +297,7 @@ class AssetsResource(SyncAPIResource):
         collection_ids: List[str],
         filters: Optional[asset_search_params.Filters] | NotGiven = NOT_GIVEN,
         query: Optional[asset_search_params.Query] | NotGiven = NOT_GIVEN,
+        return_url: Optional[bool] | NotGiven = NOT_GIVEN,
         select: Optional[List[str]] | NotGiven = NOT_GIVEN,
         sort: Optional[SortOption] | NotGiven = NOT_GIVEN,
         x_namespace: str | NotGiven = NOT_GIVEN,
@@ -317,6 +318,9 @@ class AssetsResource(SyncAPIResource):
 
           query: Structured query object specifying which fields to search in and what to search
               for
+
+          return_url: Return the presigned URL for the asset and preview asset, this will introduce
+              additional latency
 
           select: List of fields to return in results
 
@@ -341,6 +345,7 @@ class AssetsResource(SyncAPIResource):
                     "collection_ids": collection_ids,
                     "filters": filters,
                     "query": query,
+                    "return_url": return_url,
                     "select": select,
                     "sort": sort,
                 },
@@ -609,6 +614,7 @@ class AsyncAssetsResource(AsyncAPIResource):
         collection_ids: List[str],
         filters: Optional[asset_search_params.Filters] | NotGiven = NOT_GIVEN,
         query: Optional[asset_search_params.Query] | NotGiven = NOT_GIVEN,
+        return_url: Optional[bool] | NotGiven = NOT_GIVEN,
         select: Optional[List[str]] | NotGiven = NOT_GIVEN,
         sort: Optional[SortOption] | NotGiven = NOT_GIVEN,
         x_namespace: str | NotGiven = NOT_GIVEN,
@@ -629,6 +635,9 @@ class AsyncAssetsResource(AsyncAPIResource):
 
           query: Structured query object specifying which fields to search in and what to search
               for
+
+          return_url: Return the presigned URL for the asset and preview asset, this will introduce
+              additional latency
 
           select: List of fields to return in results
 
@@ -653,6 +662,7 @@ class AsyncAssetsResource(AsyncAPIResource):
                     "collection_ids": collection_ids,
                     "filters": filters,
                     "query": query,
+                    "return_url": return_url,
                     "select": select,
                     "sort": sort,
                 },

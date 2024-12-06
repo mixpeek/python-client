@@ -25,6 +25,12 @@ class AssetSearchParams(TypedDict, total=False):
     for
     """
 
+    return_url: Optional[bool]
+    """
+    Return the presigned URL for the asset and preview asset, this will introduce
+    additional latency
+    """
+
     select: Optional[List[str]]
     """List of fields to return in results"""
 
