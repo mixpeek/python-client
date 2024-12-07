@@ -12,5 +12,9 @@ __all__ = ["FeatureUpdateParams"]
 class FeatureUpdateParams(TypedDict, total=False):
     metadata: Required[object]
 
-    index_id: Annotated[str, PropertyInfo(alias="index-id")]
-    """filter by organization"""
+    x_namespace: Annotated[str, PropertyInfo(alias="X-Namespace")]
+    """Optional namespace for data isolation.
+
+    Example: 'netflix_prod' or 'spotify_recs_dev'. To create a namespace, use the
+    /namespaces endpoint.
+    """

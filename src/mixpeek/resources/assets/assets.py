@@ -2,11 +2,16 @@
 
 from __future__ import annotations
 
-from typing import Any, List, Iterable, Optional, cast
+from typing import Any, List, Optional, cast
 
 import httpx
 
-from ...types import asset_create_params, asset_search_params, asset_update_params
+from ...types import (
+    asset_create_params,
+    asset_search_params,
+    asset_update_params,
+    asset_retrieve_params,
+)
 from ..._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from ..._utils import (
     maybe_transform,
@@ -31,11 +36,9 @@ from ..._response import (
 )
 from ..._base_client import make_request_options
 from ...types.asset_response import AssetResponse
-from ...types.asset_create_response import AssetCreateResponse
 from ...types.asset_search_response import AssetSearchResponse
 from ...types.asset_update_response import AssetUpdateResponse
 from ...types.shared_params.sort_option import SortOption
-from ...types.shared_params.logical_operator import LogicalOperator
 
 __all__ = ["AssetsResource", "AsyncAssetsResource"]
 
@@ -70,31 +73,40 @@ class AssetsResource(SyncAPIResource):
         collection_ids: List[str],
         page: Optional[int] | NotGiven = NOT_GIVEN,
         page_size: int | NotGiven = NOT_GIVEN,
-        filters: Optional[LogicalOperator] | NotGiven = NOT_GIVEN,
-        select: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
+        filters: Optional[asset_create_params.Filters] | NotGiven = NOT_GIVEN,
+        group_by: Optional[asset_create_params.GroupBy] | NotGiven = NOT_GIVEN,
+        return_url: Optional[bool] | NotGiven = NOT_GIVEN,
+        select: Optional[List[str]] | NotGiven = NOT_GIVEN,
         sort: Optional[SortOption] | NotGiven = NOT_GIVEN,
-        index_id: str | NotGiven = NOT_GIVEN,
+        x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AssetCreateResponse:
+    ) -> object:
         """
         List Assets
 
         Args:
-          collection_ids: Collection IDs to filter features
+          collection_ids: List of Collection IDs to search within, required
 
-          filters: Complex nested query filters
+          filters: Used for filtering across all indexes
 
-          select: List of fields to return in results, supports dot notation.
+          group_by: Grouping options for search results
 
-          sort: List of fields to sort by, with direction (asc or desc). NOTE: fields will
-              require a specialty index to use this, consult with the team
+          return_url: Return the presigned URL for the asset and preview asset, this will introduce
+              additional latency
 
-          index_id: filter by organization
+          select: List of fields to return in results, supports dot notation. If None, all fields
+              are returned.
+
+          sort: List of fields to sort by, with direction (asc or desc). Supports dot notation
+              for nested fields.
+
+          x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
+              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -104,13 +116,15 @@ class AssetsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
         return self._post(
             "/assets",
             body=maybe_transform(
                 {
                     "collection_ids": collection_ids,
                     "filters": filters,
+                    "group_by": group_by,
+                    "return_url": return_url,
                     "select": select,
                     "sort": sort,
                 },
@@ -129,14 +143,15 @@ class AssetsResource(SyncAPIResource):
                     asset_create_params.AssetCreateParams,
                 ),
             ),
-            cast_to=AssetCreateResponse,
+            cast_to=object,
         )
 
     def retrieve(
         self,
         asset_id: str,
         *,
-        index_id: str | NotGiven = NOT_GIVEN,
+        return_url: bool | NotGiven = NOT_GIVEN,
+        x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -148,7 +163,13 @@ class AssetsResource(SyncAPIResource):
         Get basic asset details
 
         Args:
-          index_id: filter by organization
+          asset_id: Unique identifier of the asset
+
+          return_url: Whether to generate and return presigned S3 URLs for the asset and preview. Set
+              to false to improve performance when URLs aren't needed
+
+          x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
+              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -160,11 +181,15 @@ class AssetsResource(SyncAPIResource):
         """
         if not asset_id:
             raise ValueError(f"Expected a non-empty value for `asset_id` but received {asset_id!r}")
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
         return self._get(
             f"/assets/{asset_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=maybe_transform({"return_url": return_url}, asset_retrieve_params.AssetRetrieveParams),
             ),
             cast_to=AssetResponse,
         )
@@ -175,7 +200,7 @@ class AssetsResource(SyncAPIResource):
         *,
         metadata: object | NotGiven = NOT_GIVEN,
         propagate_features: Optional[bool] | NotGiven = NOT_GIVEN,
-        index_id: str | NotGiven = NOT_GIVEN,
+        x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -193,7 +218,8 @@ class AssetsResource(SyncAPIResource):
 
           propagate_features: If True, the features will be propagated to all assets with the same asset_id
 
-          index_id: filter by organization
+          x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
+              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -205,7 +231,7 @@ class AssetsResource(SyncAPIResource):
         """
         if not asset_id:
             raise ValueError(f"Expected a non-empty value for `asset_id` but received {asset_id!r}")
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
         return cast(
             AssetUpdateResponse,
             self._patch(
@@ -230,7 +256,7 @@ class AssetsResource(SyncAPIResource):
         self,
         asset_id: str,
         *,
-        index_id: str | NotGiven = NOT_GIVEN,
+        x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -238,11 +264,13 @@ class AssetsResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> object:
-        """
-        Delete Asset
+        """Delete Asset
 
         Args:
-          index_id: filter by organization
+          x_namespace: Optional namespace for data isolation.
+
+        Example: 'netflix_prod' or
+              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -254,7 +282,7 @@ class AssetsResource(SyncAPIResource):
         """
         if not asset_id:
             raise ValueError(f"Expected a non-empty value for `asset_id` but received {asset_id!r}")
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
         return self._delete(
             f"/assets/{asset_id}",
             options=make_request_options(
@@ -267,11 +295,12 @@ class AssetsResource(SyncAPIResource):
         self,
         *,
         collection_ids: List[str],
-        filters: Optional[LogicalOperator] | NotGiven = NOT_GIVEN,
+        filters: Optional[asset_search_params.Filters] | NotGiven = NOT_GIVEN,
         query: Optional[asset_search_params.Query] | NotGiven = NOT_GIVEN,
+        return_url: Optional[bool] | NotGiven = NOT_GIVEN,
         select: Optional[List[str]] | NotGiven = NOT_GIVEN,
         sort: Optional[SortOption] | NotGiven = NOT_GIVEN,
-        index_id: str | NotGiven = NOT_GIVEN,
+        x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -290,11 +319,15 @@ class AssetsResource(SyncAPIResource):
           query: Structured query object specifying which fields to search in and what to search
               for
 
+          return_url: Return the presigned URL for the asset and preview asset, this will introduce
+              additional latency
+
           select: List of fields to return in results
 
           sort: List of fields to sort by
 
-          index_id: filter by organization
+          x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
+              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -304,7 +337,7 @@ class AssetsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
         return self._post(
             "/assets/search",
             body=maybe_transform(
@@ -312,6 +345,7 @@ class AssetsResource(SyncAPIResource):
                     "collection_ids": collection_ids,
                     "filters": filters,
                     "query": query,
+                    "return_url": return_url,
                     "select": select,
                     "sort": sort,
                 },
@@ -354,31 +388,40 @@ class AsyncAssetsResource(AsyncAPIResource):
         collection_ids: List[str],
         page: Optional[int] | NotGiven = NOT_GIVEN,
         page_size: int | NotGiven = NOT_GIVEN,
-        filters: Optional[LogicalOperator] | NotGiven = NOT_GIVEN,
-        select: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
+        filters: Optional[asset_create_params.Filters] | NotGiven = NOT_GIVEN,
+        group_by: Optional[asset_create_params.GroupBy] | NotGiven = NOT_GIVEN,
+        return_url: Optional[bool] | NotGiven = NOT_GIVEN,
+        select: Optional[List[str]] | NotGiven = NOT_GIVEN,
         sort: Optional[SortOption] | NotGiven = NOT_GIVEN,
-        index_id: str | NotGiven = NOT_GIVEN,
+        x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AssetCreateResponse:
+    ) -> object:
         """
         List Assets
 
         Args:
-          collection_ids: Collection IDs to filter features
+          collection_ids: List of Collection IDs to search within, required
 
-          filters: Complex nested query filters
+          filters: Used for filtering across all indexes
 
-          select: List of fields to return in results, supports dot notation.
+          group_by: Grouping options for search results
 
-          sort: List of fields to sort by, with direction (asc or desc). NOTE: fields will
-              require a specialty index to use this, consult with the team
+          return_url: Return the presigned URL for the asset and preview asset, this will introduce
+              additional latency
 
-          index_id: filter by organization
+          select: List of fields to return in results, supports dot notation. If None, all fields
+              are returned.
+
+          sort: List of fields to sort by, with direction (asc or desc). Supports dot notation
+              for nested fields.
+
+          x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
+              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -388,13 +431,15 @@ class AsyncAssetsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
         return await self._post(
             "/assets",
             body=await async_maybe_transform(
                 {
                     "collection_ids": collection_ids,
                     "filters": filters,
+                    "group_by": group_by,
+                    "return_url": return_url,
                     "select": select,
                     "sort": sort,
                 },
@@ -413,14 +458,15 @@ class AsyncAssetsResource(AsyncAPIResource):
                     asset_create_params.AssetCreateParams,
                 ),
             ),
-            cast_to=AssetCreateResponse,
+            cast_to=object,
         )
 
     async def retrieve(
         self,
         asset_id: str,
         *,
-        index_id: str | NotGiven = NOT_GIVEN,
+        return_url: bool | NotGiven = NOT_GIVEN,
+        x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -432,7 +478,13 @@ class AsyncAssetsResource(AsyncAPIResource):
         Get basic asset details
 
         Args:
-          index_id: filter by organization
+          asset_id: Unique identifier of the asset
+
+          return_url: Whether to generate and return presigned S3 URLs for the asset and preview. Set
+              to false to improve performance when URLs aren't needed
+
+          x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
+              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -444,11 +496,17 @@ class AsyncAssetsResource(AsyncAPIResource):
         """
         if not asset_id:
             raise ValueError(f"Expected a non-empty value for `asset_id` but received {asset_id!r}")
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
         return await self._get(
             f"/assets/{asset_id}",
             options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+                extra_headers=extra_headers,
+                extra_query=extra_query,
+                extra_body=extra_body,
+                timeout=timeout,
+                query=await async_maybe_transform(
+                    {"return_url": return_url}, asset_retrieve_params.AssetRetrieveParams
+                ),
             ),
             cast_to=AssetResponse,
         )
@@ -459,7 +517,7 @@ class AsyncAssetsResource(AsyncAPIResource):
         *,
         metadata: object | NotGiven = NOT_GIVEN,
         propagate_features: Optional[bool] | NotGiven = NOT_GIVEN,
-        index_id: str | NotGiven = NOT_GIVEN,
+        x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -477,7 +535,8 @@ class AsyncAssetsResource(AsyncAPIResource):
 
           propagate_features: If True, the features will be propagated to all assets with the same asset_id
 
-          index_id: filter by organization
+          x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
+              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -489,7 +548,7 @@ class AsyncAssetsResource(AsyncAPIResource):
         """
         if not asset_id:
             raise ValueError(f"Expected a non-empty value for `asset_id` but received {asset_id!r}")
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
         return cast(
             AssetUpdateResponse,
             await self._patch(
@@ -514,7 +573,7 @@ class AsyncAssetsResource(AsyncAPIResource):
         self,
         asset_id: str,
         *,
-        index_id: str | NotGiven = NOT_GIVEN,
+        x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -522,11 +581,13 @@ class AsyncAssetsResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> object:
-        """
-        Delete Asset
+        """Delete Asset
 
         Args:
-          index_id: filter by organization
+          x_namespace: Optional namespace for data isolation.
+
+        Example: 'netflix_prod' or
+              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -538,7 +599,7 @@ class AsyncAssetsResource(AsyncAPIResource):
         """
         if not asset_id:
             raise ValueError(f"Expected a non-empty value for `asset_id` but received {asset_id!r}")
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
         return await self._delete(
             f"/assets/{asset_id}",
             options=make_request_options(
@@ -551,11 +612,12 @@ class AsyncAssetsResource(AsyncAPIResource):
         self,
         *,
         collection_ids: List[str],
-        filters: Optional[LogicalOperator] | NotGiven = NOT_GIVEN,
+        filters: Optional[asset_search_params.Filters] | NotGiven = NOT_GIVEN,
         query: Optional[asset_search_params.Query] | NotGiven = NOT_GIVEN,
+        return_url: Optional[bool] | NotGiven = NOT_GIVEN,
         select: Optional[List[str]] | NotGiven = NOT_GIVEN,
         sort: Optional[SortOption] | NotGiven = NOT_GIVEN,
-        index_id: str | NotGiven = NOT_GIVEN,
+        x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -574,11 +636,15 @@ class AsyncAssetsResource(AsyncAPIResource):
           query: Structured query object specifying which fields to search in and what to search
               for
 
+          return_url: Return the presigned URL for the asset and preview asset, this will introduce
+              additional latency
+
           select: List of fields to return in results
 
           sort: List of fields to sort by
 
-          index_id: filter by organization
+          x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
+              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -588,7 +654,7 @@ class AsyncAssetsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
         return await self._post(
             "/assets/search",
             body=await async_maybe_transform(
@@ -596,6 +662,7 @@ class AsyncAssetsResource(AsyncAPIResource):
                     "collection_ids": collection_ids,
                     "filters": filters,
                     "query": query,
+                    "return_url": return_url,
                     "select": select,
                     "sort": sort,
                 },

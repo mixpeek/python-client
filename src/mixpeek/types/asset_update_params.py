@@ -21,5 +21,9 @@ class AssetUpdateParams(TypedDict, total=False):
     propagate_features: Optional[bool]
     """If True, the features will be propagated to all assets with the same asset_id"""
 
-    index_id: Annotated[str, PropertyInfo(alias="index-id")]
-    """filter by organization"""
+    x_namespace: Annotated[str, PropertyInfo(alias="X-Namespace")]
+    """Optional namespace for data isolation.
+
+    Example: 'netflix_prod' or 'spotify_recs_dev'. To create a namespace, use the
+    /namespaces endpoint.
+    """

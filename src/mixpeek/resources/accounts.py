@@ -10,7 +10,6 @@ from ..types import account_update_params
 from .._types import NOT_GIVEN, Body, Query, Headers, NotGiven
 from .._utils import (
     maybe_transform,
-    strip_not_given,
     async_maybe_transform,
 )
 from .._compat import cached_property
@@ -21,8 +20,9 @@ from .._response import (
     async_to_raw_response_wrapper,
     async_to_streamed_response_wrapper,
 )
-from ..types.user import User
 from .._base_client import make_request_options
+from ..types.account_list_response import AccountListResponse
+from ..types.account_update_response import AccountUpdateResponse
 
 __all__ = ["AccountsResource", "AsyncAccountsResource"]
 
@@ -52,20 +52,17 @@ class AccountsResource(SyncAPIResource):
         *,
         api_keys: Optional[Iterable[account_update_params.APIKey]] | NotGiven = NOT_GIVEN,
         metadata: Optional[object] | NotGiven = NOT_GIVEN,
-        index_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> User:
+    ) -> AccountUpdateResponse:
         """
         Update User
 
         Args:
-          index_id: filter by organization
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -74,7 +71,6 @@ class AccountsResource(SyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
         return self._put(
             "/accounts/",
             body=maybe_transform(
@@ -87,41 +83,26 @@ class AccountsResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=User,
+            cast_to=AccountUpdateResponse,
         )
 
     def list(
         self,
         *,
-        index_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> User:
-        """
-        Get User
-
-        Args:
-          index_id: filter by organization
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
+    ) -> AccountListResponse:
+        """Get User"""
         return self._get(
             "/accounts/",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=User,
+            cast_to=AccountListResponse,
         )
 
 
@@ -150,20 +131,17 @@ class AsyncAccountsResource(AsyncAPIResource):
         *,
         api_keys: Optional[Iterable[account_update_params.APIKey]] | NotGiven = NOT_GIVEN,
         metadata: Optional[object] | NotGiven = NOT_GIVEN,
-        index_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> User:
+    ) -> AccountUpdateResponse:
         """
         Update User
 
         Args:
-          index_id: filter by organization
-
           extra_headers: Send extra headers
 
           extra_query: Add additional query parameters to the request
@@ -172,7 +150,6 @@ class AsyncAccountsResource(AsyncAPIResource):
 
           timeout: Override the client-level default timeout for this request, in seconds
         """
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
         return await self._put(
             "/accounts/",
             body=await async_maybe_transform(
@@ -185,41 +162,26 @@ class AsyncAccountsResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=User,
+            cast_to=AccountUpdateResponse,
         )
 
     async def list(
         self,
         *,
-        index_id: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> User:
-        """
-        Get User
-
-        Args:
-          index_id: filter by organization
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
+    ) -> AccountListResponse:
+        """Get User"""
         return await self._get(
             "/accounts/",
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=User,
+            cast_to=AccountListResponse,
         )
 
 

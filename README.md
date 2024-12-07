@@ -30,8 +30,8 @@ client = Mixpeek(
     api_key="My API Key",
 )
 
-user = client.accounts.update()
-print(user.index_ids)
+account = client.accounts.update()
+print(account.index_ids)
 ```
 
 ## Async usage
@@ -48,8 +48,8 @@ client = AsyncMixpeek(
 
 
 async def main() -> None:
-    user = await client.accounts.update()
-    print(user.index_ids)
+    account = await client.accounts.update()
+    print(account.index_ids)
 
 
 asyncio.run(main())
@@ -161,11 +161,13 @@ Note that requests that time out are [retried twice by default](#retries).
 
 We use the standard library [`logging`](https://docs.python.org/3/library/logging.html) module.
 
-You can enable logging by setting the environment variable `MIXPEEK_LOG` to `debug`.
+You can enable logging by setting the environment variable `MIXPEEK_LOG` to `info`.
 
 ```shell
-$ export MIXPEEK_LOG=debug
+$ export MIXPEEK_LOG=info
 ```
+
+Or to `debug` for more verbose logging.
 
 ### How to tell whether `None` means `null` or missing
 

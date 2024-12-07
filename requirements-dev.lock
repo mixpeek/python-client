@@ -51,6 +51,7 @@ mdurl==0.1.2
 mypy==1.13.0
 mypy-extensions==1.0.0
     # via mypy
+nest-asyncio==1.6.0
 nodeenv==1.8.0
     # via pyright
 nox==2023.4.22
@@ -67,7 +68,7 @@ pydantic-core==2.23.4
     # via pydantic
 pygments==2.18.0
     # via rich
-pyright==1.1.380
+pyright==1.1.389
 pytest==8.3.3
     # via pytest-asyncio
 pytest-asyncio==0.24.0
@@ -96,6 +97,7 @@ typing-extensions==4.12.2
     # via mypy
     # via pydantic
     # via pydantic-core
+    # via pyright
 virtualenv==20.24.5
     # via nox
 zipp==3.17.0

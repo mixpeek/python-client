@@ -34,7 +34,7 @@ class TestFaces:
             collection_id="collection_id",
             file=b"raw file contents",
             metadata="metadata",
-            index_id="index-id",
+            x_namespace="X-Namespace",
         )
         assert_matches_type(FaceResponse, face, path=["response"])
 
@@ -81,7 +81,7 @@ class TestFaces:
             collection_id="collection_id",
             body_face_id="face_id",
             metadata={},
-            index_id="index-id",
+            x_namespace="X-Namespace",
         )
         assert_matches_type(FaceResponse, face, path=["response"])
 
@@ -138,7 +138,7 @@ class TestFaces:
             collection_id="collection_id",
             page=0,
             page_size=0,
-            index_id="index-id",
+            x_namespace="X-Namespace",
         )
         assert_matches_type(FaceListResponse, face, path=["response"])
 
@@ -184,7 +184,7 @@ class TestFaces:
     def test_method_delete_with_all_params(self, client: Mixpeek) -> None:
         face = client.entities.faces.delete(
             face_id="face_id",
-            index_id="index-id",
+            x_namespace="X-Namespace",
         )
         assert_matches_type(object, face, path=["response"])
 
@@ -237,7 +237,7 @@ class TestAsyncFaces:
             collection_id="collection_id",
             file=b"raw file contents",
             metadata="metadata",
-            index_id="index-id",
+            x_namespace="X-Namespace",
         )
         assert_matches_type(FaceResponse, face, path=["response"])
 
@@ -284,7 +284,7 @@ class TestAsyncFaces:
             collection_id="collection_id",
             body_face_id="face_id",
             metadata={},
-            index_id="index-id",
+            x_namespace="X-Namespace",
         )
         assert_matches_type(FaceResponse, face, path=["response"])
 
@@ -341,7 +341,7 @@ class TestAsyncFaces:
             collection_id="collection_id",
             page=0,
             page_size=0,
-            index_id="index-id",
+            x_namespace="X-Namespace",
         )
         assert_matches_type(FaceListResponse, face, path=["response"])
 
@@ -387,7 +387,7 @@ class TestAsyncFaces:
     async def test_method_delete_with_all_params(self, async_client: AsyncMixpeek) -> None:
         face = await async_client.entities.faces.delete(
             face_id="face_id",
-            index_id="index-id",
+            x_namespace="X-Namespace",
         )
         assert_matches_type(object, face, path=["response"])
 

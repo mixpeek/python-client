@@ -27,6 +27,9 @@ class AssetResponse(BaseModel):
     modality: Optional[str] = None
     """The type of media"""
 
+    preview_url: Optional[str] = None
+    """The presigned URL for accessing the asset preview"""
+
     score: Optional[float] = None
     """The relevance score of the asset"""
 
@@ -43,4 +46,4 @@ class AssetResponse(BaseModel):
     """MongoDB datetime format"""
 
     url: Optional[str] = None
-    """The URL where the asset can be accessed"""
+    """The presigned URL for accessing the asset"""
