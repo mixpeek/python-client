@@ -2,21 +2,19 @@
 
 from __future__ import annotations
 
-from typing_extensions import Required, Annotated, TypedDict
+from typing_extensions import Annotated, TypedDict
 
 from ..._utils import PropertyInfo
 
-__all__ = ["FaceUpdateParams"]
+__all__ = ["FeatureListParams"]
 
 
-class FaceUpdateParams(TypedDict, total=False):
-    path_face_id: Required[Annotated[str, PropertyInfo(alias="face_id")]]
+class FeatureListParams(TypedDict, total=False):
+    return_url: bool
+    """Whether to generate and return presigned S3 URLs for the asset and preview.
 
-    collection_id: Required[str]
-
-    body_face_id: Required[Annotated[str, PropertyInfo(alias="face_id")]]
-
-    metadata: Required[object]
+    Set to false to improve performance when URLs aren't needed
+    """
 
     x_namespace: Annotated[str, PropertyInfo(alias="X-Namespace")]
     """Optional namespace for data isolation.

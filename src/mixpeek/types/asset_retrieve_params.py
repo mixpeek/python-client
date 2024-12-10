@@ -2,17 +2,19 @@
 
 from __future__ import annotations
 
-from typing import Optional
 from typing_extensions import Annotated, TypedDict
 
 from .._utils import PropertyInfo
 
-__all__ = ["FeatureRetrieveParams"]
+__all__ = ["AssetRetrieveParams"]
 
 
-class FeatureRetrieveParams(TypedDict, total=False):
-    include_vectors: Optional[bool]
-    """When true, includes the feature's vector embeddings in the response"""
+class AssetRetrieveParams(TypedDict, total=False):
+    return_url: bool
+    """Whether to generate and return presigned S3 URLs for the asset and preview.
+
+    Set to false to improve performance when URLs aren't needed
+    """
 
     x_namespace: Annotated[str, PropertyInfo(alias="X-Namespace")]
     """Optional namespace for data isolation.

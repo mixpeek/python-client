@@ -8,14 +8,6 @@ from .faces import (
     FacesResourceWithStreamingResponse,
     AsyncFacesResourceWithStreamingResponse,
 )
-from .labels import (
-    LabelsResource,
-    AsyncLabelsResource,
-    LabelsResourceWithRawResponse,
-    AsyncLabelsResourceWithRawResponse,
-    LabelsResourceWithStreamingResponse,
-    AsyncLabelsResourceWithStreamingResponse,
-)
 from .entities import (
     EntitiesResource,
     AsyncEntitiesResource,
@@ -32,12 +24,6 @@ __all__ = [
     "AsyncFacesResourceWithRawResponse",
     "FacesResourceWithStreamingResponse",
     "AsyncFacesResourceWithStreamingResponse",
-    "LabelsResource",
-    "AsyncLabelsResource",
-    "LabelsResourceWithRawResponse",
-    "AsyncLabelsResourceWithRawResponse",
-    "LabelsResourceWithStreamingResponse",
-    "AsyncLabelsResourceWithStreamingResponse",
     "EntitiesResource",
     "AsyncEntitiesResource",
     "EntitiesResourceWithRawResponse",
