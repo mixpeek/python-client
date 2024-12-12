@@ -53,7 +53,7 @@ class FeaturesResource(SyncAPIResource):
         self,
         feature_id: str,
         *,
-        include_vectors: Optional[bool] | NotGiven = NOT_GIVEN,
+        return_vectors: Optional[bool] | NotGiven = NOT_GIVEN,
         x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -66,7 +66,7 @@ class FeaturesResource(SyncAPIResource):
         Get Feature
 
         Args:
-          include_vectors: When true, includes the feature's vector embeddings in the response
+          return_vectors: When true, includes the feature's vector embeddings in the response
 
           x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
               'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
@@ -90,7 +90,7 @@ class FeaturesResource(SyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=maybe_transform(
-                    {"include_vectors": include_vectors}, feature_retrieve_params.FeatureRetrieveParams
+                    {"return_vectors": return_vectors}, feature_retrieve_params.FeatureRetrieveParams
                 ),
             ),
             cast_to=Feature,
@@ -274,7 +274,7 @@ class AsyncFeaturesResource(AsyncAPIResource):
         self,
         feature_id: str,
         *,
-        include_vectors: Optional[bool] | NotGiven = NOT_GIVEN,
+        return_vectors: Optional[bool] | NotGiven = NOT_GIVEN,
         x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
@@ -287,7 +287,7 @@ class AsyncFeaturesResource(AsyncAPIResource):
         Get Feature
 
         Args:
-          include_vectors: When true, includes the feature's vector embeddings in the response
+          return_vectors: When true, includes the feature's vector embeddings in the response
 
           x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
               'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
@@ -311,7 +311,7 @@ class AsyncFeaturesResource(AsyncAPIResource):
                 extra_body=extra_body,
                 timeout=timeout,
                 query=await async_maybe_transform(
-                    {"include_vectors": include_vectors}, feature_retrieve_params.FeatureRetrieveParams
+                    {"return_vectors": return_vectors}, feature_retrieve_params.FeatureRetrieveParams
                 ),
             ),
             cast_to=Feature,

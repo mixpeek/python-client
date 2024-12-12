@@ -31,7 +31,7 @@ class TestFeatures:
     def test_method_retrieve_with_all_params(self, client: Mixpeek) -> None:
         feature = client.features.retrieve(
             feature_id="feature_id",
-            include_vectors=True,
+            return_vectors=True,
             x_namespace="X-Namespace",
         )
         assert_matches_type(Feature, feature, path=["response"])
@@ -264,7 +264,7 @@ class TestAsyncFeatures:
     async def test_method_retrieve_with_all_params(self, async_client: AsyncMixpeek) -> None:
         feature = await async_client.features.retrieve(
             feature_id="feature_id",
-            include_vectors=True,
+            return_vectors=True,
             x_namespace="X-Namespace",
         )
         assert_matches_type(Feature, feature, path=["response"])

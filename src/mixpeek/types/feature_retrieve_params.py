@@ -11,7 +11,7 @@ __all__ = ["FeatureRetrieveParams"]
 
 
 class FeatureRetrieveParams(TypedDict, total=False):
-    include_vectors: Optional[bool]
+    return_vectors: Optional[bool]
     """When true, includes the feature's vector embeddings in the response"""
 
     x_namespace: Annotated[str, PropertyInfo(alias="X-Namespace")]
