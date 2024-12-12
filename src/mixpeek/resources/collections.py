@@ -95,45 +95,6 @@ class CollectionsResource(SyncAPIResource):
             cast_to=CollectionListResponse,
         )
 
-    def delete(
-        self,
-        collection_id: str,
-        *,
-        x_namespace: str | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
-        """Delete Collection
-
-        Args:
-          x_namespace: Optional namespace for data isolation.
-
-        Example: 'netflix_prod' or
-              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not collection_id:
-            raise ValueError(f"Expected a non-empty value for `collection_id` but received {collection_id!r}")
-        extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
-        return self._delete(
-            f"/collections/{collection_id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=object,
-        )
-
 
 class AsyncCollectionsResource(AsyncAPIResource):
     @cached_property
@@ -203,45 +164,6 @@ class AsyncCollectionsResource(AsyncAPIResource):
             cast_to=CollectionListResponse,
         )
 
-    async def delete(
-        self,
-        collection_id: str,
-        *,
-        x_namespace: str | NotGiven = NOT_GIVEN,
-        # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
-        # The extra values given here take precedence over values defined on the client or passed to this method.
-        extra_headers: Headers | None = None,
-        extra_query: Query | None = None,
-        extra_body: Body | None = None,
-        timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
-        """Delete Collection
-
-        Args:
-          x_namespace: Optional namespace for data isolation.
-
-        Example: 'netflix_prod' or
-              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
-
-          extra_headers: Send extra headers
-
-          extra_query: Add additional query parameters to the request
-
-          extra_body: Add additional JSON properties to the request
-
-          timeout: Override the client-level default timeout for this request, in seconds
-        """
-        if not collection_id:
-            raise ValueError(f"Expected a non-empty value for `collection_id` but received {collection_id!r}")
-        extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
-        return await self._delete(
-            f"/collections/{collection_id}",
-            options=make_request_options(
-                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-            ),
-            cast_to=object,
-        )
-
 
 class CollectionsResourceWithRawResponse:
     def __init__(self, collections: CollectionsResource) -> None:
@@ -249,9 +171,6 @@ class CollectionsResourceWithRawResponse:
 
         self.list = to_raw_response_wrapper(
             collections.list,
-        )
-        self.delete = to_raw_response_wrapper(
-            collections.delete,
         )
 
 
@@ -262,9 +181,6 @@ class AsyncCollectionsResourceWithRawResponse:
         self.list = async_to_raw_response_wrapper(
             collections.list,
         )
-        self.delete = async_to_raw_response_wrapper(
-            collections.delete,
-        )
 
 
 class CollectionsResourceWithStreamingResponse:
@@ -274,9 +190,6 @@ class CollectionsResourceWithStreamingResponse:
         self.list = to_streamed_response_wrapper(
             collections.list,
         )
-        self.delete = to_streamed_response_wrapper(
-            collections.delete,
-        )
 
 
 class AsyncCollectionsResourceWithStreamingResponse:
@@ -285,7 +198,4 @@ class AsyncCollectionsResourceWithStreamingResponse:
 
         self.list = async_to_streamed_response_wrapper(
             collections.list,
-        )
-        self.delete = async_to_streamed_response_wrapper(
-            collections.delete,
         )

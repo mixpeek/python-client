@@ -13,7 +13,7 @@ __all__ = ["AssetCreateParams", "Filters", "FiltersAnd", "FiltersNor", "FiltersO
 
 
 class AssetCreateParams(TypedDict, total=False):
-    collection_ids: Required[List[str]]
+    collection_names: Required[List[str]]
     """List of Collection IDs to search within, required"""
 
     page: Optional[int]

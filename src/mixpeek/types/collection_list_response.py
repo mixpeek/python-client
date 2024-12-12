@@ -19,6 +19,8 @@ class Result(BaseModel):
 
     size_bytes: int
 
+    collection_name: Optional[str] = None
+
     metadata: Optional[object] = None
 
     preview_url: Optional[str] = None
