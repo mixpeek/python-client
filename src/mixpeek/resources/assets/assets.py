@@ -36,6 +36,7 @@ from ..._response import (
 )
 from ..._base_client import make_request_options
 from ...types.asset_response import AssetResponse
+from ...types.asset_create_response import AssetCreateResponse
 from ...types.asset_search_response import AssetSearchResponse
 from ...types.asset_update_response import AssetUpdateResponse
 from ...types.shared_params.sort_option import SortOption
@@ -70,7 +71,7 @@ class AssetsResource(SyncAPIResource):
     def create(
         self,
         *,
-        collection_ids: List[str],
+        collection_names: List[str],
         page: Optional[int] | NotGiven = NOT_GIVEN,
         page_size: int | NotGiven = NOT_GIVEN,
         filters: Optional[asset_create_params.Filters] | NotGiven = NOT_GIVEN,
@@ -85,12 +86,12 @@ class AssetsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> AssetCreateResponse:
         """
         List Assets
 
         Args:
-          collection_ids: List of Collection IDs to search within, required
+          collection_names: List of Collection IDs to search within, required
 
           filters: Used for filtering across all indexes
 
@@ -121,7 +122,7 @@ class AssetsResource(SyncAPIResource):
             "/assets",
             body=maybe_transform(
                 {
-                    "collection_ids": collection_ids,
+                    "collection_names": collection_names,
                     "filters": filters,
                     "group_by": group_by,
                     "return_url": return_url,
@@ -143,7 +144,7 @@ class AssetsResource(SyncAPIResource):
                     asset_create_params.AssetCreateParams,
                 ),
             ),
-            cast_to=object,
+            cast_to=AssetCreateResponse,
         )
 
     def retrieve(
@@ -294,7 +295,7 @@ class AssetsResource(SyncAPIResource):
     def search(
         self,
         *,
-        collection_ids: List[str],
+        collection_names: List[str],
         filters: Optional[asset_search_params.Filters] | NotGiven = NOT_GIVEN,
         query: Optional[asset_search_params.Query] | NotGiven = NOT_GIVEN,
         return_url: Optional[bool] | NotGiven = NOT_GIVEN,
@@ -312,7 +313,7 @@ class AssetsResource(SyncAPIResource):
         Search Assets
 
         Args:
-          collection_ids: List of Collection IDs to search within, required
+          collection_names: List of Collection Names to search within, required
 
           filters: Complex nested query filters
 
@@ -342,7 +343,7 @@ class AssetsResource(SyncAPIResource):
             "/assets/search",
             body=maybe_transform(
                 {
-                    "collection_ids": collection_ids,
+                    "collection_names": collection_names,
                     "filters": filters,
                     "query": query,
                     "return_url": return_url,
@@ -385,7 +386,7 @@ class AsyncAssetsResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        collection_ids: List[str],
+        collection_names: List[str],
         page: Optional[int] | NotGiven = NOT_GIVEN,
         page_size: int | NotGiven = NOT_GIVEN,
         filters: Optional[asset_create_params.Filters] | NotGiven = NOT_GIVEN,
@@ -400,12 +401,12 @@ class AsyncAssetsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> object:
+    ) -> AssetCreateResponse:
         """
         List Assets
 
         Args:
-          collection_ids: List of Collection IDs to search within, required
+          collection_names: List of Collection IDs to search within, required
 
           filters: Used for filtering across all indexes
 
@@ -436,7 +437,7 @@ class AsyncAssetsResource(AsyncAPIResource):
             "/assets",
             body=await async_maybe_transform(
                 {
-                    "collection_ids": collection_ids,
+                    "collection_names": collection_names,
                     "filters": filters,
                     "group_by": group_by,
                     "return_url": return_url,
@@ -458,7 +459,7 @@ class AsyncAssetsResource(AsyncAPIResource):
                     asset_create_params.AssetCreateParams,
                 ),
             ),
-            cast_to=object,
+            cast_to=AssetCreateResponse,
         )
 
     async def retrieve(
@@ -611,7 +612,7 @@ class AsyncAssetsResource(AsyncAPIResource):
     async def search(
         self,
         *,
-        collection_ids: List[str],
+        collection_names: List[str],
         filters: Optional[asset_search_params.Filters] | NotGiven = NOT_GIVEN,
         query: Optional[asset_search_params.Query] | NotGiven = NOT_GIVEN,
         return_url: Optional[bool] | NotGiven = NOT_GIVEN,
@@ -629,7 +630,7 @@ class AsyncAssetsResource(AsyncAPIResource):
         Search Assets
 
         Args:
-          collection_ids: List of Collection IDs to search within, required
+          collection_names: List of Collection Names to search within, required
 
           filters: Complex nested query filters
 
@@ -659,7 +660,7 @@ class AsyncAssetsResource(AsyncAPIResource):
             "/assets/search",
             body=await async_maybe_transform(
                 {
-                    "collection_ids": collection_ids,
+                    "collection_names": collection_names,
                     "filters": filters,
                     "query": query,
                     "return_url": return_url,

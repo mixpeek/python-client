@@ -46,10 +46,7 @@ __all__ = [
 
 
 class Mixpeek(SyncAPIClient):
-    accounts: resources.AccountsResource
     features: resources.FeaturesResource
-    index: resources.IndexResource
-    entities: resources.EntitiesResource
     assets: resources.AssetsResource
     collections: resources.CollectionsResource
     tasks: resources.TasksResource
@@ -102,10 +99,7 @@ class Mixpeek(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.accounts = resources.AccountsResource(self)
         self.features = resources.FeaturesResource(self)
-        self.index = resources.IndexResource(self)
-        self.entities = resources.EntitiesResource(self)
         self.assets = resources.AssetsResource(self)
         self.collections = resources.CollectionsResource(self)
         self.tasks = resources.TasksResource(self)
@@ -219,10 +213,7 @@ class Mixpeek(SyncAPIClient):
 
 
 class AsyncMixpeek(AsyncAPIClient):
-    accounts: resources.AsyncAccountsResource
     features: resources.AsyncFeaturesResource
-    index: resources.AsyncIndexResource
-    entities: resources.AsyncEntitiesResource
     assets: resources.AsyncAssetsResource
     collections: resources.AsyncCollectionsResource
     tasks: resources.AsyncTasksResource
@@ -275,10 +266,7 @@ class AsyncMixpeek(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.accounts = resources.AsyncAccountsResource(self)
         self.features = resources.AsyncFeaturesResource(self)
-        self.index = resources.AsyncIndexResource(self)
-        self.entities = resources.AsyncEntitiesResource(self)
         self.assets = resources.AsyncAssetsResource(self)
         self.collections = resources.AsyncCollectionsResource(self)
         self.tasks = resources.AsyncTasksResource(self)
@@ -393,10 +381,7 @@ class AsyncMixpeek(AsyncAPIClient):
 
 class MixpeekWithRawResponse:
     def __init__(self, client: Mixpeek) -> None:
-        self.accounts = resources.AccountsResourceWithRawResponse(client.accounts)
         self.features = resources.FeaturesResourceWithRawResponse(client.features)
-        self.index = resources.IndexResourceWithRawResponse(client.index)
-        self.entities = resources.EntitiesResourceWithRawResponse(client.entities)
         self.assets = resources.AssetsResourceWithRawResponse(client.assets)
         self.collections = resources.CollectionsResourceWithRawResponse(client.collections)
         self.tasks = resources.TasksResourceWithRawResponse(client.tasks)
@@ -405,10 +390,7 @@ class MixpeekWithRawResponse:
 
 class AsyncMixpeekWithRawResponse:
     def __init__(self, client: AsyncMixpeek) -> None:
-        self.accounts = resources.AsyncAccountsResourceWithRawResponse(client.accounts)
         self.features = resources.AsyncFeaturesResourceWithRawResponse(client.features)
-        self.index = resources.AsyncIndexResourceWithRawResponse(client.index)
-        self.entities = resources.AsyncEntitiesResourceWithRawResponse(client.entities)
         self.assets = resources.AsyncAssetsResourceWithRawResponse(client.assets)
         self.collections = resources.AsyncCollectionsResourceWithRawResponse(client.collections)
         self.tasks = resources.AsyncTasksResourceWithRawResponse(client.tasks)
@@ -417,10 +399,7 @@ class AsyncMixpeekWithRawResponse:
 
 class MixpeekWithStreamedResponse:
     def __init__(self, client: Mixpeek) -> None:
-        self.accounts = resources.AccountsResourceWithStreamingResponse(client.accounts)
         self.features = resources.FeaturesResourceWithStreamingResponse(client.features)
-        self.index = resources.IndexResourceWithStreamingResponse(client.index)
-        self.entities = resources.EntitiesResourceWithStreamingResponse(client.entities)
         self.assets = resources.AssetsResourceWithStreamingResponse(client.assets)
         self.collections = resources.CollectionsResourceWithStreamingResponse(client.collections)
         self.tasks = resources.TasksResourceWithStreamingResponse(client.tasks)
@@ -429,10 +408,7 @@ class MixpeekWithStreamedResponse:
 
 class AsyncMixpeekWithStreamedResponse:
     def __init__(self, client: AsyncMixpeek) -> None:
-        self.accounts = resources.AsyncAccountsResourceWithStreamingResponse(client.accounts)
         self.features = resources.AsyncFeaturesResourceWithStreamingResponse(client.features)
-        self.index = resources.AsyncIndexResourceWithStreamingResponse(client.index)
-        self.entities = resources.AsyncEntitiesResourceWithStreamingResponse(client.entities)
         self.assets = resources.AsyncAssetsResourceWithStreamingResponse(client.assets)
         self.collections = resources.AsyncCollectionsResourceWithStreamingResponse(client.collections)
         self.tasks = resources.AsyncTasksResourceWithStreamingResponse(client.tasks)
