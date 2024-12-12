@@ -18,8 +18,14 @@ class AssetResponse(BaseModel):
     created_at: Optional[datetime] = None
     """MongoDB datetime format"""
 
-    error: Optional[str] = None
+    error: Optional[object] = None
     """The error message if the asset processing failed"""
+
+    file_data: Optional[object] = None
+    """File data associated with the asset"""
+
+    file_hash: Optional[str] = None
+    """The unique hash of the"""
 
     metadata: Optional[object] = None
     """Additional metadata associated with the asset"""
@@ -38,9 +44,6 @@ class AssetResponse(BaseModel):
 
     task_id: Optional[str] = None
     """The task ID"""
-
-    unique_hash: Optional[str] = None
-    """The unique hash of the asset"""
 
     updated_at: Optional[datetime] = None
     """MongoDB datetime format"""

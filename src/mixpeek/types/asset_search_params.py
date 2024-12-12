@@ -13,8 +13,8 @@ __all__ = ["AssetSearchParams", "Filters", "FiltersAnd", "FiltersNor", "FiltersO
 
 
 class AssetSearchParams(TypedDict, total=False):
-    collection_ids: Required[List[str]]
-    """List of Collection IDs to search within, required"""
+    collection_names: Required[List[str]]
+    """List of Collection Names to search within, required"""
 
     filters: Optional[Filters]
     """Complex nested query filters"""
