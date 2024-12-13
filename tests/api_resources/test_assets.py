@@ -25,14 +25,14 @@ class TestAssets:
     @parametrize
     def test_method_create(self, client: Mixpeek) -> None:
         asset = client.assets.create(
-            collection_names=["collection1", "collection2"],
+            collections=["col_123", "my_collection"],
         )
         assert_matches_type(AssetCreateResponse, asset, path=["response"])
 
     @parametrize
     def test_method_create_with_all_params(self, client: Mixpeek) -> None:
         asset = client.assets.create(
-            collection_names=["collection1", "collection2"],
+            collections=["col_123", "my_collection"],
             page=0,
             page_size=0,
             filters={
@@ -95,7 +95,7 @@ class TestAssets:
     @parametrize
     def test_raw_response_create(self, client: Mixpeek) -> None:
         response = client.assets.with_raw_response.create(
-            collection_names=["collection1", "collection2"],
+            collections=["col_123", "my_collection"],
         )
 
         assert response.is_closed is True
@@ -106,7 +106,7 @@ class TestAssets:
     @parametrize
     def test_streaming_response_create(self, client: Mixpeek) -> None:
         with client.assets.with_streaming_response.create(
-            collection_names=["collection1", "collection2"],
+            collections=["col_123", "my_collection"],
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -263,14 +263,14 @@ class TestAssets:
     @parametrize
     def test_method_search(self, client: Mixpeek) -> None:
         asset = client.assets.search(
-            collection_names=["collection1", "collection2"],
+            collections=["col_123", "my_collection"],
         )
         assert_matches_type(AssetSearchResponse, asset, path=["response"])
 
     @parametrize
     def test_method_search_with_all_params(self, client: Mixpeek) -> None:
         asset = client.assets.search(
-            collection_names=["collection1", "collection2"],
+            collections=["col_123", "my_collection"],
             filters={
                 "and": [
                     {
@@ -327,7 +327,7 @@ class TestAssets:
     @parametrize
     def test_raw_response_search(self, client: Mixpeek) -> None:
         response = client.assets.with_raw_response.search(
-            collection_names=["collection1", "collection2"],
+            collections=["col_123", "my_collection"],
         )
 
         assert response.is_closed is True
@@ -338,7 +338,7 @@ class TestAssets:
     @parametrize
     def test_streaming_response_search(self, client: Mixpeek) -> None:
         with client.assets.with_streaming_response.search(
-            collection_names=["collection1", "collection2"],
+            collections=["col_123", "my_collection"],
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -355,14 +355,14 @@ class TestAsyncAssets:
     @parametrize
     async def test_method_create(self, async_client: AsyncMixpeek) -> None:
         asset = await async_client.assets.create(
-            collection_names=["collection1", "collection2"],
+            collections=["col_123", "my_collection"],
         )
         assert_matches_type(AssetCreateResponse, asset, path=["response"])
 
     @parametrize
     async def test_method_create_with_all_params(self, async_client: AsyncMixpeek) -> None:
         asset = await async_client.assets.create(
-            collection_names=["collection1", "collection2"],
+            collections=["col_123", "my_collection"],
             page=0,
             page_size=0,
             filters={
@@ -425,7 +425,7 @@ class TestAsyncAssets:
     @parametrize
     async def test_raw_response_create(self, async_client: AsyncMixpeek) -> None:
         response = await async_client.assets.with_raw_response.create(
-            collection_names=["collection1", "collection2"],
+            collections=["col_123", "my_collection"],
         )
 
         assert response.is_closed is True
@@ -436,7 +436,7 @@ class TestAsyncAssets:
     @parametrize
     async def test_streaming_response_create(self, async_client: AsyncMixpeek) -> None:
         async with async_client.assets.with_streaming_response.create(
-            collection_names=["collection1", "collection2"],
+            collections=["col_123", "my_collection"],
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -593,14 +593,14 @@ class TestAsyncAssets:
     @parametrize
     async def test_method_search(self, async_client: AsyncMixpeek) -> None:
         asset = await async_client.assets.search(
-            collection_names=["collection1", "collection2"],
+            collections=["col_123", "my_collection"],
         )
         assert_matches_type(AssetSearchResponse, asset, path=["response"])
 
     @parametrize
     async def test_method_search_with_all_params(self, async_client: AsyncMixpeek) -> None:
         asset = await async_client.assets.search(
-            collection_names=["collection1", "collection2"],
+            collections=["col_123", "my_collection"],
             filters={
                 "and": [
                     {
@@ -657,7 +657,7 @@ class TestAsyncAssets:
     @parametrize
     async def test_raw_response_search(self, async_client: AsyncMixpeek) -> None:
         response = await async_client.assets.with_raw_response.search(
-            collection_names=["collection1", "collection2"],
+            collections=["col_123", "my_collection"],
         )
 
         assert response.is_closed is True
@@ -668,7 +668,7 @@ class TestAsyncAssets:
     @parametrize
     async def test_streaming_response_search(self, async_client: AsyncMixpeek) -> None:
         async with async_client.assets.with_streaming_response.search(
-            collection_names=["collection1", "collection2"],
+            collections=["col_123", "my_collection"],
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

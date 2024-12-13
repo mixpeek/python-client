@@ -13,8 +13,8 @@ __all__ = ["FeatureListParams", "Filters", "FiltersAnd", "FiltersNor", "FiltersO
 
 
 class FeatureListParams(TypedDict, total=False):
-    collection_ids: Required[List[str]]
-    """Collection IDs to filter features"""
+    collections: Required[List[str]]
+    """Collection identifiers - can be either collection IDs or collection names"""
 
     offset_feature_id: Optional[str]
     """The offset id to start returning results from. Used for pagination"""
@@ -39,8 +39,8 @@ class FeatureListParams(TypedDict, total=False):
     x_namespace: Annotated[str, PropertyInfo(alias="X-Namespace")]
     """Optional namespace for data isolation.
 
-    Example: 'netflix_prod' or 'spotify_recs_dev'. To create a namespace, use the
-    /namespaces endpoint.
+    This can be a namespace name or namespace ID. Example: 'netflix_prod' or
+    'ns_1234567890'. To create a namespace, use the /namespaces endpoint.
     """
 
 

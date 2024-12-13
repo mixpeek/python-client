@@ -68,8 +68,9 @@ class FeaturesResource(SyncAPIResource):
         Args:
           return_vectors: When true, includes the feature's vector embeddings in the response
 
-          x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
-              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
+          x_namespace: Optional namespace for data isolation. This can be a namespace name or namespace
+              ID. Example: 'netflix_prod' or 'ns_1234567890'. To create a namespace, use the
+              /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -114,8 +115,9 @@ class FeaturesResource(SyncAPIResource):
         Args:
           x_namespace: Optional namespace for data isolation.
 
-        Example: 'netflix_prod' or
-              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
+        This can be a namespace name or namespace
+              ID. Example: 'netflix_prod' or 'ns_1234567890'. To create a namespace, use the
+              /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -140,7 +142,7 @@ class FeaturesResource(SyncAPIResource):
     def list(
         self,
         *,
-        collection_ids: List[str],
+        collections: List[str],
         offset_feature_id: Optional[str] | NotGiven = NOT_GIVEN,
         page_size: int | NotGiven = NOT_GIVEN,
         filters: Optional[feature_list_params.Filters] | NotGiven = NOT_GIVEN,
@@ -159,7 +161,7 @@ class FeaturesResource(SyncAPIResource):
         If you provide a sort, then pagination isn't supported.
 
         Args:
-          collection_ids: Collection IDs to filter features
+          collections: Collection identifiers - can be either collection IDs or collection names
 
           offset_feature_id: The offset id to start returning results from. Used for pagination
 
@@ -171,8 +173,9 @@ class FeaturesResource(SyncAPIResource):
           sort: List of fields to sort by, with direction (asc or desc).
                       NOTE: fields will require a specialty index to use this, consult with the team.
 
-          x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
-              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
+          x_namespace: Optional namespace for data isolation. This can be a namespace name or namespace
+              ID. Example: 'netflix_prod' or 'ns_1234567890'. To create a namespace, use the
+              /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -187,7 +190,7 @@ class FeaturesResource(SyncAPIResource):
             "/features",
             body=maybe_transform(
                 {
-                    "collection_ids": collection_ids,
+                    "collections": collections,
                     "filters": filters,
                     "select": select,
                     "sort": sort,
@@ -227,8 +230,9 @@ class FeaturesResource(SyncAPIResource):
         Args:
           x_namespace: Optional namespace for data isolation.
 
-        Example: 'netflix_prod' or
-              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
+        This can be a namespace name or namespace
+              ID. Example: 'netflix_prod' or 'ns_1234567890'. To create a namespace, use the
+              /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -289,8 +293,9 @@ class AsyncFeaturesResource(AsyncAPIResource):
         Args:
           return_vectors: When true, includes the feature's vector embeddings in the response
 
-          x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
-              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
+          x_namespace: Optional namespace for data isolation. This can be a namespace name or namespace
+              ID. Example: 'netflix_prod' or 'ns_1234567890'. To create a namespace, use the
+              /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -335,8 +340,9 @@ class AsyncFeaturesResource(AsyncAPIResource):
         Args:
           x_namespace: Optional namespace for data isolation.
 
-        Example: 'netflix_prod' or
-              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
+        This can be a namespace name or namespace
+              ID. Example: 'netflix_prod' or 'ns_1234567890'. To create a namespace, use the
+              /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -361,7 +367,7 @@ class AsyncFeaturesResource(AsyncAPIResource):
     async def list(
         self,
         *,
-        collection_ids: List[str],
+        collections: List[str],
         offset_feature_id: Optional[str] | NotGiven = NOT_GIVEN,
         page_size: int | NotGiven = NOT_GIVEN,
         filters: Optional[feature_list_params.Filters] | NotGiven = NOT_GIVEN,
@@ -380,7 +386,7 @@ class AsyncFeaturesResource(AsyncAPIResource):
         If you provide a sort, then pagination isn't supported.
 
         Args:
-          collection_ids: Collection IDs to filter features
+          collections: Collection identifiers - can be either collection IDs or collection names
 
           offset_feature_id: The offset id to start returning results from. Used for pagination
 
@@ -392,8 +398,9 @@ class AsyncFeaturesResource(AsyncAPIResource):
           sort: List of fields to sort by, with direction (asc or desc).
                       NOTE: fields will require a specialty index to use this, consult with the team.
 
-          x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
-              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
+          x_namespace: Optional namespace for data isolation. This can be a namespace name or namespace
+              ID. Example: 'netflix_prod' or 'ns_1234567890'. To create a namespace, use the
+              /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -408,7 +415,7 @@ class AsyncFeaturesResource(AsyncAPIResource):
             "/features",
             body=await async_maybe_transform(
                 {
-                    "collection_ids": collection_ids,
+                    "collections": collections,
                     "filters": filters,
                     "select": select,
                     "sort": sort,
@@ -448,8 +455,9 @@ class AsyncFeaturesResource(AsyncAPIResource):
         Args:
           x_namespace: Optional namespace for data isolation.
 
-        Example: 'netflix_prod' or
-              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
+        This can be a namespace name or namespace
+              ID. Example: 'netflix_prod' or 'ns_1234567890'. To create a namespace, use the
+              /namespaces endpoint.
 
           extra_headers: Send extra headers
 
