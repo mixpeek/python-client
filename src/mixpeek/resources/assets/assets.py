@@ -71,7 +71,7 @@ class AssetsResource(SyncAPIResource):
     def create(
         self,
         *,
-        collection_names: List[str],
+        collections: List[str],
         page: Optional[int] | NotGiven = NOT_GIVEN,
         page_size: int | NotGiven = NOT_GIVEN,
         filters: Optional[asset_create_params.Filters] | NotGiven = NOT_GIVEN,
@@ -91,7 +91,7 @@ class AssetsResource(SyncAPIResource):
         List Assets
 
         Args:
-          collection_names: List of Collection IDs to search within, required
+          collections: List of Collection IDs or Names to search within, required
 
           filters: Used for filtering across all indexes
 
@@ -106,8 +106,9 @@ class AssetsResource(SyncAPIResource):
           sort: List of fields to sort by, with direction (asc or desc). Supports dot notation
               for nested fields.
 
-          x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
-              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
+          x_namespace: Optional namespace for data isolation. This can be a namespace name or namespace
+              ID. Example: 'netflix_prod' or 'ns_1234567890'. To create a namespace, use the
+              /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -122,7 +123,7 @@ class AssetsResource(SyncAPIResource):
             "/assets",
             body=maybe_transform(
                 {
-                    "collection_names": collection_names,
+                    "collections": collections,
                     "filters": filters,
                     "group_by": group_by,
                     "return_url": return_url,
@@ -169,8 +170,9 @@ class AssetsResource(SyncAPIResource):
           return_url: Whether to generate and return presigned S3 URLs for the asset and preview. Set
               to false to improve performance when URLs aren't needed
 
-          x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
-              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
+          x_namespace: Optional namespace for data isolation. This can be a namespace name or namespace
+              ID. Example: 'netflix_prod' or 'ns_1234567890'. To create a namespace, use the
+              /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -219,8 +221,9 @@ class AssetsResource(SyncAPIResource):
 
           propagate_features: If True, the features will be propagated to all assets with the same asset_id
 
-          x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
-              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
+          x_namespace: Optional namespace for data isolation. This can be a namespace name or namespace
+              ID. Example: 'netflix_prod' or 'ns_1234567890'. To create a namespace, use the
+              /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -270,8 +273,9 @@ class AssetsResource(SyncAPIResource):
         Args:
           x_namespace: Optional namespace for data isolation.
 
-        Example: 'netflix_prod' or
-              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
+        This can be a namespace name or namespace
+              ID. Example: 'netflix_prod' or 'ns_1234567890'. To create a namespace, use the
+              /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -295,7 +299,7 @@ class AssetsResource(SyncAPIResource):
     def search(
         self,
         *,
-        collection_names: List[str],
+        collections: List[str],
         filters: Optional[asset_search_params.Filters] | NotGiven = NOT_GIVEN,
         query: Optional[asset_search_params.Query] | NotGiven = NOT_GIVEN,
         return_url: Optional[bool] | NotGiven = NOT_GIVEN,
@@ -313,7 +317,7 @@ class AssetsResource(SyncAPIResource):
         Search Assets
 
         Args:
-          collection_names: List of Collection Names to search within, required
+          collections: List of Collection IDs or Names to search within, required
 
           filters: Complex nested query filters
 
@@ -327,8 +331,9 @@ class AssetsResource(SyncAPIResource):
 
           sort: List of fields to sort by
 
-          x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
-              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
+          x_namespace: Optional namespace for data isolation. This can be a namespace name or namespace
+              ID. Example: 'netflix_prod' or 'ns_1234567890'. To create a namespace, use the
+              /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -343,7 +348,7 @@ class AssetsResource(SyncAPIResource):
             "/assets/search",
             body=maybe_transform(
                 {
-                    "collection_names": collection_names,
+                    "collections": collections,
                     "filters": filters,
                     "query": query,
                     "return_url": return_url,
@@ -386,7 +391,7 @@ class AsyncAssetsResource(AsyncAPIResource):
     async def create(
         self,
         *,
-        collection_names: List[str],
+        collections: List[str],
         page: Optional[int] | NotGiven = NOT_GIVEN,
         page_size: int | NotGiven = NOT_GIVEN,
         filters: Optional[asset_create_params.Filters] | NotGiven = NOT_GIVEN,
@@ -406,7 +411,7 @@ class AsyncAssetsResource(AsyncAPIResource):
         List Assets
 
         Args:
-          collection_names: List of Collection IDs to search within, required
+          collections: List of Collection IDs or Names to search within, required
 
           filters: Used for filtering across all indexes
 
@@ -421,8 +426,9 @@ class AsyncAssetsResource(AsyncAPIResource):
           sort: List of fields to sort by, with direction (asc or desc). Supports dot notation
               for nested fields.
 
-          x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
-              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
+          x_namespace: Optional namespace for data isolation. This can be a namespace name or namespace
+              ID. Example: 'netflix_prod' or 'ns_1234567890'. To create a namespace, use the
+              /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -437,7 +443,7 @@ class AsyncAssetsResource(AsyncAPIResource):
             "/assets",
             body=await async_maybe_transform(
                 {
-                    "collection_names": collection_names,
+                    "collections": collections,
                     "filters": filters,
                     "group_by": group_by,
                     "return_url": return_url,
@@ -484,8 +490,9 @@ class AsyncAssetsResource(AsyncAPIResource):
           return_url: Whether to generate and return presigned S3 URLs for the asset and preview. Set
               to false to improve performance when URLs aren't needed
 
-          x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
-              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
+          x_namespace: Optional namespace for data isolation. This can be a namespace name or namespace
+              ID. Example: 'netflix_prod' or 'ns_1234567890'. To create a namespace, use the
+              /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -536,8 +543,9 @@ class AsyncAssetsResource(AsyncAPIResource):
 
           propagate_features: If True, the features will be propagated to all assets with the same asset_id
 
-          x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
-              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
+          x_namespace: Optional namespace for data isolation. This can be a namespace name or namespace
+              ID. Example: 'netflix_prod' or 'ns_1234567890'. To create a namespace, use the
+              /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -587,8 +595,9 @@ class AsyncAssetsResource(AsyncAPIResource):
         Args:
           x_namespace: Optional namespace for data isolation.
 
-        Example: 'netflix_prod' or
-              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
+        This can be a namespace name or namespace
+              ID. Example: 'netflix_prod' or 'ns_1234567890'. To create a namespace, use the
+              /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -612,7 +621,7 @@ class AsyncAssetsResource(AsyncAPIResource):
     async def search(
         self,
         *,
-        collection_names: List[str],
+        collections: List[str],
         filters: Optional[asset_search_params.Filters] | NotGiven = NOT_GIVEN,
         query: Optional[asset_search_params.Query] | NotGiven = NOT_GIVEN,
         return_url: Optional[bool] | NotGiven = NOT_GIVEN,
@@ -630,7 +639,7 @@ class AsyncAssetsResource(AsyncAPIResource):
         Search Assets
 
         Args:
-          collection_names: List of Collection Names to search within, required
+          collections: List of Collection IDs or Names to search within, required
 
           filters: Complex nested query filters
 
@@ -644,8 +653,9 @@ class AsyncAssetsResource(AsyncAPIResource):
 
           sort: List of fields to sort by
 
-          x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
-              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
+          x_namespace: Optional namespace for data isolation. This can be a namespace name or namespace
+              ID. Example: 'netflix_prod' or 'ns_1234567890'. To create a namespace, use the
+              /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -660,7 +670,7 @@ class AsyncAssetsResource(AsyncAPIResource):
             "/assets/search",
             body=await async_maybe_transform(
                 {
-                    "collection_names": collection_names,
+                    "collections": collections,
                     "filters": filters,
                     "query": query,
                     "return_url": return_url,

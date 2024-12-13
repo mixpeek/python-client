@@ -121,14 +121,14 @@ class TestFeatures:
     @parametrize
     def test_method_list(self, client: Mixpeek) -> None:
         feature = client.features.list(
-            collection_ids=["string"],
+            collections=["collection_123", "my_collection_name"],
         )
         assert_matches_type(FeatureListResponse, feature, path=["response"])
 
     @parametrize
     def test_method_list_with_all_params(self, client: Mixpeek) -> None:
         feature = client.features.list(
-            collection_ids=["string"],
+            collections=["collection_123", "my_collection_name"],
             offset_feature_id="offset_feature_id",
             page_size=0,
             filters={
@@ -182,7 +182,7 @@ class TestFeatures:
     @parametrize
     def test_raw_response_list(self, client: Mixpeek) -> None:
         response = client.features.with_raw_response.list(
-            collection_ids=["string"],
+            collections=["collection_123", "my_collection_name"],
         )
 
         assert response.is_closed is True
@@ -193,7 +193,7 @@ class TestFeatures:
     @parametrize
     def test_streaming_response_list(self, client: Mixpeek) -> None:
         with client.features.with_streaming_response.list(
-            collection_ids=["string"],
+            collections=["collection_123", "my_collection_name"],
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -354,14 +354,14 @@ class TestAsyncFeatures:
     @parametrize
     async def test_method_list(self, async_client: AsyncMixpeek) -> None:
         feature = await async_client.features.list(
-            collection_ids=["string"],
+            collections=["collection_123", "my_collection_name"],
         )
         assert_matches_type(FeatureListResponse, feature, path=["response"])
 
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncMixpeek) -> None:
         feature = await async_client.features.list(
-            collection_ids=["string"],
+            collections=["collection_123", "my_collection_name"],
             offset_feature_id="offset_feature_id",
             page_size=0,
             filters={
@@ -415,7 +415,7 @@ class TestAsyncFeatures:
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncMixpeek) -> None:
         response = await async_client.features.with_raw_response.list(
-            collection_ids=["string"],
+            collections=["collection_123", "my_collection_name"],
         )
 
         assert response.is_closed is True
@@ -426,7 +426,7 @@ class TestAsyncFeatures:
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncMixpeek) -> None:
         async with async_client.features.with_streaming_response.list(
-            collection_ids=["string"],
+            collections=["collection_123", "my_collection_name"],
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
