@@ -13,8 +13,8 @@ __all__ = ["AssetCreateParams", "Filters", "FiltersAnd", "FiltersNor", "FiltersO
 
 
 class AssetCreateParams(TypedDict, total=False):
-    collection_names: Required[List[str]]
-    """List of Collection IDs to search within, required"""
+    collections: Required[List[str]]
+    """List of Collection IDs or Names to search within, required"""
 
     page: Optional[int]
 
@@ -47,8 +47,8 @@ class AssetCreateParams(TypedDict, total=False):
     x_namespace: Annotated[str, PropertyInfo(alias="X-Namespace")]
     """Optional namespace for data isolation.
 
-    Example: 'netflix_prod' or 'spotify_recs_dev'. To create a namespace, use the
-    /namespaces endpoint.
+    This can be a namespace name or namespace ID. Example: 'netflix_prod' or
+    'ns_1234567890'. To create a namespace, use the /namespaces endpoint.
     """
 
 

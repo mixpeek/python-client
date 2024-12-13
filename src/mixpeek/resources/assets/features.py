@@ -67,8 +67,9 @@ class FeaturesResource(SyncAPIResource):
           return_url: Whether to generate and return presigned S3 URLs for the asset and preview. Set
               to false to improve performance when URLs aren't needed
 
-          x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
-              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
+          x_namespace: Optional namespace for data isolation. This can be a namespace name or namespace
+              ID. Example: 'netflix_prod' or 'ns_1234567890'. To create a namespace, use the
+              /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -136,8 +137,9 @@ class AsyncFeaturesResource(AsyncAPIResource):
           return_url: Whether to generate and return presigned S3 URLs for the asset and preview. Set
               to false to improve performance when URLs aren't needed
 
-          x_namespace: Optional namespace for data isolation. Example: 'netflix_prod' or
-              'spotify_recs_dev'. To create a namespace, use the /namespaces endpoint.
+          x_namespace: Optional namespace for data isolation. This can be a namespace name or namespace
+              ID. Example: 'netflix_prod' or 'ns_1234567890'. To create a namespace, use the
+              /namespaces endpoint.
 
           extra_headers: Send extra headers
 

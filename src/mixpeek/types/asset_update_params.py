@@ -24,6 +24,6 @@ class AssetUpdateParams(TypedDict, total=False):
     x_namespace: Annotated[str, PropertyInfo(alias="X-Namespace")]
     """Optional namespace for data isolation.
 
-    Example: 'netflix_prod' or 'spotify_recs_dev'. To create a namespace, use the
-    /namespaces endpoint.
+    This can be a namespace name or namespace ID. Example: 'netflix_prod' or
+    'ns_1234567890'. To create a namespace, use the /namespaces endpoint.
     """
