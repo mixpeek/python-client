@@ -170,6 +170,7 @@ class TestFeatures:
                     },
                 ],
             },
+            return_urls=True,
             select=["metadata.tags"],
             sort={
                 "direction": "asc",
@@ -403,6 +404,7 @@ class TestAsyncFeatures:
                     },
                 ],
             },
+            return_urls=True,
             select=["metadata.tags"],
             sort={
                 "direction": "asc",
