@@ -8,7 +8,7 @@ from typing_extensions import Self, override
 
 import httpx
 
-from . import _exceptions
+from . import resources, _exceptions
 from ._qs import Querystring
 from ._types import (
     NOT_GIVEN,
@@ -24,7 +24,6 @@ from ._utils import (
     get_async_library,
 )
 from ._version import __version__
-from .resources import tasks, collections, healthcheck
 from ._streaming import Stream as Stream, AsyncStream as AsyncStream
 from ._exceptions import APIStatusError
 from ._base_client import (
@@ -32,18 +31,26 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
-from .resources.assets import assets
-from .resources.features import features
 
-__all__ = ["Timeout", "Transport", "ProxiesTypes", "RequestOptions", "Mixpeek", "AsyncMixpeek", "Client", "AsyncClient"]
+__all__ = [
+    "Timeout",
+    "Transport",
+    "ProxiesTypes",
+    "RequestOptions",
+    "resources",
+    "Mixpeek",
+    "AsyncMixpeek",
+    "Client",
+    "AsyncClient",
+]
 
 
 class Mixpeek(SyncAPIClient):
-    features: features.FeaturesResource
-    assets: assets.AssetsResource
-    collections: collections.CollectionsResource
-    tasks: tasks.TasksResource
-    healthcheck: healthcheck.HealthcheckResource
+    features: resources.FeaturesResource
+    assets: resources.AssetsResource
+    collections: resources.CollectionsResource
+    tasks: resources.TasksResource
+    healthcheck: resources.HealthcheckResource
     with_raw_response: MixpeekWithRawResponse
     with_streaming_response: MixpeekWithStreamedResponse
 
@@ -92,11 +99,11 @@ class Mixpeek(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.features = features.FeaturesResource(self)
-        self.assets = assets.AssetsResource(self)
-        self.collections = collections.CollectionsResource(self)
-        self.tasks = tasks.TasksResource(self)
-        self.healthcheck = healthcheck.HealthcheckResource(self)
+        self.features = resources.FeaturesResource(self)
+        self.assets = resources.AssetsResource(self)
+        self.collections = resources.CollectionsResource(self)
+        self.tasks = resources.TasksResource(self)
+        self.healthcheck = resources.HealthcheckResource(self)
         self.with_raw_response = MixpeekWithRawResponse(self)
         self.with_streaming_response = MixpeekWithStreamedResponse(self)
 
@@ -206,11 +213,11 @@ class Mixpeek(SyncAPIClient):
 
 
 class AsyncMixpeek(AsyncAPIClient):
-    features: features.AsyncFeaturesResource
-    assets: assets.AsyncAssetsResource
-    collections: collections.AsyncCollectionsResource
-    tasks: tasks.AsyncTasksResource
-    healthcheck: healthcheck.AsyncHealthcheckResource
+    features: resources.AsyncFeaturesResource
+    assets: resources.AsyncAssetsResource
+    collections: resources.AsyncCollectionsResource
+    tasks: resources.AsyncTasksResource
+    healthcheck: resources.AsyncHealthcheckResource
     with_raw_response: AsyncMixpeekWithRawResponse
     with_streaming_response: AsyncMixpeekWithStreamedResponse
 
@@ -259,11 +266,11 @@ class AsyncMixpeek(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.features = features.AsyncFeaturesResource(self)
-        self.assets = assets.AsyncAssetsResource(self)
-        self.collections = collections.AsyncCollectionsResource(self)
-        self.tasks = tasks.AsyncTasksResource(self)
-        self.healthcheck = healthcheck.AsyncHealthcheckResource(self)
+        self.features = resources.AsyncFeaturesResource(self)
+        self.assets = resources.AsyncAssetsResource(self)
+        self.collections = resources.AsyncCollectionsResource(self)
+        self.tasks = resources.AsyncTasksResource(self)
+        self.healthcheck = resources.AsyncHealthcheckResource(self)
         self.with_raw_response = AsyncMixpeekWithRawResponse(self)
         self.with_streaming_response = AsyncMixpeekWithStreamedResponse(self)
 
@@ -374,38 +381,38 @@ class AsyncMixpeek(AsyncAPIClient):
 
 class MixpeekWithRawResponse:
     def __init__(self, client: Mixpeek) -> None:
-        self.features = features.FeaturesResourceWithRawResponse(client.features)
-        self.assets = assets.AssetsResourceWithRawResponse(client.assets)
-        self.collections = collections.CollectionsResourceWithRawResponse(client.collections)
-        self.tasks = tasks.TasksResourceWithRawResponse(client.tasks)
-        self.healthcheck = healthcheck.HealthcheckResourceWithRawResponse(client.healthcheck)
+        self.features = resources.FeaturesResourceWithRawResponse(client.features)
+        self.assets = resources.AssetsResourceWithRawResponse(client.assets)
+        self.collections = resources.CollectionsResourceWithRawResponse(client.collections)
+        self.tasks = resources.TasksResourceWithRawResponse(client.tasks)
+        self.healthcheck = resources.HealthcheckResourceWithRawResponse(client.healthcheck)
 
 
 class AsyncMixpeekWithRawResponse:
     def __init__(self, client: AsyncMixpeek) -> None:
-        self.features = features.AsyncFeaturesResourceWithRawResponse(client.features)
-        self.assets = assets.AsyncAssetsResourceWithRawResponse(client.assets)
-        self.collections = collections.AsyncCollectionsResourceWithRawResponse(client.collections)
-        self.tasks = tasks.AsyncTasksResourceWithRawResponse(client.tasks)
-        self.healthcheck = healthcheck.AsyncHealthcheckResourceWithRawResponse(client.healthcheck)
+        self.features = resources.AsyncFeaturesResourceWithRawResponse(client.features)
+        self.assets = resources.AsyncAssetsResourceWithRawResponse(client.assets)
+        self.collections = resources.AsyncCollectionsResourceWithRawResponse(client.collections)
+        self.tasks = resources.AsyncTasksResourceWithRawResponse(client.tasks)
+        self.healthcheck = resources.AsyncHealthcheckResourceWithRawResponse(client.healthcheck)
 
 
 class MixpeekWithStreamedResponse:
     def __init__(self, client: Mixpeek) -> None:
-        self.features = features.FeaturesResourceWithStreamingResponse(client.features)
-        self.assets = assets.AssetsResourceWithStreamingResponse(client.assets)
-        self.collections = collections.CollectionsResourceWithStreamingResponse(client.collections)
-        self.tasks = tasks.TasksResourceWithStreamingResponse(client.tasks)
-        self.healthcheck = healthcheck.HealthcheckResourceWithStreamingResponse(client.healthcheck)
+        self.features = resources.FeaturesResourceWithStreamingResponse(client.features)
+        self.assets = resources.AssetsResourceWithStreamingResponse(client.assets)
+        self.collections = resources.CollectionsResourceWithStreamingResponse(client.collections)
+        self.tasks = resources.TasksResourceWithStreamingResponse(client.tasks)
+        self.healthcheck = resources.HealthcheckResourceWithStreamingResponse(client.healthcheck)
 
 
 class AsyncMixpeekWithStreamedResponse:
     def __init__(self, client: AsyncMixpeek) -> None:
-        self.features = features.AsyncFeaturesResourceWithStreamingResponse(client.features)
-        self.assets = assets.AsyncAssetsResourceWithStreamingResponse(client.assets)
-        self.collections = collections.AsyncCollectionsResourceWithStreamingResponse(client.collections)
-        self.tasks = tasks.AsyncTasksResourceWithStreamingResponse(client.tasks)
-        self.healthcheck = healthcheck.AsyncHealthcheckResourceWithStreamingResponse(client.healthcheck)
+        self.features = resources.AsyncFeaturesResourceWithStreamingResponse(client.features)
+        self.assets = resources.AsyncAssetsResourceWithStreamingResponse(client.assets)
+        self.collections = resources.AsyncCollectionsResourceWithStreamingResponse(client.collections)
+        self.tasks = resources.AsyncTasksResourceWithStreamingResponse(client.tasks)
+        self.healthcheck = resources.AsyncHealthcheckResourceWithStreamingResponse(client.healthcheck)
 
 
 Client = Mixpeek
