@@ -24,6 +24,9 @@ class FeatureListParams(TypedDict, total=False):
     filters: Optional[Filters]
     """Complex nested query filters"""
 
+    return_urls: bool
+    """When true, generates presigned URLs for assets"""
+
     select: Optional[Iterable[object]]
     """List of fields to return in results, supports dot notation.
 

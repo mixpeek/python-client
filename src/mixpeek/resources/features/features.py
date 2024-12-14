@@ -146,6 +146,7 @@ class FeaturesResource(SyncAPIResource):
         offset_feature_id: Optional[str] | NotGiven = NOT_GIVEN,
         page_size: int | NotGiven = NOT_GIVEN,
         filters: Optional[feature_list_params.Filters] | NotGiven = NOT_GIVEN,
+        return_urls: bool | NotGiven = NOT_GIVEN,
         select: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
         sort: Optional[SortOption] | NotGiven = NOT_GIVEN,
         x_namespace: str | NotGiven = NOT_GIVEN,
@@ -166,6 +167,8 @@ class FeaturesResource(SyncAPIResource):
           offset_feature_id: The offset id to start returning results from. Used for pagination
 
           filters: Complex nested query filters
+
+          return_urls: When true, generates presigned URLs for assets
 
           select: List of fields to return in results, supports dot notation. Everything else is
               excluded.
@@ -192,6 +195,7 @@ class FeaturesResource(SyncAPIResource):
                 {
                     "collections": collections,
                     "filters": filters,
+                    "return_urls": return_urls,
                     "select": select,
                     "sort": sort,
                 },
@@ -371,6 +375,7 @@ class AsyncFeaturesResource(AsyncAPIResource):
         offset_feature_id: Optional[str] | NotGiven = NOT_GIVEN,
         page_size: int | NotGiven = NOT_GIVEN,
         filters: Optional[feature_list_params.Filters] | NotGiven = NOT_GIVEN,
+        return_urls: bool | NotGiven = NOT_GIVEN,
         select: Optional[Iterable[object]] | NotGiven = NOT_GIVEN,
         sort: Optional[SortOption] | NotGiven = NOT_GIVEN,
         x_namespace: str | NotGiven = NOT_GIVEN,
@@ -391,6 +396,8 @@ class AsyncFeaturesResource(AsyncAPIResource):
           offset_feature_id: The offset id to start returning results from. Used for pagination
 
           filters: Complex nested query filters
+
+          return_urls: When true, generates presigned URLs for assets
 
           select: List of fields to return in results, supports dot notation. Everything else is
               excluded.
@@ -417,6 +424,7 @@ class AsyncFeaturesResource(AsyncAPIResource):
                 {
                     "collections": collections,
                     "filters": filters,
+                    "return_urls": return_urls,
                     "select": select,
                     "sort": sort,
                 },
