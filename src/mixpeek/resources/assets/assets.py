@@ -2,7 +2,7 @@
 
 from __future__ import annotations
 
-from typing import Any, List, Optional, cast
+from typing import List, Optional
 
 import httpx
 
@@ -38,7 +38,6 @@ from ..._base_client import make_request_options
 from ...types.asset_response import AssetResponse
 from ...types.asset_create_response import AssetCreateResponse
 from ...types.asset_search_response import AssetSearchResponse
-from ...types.asset_update_response import AssetUpdateResponse
 from ...types.shared_params.sort_option import SortOption
 
 __all__ = ["AssetsResource", "AsyncAssetsResource"]
@@ -210,7 +209,7 @@ class AssetsResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AssetUpdateResponse:
+    ) -> AssetResponse:
         """Partial Asset Update
 
         Args:
@@ -236,24 +235,19 @@ class AssetsResource(SyncAPIResource):
         if not asset_id:
             raise ValueError(f"Expected a non-empty value for `asset_id` but received {asset_id!r}")
         extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
-        return cast(
-            AssetUpdateResponse,
-            self._patch(
-                f"/assets/{asset_id}",
-                body=maybe_transform(
-                    {
-                        "metadata": metadata,
-                        "propagate_features": propagate_features,
-                    },
-                    asset_update_params.AssetUpdateParams,
-                ),
-                options=make_request_options(
-                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-                ),
-                cast_to=cast(
-                    Any, AssetUpdateResponse
-                ),  # Union types cannot be passed in as arguments in the type system
+        return self._patch(
+            f"/assets/{asset_id}",
+            body=maybe_transform(
+                {
+                    "metadata": metadata,
+                    "propagate_features": propagate_features,
+                },
+                asset_update_params.AssetUpdateParams,
             ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=AssetResponse,
         )
 
     def delete(
@@ -532,7 +526,7 @@ class AsyncAssetsResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> AssetUpdateResponse:
+    ) -> AssetResponse:
         """Partial Asset Update
 
         Args:
@@ -558,24 +552,19 @@ class AsyncAssetsResource(AsyncAPIResource):
         if not asset_id:
             raise ValueError(f"Expected a non-empty value for `asset_id` but received {asset_id!r}")
         extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
-        return cast(
-            AssetUpdateResponse,
-            await self._patch(
-                f"/assets/{asset_id}",
-                body=await async_maybe_transform(
-                    {
-                        "metadata": metadata,
-                        "propagate_features": propagate_features,
-                    },
-                    asset_update_params.AssetUpdateParams,
-                ),
-                options=make_request_options(
-                    extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
-                ),
-                cast_to=cast(
-                    Any, AssetUpdateResponse
-                ),  # Union types cannot be passed in as arguments in the type system
+        return await self._patch(
+            f"/assets/{asset_id}",
+            body=await async_maybe_transform(
+                {
+                    "metadata": metadata,
+                    "propagate_features": propagate_features,
+                },
+                asset_update_params.AssetUpdateParams,
             ),
+            options=make_request_options(
+                extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
+            ),
+            cast_to=AssetResponse,
         )
 
     async def delete(
