@@ -18,7 +18,6 @@ from .feature_list_params import FeatureListParams as FeatureListParams
 from .asset_create_response import AssetCreateResponse as AssetCreateResponse
 from .asset_retrieve_params import AssetRetrieveParams as AssetRetrieveParams
 from .asset_search_response import AssetSearchResponse as AssetSearchResponse
-from .asset_update_response import AssetUpdateResponse as AssetUpdateResponse
 from .feature_list_response import FeatureListResponse as FeatureListResponse
 from .feature_update_params import FeatureUpdateParams as FeatureUpdateParams
 from .health_check_response import HealthCheckResponse as HealthCheckResponse
