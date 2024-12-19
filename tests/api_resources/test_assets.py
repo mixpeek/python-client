@@ -13,7 +13,6 @@ from mixpeek.types import (
     AssetResponse,
     AssetCreateResponse,
     AssetSearchResponse,
-    AssetUpdateResponse,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -168,7 +167,7 @@ class TestAssets:
         asset = client.assets.update(
             asset_id="asset_id",
         )
-        assert_matches_type(AssetUpdateResponse, asset, path=["response"])
+        assert_matches_type(AssetResponse, asset, path=["response"])
 
     @parametrize
     def test_method_update_with_all_params(self, client: Mixpeek) -> None:
@@ -181,7 +180,7 @@ class TestAssets:
             propagate_features=True,
             x_namespace="X-Namespace",
         )
-        assert_matches_type(AssetUpdateResponse, asset, path=["response"])
+        assert_matches_type(AssetResponse, asset, path=["response"])
 
     @parametrize
     def test_raw_response_update(self, client: Mixpeek) -> None:
@@ -192,7 +191,7 @@ class TestAssets:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         asset = response.parse()
-        assert_matches_type(AssetUpdateResponse, asset, path=["response"])
+        assert_matches_type(AssetResponse, asset, path=["response"])
 
     @parametrize
     def test_streaming_response_update(self, client: Mixpeek) -> None:
@@ -203,7 +202,7 @@ class TestAssets:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             asset = response.parse()
-            assert_matches_type(AssetUpdateResponse, asset, path=["response"])
+            assert_matches_type(AssetResponse, asset, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -498,7 +497,7 @@ class TestAsyncAssets:
         asset = await async_client.assets.update(
             asset_id="asset_id",
         )
-        assert_matches_type(AssetUpdateResponse, asset, path=["response"])
+        assert_matches_type(AssetResponse, asset, path=["response"])
 
     @parametrize
     async def test_method_update_with_all_params(self, async_client: AsyncMixpeek) -> None:
@@ -511,7 +510,7 @@ class TestAsyncAssets:
             propagate_features=True,
             x_namespace="X-Namespace",
         )
-        assert_matches_type(AssetUpdateResponse, asset, path=["response"])
+        assert_matches_type(AssetResponse, asset, path=["response"])
 
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncMixpeek) -> None:
@@ -522,7 +521,7 @@ class TestAsyncAssets:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         asset = await response.parse()
-        assert_matches_type(AssetUpdateResponse, asset, path=["response"])
+        assert_matches_type(AssetResponse, asset, path=["response"])
 
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncMixpeek) -> None:
@@ -533,7 +532,7 @@ class TestAsyncAssets:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             asset = await response.parse()
-            assert_matches_type(AssetUpdateResponse, asset, path=["response"])
+            assert_matches_type(AssetResponse, asset, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
