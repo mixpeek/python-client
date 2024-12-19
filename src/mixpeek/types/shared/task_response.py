@@ -10,6 +10,8 @@ __all__ = ["TaskResponse"]
 class TaskResponse(BaseModel):
     asset_id: str
 
-    status: Literal["DONE", "FAILED", "PROCESSING", "DOWNLOADING", "INITIALIZING"]
+    status: Literal[
+        "DONE", "FAILED", "PROCESSING", "DOWNLOADING", "INITIALIZING", "UPLOADING", "QUEUED", "SKIPPED", "CANCELLED"
+    ]
 
     task_id: str

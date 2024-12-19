@@ -4,11 +4,14 @@ from __future__ import annotations
 
 import gc
 import os
+import sys
 import json
 import asyncio
 import inspect
+import subprocess
 import tracemalloc
 from typing import Any, Union, cast
+from textwrap import dedent
 from unittest import mock
 from typing_extensions import Literal
 
@@ -345,11 +348,11 @@ class TestMixpeek:
             FinalRequestOptions(
                 method="get",
                 url="/foo",
-                params={"foo": "baz", "query_param": "overriden"},
+                params={"foo": "baz", "query_param": "overridden"},
             )
         )
         url = httpx.URL(request.url)
-        assert dict(url.params) == {"foo": "baz", "query_param": "overriden"}
+        assert dict(url.params) == {"foo": "baz", "query_param": "overridden"}
 
     def test_request_extra_json(self) -> None:
         request = self.client._build_request(
@@ -701,14 +704,11 @@ class TestMixpeek:
     @mock.patch("mixpeek._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.put("/accounts/").mock(side_effect=httpx.TimeoutException("Test timeout error"))
+        respx_mock.get("/features/feature_id").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            self.client.put(
-                "/accounts/",
-                body=cast(object, dict()),
-                cast_to=httpx.Response,
-                options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
+            self.client.get(
+                "/features/feature_id", cast_to=httpx.Response, options={"headers": {RAW_RESPONSE_HEADER: "stream"}}
             )
 
         assert _get_open_connections(self.client) == 0
@@ -716,14 +716,11 @@ class TestMixpeek:
     @mock.patch("mixpeek._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.put("/accounts/").mock(return_value=httpx.Response(500))
+        respx_mock.get("/features/feature_id").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            self.client.put(
-                "/accounts/",
-                body=cast(object, dict()),
-                cast_to=httpx.Response,
-                options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
+            self.client.get(
+                "/features/feature_id", cast_to=httpx.Response, options={"headers": {RAW_RESPONSE_HEADER: "stream"}}
             )
 
         assert _get_open_connections(self.client) == 0
@@ -752,9 +749,9 @@ class TestMixpeek:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.put("/accounts/").mock(side_effect=retry_handler)
+        respx_mock.get("/features/feature_id").mock(side_effect=retry_handler)
 
-        response = client.accounts.with_raw_response.update()
+        response = client.features.with_raw_response.retrieve(feature_id="feature_id")
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
@@ -776,9 +773,11 @@ class TestMixpeek:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.put("/accounts/").mock(side_effect=retry_handler)
+        respx_mock.get("/features/feature_id").mock(side_effect=retry_handler)
 
-        response = client.accounts.with_raw_response.update(extra_headers={"x-stainless-retry-count": Omit()})
+        response = client.features.with_raw_response.retrieve(
+            feature_id="feature_id", extra_headers={"x-stainless-retry-count": Omit()}
+        )
 
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
 
@@ -799,9 +798,11 @@ class TestMixpeek:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.put("/accounts/").mock(side_effect=retry_handler)
+        respx_mock.get("/features/feature_id").mock(side_effect=retry_handler)
 
-        response = client.accounts.with_raw_response.update(extra_headers={"x-stainless-retry-count": "42"})
+        response = client.features.with_raw_response.retrieve(
+            feature_id="feature_id", extra_headers={"x-stainless-retry-count": "42"}
+        )
 
         assert response.http_request.headers.get("x-stainless-retry-count") == "42"
 
@@ -1102,11 +1103,11 @@ class TestAsyncMixpeek:
             FinalRequestOptions(
                 method="get",
                 url="/foo",
-                params={"foo": "baz", "query_param": "overriden"},
+                params={"foo": "baz", "query_param": "overridden"},
             )
         )
         url = httpx.URL(request.url)
-        assert dict(url.params) == {"foo": "baz", "query_param": "overriden"}
+        assert dict(url.params) == {"foo": "baz", "query_param": "overridden"}
 
     def test_request_extra_json(self) -> None:
         request = self.client._build_request(
@@ -1472,14 +1473,11 @@ class TestAsyncMixpeek:
     @mock.patch("mixpeek._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.put("/accounts/").mock(side_effect=httpx.TimeoutException("Test timeout error"))
+        respx_mock.get("/features/feature_id").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
-            await self.client.put(
-                "/accounts/",
-                body=cast(object, dict()),
-                cast_to=httpx.Response,
-                options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
+            await self.client.get(
+                "/features/feature_id", cast_to=httpx.Response, options={"headers": {RAW_RESPONSE_HEADER: "stream"}}
             )
 
         assert _get_open_connections(self.client) == 0
@@ -1487,14 +1485,11 @@ class TestAsyncMixpeek:
     @mock.patch("mixpeek._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.put("/accounts/").mock(return_value=httpx.Response(500))
+        respx_mock.get("/features/feature_id").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
-            await self.client.put(
-                "/accounts/",
-                body=cast(object, dict()),
-                cast_to=httpx.Response,
-                options={"headers": {RAW_RESPONSE_HEADER: "stream"}},
+            await self.client.get(
+                "/features/feature_id", cast_to=httpx.Response, options={"headers": {RAW_RESPONSE_HEADER: "stream"}}
             )
 
         assert _get_open_connections(self.client) == 0
@@ -1524,9 +1519,9 @@ class TestAsyncMixpeek:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.put("/accounts/").mock(side_effect=retry_handler)
+        respx_mock.get("/features/feature_id").mock(side_effect=retry_handler)
 
-        response = await client.accounts.with_raw_response.update()
+        response = await client.features.with_raw_response.retrieve(feature_id="feature_id")
 
         assert response.retries_taken == failures_before_success
         assert int(response.http_request.headers.get("x-stainless-retry-count")) == failures_before_success
@@ -1549,9 +1544,11 @@ class TestAsyncMixpeek:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.put("/accounts/").mock(side_effect=retry_handler)
+        respx_mock.get("/features/feature_id").mock(side_effect=retry_handler)
 
-        response = await client.accounts.with_raw_response.update(extra_headers={"x-stainless-retry-count": Omit()})
+        response = await client.features.with_raw_response.retrieve(
+            feature_id="feature_id", extra_headers={"x-stainless-retry-count": Omit()}
+        )
 
         assert len(response.http_request.headers.get_list("x-stainless-retry-count")) == 0
 
@@ -1573,8 +1570,45 @@ class TestAsyncMixpeek:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.put("/accounts/").mock(side_effect=retry_handler)
+        respx_mock.get("/features/feature_id").mock(side_effect=retry_handler)
 
-        response = await client.accounts.with_raw_response.update(extra_headers={"x-stainless-retry-count": "42"})
+        response = await client.features.with_raw_response.retrieve(
+            feature_id="feature_id", extra_headers={"x-stainless-retry-count": "42"}
+        )
 
         assert response.http_request.headers.get("x-stainless-retry-count") == "42"
+
+    def test_get_platform(self) -> None:
+        # A previous implementation of asyncify could leave threads unterminated when
+        # used with nest_asyncio.
+        #
+        # Since nest_asyncio.apply() is global and cannot be un-applied, this
+        # test is run in a separate process to avoid affecting other tests.
+        test_code = dedent("""
+        import asyncio
+        import nest_asyncio
+        import threading
+
+        from mixpeek._utils import asyncify
+        from mixpeek._base_client import get_platform 
+
+        async def test_main() -> None:
+            result = await asyncify(get_platform)()
+            print(result)
+            for thread in threading.enumerate():
+                print(thread.name)
+
+        nest_asyncio.apply()
+        asyncio.run(test_main())
+        """)
+        with subprocess.Popen(
+            [sys.executable, "-c", test_code],
+            text=True,
+        ) as process:
+            try:
+                process.wait(2)
+                if process.returncode:
+                    raise AssertionError("calling get_platform using asyncify resulted in a non-zero exit code")
+            except subprocess.TimeoutExpired as e:
+                process.kill()
+                raise AssertionError("calling get_platform using asyncify resulted in a hung process") from e

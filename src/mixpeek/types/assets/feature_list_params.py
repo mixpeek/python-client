@@ -2,24 +2,19 @@
 
 from __future__ import annotations
 
-from typing import Optional
 from typing_extensions import Annotated, TypedDict
 
-from .._utils import PropertyInfo
+from ..._utils import PropertyInfo
 
-__all__ = ["AssetUpdateParams"]
+__all__ = ["FeatureListParams"]
 
 
-class AssetUpdateParams(TypedDict, total=False):
-    metadata: object
-    """Updated metadata for the asset.
+class FeatureListParams(TypedDict, total=False):
+    return_url: bool
+    """Whether to generate and return presigned S3 URLs for the asset and preview.
 
-    This can include any key-value pairs that should be updated or added to the
-    asset's metadata.
+    Set to false to improve performance when URLs aren't needed
     """
-
-    propagate_features: Optional[bool]
-    """If True, the features will be propagated to all assets with the same asset_id"""
 
     x_namespace: Annotated[str, PropertyInfo(alias="X-Namespace")]
     """Optional namespace for data isolation.

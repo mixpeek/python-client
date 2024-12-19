@@ -2,21 +2,21 @@
 
 from __future__ import annotations
 
-from typing import List, Optional
-from typing_extensions import Required, Annotated, TypedDict
+from typing import List, Union, Iterable, Optional
+from typing_extensions import Required, Annotated, TypeAlias, TypedDict
 
 from .._utils import PropertyInfo
 from .shared_params.sort_option import SortOption
-from .shared_params.logical_operator import LogicalOperator
+from .shared_params.filter_condition import FilterCondition
 
-__all__ = ["AssetSearchParams", "Query"]
+__all__ = ["AssetSearchParams", "Filters", "FiltersAnd", "FiltersNor", "FiltersOr", "Query"]
 
 
 class AssetSearchParams(TypedDict, total=False):
-    collection_ids: Required[List[str]]
-    """List of Collection IDs to search within, required"""
+    collections: Required[List[str]]
+    """List of Collection IDs or Names to search within, required"""
 
-    filters: Optional[LogicalOperator]
+    filters: Optional[Filters]
     """Complex nested query filters"""
 
     query: Optional[Query]
@@ -25,14 +25,45 @@ class AssetSearchParams(TypedDict, total=False):
     for
     """
 
+    return_url: Optional[bool]
+    """
+    Return the presigned URL for the asset and preview asset, this will introduce
+    additional latency
+    """
+
     select: Optional[List[str]]
     """List of fields to return in results"""
 
     sort: Optional[SortOption]
     """List of fields to sort by"""
 
-    index_id: Annotated[str, PropertyInfo(alias="index-id")]
-    """filter by organization"""
+    x_namespace: Annotated[str, PropertyInfo(alias="X-Namespace")]
+    """Optional namespace for data isolation.
+
+    This can be a namespace name or namespace ID. Example: 'netflix_prod' or
+    'ns_1234567890'. To create a namespace, use the /namespaces endpoint.
+    """
+
+
+FiltersAnd: TypeAlias = Union[FilterCondition, object]
+
+FiltersNor: TypeAlias = Union[FilterCondition, object]
+
+FiltersOr: TypeAlias = Union[FilterCondition, object]
+
+
+class Filters(TypedDict, total=False):
+    and_: Annotated[Optional[Iterable[FiltersAnd]], PropertyInfo(alias="AND")]
+    """Logical AND operation"""
+
+    case_sensitive: Optional[bool]
+    """Whether to perform case-sensitive matching"""
+
+    nor: Annotated[Optional[Iterable[FiltersNor]], PropertyInfo(alias="NOR")]
+    """Logical NOR operation"""
+
+    or_: Annotated[Optional[Iterable[FiltersOr]], PropertyInfo(alias="OR")]
+    """Logical OR operation"""
 
 
 class Query(TypedDict, total=False):
