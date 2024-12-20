@@ -30,8 +30,10 @@ client = Mixpeek(
     api_key="My API Key",
 )
 
-user = client.accounts.update()
-print(user.index_ids)
+feature = client.features.retrieve(
+    feature_id="feature_id",
+)
+print(feature.duplicate_of)
 ```
 
 ## Async usage
@@ -48,8 +50,10 @@ client = AsyncMixpeek(
 
 
 async def main() -> None:
-    user = await client.accounts.update()
-    print(user.index_ids)
+    feature = await client.features.retrieve(
+        feature_id="feature_id",
+    )
+    print(feature.duplicate_of)
 
 
 asyncio.run(main())
@@ -82,7 +86,9 @@ from mixpeek import Mixpeek
 client = Mixpeek()
 
 try:
-    client.accounts.update()
+    client.features.retrieve(
+        feature_id="feature_id",
+    )
 except mixpeek.APIConnectionError as e:
     print("The server could not be reached")
     print(e.__cause__)  # an underlying Exception, likely raised within httpx.
@@ -125,7 +131,9 @@ client = Mixpeek(
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).accounts.update()
+client.with_options(max_retries=5).features.retrieve(
+    feature_id="feature_id",
+)
 ```
 
 ### Timeouts
@@ -148,7 +156,9 @@ client = Mixpeek(
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).accounts.update()
+client.with_options(timeout=5.0).features.retrieve(
+    feature_id="feature_id",
+)
 ```
 
 On timeout, an `APITimeoutError` is thrown.
@@ -161,11 +171,13 @@ Note that requests that time out are [retried twice by default](#retries).
 
 We use the standard library [`logging`](https://docs.python.org/3/library/logging.html) module.
 
-You can enable logging by setting the environment variable `MIXPEEK_LOG` to `debug`.
+You can enable logging by setting the environment variable `MIXPEEK_LOG` to `info`.
 
 ```shell
-$ export MIXPEEK_LOG=debug
+$ export MIXPEEK_LOG=info
 ```
+
+Or to `debug` for more verbose logging.
 
 ### How to tell whether `None` means `null` or missing
 
@@ -187,11 +199,13 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 from mixpeek import Mixpeek
 
 client = Mixpeek()
-response = client.accounts.with_raw_response.update()
+response = client.features.with_raw_response.retrieve(
+    feature_id="feature_id",
+)
 print(response.headers.get('X-My-Header'))
 
-account = response.parse()  # get the object that `accounts.update()` would have returned
-print(account.index_ids)
+feature = response.parse()  # get the object that `features.retrieve()` would have returned
+print(feature.duplicate_of)
 ```
 
 These methods return an [`APIResponse`](https://github.com/mixpeek/python-client/tree/main/src/mixpeek/_response.py) object.
@@ -205,7 +219,9 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.accounts.with_streaming_response.update() as response:
+with client.features.with_streaming_response.retrieve(
+    feature_id="feature_id",
+) as response:
     print(response.headers.get("X-My-Header"))
 
     for line in response.iter_lines():
@@ -253,18 +269,19 @@ can also get all the extra fields on the Pydantic model as a dict with
 
 You can directly override the [httpx client](https://www.python-httpx.org/api/#client) to customize it for your use case, including:
 
-- Support for proxies
-- Custom transports
+- Support for [proxies](https://www.python-httpx.org/advanced/proxies/)
+- Custom [transports](https://www.python-httpx.org/advanced/transports/)
 - Additional [advanced](https://www.python-httpx.org/advanced/clients/) functionality
 
 ```python
+import httpx
 from mixpeek import Mixpeek, DefaultHttpxClient
 
 client = Mixpeek(
     # Or use the `MIXPEEK_BASE_URL` env var
     base_url="http://my.test.server.example.com:8083",
     http_client=DefaultHttpxClient(
-        proxies="http://my.test.proxy.example.com",
+        proxy="http://my.test.proxy.example.com",
         transport=httpx.HTTPTransport(local_address="0.0.0.0"),
     ),
 )
@@ -279,6 +296,16 @@ client.with_options(http_client=DefaultHttpxClient(...))
 ### Managing HTTP resources
 
 By default the library closes underlying HTTP connections whenever the client is [garbage collected](https://docs.python.org/3/reference/datamodel.html#object.__del__). You can manually close the client using the `.close()` method if desired, or with a context manager that closes when exiting.
+
+```py
+from mixpeek import Mixpeek
+
+with Mixpeek() as client:
+  # make requests here
+  ...
+
+# HTTP client is now closed
+```
 
 ## Versioning
 

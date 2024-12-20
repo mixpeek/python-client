@@ -20,22 +20,23 @@ class TestFeatures:
     @parametrize
     def test_method_list(self, client: Mixpeek) -> None:
         feature = client.assets.features.list(
-            asset_id="asset_id",
+            asset_id="asset_123456789",
         )
         assert_matches_type(GroupedAssetData, feature, path=["response"])
 
     @parametrize
     def test_method_list_with_all_params(self, client: Mixpeek) -> None:
         feature = client.assets.features.list(
-            asset_id="asset_id",
-            index_id="index-id",
+            asset_id="asset_123456789",
+            return_url=True,
+            x_namespace="X-Namespace",
         )
         assert_matches_type(GroupedAssetData, feature, path=["response"])
 
     @parametrize
     def test_raw_response_list(self, client: Mixpeek) -> None:
         response = client.assets.features.with_raw_response.list(
-            asset_id="asset_id",
+            asset_id="asset_123456789",
         )
 
         assert response.is_closed is True
@@ -46,7 +47,7 @@ class TestFeatures:
     @parametrize
     def test_streaming_response_list(self, client: Mixpeek) -> None:
         with client.assets.features.with_streaming_response.list(
-            asset_id="asset_id",
+            asset_id="asset_123456789",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
@@ -70,22 +71,23 @@ class TestAsyncFeatures:
     @parametrize
     async def test_method_list(self, async_client: AsyncMixpeek) -> None:
         feature = await async_client.assets.features.list(
-            asset_id="asset_id",
+            asset_id="asset_123456789",
         )
         assert_matches_type(GroupedAssetData, feature, path=["response"])
 
     @parametrize
     async def test_method_list_with_all_params(self, async_client: AsyncMixpeek) -> None:
         feature = await async_client.assets.features.list(
-            asset_id="asset_id",
-            index_id="index-id",
+            asset_id="asset_123456789",
+            return_url=True,
+            x_namespace="X-Namespace",
         )
         assert_matches_type(GroupedAssetData, feature, path=["response"])
 
     @parametrize
     async def test_raw_response_list(self, async_client: AsyncMixpeek) -> None:
         response = await async_client.assets.features.with_raw_response.list(
-            asset_id="asset_id",
+            asset_id="asset_123456789",
         )
 
         assert response.is_closed is True
@@ -96,7 +98,7 @@ class TestAsyncFeatures:
     @parametrize
     async def test_streaming_response_list(self, async_client: AsyncMixpeek) -> None:
         async with async_client.assets.features.with_streaming_response.list(
-            asset_id="asset_id",
+            asset_id="asset_123456789",
         ) as response:
             assert not response.is_closed
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"

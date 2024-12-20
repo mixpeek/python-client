@@ -44,7 +44,7 @@ class TasksResource(SyncAPIResource):
         self,
         task_id: str,
         *,
-        index_id: str | NotGiven = NOT_GIVEN,
+        x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -53,10 +53,15 @@ class TasksResource(SyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> TaskResponse:
         """
-        Get Task
+        Retrieve a task by its ID.
+
+            A task may have an expiration time, after which it will still be returned but marked as expired.
+            This allows tracking of historical tasks while indicating their current validity state.
 
         Args:
-          index_id: filter by organization
+          x_namespace: Optional namespace for data isolation. This can be a namespace name or namespace
+              ID. Example: 'netflix_prod' or 'ns_1234567890'. To create a namespace, use the
+              /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -68,7 +73,7 @@ class TasksResource(SyncAPIResource):
         """
         if not task_id:
             raise ValueError(f"Expected a non-empty value for `task_id` but received {task_id!r}")
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
         return self._get(
             f"/tasks/{task_id}",
             options=make_request_options(
@@ -81,7 +86,7 @@ class TasksResource(SyncAPIResource):
         self,
         task_id: str,
         *,
-        index_id: str | NotGiven = NOT_GIVEN,
+        x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -89,11 +94,14 @@ class TasksResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> object:
-        """
-        Kill Task
+        """Kill Task
 
         Args:
-          index_id: filter by organization
+          x_namespace: Optional namespace for data isolation.
+
+        This can be a namespace name or namespace
+              ID. Example: 'netflix_prod' or 'ns_1234567890'. To create a namespace, use the
+              /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -105,7 +113,7 @@ class TasksResource(SyncAPIResource):
         """
         if not task_id:
             raise ValueError(f"Expected a non-empty value for `task_id` but received {task_id!r}")
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
         return self._delete(
             f"/tasks/{task_id}",
             options=make_request_options(
@@ -139,7 +147,7 @@ class AsyncTasksResource(AsyncAPIResource):
         self,
         task_id: str,
         *,
-        index_id: str | NotGiven = NOT_GIVEN,
+        x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -148,10 +156,15 @@ class AsyncTasksResource(AsyncAPIResource):
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> TaskResponse:
         """
-        Get Task
+        Retrieve a task by its ID.
+
+            A task may have an expiration time, after which it will still be returned but marked as expired.
+            This allows tracking of historical tasks while indicating their current validity state.
 
         Args:
-          index_id: filter by organization
+          x_namespace: Optional namespace for data isolation. This can be a namespace name or namespace
+              ID. Example: 'netflix_prod' or 'ns_1234567890'. To create a namespace, use the
+              /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -163,7 +176,7 @@ class AsyncTasksResource(AsyncAPIResource):
         """
         if not task_id:
             raise ValueError(f"Expected a non-empty value for `task_id` but received {task_id!r}")
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
         return await self._get(
             f"/tasks/{task_id}",
             options=make_request_options(
@@ -176,7 +189,7 @@ class AsyncTasksResource(AsyncAPIResource):
         self,
         task_id: str,
         *,
-        index_id: str | NotGiven = NOT_GIVEN,
+        x_namespace: str | NotGiven = NOT_GIVEN,
         # Use the following arguments if you need to pass additional parameters to the API that aren't available via kwargs.
         # The extra values given here take precedence over values defined on the client or passed to this method.
         extra_headers: Headers | None = None,
@@ -184,11 +197,14 @@ class AsyncTasksResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> object:
-        """
-        Kill Task
+        """Kill Task
 
         Args:
-          index_id: filter by organization
+          x_namespace: Optional namespace for data isolation.
+
+        This can be a namespace name or namespace
+              ID. Example: 'netflix_prod' or 'ns_1234567890'. To create a namespace, use the
+              /namespaces endpoint.
 
           extra_headers: Send extra headers
 
@@ -200,7 +216,7 @@ class AsyncTasksResource(AsyncAPIResource):
         """
         if not task_id:
             raise ValueError(f"Expected a non-empty value for `task_id` but received {task_id!r}")
-        extra_headers = {**strip_not_given({"index-id": index_id}), **(extra_headers or {})}
+        extra_headers = {**strip_not_given({"X-Namespace": x_namespace}), **(extra_headers or {})}
         return await self._delete(
             f"/tasks/{task_id}",
             options=make_request_options(

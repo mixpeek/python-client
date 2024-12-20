@@ -11,8 +11,12 @@ __all__ = ["FeatureRetrieveParams"]
 
 
 class FeatureRetrieveParams(TypedDict, total=False):
-    include_vectors: Optional[bool]
+    return_vectors: Optional[bool]
     """When true, includes the feature's vector embeddings in the response"""
 
-    index_id: Annotated[str, PropertyInfo(alias="index-id")]
-    """filter by organization"""
+    x_namespace: Annotated[str, PropertyInfo(alias="X-Namespace")]
+    """Optional namespace for data isolation.
+
+    This can be a namespace name or namespace ID. Example: 'netflix_prod' or
+    'ns_1234567890'. To create a namespace, use the /namespaces endpoint.
+    """

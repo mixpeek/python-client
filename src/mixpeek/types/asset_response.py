@@ -18,14 +18,26 @@ class AssetResponse(BaseModel):
     created_at: Optional[datetime] = None
     """MongoDB datetime format"""
 
-    error: Optional[str] = None
+    duplicate_of: Optional[str] = None
+    """The asset_id of the asset that this asset is a duplicate of"""
+
+    error: Optional[object] = None
     """The error message if the asset processing failed"""
+
+    file_data: Optional[object] = None
+    """File data associated with the asset"""
+
+    file_hash: Optional[str] = None
+    """The unique hash of the"""
 
     metadata: Optional[object] = None
     """Additional metadata associated with the asset"""
 
     modality: Optional[str] = None
     """The type of media"""
+
+    preview_url: Optional[str] = None
+    """The presigned URL for accessing the asset preview"""
 
     score: Optional[float] = None
     """The relevance score of the asset"""
@@ -36,11 +48,8 @@ class AssetResponse(BaseModel):
     task_id: Optional[str] = None
     """The task ID"""
 
-    unique_hash: Optional[str] = None
-    """The unique hash of the asset"""
-
     updated_at: Optional[datetime] = None
     """MongoDB datetime format"""
 
     url: Optional[str] = None
-    """The URL where the asset can be accessed"""
+    """The presigned URL for accessing the asset"""

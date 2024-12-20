@@ -1,5 +1,73 @@
 # Changelog
 
+## 0.13.0 (2024-12-20)
+
+Full Changelog: [v0.12.0...v0.13.0](https://github.com/mixpeek/python-client/compare/v0.12.0...v0.13.0)
+
+### Features
+
+* **api:** api update ([#45](https://github.com/mixpeek/python-client/issues/45)) ([156be06](https://github.com/mixpeek/python-client/commit/156be068eb44a06e599f6498e0fbfbf37d2aebcb))
+* **api:** api update ([#48](https://github.com/mixpeek/python-client/issues/48)) ([de994df](https://github.com/mixpeek/python-client/commit/de994df93de347179c749b2cef0a551cf4647326))
+* **api:** api update ([#51](https://github.com/mixpeek/python-client/issues/51)) ([e4178a8](https://github.com/mixpeek/python-client/commit/e4178a8e2163b8cc6b27bebb24f376ad79dd227a))
+* **api:** api update ([#52](https://github.com/mixpeek/python-client/issues/52)) ([7d5f4d4](https://github.com/mixpeek/python-client/commit/7d5f4d40e53a8c8eb43550d31698a7d30a7b5620))
+* **api:** api update ([#53](https://github.com/mixpeek/python-client/issues/53)) ([fb3cd71](https://github.com/mixpeek/python-client/commit/fb3cd71b34fbf78d8943e50a90e53e604ed3713f))
+* **api:** api update ([#54](https://github.com/mixpeek/python-client/issues/54)) ([0e69117](https://github.com/mixpeek/python-client/commit/0e69117dfef70a18b9d3e60034d2c18cf9dfe850))
+* **api:** api update ([#55](https://github.com/mixpeek/python-client/issues/55)) ([9c44208](https://github.com/mixpeek/python-client/commit/9c44208671677f817f495f1d77d9698fe70bd0a0))
+* **api:** api update ([#62](https://github.com/mixpeek/python-client/issues/62)) ([756d40b](https://github.com/mixpeek/python-client/commit/756d40b3d317ab270ab34e1ed4bc4aa37b8c71ad))
+* **api:** api update ([#64](https://github.com/mixpeek/python-client/issues/64)) ([44593c0](https://github.com/mixpeek/python-client/commit/44593c0688ca00c2cc016021f636d508beb0d744))
+* **api:** api update ([#65](https://github.com/mixpeek/python-client/issues/65)) ([856ad89](https://github.com/mixpeek/python-client/commit/856ad89ff3e052ec2bf610143942c46f44616482))
+* **api:** api update ([#67](https://github.com/mixpeek/python-client/issues/67)) ([220b011](https://github.com/mixpeek/python-client/commit/220b0110d199eee9a9de2e2d66ed7155ac30eab2))
+* **api:** api update ([#68](https://github.com/mixpeek/python-client/issues/68)) ([99c757d](https://github.com/mixpeek/python-client/commit/99c757d60b5837191b602739821873046782d46f))
+* **api:** api update ([#69](https://github.com/mixpeek/python-client/issues/69)) ([9056e79](https://github.com/mixpeek/python-client/commit/9056e79e143b0e855d0a13bb4b2346d8a7d9e91e))
+* **api:** api update ([#70](https://github.com/mixpeek/python-client/issues/70)) ([badecdc](https://github.com/mixpeek/python-client/commit/badecdc2867cda00c8af396352d17fb11223f8ad))
+* **api:** api update ([#71](https://github.com/mixpeek/python-client/issues/71)) ([6af32a4](https://github.com/mixpeek/python-client/commit/6af32a4dcf14bc9a12ce5c079c707664aa9f9d40))
+* **api:** api update ([#72](https://github.com/mixpeek/python-client/issues/72)) ([c052ba1](https://github.com/mixpeek/python-client/commit/c052ba19355d12cff516c73042f5ae9a7cd962dc))
+* **api:** api update ([#73](https://github.com/mixpeek/python-client/issues/73)) ([a91eae6](https://github.com/mixpeek/python-client/commit/a91eae67046fd62ef46b70dd65556051003c1a2c))
+* **api:** api update ([#74](https://github.com/mixpeek/python-client/issues/74)) ([00d9742](https://github.com/mixpeek/python-client/commit/00d9742278079bf8fa5d0b5466d82be6197f9b20))
+* **api:** api update ([#75](https://github.com/mixpeek/python-client/issues/75)) ([e4bac50](https://github.com/mixpeek/python-client/commit/e4bac503c722b5202397f27cc0590471fa5a5f2d))
+* **api:** api update ([#78](https://github.com/mixpeek/python-client/issues/78)) ([0cef24e](https://github.com/mixpeek/python-client/commit/0cef24ef47f7bc846f5391e0285ad5814ce9b49d))
+* **api:** api update ([#79](https://github.com/mixpeek/python-client/issues/79)) ([4857321](https://github.com/mixpeek/python-client/commit/485732114afc69de559417b4dae6d686761955ce))
+* **api:** api update ([#80](https://github.com/mixpeek/python-client/issues/80)) ([fe78a07](https://github.com/mixpeek/python-client/commit/fe78a07b25d7c13e52475208719f8c1e8116e21e))
+* **api:** api update ([#83](https://github.com/mixpeek/python-client/issues/83)) ([9b13697](https://github.com/mixpeek/python-client/commit/9b1369748fcc56afb448c52a051e4dc8b679d493))
+* **api:** api update ([#84](https://github.com/mixpeek/python-client/issues/84)) ([a534e96](https://github.com/mixpeek/python-client/commit/a534e966ee983c999e35b394df452fd26cec9ab3))
+* **api:** api update ([#92](https://github.com/mixpeek/python-client/issues/92)) ([a9a145e](https://github.com/mixpeek/python-client/commit/a9a145e8374a7227b5d1202c3aeee167a7e96f10))
+* **api:** api update ([#93](https://github.com/mixpeek/python-client/issues/93)) ([d641048](https://github.com/mixpeek/python-client/commit/d6410485bb7599574eb5818e84d8380dfd957492))
+* **api:** api update ([#94](https://github.com/mixpeek/python-client/issues/94)) ([3cd2a1d](https://github.com/mixpeek/python-client/commit/3cd2a1d893881c2e4c6bc715570528e25b744761))
+
+
+### Bug Fixes
+
+* **asyncify:** avoid hanging process under certain conditions ([#50](https://github.com/mixpeek/python-client/issues/50)) ([c5c0261](https://github.com/mixpeek/python-client/commit/c5c0261b949871eed0830fff7f1e317789011df5))
+* **client:** compat with new httpx 0.28.0 release ([#60](https://github.com/mixpeek/python-client/issues/60)) ([38ec235](https://github.com/mixpeek/python-client/commit/38ec23542847ff8fbbaadf2e063b4720793c7197))
+
+
+### Chores
+
+* **internal:** add support for TypeAliasType ([#82](https://github.com/mixpeek/python-client/issues/82)) ([399b842](https://github.com/mixpeek/python-client/commit/399b8424134927bff909496b92e7504f05f56417))
+* **internal:** bump pydantic dependency ([#76](https://github.com/mixpeek/python-client/issues/76)) ([62e2bd8](https://github.com/mixpeek/python-client/commit/62e2bd89fa8c38d38c792307fb923398ce9ed947))
+* **internal:** bump pyright ([#63](https://github.com/mixpeek/python-client/issues/63)) ([dda0f67](https://github.com/mixpeek/python-client/commit/dda0f67a2cf90fa59680f93c32974b6f964a12df))
+* **internal:** bump pyright ([#81](https://github.com/mixpeek/python-client/issues/81)) ([d76b885](https://github.com/mixpeek/python-client/commit/d76b885c9dda28aca24b5e4d8a41e65a30d15543))
+* **internal:** codegen related update ([#47](https://github.com/mixpeek/python-client/issues/47)) ([bd6567d](https://github.com/mixpeek/python-client/commit/bd6567d31403877cb55ba02a3fa3a2e03f72b390))
+* **internal:** codegen related update ([#59](https://github.com/mixpeek/python-client/issues/59)) ([f3390ac](https://github.com/mixpeek/python-client/commit/f3390acceb42310442f1f87b1c9739b8f5619eb0))
+* **internal:** codegen related update ([#61](https://github.com/mixpeek/python-client/issues/61)) ([c3d3a0d](https://github.com/mixpeek/python-client/commit/c3d3a0d10ac8f940ab525f4e15c4122abee12553))
+* **internal:** codegen related update ([#77](https://github.com/mixpeek/python-client/issues/77)) ([520ee95](https://github.com/mixpeek/python-client/commit/520ee956f86c3c4c21f8ff9fb0cbab13192f9776))
+* **internal:** codegen related update ([#85](https://github.com/mixpeek/python-client/issues/85)) ([8a331f1](https://github.com/mixpeek/python-client/commit/8a331f10ead8113a4167f8dde722efd1122deae3))
+* **internal:** codegen related update ([#86](https://github.com/mixpeek/python-client/issues/86)) ([37c817c](https://github.com/mixpeek/python-client/commit/37c817c283f9f254789532f37cc60955e0b99e56))
+* **internal:** codegen related update ([#87](https://github.com/mixpeek/python-client/issues/87)) ([c805286](https://github.com/mixpeek/python-client/commit/c80528679ed6e132b9a1d2dceea703b9df9f1673))
+* **internal:** codegen related update ([#88](https://github.com/mixpeek/python-client/issues/88)) ([781e9b6](https://github.com/mixpeek/python-client/commit/781e9b6f1196eb5fadae15ad8ec5631e5be53885))
+* **internal:** codegen related update ([#90](https://github.com/mixpeek/python-client/issues/90)) ([f590676](https://github.com/mixpeek/python-client/commit/f590676875f6f5530d6b8065334e030b1ca27c90))
+* **internal:** fix compat model_dump method when warnings are passed ([#56](https://github.com/mixpeek/python-client/issues/56)) ([5769f7d](https://github.com/mixpeek/python-client/commit/5769f7d8246bffbb6688e27e3aa36779981c88a0))
+* **internal:** fix some typos ([#91](https://github.com/mixpeek/python-client/issues/91)) ([f29a064](https://github.com/mixpeek/python-client/commit/f29a064142f9c6a1b20a226f299a8e611a512cb1))
+* **internal:** updated imports ([#89](https://github.com/mixpeek/python-client/issues/89)) ([faed4d3](https://github.com/mixpeek/python-client/commit/faed4d3fe2b594c30fdb8a2b4f11bb429f8b6998))
+* make the `Omit` type public ([#66](https://github.com/mixpeek/python-client/issues/66)) ([b744cbb](https://github.com/mixpeek/python-client/commit/b744cbb589f5ae39d63ffea1a7d1ebeba0785e59))
+* remove now unused `cached-property` dep ([#58](https://github.com/mixpeek/python-client/issues/58)) ([d53f8d8](https://github.com/mixpeek/python-client/commit/d53f8d8825b2fe7fdb77f3608f90b1fb381ce83c))
+* **tests:** limit array example length ([#49](https://github.com/mixpeek/python-client/issues/49)) ([cc23b9c](https://github.com/mixpeek/python-client/commit/cc23b9c7a4c574497abf6c3947baf26d5bfb8c4f))
+
+
+### Documentation
+
+* add info log level to readme ([#57](https://github.com/mixpeek/python-client/issues/57)) ([f6d87d0](https://github.com/mixpeek/python-client/commit/f6d87d0800fa920f185eefd1e261ee1e8274db9d))
+
 ## 0.12.0 (2024-11-07)
 
 Full Changelog: [v0.11.0...v0.12.0](https://github.com/mixpeek/python-client/compare/v0.11.0...v0.12.0)

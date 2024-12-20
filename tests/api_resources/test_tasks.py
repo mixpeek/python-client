@@ -28,7 +28,7 @@ class TestTasks:
     def test_method_retrieve_with_all_params(self, client: Mixpeek) -> None:
         task = client.tasks.retrieve(
             task_id="task_id",
-            index_id="index-id",
+            x_namespace="X-Namespace",
         )
         assert_matches_type(TaskResponse, task, path=["response"])
 
@@ -74,7 +74,7 @@ class TestTasks:
     def test_method_delete_with_all_params(self, client: Mixpeek) -> None:
         task = client.tasks.delete(
             task_id="task_id",
-            index_id="index-id",
+            x_namespace="X-Namespace",
         )
         assert_matches_type(object, task, path=["response"])
 
@@ -124,7 +124,7 @@ class TestAsyncTasks:
     async def test_method_retrieve_with_all_params(self, async_client: AsyncMixpeek) -> None:
         task = await async_client.tasks.retrieve(
             task_id="task_id",
-            index_id="index-id",
+            x_namespace="X-Namespace",
         )
         assert_matches_type(TaskResponse, task, path=["response"])
 
@@ -170,7 +170,7 @@ class TestAsyncTasks:
     async def test_method_delete_with_all_params(self, async_client: AsyncMixpeek) -> None:
         task = await async_client.tasks.delete(
             task_id="task_id",
-            index_id="index-id",
+            x_namespace="X-Namespace",
         )
         assert_matches_type(object, task, path=["response"])
 
