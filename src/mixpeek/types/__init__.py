@@ -8,7 +8,6 @@ from .shared import (
     FilterCondition as FilterCondition,
     ModelPaginationResponse as ModelPaginationResponse,
 )
-from .feature import Feature as Feature
 from .asset_response import AssetResponse as AssetResponse
 from .grouped_asset_data import GroupedAssetData as GroupedAssetData
 from .asset_create_params import AssetCreateParams as AssetCreateParams
@@ -23,4 +22,6 @@ from .feature_update_params import FeatureUpdateParams as FeatureUpdateParams
 from .health_check_response import HealthCheckResponse as HealthCheckResponse
 from .collection_list_params import CollectionListParams as CollectionListParams
 from .feature_retrieve_params import FeatureRetrieveParams as FeatureRetrieveParams
+from .feature_update_response import FeatureUpdateResponse as FeatureUpdateResponse
 from .collection_list_response import CollectionListResponse as CollectionListResponse
+from .feature_retrieve_response import FeatureRetrieveResponse as FeatureRetrieveResponse

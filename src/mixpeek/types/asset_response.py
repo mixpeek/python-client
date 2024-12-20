@@ -18,6 +18,9 @@ class AssetResponse(BaseModel):
     created_at: Optional[datetime] = None
     """MongoDB datetime format"""
 
+    duplicate_of: Optional[str] = None
+    """The asset_id of the asset that this asset is a duplicate of"""
+
     error: Optional[object] = None
     """The error message if the asset processing failed"""
 
