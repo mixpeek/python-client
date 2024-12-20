@@ -9,6 +9,9 @@ __all__ = ["GroupedAssetData", "Features", "FeaturesAudio", "FeaturesImage", "Fe
 
 
 class FeaturesAudio(BaseModel):
+    duplicate_of: Optional[str] = None
+    """The asset_id of the asset that this asset is a duplicate of"""
+
     preview_url: Optional[str] = None
     """The presigned URL for accessing the asset preview"""
 
@@ -23,6 +26,9 @@ class FeaturesAudio(BaseModel):
 
 
 class FeaturesImage(BaseModel):
+    duplicate_of: Optional[str] = None
+    """The asset_id of the asset that this asset is a duplicate of"""
+
     preview_url: Optional[str] = None
     """The presigned URL for accessing the asset preview"""
 
@@ -37,6 +43,9 @@ class FeaturesImage(BaseModel):
 
 
 class FeaturesText(BaseModel):
+    duplicate_of: Optional[str] = None
+    """The asset_id of the asset that this asset is a duplicate of"""
+
     preview_url: Optional[str] = None
     """The presigned URL for accessing the asset preview"""
 
@@ -51,6 +60,9 @@ class FeaturesText(BaseModel):
 
 
 class FeaturesVideo(BaseModel):
+    duplicate_of: Optional[str] = None
+    """The asset_id of the asset that this asset is a duplicate of"""
+
     preview_url: Optional[str] = None
     """The presigned URL for accessing the asset preview"""
 
