@@ -33,7 +33,7 @@ client = Mixpeek(
 feature = client.features.retrieve(
     feature_id="feature_id",
 )
-print(feature.asset_id)
+print(feature.duplicate_of)
 ```
 
 ## Async usage
@@ -53,7 +53,7 @@ async def main() -> None:
     feature = await client.features.retrieve(
         feature_id="feature_id",
     )
-    print(feature.asset_id)
+    print(feature.duplicate_of)
 
 
 asyncio.run(main())
@@ -205,7 +205,7 @@ response = client.features.with_raw_response.retrieve(
 print(response.headers.get('X-My-Header'))
 
 feature = response.parse()  # get the object that `features.retrieve()` would have returned
-print(feature.asset_id)
+print(feature.duplicate_of)
 ```
 
 These methods return an [`APIResponse`](https://github.com/mixpeek/python-client/tree/main/src/mixpeek/_response.py) object.

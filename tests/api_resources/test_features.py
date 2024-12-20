@@ -10,8 +10,9 @@ import pytest
 from mixpeek import Mixpeek, AsyncMixpeek
 from tests.utils import assert_matches_type
 from mixpeek.types import (
-    Feature,
     FeatureListResponse,
+    FeatureUpdateResponse,
+    FeatureRetrieveResponse,
 )
 
 base_url = os.environ.get("TEST_API_BASE_URL", "http://127.0.0.1:4010")
@@ -25,7 +26,7 @@ class TestFeatures:
         feature = client.features.retrieve(
             feature_id="feature_id",
         )
-        assert_matches_type(Feature, feature, path=["response"])
+        assert_matches_type(FeatureRetrieveResponse, feature, path=["response"])
 
     @parametrize
     def test_method_retrieve_with_all_params(self, client: Mixpeek) -> None:
@@ -34,7 +35,7 @@ class TestFeatures:
             return_vectors=True,
             x_namespace="X-Namespace",
         )
-        assert_matches_type(Feature, feature, path=["response"])
+        assert_matches_type(FeatureRetrieveResponse, feature, path=["response"])
 
     @parametrize
     def test_raw_response_retrieve(self, client: Mixpeek) -> None:
@@ -45,7 +46,7 @@ class TestFeatures:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         feature = response.parse()
-        assert_matches_type(Feature, feature, path=["response"])
+        assert_matches_type(FeatureRetrieveResponse, feature, path=["response"])
 
     @parametrize
     def test_streaming_response_retrieve(self, client: Mixpeek) -> None:
@@ -56,7 +57,7 @@ class TestFeatures:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             feature = response.parse()
-            assert_matches_type(Feature, feature, path=["response"])
+            assert_matches_type(FeatureRetrieveResponse, feature, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -73,7 +74,7 @@ class TestFeatures:
             feature_id="feature_id",
             metadata={},
         )
-        assert_matches_type(Feature, feature, path=["response"])
+        assert_matches_type(FeatureUpdateResponse, feature, path=["response"])
 
     @parametrize
     def test_method_update_with_all_params(self, client: Mixpeek) -> None:
@@ -82,7 +83,7 @@ class TestFeatures:
             metadata={},
             x_namespace="X-Namespace",
         )
-        assert_matches_type(Feature, feature, path=["response"])
+        assert_matches_type(FeatureUpdateResponse, feature, path=["response"])
 
     @parametrize
     def test_raw_response_update(self, client: Mixpeek) -> None:
@@ -94,7 +95,7 @@ class TestFeatures:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         feature = response.parse()
-        assert_matches_type(Feature, feature, path=["response"])
+        assert_matches_type(FeatureUpdateResponse, feature, path=["response"])
 
     @parametrize
     def test_streaming_response_update(self, client: Mixpeek) -> None:
@@ -106,7 +107,7 @@ class TestFeatures:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             feature = response.parse()
-            assert_matches_type(Feature, feature, path=["response"])
+            assert_matches_type(FeatureUpdateResponse, feature, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -259,7 +260,7 @@ class TestAsyncFeatures:
         feature = await async_client.features.retrieve(
             feature_id="feature_id",
         )
-        assert_matches_type(Feature, feature, path=["response"])
+        assert_matches_type(FeatureRetrieveResponse, feature, path=["response"])
 
     @parametrize
     async def test_method_retrieve_with_all_params(self, async_client: AsyncMixpeek) -> None:
@@ -268,7 +269,7 @@ class TestAsyncFeatures:
             return_vectors=True,
             x_namespace="X-Namespace",
         )
-        assert_matches_type(Feature, feature, path=["response"])
+        assert_matches_type(FeatureRetrieveResponse, feature, path=["response"])
 
     @parametrize
     async def test_raw_response_retrieve(self, async_client: AsyncMixpeek) -> None:
@@ -279,7 +280,7 @@ class TestAsyncFeatures:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         feature = await response.parse()
-        assert_matches_type(Feature, feature, path=["response"])
+        assert_matches_type(FeatureRetrieveResponse, feature, path=["response"])
 
     @parametrize
     async def test_streaming_response_retrieve(self, async_client: AsyncMixpeek) -> None:
@@ -290,7 +291,7 @@ class TestAsyncFeatures:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             feature = await response.parse()
-            assert_matches_type(Feature, feature, path=["response"])
+            assert_matches_type(FeatureRetrieveResponse, feature, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 
@@ -307,7 +308,7 @@ class TestAsyncFeatures:
             feature_id="feature_id",
             metadata={},
         )
-        assert_matches_type(Feature, feature, path=["response"])
+        assert_matches_type(FeatureUpdateResponse, feature, path=["response"])
 
     @parametrize
     async def test_method_update_with_all_params(self, async_client: AsyncMixpeek) -> None:
@@ -316,7 +317,7 @@ class TestAsyncFeatures:
             metadata={},
             x_namespace="X-Namespace",
         )
-        assert_matches_type(Feature, feature, path=["response"])
+        assert_matches_type(FeatureUpdateResponse, feature, path=["response"])
 
     @parametrize
     async def test_raw_response_update(self, async_client: AsyncMixpeek) -> None:
@@ -328,7 +329,7 @@ class TestAsyncFeatures:
         assert response.is_closed is True
         assert response.http_request.headers.get("X-Stainless-Lang") == "python"
         feature = await response.parse()
-        assert_matches_type(Feature, feature, path=["response"])
+        assert_matches_type(FeatureUpdateResponse, feature, path=["response"])
 
     @parametrize
     async def test_streaming_response_update(self, async_client: AsyncMixpeek) -> None:
@@ -340,7 +341,7 @@ class TestAsyncFeatures:
             assert response.http_request.headers.get("X-Stainless-Lang") == "python"
 
             feature = await response.parse()
-            assert_matches_type(Feature, feature, path=["response"])
+            assert_matches_type(FeatureUpdateResponse, feature, path=["response"])
 
         assert cast(Any, response.is_closed) is True
 

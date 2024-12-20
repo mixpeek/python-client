@@ -22,8 +22,9 @@ from ..._response import (
     async_to_streamed_response_wrapper,
 )
 from ..._base_client import make_request_options
-from ...types.feature import Feature
 from ...types.feature_list_response import FeatureListResponse
+from ...types.feature_update_response import FeatureUpdateResponse
+from ...types.feature_retrieve_response import FeatureRetrieveResponse
 from ...types.shared_params.sort_option import SortOption
 
 __all__ = ["FeaturesResource", "AsyncFeaturesResource"]
@@ -61,7 +62,7 @@ class FeaturesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Feature:
+    ) -> FeatureRetrieveResponse:
         """
         Get Feature
 
@@ -94,7 +95,7 @@ class FeaturesResource(SyncAPIResource):
                     {"return_vectors": return_vectors}, feature_retrieve_params.FeatureRetrieveParams
                 ),
             ),
-            cast_to=Feature,
+            cast_to=FeatureRetrieveResponse,
         )
 
     def update(
@@ -109,7 +110,7 @@ class FeaturesResource(SyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Feature:
+    ) -> FeatureUpdateResponse:
         """Full Feature Update
 
         Args:
@@ -136,7 +137,7 @@ class FeaturesResource(SyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Feature,
+            cast_to=FeatureUpdateResponse,
         )
 
     def list(
@@ -290,7 +291,7 @@ class AsyncFeaturesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Feature:
+    ) -> FeatureRetrieveResponse:
         """
         Get Feature
 
@@ -323,7 +324,7 @@ class AsyncFeaturesResource(AsyncAPIResource):
                     {"return_vectors": return_vectors}, feature_retrieve_params.FeatureRetrieveParams
                 ),
             ),
-            cast_to=Feature,
+            cast_to=FeatureRetrieveResponse,
         )
 
     async def update(
@@ -338,7 +339,7 @@ class AsyncFeaturesResource(AsyncAPIResource):
         extra_query: Query | None = None,
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
-    ) -> Feature:
+    ) -> FeatureUpdateResponse:
         """Full Feature Update
 
         Args:
@@ -365,7 +366,7 @@ class AsyncFeaturesResource(AsyncAPIResource):
             options=make_request_options(
                 extra_headers=extra_headers, extra_query=extra_query, extra_body=extra_body, timeout=timeout
             ),
-            cast_to=Feature,
+            cast_to=FeatureUpdateResponse,
         )
 
     async def list(

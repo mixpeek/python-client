@@ -9,13 +9,18 @@ from mixpeek.types import FilterCondition, ModelPaginationResponse, SortOption, 
 Types:
 
 ```python
-from mixpeek.types import Feature, FeatureListResponse, FeatureDeleteResponse
+from mixpeek.types import (
+    FeatureRetrieveResponse,
+    FeatureUpdateResponse,
+    FeatureListResponse,
+    FeatureDeleteResponse,
+)
 ```
 
 Methods:
 
-- <code title="get /features/{feature_id}">client.features.<a href="./src/mixpeek/resources/features/features.py">retrieve</a>(feature_id, \*\*<a href="src/mixpeek/types/feature_retrieve_params.py">params</a>) -> <a href="./src/mixpeek/types/feature.py">Feature</a></code>
-- <code title="put /features/{feature_id}">client.features.<a href="./src/mixpeek/resources/features/features.py">update</a>(feature_id, \*\*<a href="src/mixpeek/types/feature_update_params.py">params</a>) -> <a href="./src/mixpeek/types/feature.py">Feature</a></code>
+- <code title="get /features/{feature_id}">client.features.<a href="./src/mixpeek/resources/features/features.py">retrieve</a>(feature_id, \*\*<a href="src/mixpeek/types/feature_retrieve_params.py">params</a>) -> <a href="./src/mixpeek/types/feature_retrieve_response.py">FeatureRetrieveResponse</a></code>
+- <code title="put /features/{feature_id}">client.features.<a href="./src/mixpeek/resources/features/features.py">update</a>(feature_id, \*\*<a href="src/mixpeek/types/feature_update_params.py">params</a>) -> <a href="./src/mixpeek/types/feature_update_response.py">FeatureUpdateResponse</a></code>
 - <code title="post /features">client.features.<a href="./src/mixpeek/resources/features/features.py">list</a>(\*\*<a href="src/mixpeek/types/feature_list_params.py">params</a>) -> <a href="./src/mixpeek/types/feature_list_response.py">FeatureListResponse</a></code>
 - <code title="delete /features/{feature_id}">client.features.<a href="./src/mixpeek/resources/features/features.py">delete</a>(feature_id) -> <a href="./src/mixpeek/types/feature_delete_response.py">object</a></code>
 
