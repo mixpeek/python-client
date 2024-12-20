@@ -52,12 +52,14 @@ class TasksResource(SyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> TaskResponse:
-        """Get Task
+        """
+        Retrieve a task by its ID.
+
+            A task may have an expiration time, after which it will still be returned but marked as expired.
+            This allows tracking of historical tasks while indicating their current validity state.
 
         Args:
-          x_namespace: Optional namespace for data isolation.
-
-        This can be a namespace name or namespace
+          x_namespace: Optional namespace for data isolation. This can be a namespace name or namespace
               ID. Example: 'netflix_prod' or 'ns_1234567890'. To create a namespace, use the
               /namespaces endpoint.
 
@@ -153,12 +155,14 @@ class AsyncTasksResource(AsyncAPIResource):
         extra_body: Body | None = None,
         timeout: float | httpx.Timeout | None | NotGiven = NOT_GIVEN,
     ) -> TaskResponse:
-        """Get Task
+        """
+        Retrieve a task by its ID.
+
+            A task may have an expiration time, after which it will still be returned but marked as expired.
+            This allows tracking of historical tasks while indicating their current validity state.
 
         Args:
-          x_namespace: Optional namespace for data isolation.
-
-        This can be a namespace name or namespace
+          x_namespace: Optional namespace for data isolation. This can be a namespace name or namespace
               ID. Example: 'netflix_prod' or 'ns_1234567890'. To create a namespace, use the
               /namespaces endpoint.
 
